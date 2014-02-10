@@ -3,23 +3,24 @@
 
 class TableBuilder {
 
-    protected $handler;
     protected $view;
 
     public function __construct()
     {
-        $this->handler = new Handlers\BaseHandler();
         $this->view = new Handlers\ViewHandler();
     } // end __construct
 
-    public function ohHai()
+    public function handle($table)
     {
-        return $this->handler->gg();
-    } // end ohHai
+        $definition = $this->view->getTableDefinition($table);
+        
+        $requestHandler = new Handlers\RequestHandler($definition);
+        return $requestHandler->process();
+    } // end handle
 
-    public function show($table)
+    public function create($table)
     {
         return $this->view->create($table);
-    } // end show
+    } // end create
 
 }

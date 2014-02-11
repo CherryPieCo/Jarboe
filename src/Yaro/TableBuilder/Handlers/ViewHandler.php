@@ -18,6 +18,7 @@ class ViewHandler {
         $table = View::make($this->controller->getOption('tpl_path') .'.table');
         $table->def  = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
+        $table->controller = $this->controller;
 
         return $table;
     } // end showList
@@ -25,8 +26,9 @@ class ViewHandler {
     public function getUpdatedTable()
     {
         $table = View::make($this->controller->getOption('tpl_path') .'.table_tbody');
-        $table->def  = $this->controller->getDefinition();
+        $table->def = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
+        $table->controller = $this->controller;
 
         return $table->render();
     } // end getUpdatedTable

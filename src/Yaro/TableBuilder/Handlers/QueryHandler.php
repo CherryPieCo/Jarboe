@@ -30,6 +30,7 @@ class QueryHandler {
     public function updateRow($values)
     {
         $this->_checkFastSaveValues($values);
+        $this->_checkField($values);
 
         $updateData = array(
             $values['name'] => $values['value']
@@ -44,6 +45,17 @@ class QueryHandler {
 
         return $res;
     } // end updateRow
+
+    private function _checkField($values)
+    {
+        $field = $this->controller->getField($values['name']);
+
+        if (!$field->isEditable()) {
+            throw new \RuntimeException("Field [{$values['name']}] is not editable");
+        }
+
+
+    } // end _checkField
 
     private function _checkFastSaveValues($values)
     {

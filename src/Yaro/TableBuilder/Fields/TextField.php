@@ -3,9 +3,9 @@
 
 class TextField extends AbstractField {
 
-    public function getValue()
+    public function isEditable()
     {
-        
-    } // end getValue
+        return true;
+    } // end isEditable
 
 }

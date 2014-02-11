@@ -10,27 +10,40 @@ class TableBuilderController {
     protected $options;
     protected $definition;
 
+    protected $fields;
+
     public $view;
     public $request;
     public $query;
 
     public function __construct($options)
     {
-        $this->options = $this->prepareOptions($options);
-        $this->definition = $this->getTableDefinition($options['def_name']);
+        $this->options = $this->getPreparedOptions($options);
+        $this->definition = $this->getTableDefinition($this->getOption('def_name'));
+        $this->fields = $this->loadFields();
 
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
         $this->query   = new QueryHandler($this);
     } // end __construct
 
-    protected function prepareOptions($opt)
+    protected function getPreparedOptions($opt)
     {
+        // TODO:
         $options = $opt;
         $options['def_path'] = app_path(). $opt['def_path'];
 
         return $options;
-    } // end prepareOptions
+    } // end getPreparedOptions
+
+    public function getField($ident)
+    {
+        if (isset($this->fields[$ident])) {
+            return $this->fields[$ident];
+        }
+
+        throw new \RuntimeException("Field [{$ident}] does not exist for current scheme.");
+    } // end getField
 
     public function getOption($ident)
     {
@@ -45,6 +58,25 @@ class TableBuilderController {
     {
         return $this->definition;
     } // end getDefinition
+
+    protected function loadFields()
+    {
+        $definition = $this->getDefinition();
+
+        $fields = array();
+        foreach ($definition['fields'] as $name => $info) {
+            $fields[$name] = $this->createFieldInstance($name, $info);
+        }
+
+        return $fields;
+    } // end loadFields
+
+    protected function createFieldInstance($name, $info)
+    {
+        $className = 'Yaro\\TableBuilder\\Fields\\'. ucfirst($info['type']) ."Field";
+
+        return new $className($name, $info, $this->options);
+    } // end createFieldInstance
 
     protected function getTableDefinition($table)
     {
@@ -62,17 +94,9 @@ class TableBuilderController {
         }
 
         $definition['is_searchable'] = $this->_isSearchable($definition);
-        $this->_prepareFields($definition['fields']);
 
         return $definition;
     } // end getTableDefinition
-
-    private function _prepareFields(&$fields)
-    {
-        foreach ($fields as &$field) {
-            $field['fast-edit'] = isset($field['fast-edit']) && $field['fast-edit'];
-        }
-    } // end _prepareFields
 
     private function _isSearchable($definition)
     {

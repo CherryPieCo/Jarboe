@@ -8,6 +8,7 @@ $options = array(
 return TableBuilder::show($options);
 ```
 
+
 For handling post actions for table:
 ```php
 $options = array(
@@ -18,3 +19,74 @@ $options = array(
 return TableBuilder::handle($options);
 ```
 
+
+Table definition example:
+```json
+{
+    "db" : {
+       "table" : "settings",
+       "primary_key" : "id",
+       "order" : {
+            "id" : "ASC"
+        }
+    },
+
+    "table" : {
+        "caption" : "Settings",
+        "ident"   : "settings-table",
+        "action"  : "/cp/handle/settings",
+        "handler" : "SettingsTableHandler"
+    },
+
+    "fast-edit" : {
+        "save" : {
+            "caption" : "Save"
+        },
+        "cancel" : {
+            "caption" : "Cancel edit"
+        }
+    },
+
+    "fields" : {
+        "id" : {
+            "caption" : "#",
+            "type"    : "readonly",
+            "class"   : "col-id"
+        },
+        "name" : {
+            "caption"   : "Name",
+            "type"      : "text",
+            "filter"    : "text",
+            "fast-edit" : "true"
+        },
+        "value" : {
+            "caption"   : "Value",
+            "type"      : "text",
+            "filter"    : "text",
+            "fast-edit" : "true"
+        }
+    },
+
+    "filters" : {
+
+    },
+
+    "actions" : {
+        "update" : {
+            "caption" : "Update"
+        },
+        "delete" : {
+            "caption" : "Remove"
+        }
+    }
+}
+```
+
+
+
+Custom handler example (located at models dir):
+```php
+use Yaro\TableBuilder\Handlers\CustomHandler;
+
+class SettingsTableHandler extends CustomHandler {}
+```

@@ -2,16 +2,16 @@
 
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\View;
+
 
 class RequestHandler {
 
-    protected $def;
+    protected $controller;
 
 
-    public function __construct($definition)
+    public function __construct($controller)
     {
-        $this->def = $definition;
+        $this->controller = $controller;
     } // end __construct
 
     public function process()
@@ -30,49 +30,23 @@ class RequestHandler {
                     # code...
                     break;
             }
-            
         }
     } // end process
 
     protected function handleFastSaveAction()
     {
-        $values = Input::all();
-        $result = (new QueryHandler($this->def))->updateRow($values);
+        $result = $this->controller->query->updateRow(Input::all());
 
         return Response::json($result);
     } // end handleFastSaveAction
 
     protected function handleSearchAction()
     {
-        $filters = $this->_prepareSearchFilters();
-        $tbody = $this->getUpdatedTable($filters);
-        
+        $tbody = $this->controller->view->getUpdatedTable();
+
         return Response::json($tbody);
     } // end handleSearchAction
 
-    protected function getUpdatedTable($filters)
-    {
-        $dir = 'table_templates';
 
-        $table = View::make($dir .'.table_tbody');
-        $table->def  = $this->def;
-        $table->rows = (new QueryHandler($this->def))->getRows($filters);
-
-        return $table->render();
-    } // end getUpdatedTable
-
-    private function _prepareSearchFilters()
-    {
-        $filters = Input::get('filter', array());
-
-        $newFilters = array();
-        foreach ($filters as $key => $value) {
-            if ($value) {
-                $newFilters[$key] = $value;
-            }
-        }
-
-        return $newFilters;
-    } // end prepareSearchFilters
 
 }

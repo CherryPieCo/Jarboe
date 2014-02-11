@@ -1,27 +1,30 @@
 <?php namespace Yaro\TableBuilder\Handlers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 
 class QueryHandler {
 
-    protected $def;
+    protected $controller;
     protected $db;
 
-    public function __construct($definition)
+    public function __construct($controller)
     {
-        $this->def = $definition;
+        $this->controller = $controller;
+
+        $definition = $controller->getDefinition();
         $this->db = DB::table($definition['db']['table']);
     } // end __construct
 
-    public function getRows($filters = array())
+    public function getRows()
     {
+        $filters = $this->_prepareSearchFilters();
         foreach ($filters as $name => $value) {
             $this->db->where($name, 'LIKE', '%'.$value.'%');
         }
-        $rows = $this->db->get();
 
-        return $rows;
+        return $this->db->get();
     } // end getRows
 
     public function updateRow($values)
@@ -38,7 +41,7 @@ class QueryHandler {
             'id'     => $values['id'],
             'value'  => $values['value']
         );
-        
+
         return $res;
     } // end updateRow
 
@@ -55,5 +58,18 @@ class QueryHandler {
         }
     } // end _checkFastSaveValues
 
+    private function _prepareSearchFilters()
+    {
+        $filters = Input::get('filter', array());
+
+        $newFilters = array();
+        foreach ($filters as $key => $value) {
+            if ($value) {
+                $newFilters[$key] = $value;
+            }
+        }
+
+        return $newFilters;
+    } // end _prepareSearchFilters
         
 }

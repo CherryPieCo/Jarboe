@@ -3,24 +3,23 @@
 
 class TableBuilder {
 
-    protected $view;
+    protected $controller;
 
-    public function __construct()
+    protected function onInit($options)
     {
-        $this->view = new Handlers\ViewHandler();
-    } // end __construct
+        $this->controller = new TableBuilderController($options);
+    } // end onInit
 
-    public function handle($table)
+    public function handle($options)
     {
-        $definition = $this->view->getTableDefinition($table);
-        
-        $requestHandler = new Handlers\RequestHandler($definition);
-        return $requestHandler->process();
+        $this->onInit($options);
+        return $this->controller->request->process();
     } // end handle
 
-    public function create($table)
+    public function show($options)
     {
-        return $this->view->create($table);
-    } // end create
+        $this->onInit($options);
+        return $this->controller->view->showList();
+    } // end show
 
 }

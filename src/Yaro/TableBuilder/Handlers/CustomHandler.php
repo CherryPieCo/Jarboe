@@ -10,4 +10,9 @@ abstract class CustomHandler {
         $this->controller = $controller;
     } // end __construct
 
+    protected function getOption($ident)
+    {
+        return $this->controller->getOption($ident);
+    } // end getOption
+
 }

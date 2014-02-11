@@ -49,6 +49,16 @@ class TableBuilderController {
         return false;
     } // end createCustomHandlerInstance
 
+    public function hasCustomHandlerMethod($methodName)
+    {
+        return $this->getCustomHandler() && method_exists($this->getCustomHandler(), $methodName);
+    } // end hasCustomHandlerMethod
+
+    public function &getCustomHandler()
+    {
+        return $this->handler;
+    } // end getCustomHandler
+
     public function getField($ident)
     {
         if (isset($this->fields[$ident])) {
@@ -88,7 +98,7 @@ class TableBuilderController {
     {
         $className = 'Yaro\\TableBuilder\\Fields\\'. ucfirst($info['type']) ."Field";
 
-        return new $className($name, $info, $this->options);
+        return new $className($name, $info, $this->options, $this->handler);
     } // end createFieldInstance
 
     protected function getTableDefinition($table)

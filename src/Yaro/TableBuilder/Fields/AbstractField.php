@@ -9,15 +9,19 @@ abstract class AbstractField {
     protected $attributes;
     protected $options;
 
+    protected $handler;
 
-    public function __construct($fieldName, $attributes, $options)
+
+    public function __construct($fieldName, $attributes, $options, &$handler)
     {
        $this->attributes = $this->_prepareAttributes($attributes);
        $this->options    = $options;
        $this->fieldName  = $fieldName;
+
+       $this->handler = &$handler;
     } // end __construct
 
-    protected function getFieldName()
+    public function getFieldName()
     {
         return $this->fieldName;
     } // end getFieldName
@@ -41,11 +45,25 @@ abstract class AbstractField {
 
     public function getValue($row)
     {
+        if ($this->hasCustomHandlerMethod('onGetValue')) {
+            $res = $this->handler->onGetValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+
         return $row[$this->getFieldName()];
     } // end getValue
 
     public function getEditInput($row)
     {
+        if ($this->hasCustomHandlerMethod('onGetEditInput')) {
+            $res = $this->handler->onGetEditInput($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+
         $type = $this->getAttribute('type');
         $tplPath = $this->getOption('tpl_path');
 
@@ -54,6 +72,12 @@ abstract class AbstractField {
 
         return $table->render();
     } // end getEditInput
+
+    protected function hasCustomHandlerMethod($methodName)
+    {
+        return $this->handler && method_exists($this->handler, $methodName);
+    } // end hasCustomHandlerMethod
+
 
     abstract public function isEditable();
 

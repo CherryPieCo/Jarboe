@@ -1,7 +1,20 @@
+To show table:
 ```php
-Route::get('/hai', function(){
-    return TableBuilder::ohHai();
-});
+$options = array(
+    'def_name' => 'settings',
+    'def_path' => '/views/table_definitions/',
+    'tpl_path' => 'table_templates',
+);
+return TableBuilder::show($options);
 ```
 
-/app/views/table_definitions/
+For handling post actions for table:
+```php
+$options = array(
+    'def_name' => 'settings',
+    'def_path' => '/views/table_definitions/',
+    'tpl_path' => 'table_templates',
+);
+return TableBuilder::handle($options);
+```
+

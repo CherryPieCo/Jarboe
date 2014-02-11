@@ -10,6 +10,7 @@ class TableBuilderController {
     protected $options;
     protected $definition;
 
+    protected $handler;
     protected $fields;
 
     public $view;
@@ -20,7 +21,9 @@ class TableBuilderController {
     {
         $this->options = $this->getPreparedOptions($options);
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
-        $this->fields = $this->loadFields();
+
+        $this->handler = $this->createCustomHandlerInstance();
+        $this->fields  = $this->loadFields();
 
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
@@ -35,6 +38,16 @@ class TableBuilderController {
 
         return $options;
     } // end getPreparedOptions
+
+    protected function createCustomHandlerInstance()
+    {
+        if (isset($this->definition['table']['handler'])) {
+            $handler = '\\'. $this->definition['table']['handler'];
+            return new $handler($this);
+        }
+
+        return false;
+    } // end createCustomHandlerInstance
 
     public function getField($ident)
     {

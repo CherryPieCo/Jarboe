@@ -7,21 +7,42 @@ use Illuminate\Support\Facades\Input;
 class QueryHandler {
 
     protected $controller;
+
     protected $db;
+    protected $dbOptions;
 
     public function __construct($controller)
     {
         $this->controller = $controller;
 
         $definition = $controller->getDefinition();
+
+        $this->dbOptions = $definition['db'];
         $this->db = DB::table($definition['db']['table']);
     } // end __construct
+
+    protected function getOption($ident)
+    {
+        return $this->dbOptions[$ident];
+    } // end getOption
+
+    protected function hasOption($ident)
+    {
+        return isset($this->dbOptions[$ident]);
+    } // end hasOption
 
     public function getRows()
     {
         $filters = $this->_prepareSearchFilters();
         foreach ($filters as $name => $value) {
             $this->db->where($name, 'LIKE', '%'.$value.'%');
+        }
+
+        if ($this->hasOption('order')) {
+            $order = $this->getOption('order');
+            foreach ($order as $field => $direction) {
+                $this->db->orderBy($field, $direction);
+            }
         }
 
         return $this->db->get();

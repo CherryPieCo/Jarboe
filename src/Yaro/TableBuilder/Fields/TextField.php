@@ -8,4 +8,9 @@ class TextField extends AbstractField {
         return true;
     } // end isEditable
 
+    public function onSearchFilter(&$db, $value)
+    {
+        $db->where($this->getFieldName(), 'LIKE', '%'.$value.'%');
+    } // end onSearchFilter
+
 }

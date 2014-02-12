@@ -28,7 +28,9 @@ abstract class AbstractField {
 
     private function _prepareAttributes($attributes)
     {
+        // TODO:
         $attributes['fast-edit'] = isset($attributes['fast-edit']) && $attributes['fast-edit'];
+        $attributes['filter'] = isset($attributes['filter']) ? $attributes['filter'] : false;
 
         return $attributes;
     } // end _prepareAttributes
@@ -73,12 +75,29 @@ abstract class AbstractField {
         return $table->render();
     } // end getEditInput
 
+    public function getFilterInput()
+    {
+        if (!$this->getAttribute('filter')) {
+            return '';
+        }
+
+        $type = $this->getAttribute('type');
+        $tplPath = $this->getOption('tpl_path');
+
+        $table = View::make($tplPath .'.filter_'. $type);
+        $table->name = $this->getFieldName();
+
+        return $table->render();
+    } // end getFilterInput
+
     protected function hasCustomHandlerMethod($methodName)
     {
         return $this->handler && method_exists($this->handler, $methodName);
     } // end hasCustomHandlerMethod
 
 
+    abstract public function onSearchFilter(&$db, $value);
+    
     abstract public function isEditable();
 
 }

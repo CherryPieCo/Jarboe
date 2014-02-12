@@ -1,5 +1,6 @@
 <?php namespace Yaro\TableBuilder\Handlers;
 
+use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\View;
 
 
@@ -8,14 +9,14 @@ class ViewHandler {
     protected $controller;
 
 
-    public function __construct($controller)
+    public function __construct(TableBuilderController $controller)
     {
         $this->controller = $controller;
     } // end __construct
 
     public function showList()
     {
-        $table = View::make($this->controller->getOption('tpl_path') .'.table');
+        $table = View::make($this->controller->getOption('tpl_path') .'.table_builder');
         $table->def  = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
         $table->controller = $this->controller;

@@ -1,5 +1,6 @@
 <?php namespace Yaro\TableBuilder\Handlers;
 
+use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
@@ -11,7 +12,7 @@ class QueryHandler {
     protected $db;
     protected $dbOptions;
 
-    public function __construct($controller)
+    public function __construct(TableBuilderController $controller)
     {
         $this->controller = $controller;
 
@@ -35,7 +36,14 @@ class QueryHandler {
     {
         $filters = $this->_prepareSearchFilters();
         foreach ($filters as $name => $value) {
-            $this->db->where($name, 'LIKE', '%'.$value.'%');
+            if ($this->controller->hasCustomHandlerMethod('onSearchFilter')) {
+                $res = $this->controller->getCustomHandler()->onSearchFilter($this->db, $name, $value);
+                if ($res) {
+                    continue;
+                }
+            }
+
+            $this->controller->getField($name)->onSearchFilter($this->db, $value);
         }
 
         if ($this->hasOption('order')) {
@@ -63,6 +71,9 @@ class QueryHandler {
             'id'     => $values['id'],
             'value'  => $values['value']
         );
+        if ($this->controller->hasCustomHandlerMethod('onUpdateRowResponse')) {
+            $this->controller->getCustomHandler()->onUpdateRowResponse($res);
+        }
 
         return $res;
     } // end updateRow
@@ -100,6 +111,10 @@ class QueryHandler {
             if ($value) {
                 $newFilters[$key] = $value;
             }
+        }
+
+        if ($this->controller->hasCustomHandlerMethod('onPrepareSearchFilters')) {
+            $this->controller->getCustomHandler()->onPrepareSearchFilters($newFilters);
         }
 
         return $newFilters;

@@ -1,5 +1,6 @@
 <?php namespace Yaro\TableBuilder\Handlers;
 
+use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Input;
 
@@ -9,7 +10,7 @@ class RequestHandler {
     protected $controller;
 
 
-    public function __construct($controller)
+    public function __construct(TableBuilderController $controller)
     {
         $this->controller = $controller;
     } // end __construct

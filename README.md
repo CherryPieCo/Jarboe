@@ -25,17 +25,18 @@ Table definition example:
 {
     "db" : {
        "table" : "settings",
-       "primary_key" : "id",
        "order" : {
             "id" : "ASC"
         }
     },
 
     "table" : {
-        "caption" : "Settings",
-        "ident"   : "settings-table",
-        "action"  : "/cp/handle/settings",
-        "handler" : "SettingsTableHandler"
+        "caption"     : "Settings",
+        "ident"       : "settings-container",
+        "form_ident"  : "settings-form",
+        "table_ident" : "settings-table",
+        "action"      : "/cp/handle/settings",
+        "handler"     : "SettingsTableHandler"
     },
 
     "fast-edit" : {

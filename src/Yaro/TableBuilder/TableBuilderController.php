@@ -41,8 +41,8 @@ class TableBuilderController {
 
     protected function createCustomHandlerInstance()
     {
-        if (isset($this->definition['table']['handler'])) {
-            $handler = '\\'. $this->definition['table']['handler'];
+        if (isset($this->definition['options']['handler'])) {
+            $handler = '\\'. $this->definition['options']['handler'];
             return new $handler($this);
         }
 

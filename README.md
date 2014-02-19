@@ -30,7 +30,7 @@ Table definition example:
         }
     },
 
-    "table" : {
+    "options" : {
         "caption"     : "Settings",
         "ident"       : "settings-container",
         "form_ident"  : "settings-form",

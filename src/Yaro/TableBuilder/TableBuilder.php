@@ -10,16 +10,11 @@ class TableBuilder {
         $this->controller = new TableBuilderController($options);
     } // end onInit
 
-    public function handle($options)
+    public function create($options)
     {
         $this->onInit($options);
+        
         return $this->controller->request->process();
-    } // end handle
-
-    public function show($options)
-    {
-        $this->onInit($options);
-        return $this->controller->view->showList();
-    } // end show
+    } // end create
 
 }

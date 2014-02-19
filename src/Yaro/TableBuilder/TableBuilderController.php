@@ -4,6 +4,8 @@ use Yaro\TableBuilder\Handlers\ViewHandler;
 use Yaro\TableBuilder\Handlers\RequestHandler;
 use Yaro\TableBuilder\Handlers\QueryHandler;
 
+use Illuminate\Support\Facades\Session;
+
 
 class TableBuilderController {
 
@@ -17,6 +19,8 @@ class TableBuilderController {
     public $request;
     public $query;
 
+    public $allowedIds;
+
     public function __construct($options)
     {
         $this->options = $this->getPreparedOptions($options);
@@ -25,10 +29,21 @@ class TableBuilderController {
         $this->handler = $this->createCustomHandlerInstance();
         $this->fields  = $this->loadFields();
 
+        $this->query   = new QueryHandler($this);
+        $this->allowedIds = $this->_getAllowedIds();
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
-        $this->query   = new QueryHandler($this);
     } // end __construct
+
+    private function _getAllowedIds()
+    {
+        return $this->query->getTableAllowedIds();
+    } // end _getAllowedIds
+
+    public function isAllowedID($id)
+    {
+        return isset($this->allowedIds[$id]);
+    } // end isAllowedID
 
     protected function getPreparedOptions($opt)
     {

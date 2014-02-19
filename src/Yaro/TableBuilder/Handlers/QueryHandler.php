@@ -19,7 +19,6 @@ class QueryHandler {
         $definition = $controller->getDefinition();
 
         $this->dbOptions = $definition['db'];
-        $this->db = DB::table($definition['db']['table']);
     } // end __construct
 
     protected function getOption($ident)
@@ -34,6 +33,49 @@ class QueryHandler {
 
     public function getRows()
     {
+        $this->db = DB::table($this->dbOptions['table']);
+
+        $this->onSearchFilterQuery();
+
+        if ($this->hasOption('order')) {
+            $order = $this->getOption('order');
+            foreach ($order as $field => $direction) {
+                $this->db->orderBy($field, $direction);
+            }
+        }
+
+        if ($this->hasOption('pagination')) {
+            $pagination = $this->getOption('pagination');
+            return $this->db->paginate($pagination['per_page']);
+        }
+        return $this->db->get();
+    } // end getRows
+
+    public function getRow($id)
+    {
+        $this->db = DB::table($this->dbOptions['table']);
+
+        $this->db->where('id', $id);
+
+        return $this->db->get();
+    } // end getRows
+
+    public function getTableAllowedIds()
+    {
+        $this->db = DB::table($this->dbOptions['table']);
+
+        $this->db->select('id');
+        $res = $this->db->get();
+
+        $ids = array();
+        foreach ($res as $row) {
+            $ids[$row['id']] = $row['id'];
+        }
+        return $ids;
+    } // end getTableAllowedIds
+
+    protected function onSearchFilterQuery()
+    {
         $filters = $this->_prepareSearchFilters();
         foreach ($filters as $name => $value) {
             if ($this->controller->hasCustomHandlerMethod('onSearchFilter')) {
@@ -45,16 +87,7 @@ class QueryHandler {
 
             $this->controller->getField($name)->onSearchFilter($this->db, $value);
         }
-
-        if ($this->hasOption('order')) {
-            $order = $this->getOption('order');
-            foreach ($order as $field => $direction) {
-                $this->db->orderBy($field, $direction);
-            }
-        }
-
-        return $this->db->get();
-    } // end getRows
+    } // end onSearchFilterQuery
 
     public function updateRow($values)
     {
@@ -85,8 +118,6 @@ class QueryHandler {
         if (!$field->isEditable()) {
             throw new \RuntimeException("Field [{$values['name']}] is not editable");
         }
-
-
     } // end _checkField
 
     private function _checkFastSaveValues($values)

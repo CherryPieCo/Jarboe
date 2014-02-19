@@ -2,6 +2,7 @@
 
 use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Session;
 
 
 class ViewHandler {
@@ -24,14 +25,33 @@ class ViewHandler {
         return $table;
     } // end showList
 
+    public function showEditForm($id)
+    {
+        $table = View::make($this->controller->getOption('tpl_path') .'.form_body');
+        $table->def = $this->controller->getDefinition();
+        $table->row = $this->controller->query->getRow($id);
+        $table->controller = $this->controller;
+
+
+        return $table->render();
+    } // end showEditForm
+
     public function getUpdatedTable()
     {
         $table = View::make($this->controller->getOption('tpl_path') .'.table_tbody');
-        $table->def = $this->controller->getDefinition();
+        $table->def  = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
         $table->controller = $this->controller;
 
         return $table->render();
     } // end getUpdatedTable
+
+    public function getPagination()
+    {
+        $pagination = View::make($this->controller->getOption('tpl_path') .'.table_pagination');
+        $pagination->rows = $this->controller->query->getRows();
+
+        return $pagination->render();
+    } // end getPagination
 
 }

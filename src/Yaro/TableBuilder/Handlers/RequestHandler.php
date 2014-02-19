@@ -17,25 +17,60 @@ class RequestHandler {
 
     public function process()
     {
-        if (Input::has('query_type')) {
-            switch (Input::get('query_type')) {
-                case 'search':
-                    return $this->handleSearchAction();
-                    break;
+        switch (Input::get('query_type')) {
+            case 'search':
+                return $this->handleSearchAction();
+                break;
 
-                case 'fast_save':
-                    return $this->handleFastSaveAction();
-                    break;
-                
-                default:
-                    # code...
-                    break;
-            }
+            case 'fast_save':
+                return $this->handleFastSaveAction();
+                break;
+
+            case 'show_edit':
+                return $this->handleShowEditFormAction();
+                break;
+            
+            default:
+                return $this->handleShowList();
+                break;
         }
     } // end process
 
+    protected function handleShowEditFormAction()
+    {
+        $idRow = $this->_getEditFormID();
+        $this->checkEditPermission($idRow);
+
+        $result = $this->controller->view->showEditForm($idRow);
+
+        return Response::json($result);
+    } // end handleShowEditFormAction
+
+    protected function checkEditPermission($id)
+    {
+        if (!$this->controller->isAllowedID($id)) {
+            throw new \RuntimeException("Permission denied to perform edit for #{$id}.");
+        }
+    } // end checkEditPermission
+
+    private function _getEditFormID()
+    {
+        if (Input::has('id')) {
+            return Input::get('id');
+        }
+        throw new \RuntimeException("Undefined row id for edit form.");
+    } // end _getEditFormID
+
+    protected function handleShowList()
+    {
+        return $this->controller->view->showList();
+    } // end handleShowList
+
     protected function handleFastSaveAction()
     {
+        $idRow = $this->_getEditFormID();
+        $this->checkEditPermission($idRow);
+
         $result = $this->controller->query->updateRow(Input::all());
 
         return Response::json($result);
@@ -44,8 +79,14 @@ class RequestHandler {
     protected function handleSearchAction()
     {
         $tbody = $this->controller->view->getUpdatedTable();
+        $pagination = $this->controller->view->getPagination();
 
-        return Response::json($tbody);
+        $response = array(
+            'tbody'      => $tbody,
+            'pagination' => $pagination
+        );
+
+        return Response::json($response);
     } // end handleSearchAction
 
 

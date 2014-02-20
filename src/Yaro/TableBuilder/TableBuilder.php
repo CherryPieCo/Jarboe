@@ -14,7 +14,7 @@ class TableBuilder {
     {
         $this->onInit($options);
         
-        return $this->controller->request->process();
+        return $this->controller->handle();
     } // end create
 
 }

@@ -15,7 +15,7 @@ class RequestHandler {
         $this->controller = $controller;
     } // end __construct
 
-    public function process()
+    public function handle()
     {
         switch (Input::get('query_type')) {
             case 'search':
@@ -26,15 +26,29 @@ class RequestHandler {
                 return $this->handleFastSaveAction();
                 break;
 
-            case 'show_edit':
+            case 'show_edit_form':
                 return $this->handleShowEditFormAction();
+                break;
+
+            case 'save_edit_form':
+                return $this->handleSaveEditFormAction();
                 break;
             
             default:
                 return $this->handleShowList();
                 break;
         }
-    } // end process
+    } // end handle
+
+    protected function handleSaveEditFormAction()
+    {
+        $idRow = $this->_getEditFormID();
+        $this->checkEditPermission($idRow);
+
+        $result = $this->controller->query->updateRow(Input::all());
+
+        return Response::json($result);
+    } // end handleSaveEditFormAction
 
     protected function handleShowEditFormAction()
     {
@@ -71,7 +85,7 @@ class RequestHandler {
         $idRow = $this->_getEditFormID();
         $this->checkEditPermission($idRow);
 
-        $result = $this->controller->query->updateRow(Input::all());
+        $result = $this->controller->query->updateFastRow(Input::all());
 
         return Response::json($result);
     } // end handleFastSaveAction

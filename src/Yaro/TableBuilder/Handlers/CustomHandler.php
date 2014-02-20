@@ -18,6 +18,10 @@ abstract class CustomHandler {
         return $this->controller->getOption($ident);
     } // end getOption
 
+    public function handle()
+    {
+        return false;
+    } // end handle
 
     public function onGetValue($formField, array &$row)
     {
@@ -41,4 +45,8 @@ abstract class CustomHandler {
     public function onUpdateRowResponse(array &$response)
     {
     } // end onUpdateRowResponse
+
+    public function onUpdateFastRowResponse(array &$response)
+    {
+    } // end onUpdateFastRowResponse
 }

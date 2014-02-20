@@ -3,7 +3,6 @@
 use Yaro\TableBuilder\Handlers\ViewHandler;
 use Yaro\TableBuilder\Handlers\RequestHandler;
 use Yaro\TableBuilder\Handlers\QueryHandler;
-
 use Illuminate\Support\Facades\Session;
 
 
@@ -30,15 +29,22 @@ class TableBuilderController {
         $this->fields  = $this->loadFields();
 
         $this->query   = new QueryHandler($this);
-        $this->allowedIds = $this->_getAllowedIds();
+        $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
     } // end __construct
 
-    private function _getAllowedIds()
+    public function handle()
     {
-        return $this->query->getTableAllowedIds();
-    } // end _getAllowedIds
+        if ($this->hasCustomHandlerMethod('handle')) {
+            $res = $this->getCustomHandler()->handle();
+            if ($res) {
+                return $res;
+            }
+        }
+
+        return $this->request->handle();
+    } // end handle
 
     public function isAllowedID($id)
     {

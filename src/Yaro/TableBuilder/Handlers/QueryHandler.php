@@ -89,10 +89,10 @@ class QueryHandler {
         }
     } // end onSearchFilterQuery
 
-    public function updateRow($values)
+    public function updateFastRow($values)
     {
         $this->_checkFastSaveValues($values);
-        $this->_checkField($values);
+        $this->_checkField($values, $values['name']);
 
         $updateData = array(
             $values['name'] => $values['value']
@@ -104,6 +104,25 @@ class QueryHandler {
             'id'     => $values['id'],
             'value'  => $values['value']
         );
+        if ($this->controller->hasCustomHandlerMethod('onUpdateFastRowResponse')) {
+            $this->controller->getCustomHandler()->onUpdateFastRowResponse($res);
+        }
+
+        return $res;
+    } // end updateFastRow
+
+    public function updateRow($values)
+    {
+        $updateData = $this->_getRowUpdateValues($values);
+        $this->_checkFields($updateData);
+
+        $updateResult = $this->db->where('id', $values['id'])->update($updateData);
+
+        $res = array(
+            'status' => $updateResult,
+            'id'     => $values['id'],
+            'values' => $updateData
+        );
         if ($this->controller->hasCustomHandlerMethod('onUpdateRowResponse')) {
             $this->controller->getCustomHandler()->onUpdateRowResponse($res);
         }
@@ -111,12 +130,27 @@ class QueryHandler {
         return $res;
     } // end updateRow
 
-    private function _checkField($values)
+    private function _getRowUpdateValues($values)
     {
-        $field = $this->controller->getField($values['name']);
+        unset($values['id']);
+        unset($values['query_type']);
 
+        return $values;
+    } // end _getRowUpdateValues
+
+    private function _checkFields($values)
+    {
+        foreach ($values as $ident => $value) {
+            $this->_checkField($values, $ident);
+        }
+    } // end _checkFields
+
+    private function _checkField($values, $ident = 'name')
+    {
+        $field = $this->controller->getField($ident);
+        
         if (!$field->isEditable()) {
-            throw new \RuntimeException("Field [{$values['name']}] is not editable");
+            throw new \RuntimeException("Field [{$ident}] is not editable");
         }
     } // end _checkField
 

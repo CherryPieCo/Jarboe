@@ -31,6 +31,7 @@ abstract class AbstractField {
         // TODO:
         $attributes['fast-edit'] = isset($attributes['fast-edit']) && $attributes['fast-edit'];
         $attributes['filter'] = isset($attributes['filter']) ? $attributes['filter'] : false;
+        $attributes['hide'] = isset($attributes['hide']) ? $attributes['hide'] : false;
 
         return $attributes;
     } // end _prepareAttributes
@@ -71,6 +72,7 @@ abstract class AbstractField {
 
         $table = View::make($tplPath .'.input_'. $type);
         $table->value = $this->getValue($row);
+        $table->name  = $this->getFieldName();
 
         return $table->render();
     } // end getEditInput

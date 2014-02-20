@@ -5,7 +5,7 @@ class ReadonlyField extends AbstractField {
 
     public function getEditInput($row)
     {
-        return '';
+        return $this->getValue($row);
     } // end getEditInput
 
     public function isEditable()

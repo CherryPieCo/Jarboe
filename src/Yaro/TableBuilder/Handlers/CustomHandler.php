@@ -46,6 +46,10 @@ abstract class CustomHandler {
     {
     } // end onUpdateRowResponse
 
+    public function onInsertRowResponse(array &$response)
+    {
+    } // end onInsertRowResponse
+    
     public function onUpdateFastRowResponse(array &$response)
     {
     } // end onUpdateFastRowResponse

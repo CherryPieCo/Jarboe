@@ -18,7 +18,7 @@ class TableBuilderController {
     public $request;
     public $query;
 
-    public $allowedIds;
+    protected $allowedIds;
 
     public function __construct($options)
     {
@@ -48,7 +48,7 @@ class TableBuilderController {
 
     public function isAllowedID($id)
     {
-        return isset($this->allowedIds[$id]);
+        return in_array($id, $this->allowedIds);
     } // end isAllowedID
 
     protected function getPreparedOptions($opt)

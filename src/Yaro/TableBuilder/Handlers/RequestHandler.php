@@ -3,6 +3,8 @@
 use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 
 class RequestHandler {
@@ -33,6 +35,18 @@ class RequestHandler {
             case 'save_edit_form':
                 return $this->handleSaveEditFormAction();
                 break;
+
+            case 'show_add_form':
+                return $this->handleShowAddFormAction();
+                break;
+
+            case 'save_add_form':
+                return $this->handleSaveAddFormAction();
+                break;
+
+            case 'delete_row':
+                return $this->handleDeleteAction();
+                break;   
             
             default:
                 return $this->handleShowList();
@@ -40,9 +54,33 @@ class RequestHandler {
         }
     } // end handle
 
+    protected function handleDeleteAction()
+    {
+        $idRow = $this->_getRowID();
+        $this->checkEditPermission($idRow);
+
+        $result = $this->controller->query->deleteRow($idRow);
+
+        return Response::json($result);
+    } // end handleDeleteAction
+
+    protected function handleShowAddFormAction()
+    {
+        $result = $this->controller->view->showBlankForm();
+
+        return Response::json($result);
+    } // end handleShowAddFormAction
+
+    protected function handleSaveAddFormAction()
+    {
+        $result = $this->controller->query->insertRow(Input::all());
+
+        return Response::json($result);
+    } // end handleSaveAddFormAction
+
     protected function handleSaveEditFormAction()
     {
-        $idRow = $this->_getEditFormID();
+        $idRow = $this->_getRowID();
         $this->checkEditPermission($idRow);
 
         $result = $this->controller->query->updateRow(Input::all());
@@ -52,7 +90,7 @@ class RequestHandler {
 
     protected function handleShowEditFormAction()
     {
-        $idRow = $this->_getEditFormID();
+        $idRow = $this->_getRowID();
         $this->checkEditPermission($idRow);
 
         $result = $this->controller->view->showEditForm($idRow);
@@ -67,13 +105,13 @@ class RequestHandler {
         }
     } // end checkEditPermission
 
-    private function _getEditFormID()
+    private function _getRowID()
     {
         if (Input::has('id')) {
             return Input::get('id');
         }
-        throw new \RuntimeException("Undefined row id for edit form.");
-    } // end _getEditFormID
+        throw new \RuntimeException("Undefined row id for action.");
+    } // end _getRowID
 
     protected function handleShowList()
     {
@@ -82,7 +120,7 @@ class RequestHandler {
 
     protected function handleFastSaveAction()
     {
-        $idRow = $this->_getEditFormID();
+        $idRow = $this->_getRowID();
         $this->checkEditPermission($idRow);
 
         $result = $this->controller->query->updateFastRow(Input::all());
@@ -92,17 +130,34 @@ class RequestHandler {
 
     protected function handleSearchAction()
     {
-        $tbody = $this->controller->view->getUpdatedTable();
-        $pagination = $this->controller->view->getPagination();
+        $this->_prepareSearchFilters();
 
+        $pagination = $this->controller->getOption('pagination');
         $response = array(
-            'tbody'      => $tbody,
-            'pagination' => $pagination
+            'url' => $pagination['uri']
         );
-
-        return Response::json($response);
+        return Response::json('/cp');
     } // end handleSearchAction
 
+    private function _prepareSearchFilters()
+    {
+        $filters = Input::get('filter', array());
+
+        $newFilters = array();
+        foreach ($filters as $key => $value) {
+            if ($value) {
+                $newFilters[$key] = $value;
+            }
+        }
+
+        if ($this->controller->hasCustomHandlerMethod('onPrepareSearchFilters')) {
+            $this->controller->getCustomHandler()->onPrepareSearchFilters($newFilters);
+        }
+
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.filters';
+        Session::put($sessionPath, $newFilters);
+    } // end _prepareSearchFilters
 
 
 }

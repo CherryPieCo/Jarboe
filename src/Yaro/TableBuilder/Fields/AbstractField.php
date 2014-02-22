@@ -1,6 +1,7 @@
 <?php namespace Yaro\TableBuilder\Fields;
 
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Session;
 
 
 abstract class AbstractField {
@@ -32,6 +33,7 @@ abstract class AbstractField {
         $attributes['fast-edit'] = isset($attributes['fast-edit']) && $attributes['fast-edit'];
         $attributes['filter'] = isset($attributes['filter']) ? $attributes['filter'] : false;
         $attributes['hide'] = isset($attributes['hide']) ? $attributes['hide'] : false;
+        $attributes['is_null'] = isset($attributes['is_null']) ? $attributes['is_null'] : false;
 
         return $attributes;
     } // end _prepareAttributes
@@ -55,10 +57,11 @@ abstract class AbstractField {
             }
         }
 
-        return $row[$this->getFieldName()];
+        $value = isset($row[$this->getFieldName()]) ? $row[$this->getFieldName()] : '';
+        return $value;
     } // end getValue
 
-    public function getEditInput($row)
+    public function getEditInput($row = array())
     {
         if ($this->hasCustomHandlerMethod('onGetEditInput')) {
             $res = $this->handler->onGetEditInput($this, $row);
@@ -83,11 +86,16 @@ abstract class AbstractField {
             return '';
         }
 
+        $definitionName = $this->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
+        $filter = Session::get($sessionPath, '');
+
         $type = $this->getAttribute('type');
         $tplPath = $this->getOption('tpl_path');
 
         $table = View::make($tplPath .'.filter_'. $type);
         $table->name = $this->getFieldName();
+        $table->value = $filter;
 
         return $table->render();
     } // end getFilterInput
@@ -96,6 +104,17 @@ abstract class AbstractField {
     {
         return $this->handler && method_exists($this->handler, $methodName);
     } // end hasCustomHandlerMethod
+
+    public function prepareQueryValue($value)
+    {
+        if (!$value) {
+            if ($this->getAttribute('is_null')) {
+                return null;
+            }
+        }
+
+        return $value;
+    } // end prepareQueryValue
 
 
     abstract public function onSearchFilter(&$db, $value);

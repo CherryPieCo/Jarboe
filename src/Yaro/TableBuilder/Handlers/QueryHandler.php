@@ -3,6 +3,8 @@
 use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Request;
 
 
 class QueryHandler {
@@ -21,15 +23,15 @@ class QueryHandler {
         $this->dbOptions = $definition['db'];
     } // end __construct
 
-    protected function getOption($ident)
+    protected function getOptionDB($ident)
     {
         return $this->dbOptions[$ident];
-    } // end getOption
+    } // end getOptionDB
 
-    protected function hasOption($ident)
+    protected function hasOptionDB($ident)
     {
         return isset($this->dbOptions[$ident]);
-    } // end hasOption
+    } // end hasOptionDB
 
     public function getRows()
     {
@@ -37,46 +39,44 @@ class QueryHandler {
 
         $this->onSearchFilterQuery();
 
-        if ($this->hasOption('order')) {
-            $order = $this->getOption('order');
+        if ($this->hasOptionDB('order')) {
+            $order = $this->getOptionDB('order');
             foreach ($order as $field => $direction) {
                 $this->db->orderBy($field, $direction);
             }
         }
 
-        if ($this->hasOption('pagination')) {
-            $pagination = $this->getOption('pagination');
-            return $this->db->paginate($pagination['per_page']);
+        if ($this->hasOptionDB('pagination')) {
+            $pagination = $this->getOptionDB('pagination');
+            $paginator = $this->db->paginate($pagination['per_page']);
+            $paginator->setBaseUrl($pagination['uri']);
+            return $paginator;
         }
         return $this->db->get();
     } // end getRows
 
     public function getRow($id)
     {
-        $this->db = DB::table($this->dbOptions['table']);
-
+        $this->db = DB::table($this->getOptionDB('table'));
         $this->db->where('id', $id);
 
-        return $this->db->get();
-    } // end getRows
+        return $this->db->first();
+    } // end getRow
 
     public function getTableAllowedIds()
     {
-        $this->db = DB::table($this->dbOptions['table']);
+        $this->db = DB::table($this->getOptionDB('table'));
+        $ids = $this->db->lists('id');
 
-        $this->db->select('id');
-        $res = $this->db->get();
-
-        $ids = array();
-        foreach ($res as $row) {
-            $ids[$row['id']] = $row['id'];
-        }
         return $ids;
     } // end getTableAllowedIds
 
     protected function onSearchFilterQuery()
     {
-        $filters = $this->_prepareSearchFilters();
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.filters';
+
+        $filters = Session::get($sessionPath, array());
         foreach ($filters as $name => $value) {
             if ($this->controller->hasCustomHandlerMethod('onSearchFilter')) {
                 $res = $this->controller->getCustomHandler()->onSearchFilter($this->db, $name, $value);
@@ -94,8 +94,9 @@ class QueryHandler {
         $this->_checkFastSaveValues($values);
         $this->_checkField($values, $values['name']);
 
+        $value = $this->controller->getField($values['name'])->prepareQueryValue($values['value']);
         $updateData = array(
-            $values['name'] => $values['value']
+            $values['name'] => $value
         );
         $updateResult = $this->db->where('id', $values['id'])->update($updateData);
 
@@ -113,13 +114,12 @@ class QueryHandler {
 
     public function updateRow($values)
     {
-        $updateData = $this->_getRowUpdateValues($values);
+        $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
 
-        $updateResult = $this->db->where('id', $values['id'])->update($updateData);
+        $this->db->where('id', $values['id'])->update($updateData);
 
         $res = array(
-            'status' => $updateResult,
             'id'     => $values['id'],
             'values' => $updateData
         );
@@ -130,13 +130,51 @@ class QueryHandler {
         return $res;
     } // end updateRow
 
-    private function _getRowUpdateValues($values)
+    public function deleteRow($id)
+    {
+        $this->db->where('id', $id)->delete();
+
+        $res = array(
+            'id' => $id
+        );
+        return $res;
+    } // end deleteRow
+
+    public function insertRow($values)
+    {
+        $insertData = $this->_getRowQueryValues($values);
+        $this->_checkFields($insertData);
+
+        $id = $this->db->insertGetId($insertData);
+
+        $res = array(
+            'id'     => $id,
+            'values' => $insertData
+        );
+        if ($this->controller->hasCustomHandlerMethod('onInsertRowResponse')) {
+            $this->controller->getCustomHandler()->onInsertRowResponse($res);
+        }
+
+        return $res;
+    } // end insertRow
+
+    private function _getRowQueryValues($values)
+    {
+        $values = $this->_unsetFutileFields($values);
+        array_walk($values, function(&$value, $ident) { 
+            $value = $this->controller->getField($ident)->prepareQueryValue($value);
+        }); 
+
+        return $values;
+    } // end _getRowQueryValues
+
+    private function _unsetFutileFields($values)
     {
         unset($values['id']);
         unset($values['query_type']);
 
         return $values;
-    } // end _getRowUpdateValues
+    } // end _unsetFutileFields
 
     private function _checkFields($values)
     {
@@ -145,7 +183,7 @@ class QueryHandler {
         }
     } // end _checkFields
 
-    private function _checkField($values, $ident = 'name')
+    private function _checkField($values, $ident)
     {
         $field = $this->controller->getField($ident);
         
@@ -167,22 +205,4 @@ class QueryHandler {
         }
     } // end _checkFastSaveValues
 
-    private function _prepareSearchFilters()
-    {
-        $filters = Input::get('filter', array());
-
-        $newFilters = array();
-        foreach ($filters as $key => $value) {
-            if ($value) {
-                $newFilters[$key] = $value;
-            }
-        }
-
-        if ($this->controller->hasCustomHandlerMethod('onPrepareSearchFilters')) {
-            $this->controller->getCustomHandler()->onPrepareSearchFilters($newFilters);
-        }
-
-        return $newFilters;
-    } // end _prepareSearchFilters
-        
 }

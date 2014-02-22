@@ -132,11 +132,10 @@ class RequestHandler {
     {
         $this->_prepareSearchFilters();
 
-        $pagination = $this->controller->getOption('pagination');
         $response = array(
-            'url' => $pagination['uri']
+            'url' => $this->controller->getOption('url')
         );
-        return Response::json('/cp');
+        return Response::json($response);
     } // end handleSearchAction
 
     private function _prepareSearchFilters()

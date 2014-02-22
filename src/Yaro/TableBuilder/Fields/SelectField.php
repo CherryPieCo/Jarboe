@@ -29,7 +29,7 @@ class SelectField extends AbstractField {
         $tplPath = $this->getOption('tpl_path');
 
         $table = View::make($tplPath .'.filter_select');
-        $table->value = $filter;
+        $table->filter = $filter;
         $table->name  = $this->getFieldName();
         $table->options = $this->getAttribute('options');
 

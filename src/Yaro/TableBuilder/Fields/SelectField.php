@@ -1,7 +1,10 @@
 <?php namespace Yaro\TableBuilder\Fields;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Session;
 
-class TextField extends AbstractField {
+
+class SelectField extends AbstractField {
 
     public function isEditable()
     {
@@ -10,8 +13,28 @@ class TextField extends AbstractField {
 
     public function onSearchFilter(&$db, $value)
     {
-        $db->where($this->getFieldName(), 'LIKE', '%'.$value.'%');
+        $db->where($this->getFieldName(), '=', $value);
     } // end onSearchFilter
+
+    public function getFilterInput()
+    {
+        if (!$this->getAttribute('filter')) {
+            return '';
+        }
+
+        $definitionName = $this->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
+        $filter = Session::get($sessionPath, '');
+
+        $tplPath = $this->getOption('tpl_path');
+
+        $table = View::make($tplPath .'.filter_select');
+        $table->value = $filter;
+        $table->name  = $this->getFieldName();
+        $table->options = $this->getAttribute('options');
+
+        return $table->render();
+    } // end getFilterInput
 
     public function getEditInput($row = array())
     {
@@ -22,12 +45,12 @@ class TextField extends AbstractField {
             }
         }
 
-        $type = $this->getAttribute('type');
         $tplPath = $this->getOption('tpl_path');
 
-        $table = View::make($tplPath .'.input_'. $type);
+        $table = View::make($tplPath .'.input_select');
         $table->value = $this->getValue($row);
         $table->name  = $this->getFieldName();
+        $table->options = $this->getAttribute('options');
 
         return $table->render();
     } // end getEditInput

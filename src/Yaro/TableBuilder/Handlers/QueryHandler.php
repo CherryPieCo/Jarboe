@@ -137,6 +137,10 @@ class QueryHandler {
         $res = array(
             'id' => $id
         );
+        if ($this->controller->hasCustomHandlerMethod('onDeleteRowResponse')) {
+            $this->controller->getCustomHandler()->onDeleteRowResponse($res);
+        }
+
         return $res;
     } // end deleteRow
 

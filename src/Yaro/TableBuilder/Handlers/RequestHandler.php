@@ -66,7 +66,7 @@ class RequestHandler {
 
     protected function handleShowAddFormAction()
     {
-        $result = $this->controller->view->showBlankForm();
+        $result = $this->controller->view->showEditForm();
 
         return Response::json($result);
     } // end handleShowAddFormAction

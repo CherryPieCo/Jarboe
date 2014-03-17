@@ -89,6 +89,11 @@ class TableBuilderController {
         throw new \RuntimeException("Field [{$ident}] does not exist for current scheme.");
     } // end getField
 
+    public function getFields()
+    {
+        return $this->fields;
+    } // end getFields
+
     public function getOption($ident)
     {
         if (isset($this->options[$ident])) {
@@ -119,7 +124,13 @@ class TableBuilderController {
     {
         $className = 'Yaro\\TableBuilder\\Fields\\'. ucfirst($info['type']) ."Field";
 
-        return new $className($name, $info, $this->options, $this->handler);
+        return new $className(
+            $name, 
+            $info, 
+            $this->options, 
+            $this->getDefinition(), 
+            $this->handler
+        );
     } // end createFieldInstance
 
     protected function getTableDefinition($table)

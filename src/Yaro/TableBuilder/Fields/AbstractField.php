@@ -9,14 +9,16 @@ abstract class AbstractField {
     protected $fieldName;
     protected $attributes;
     protected $options;
+    protected $definition;
 
     protected $handler;
 
 
-    public function __construct($fieldName, $attributes, $options, &$handler)
+    public function __construct($fieldName, $attributes, $options, $definition, &$handler)
     {
        $this->attributes = $this->_prepareAttributes($attributes);
        $this->options    = $options;
+       $this->definition = $definition;
        $this->fieldName  = $fieldName;
 
        $this->handler = &$handler;
@@ -45,7 +47,7 @@ abstract class AbstractField {
 
     public function getAttribute($ident)
     {
-        return $this->attributes[$ident];
+        return isset($this->attributes[$ident]) ? $this->attributes[$ident] : false;
     } // end getAttribute
 
     public function getValue($row)
@@ -60,6 +62,11 @@ abstract class AbstractField {
         $value = isset($row[$this->getFieldName()]) ? $row[$this->getFieldName()] : '';
         return $value;
     } // end getValue
+
+    public function getListValue($row)
+    {
+        return $this->getValue($row);
+    } // end getListValue
 
     public function getEditInput($row = array())
     {
@@ -116,6 +123,10 @@ abstract class AbstractField {
         return $value;
     } // end prepareQueryValue
 
+    public function onSelectValue(&$db)
+    {
+        $db->addSelect($this->definition['db']['table'] .'.'. $this->getFieldName());
+    } // end onSelectValue
 
     abstract public function onSearchFilter(&$db, $value);
     

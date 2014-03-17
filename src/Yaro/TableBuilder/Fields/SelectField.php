@@ -48,7 +48,7 @@ class SelectField extends AbstractField {
         $tplPath = $this->getOption('tpl_path');
 
         $table = View::make($tplPath .'.input_select');
-        $table->value = $this->getValue($row);
+        $table->selected = $this->getValue($row);
         $table->name  = $this->getFieldName();
         $table->options = $this->getAttribute('options');
 

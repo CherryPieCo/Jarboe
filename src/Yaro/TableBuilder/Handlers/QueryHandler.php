@@ -37,6 +37,8 @@ class QueryHandler {
     {
         $this->db = DB::table($this->dbOptions['table']);
 
+        $this->prepareSelectValues();
+
         $this->onSearchFilterQuery();
 
         if ($this->hasOptionDB('order')) {
@@ -54,6 +56,16 @@ class QueryHandler {
         }
         return $this->db->get();
     } // end getRows
+
+    protected function prepareSelectValues()
+    {
+        $this->db->select($this->getOptionDB('table') .'.id');
+
+        $fields = $this->controller->getFields();
+        foreach ($fields as $name => $field) {
+            $field->onSelectValue($this->db);
+        }
+    } // end prepareSelectValues
 
     public function getRow($id)
     {

@@ -1,5 +1,8 @@
-<?php namespace Yaro\TableBuilder\Fields;
+<?php 
+namespace Yaro\TableBuilder\Fields;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
 
 class ForeignField extends AbstractField {
 
@@ -10,7 +13,10 @@ class ForeignField extends AbstractField {
 
     public function onSearchFilter(&$db, $value)
     {
-        $db->where($this->getFieldName(), 'LIKE', '%'.$value.'%');
+        $foreignTable = $this->getAttribute('foreign_table');
+        $foreignValueField = $foreignTable .'.'. $this->getAttribute('foreign_value_field');
+
+        $db->where($foreignValueField, 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
 
     public function onSelectValue(&$db)
@@ -40,8 +46,44 @@ class ForeignField extends AbstractField {
 
         $fieldName = $this->getAttribute('foreign_value_field');
         $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
-        
+
         return $value;
     } // end getValue
+
+    public function getEditInput($row = array())
+    {
+        if ($this->hasCustomHandlerMethod('onGetEditInput')) {
+            $res = $this->handler->onGetEditInput($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+
+        $tplPath = $this->getOption('tpl_path');
+
+        $table = View::make($tplPath .'.input_foreign');
+        $table->selected = $this->getValue($row);
+        $table->name     = $this->getFieldName();
+        $table->options  = $this->getForeignKeyOptions();
+
+        return $table->render();
+    } // end getEditInput
+
+    protected function getForeignKeyOptions()
+    {
+        $res = DB::table($this->getAttribute('foreign_table'))
+                     ->select($this->getAttribute('foreign_value_field'))
+                     ->addSelect($this->getAttribute('foreign_key_field'))
+                     ->get();
+
+        $options = array();
+        $foreignKey = $this->getAttribute('foreign_key_field');
+        $foreignValue = $this->getAttribute('foreign_value_field');
+        foreach ($res as $val) {
+            $options[$val[$foreignKey]] = $val[$foreignValue];
+        }
+
+        return $options;
+    } // end getForeignKeyOptions
 
 }

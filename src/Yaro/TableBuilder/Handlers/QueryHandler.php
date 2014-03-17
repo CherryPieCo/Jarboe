@@ -70,7 +70,10 @@ class QueryHandler {
     public function getRow($id)
     {
         $this->db = DB::table($this->getOptionDB('table'));
-        $this->db->where('id', $id);
+
+        $this->prepareSelectValues();
+
+        $this->db->where($this->getOptionDB('table').'.id', $id);
 
         return $this->db->first();
     } // end getRow

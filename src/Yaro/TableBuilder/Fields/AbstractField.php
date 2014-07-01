@@ -78,9 +78,8 @@ abstract class AbstractField {
         }
 
         $type = $this->getAttribute('type');
-        $tplPath = $this->getOption('tpl_path');
 
-        $table = View::make($tplPath .'.input_'. $type);
+        $table = View::make('tb::input_'. $type);
         $table->value = $this->getValue($row);
         $table->name  = $this->getFieldName();
 
@@ -98,9 +97,8 @@ abstract class AbstractField {
         $filter = Session::get($sessionPath, '');
 
         $type = $this->getAttribute('type');
-        $tplPath = $this->getOption('tpl_path');
 
-        $table = View::make($tplPath .'.filter_'. $type);
+        $table = View::make('tb::filter_'. $type);
         $table->name = $this->getFieldName();
         $table->value = $filter;
 

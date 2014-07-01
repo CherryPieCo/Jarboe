@@ -59,9 +59,7 @@ class ForeignField extends AbstractField {
             }
         }
 
-        $tplPath = $this->getOption('tpl_path');
-
-        $table = View::make($tplPath .'.input_foreign');
+        $table = View::make('tb::input_foreign');
         $table->selected = $this->getValue($row);
         $table->name     = $this->getFieldName();
         $table->options  = $this->getForeignKeyOptions();

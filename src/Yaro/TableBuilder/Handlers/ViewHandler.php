@@ -17,7 +17,7 @@ class ViewHandler {
 
     public function showList()
     {
-        $table = View::make($this->controller->getOption('tpl_path') .'.table_builder');
+        $table = View::make('tb::table_builder');
         $table->def  = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
         $table->controller = $this->controller;
@@ -27,7 +27,7 @@ class ViewHandler {
 
     public function showEditForm($id = false)
     {
-        $table = View::make($this->controller->getOption('tpl_path') .'.form_body');
+        $table = View::make('tb::form_body');
         $table->def = $this->controller->getDefinition();
         $table->controller = $this->controller;
 

@@ -1,0 +1,1 @@
+<input type="text" value="{{ $value }}" name="filter[{{ $name }}]" class="form-control input-small" />

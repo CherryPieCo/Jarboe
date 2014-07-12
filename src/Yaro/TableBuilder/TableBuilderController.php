@@ -4,7 +4,6 @@ use Yaro\TableBuilder\Handlers\ViewHandler;
 use Yaro\TableBuilder\Handlers\RequestHandler;
 use Yaro\TableBuilder\Handlers\QueryHandler;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Config;
 
 
 class TableBuilderController {
@@ -56,7 +55,7 @@ class TableBuilderController {
     {
         // TODO:
         $options = $opt;
-        $options['def_path'] = app_path(). Config::get('table-builder::path.table_definitions');
+        $options['def_path'] = app_path(). $opt['def_path'];
 
         return $options;
     } // end getPreparedOptions

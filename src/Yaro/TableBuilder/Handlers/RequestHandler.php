@@ -115,7 +115,10 @@ class RequestHandler {
 
     protected function handleShowList()
     {
-        return $this->controller->view->showList();
+        return array(
+            $this->controller->view->showList(),
+            $this->controller->view->showEditForm()
+        );	
     } // end handleShowList
 
     protected function handleFastSaveAction()

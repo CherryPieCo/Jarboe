@@ -27,7 +27,7 @@ class ViewHandler {
 
     public function showEditForm($id = false)
     {
-        $table = View::make($this->controller->getOption('tpl_path') .'.form_body');
+        $table = View::make($this->controller->getOption('tpl_path') .'.modal_form');
         $table->def = $this->controller->getDefinition();
         $table->controller = $this->controller;
 

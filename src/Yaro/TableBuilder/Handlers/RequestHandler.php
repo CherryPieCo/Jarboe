@@ -85,6 +85,7 @@ class RequestHandler {
         $this->checkEditPermission($idRow);
 
         $result = $this->controller->query->updateRow(Input::all());
+        $result['html'] = $this->controller->view->getRowHtml($result);
 
         return Response::json($result);
     } // end handleSaveEditFormAction
@@ -94,9 +95,13 @@ class RequestHandler {
         $idRow = $this->_getRowID();
         $this->checkEditPermission($idRow);
 
-        $result = $this->controller->view->showEditForm($idRow);
+        $html = $this->controller->view->showEditForm($idRow);
+        $data = array(
+            'html' => $html,
+            'status' => true
+        );
 
-        return Response::json($result);
+        return Response::json($data);
     } // end handleShowEditFormAction
 
     protected function checkEditPermission($id)
@@ -148,7 +153,7 @@ class RequestHandler {
 
         $newFilters = array();
         foreach ($filters as $key => $value) {
-            if ($value) {
+            if ($value || $value === '0') {
                 $newFilters[$key] = $value;
             }
         }

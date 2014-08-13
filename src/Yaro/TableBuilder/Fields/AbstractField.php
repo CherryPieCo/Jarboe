@@ -102,7 +102,7 @@ abstract class AbstractField {
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
         $filter = Session::get($sessionPath, '');
 
-        $type = $this->getAttribute('type');
+        $type = $this->getAttribute('filter');
         $tplPath = $this->getOption('tpl_path');
 
         $table = View::make($tplPath .'.filter_'. $type);

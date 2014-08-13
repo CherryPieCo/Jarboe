@@ -49,6 +49,11 @@ abstract class AbstractField {
     {
         return isset($this->attributes[$ident]) ? $this->attributes[$ident] : false;
     } // end getAttribute
+    
+    public function isHidden()
+    {
+        return $this->getAttribute('hide');
+    } // end isHidden
 
     public function getValue($row)
     {

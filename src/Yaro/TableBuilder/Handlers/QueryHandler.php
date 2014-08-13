@@ -147,10 +147,11 @@ class QueryHandler {
 
     public function deleteRow($id)
     {
-        $this->db->where('id', $id)->delete();
+        $res = $this->db->where('id', $id)->delete();
 
         $res = array(
-            'id' => $id
+            'id' => $id,
+            'status' => $res
         );
         if ($this->controller->hasCustomHandlerMethod('onDeleteRowResponse')) {
             $this->controller->getCustomHandler()->onDeleteRowResponse($res);

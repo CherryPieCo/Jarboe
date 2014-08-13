@@ -28,6 +28,10 @@ class ViewHandler {
     public function showEditForm($id = false)
     {
         $table = View::make($this->controller->getOption('tpl_path') .'.modal_form');
+        if ($id) {
+            $table = View::make($this->controller->getOption('tpl_path') .'.modal_form_edit');
+        }
+        
         $table->def = $this->controller->getDefinition();
         $table->controller = $this->controller;
 
@@ -39,5 +43,15 @@ class ViewHandler {
 
         return $table->render();
     } // end showEditForm
+    
+    public function getRowHtml($data)
+    {
+        $row = View::make($this->controller->getOption('tpl_path') .'.single_row');
+        $row->controller = $this->controller;
+        $row->def        = $this->controller->getDefinition();
+        $row->data       = $data;
+        
+        return $row->render();
+    } // end getRowHtml
 
 }

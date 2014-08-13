@@ -74,6 +74,7 @@ class RequestHandler {
     protected function handleSaveAddFormAction()
     {
         $result = $this->controller->query->insertRow(Input::all());
+        $result['html'] = $this->controller->view->getRowHtml($result);
 
         return Response::json($result);
     } // end handleSaveAddFormAction

@@ -12,6 +12,17 @@ class CheckboxField extends AbstractField {
     {
         return true;
     } // end isEditable
+
+    public function prepareQueryValue($value)
+    {
+        if (!$value) {
+            if ($this->getAttribute('is_null')) {
+                return null;
+            }
+        }
+
+        return $value ? '1' : '0';
+    } // end prepareQueryValue
     
     public function onSearchFilter(&$db, $value)
     {
@@ -63,5 +74,19 @@ class CheckboxField extends AbstractField {
         
         return View::make($tplPath .'.input_checkbox_list')->with('is_checked', $this->getValue($row));
     } // end getListValue
+    
+        
+    public function getValue($row)
+    {
+        if ($this->hasCustomHandlerMethod('onGetValue')) {
+            $res = $this->handler->onGetValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+
+        $value = (isset($row[$this->getFieldName()]) && $row[$this->getFieldName()]) ? '1' : '0';
+        return $value;
+    } // end getValue
     
 }

@@ -132,8 +132,8 @@ class QueryHandler {
         $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
 
-        $this->db->where('id', $values['id'])->update($updateData);
-
+        $status = $this->db->where('id', $values['id'])->update($updateData);
+	
         $res = array(
             'id'     => $values['id'],
             'values' => $updateData

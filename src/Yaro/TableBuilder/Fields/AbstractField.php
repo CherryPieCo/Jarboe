@@ -132,6 +132,11 @@ abstract class AbstractField {
     {
         $db->addSelect($this->definition['db']['table'] .'.'. $this->getFieldName());
     } // end onSelectValue
+    
+    public function isReadonly()
+    {
+        return false;
+    } // end isReadonly
 
     abstract public function onSearchFilter(&$db, $value);
     

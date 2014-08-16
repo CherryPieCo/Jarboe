@@ -131,7 +131,10 @@ class QueryHandler {
     {
         $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
-
+    
+        if ($this->controller->hasCustomHandlerMethod('onUpdateRowData')) {
+            $this->controller->getCustomHandler()->onUpdateRowData($updateData);
+        }
         $status = $this->db->where('id', $values['id'])->update($updateData);
 	
         $res = array(
@@ -164,7 +167,10 @@ class QueryHandler {
     {
         $insertData = $this->_getRowQueryValues($values);
         $this->_checkFields($insertData);
-
+        
+        if ($this->controller->hasCustomHandlerMethod('onInsertRowData')) {
+            $this->controller->getCustomHandler()->onInsertRowData($insertData);
+        }
         $id = $this->db->insertGetId($insertData);
 
         $res = array(

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 
 class RequestHandler {
@@ -47,6 +48,9 @@ class RequestHandler {
             case 'delete_row':
                 return $this->handleDeleteAction();
                 break;   
+                
+            case 'upload_photo':
+                return $this->handlePhotoUpload();
             
             default:
                 return $this->handleShowList();
@@ -54,6 +58,26 @@ class RequestHandler {
         }
     } // end handle
 
+    protected function handlePhotoUpload()
+    {
+        // FIXME:
+        $file = Input::file('image');
+        $extension = $file->guessExtension();
+        $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        $status = $file->move($destinationPath, $fileName);
+        
+        $data = array(
+            'status' => $status,
+            'link'   => URL::to($destinationPath . $fileName)
+        );
+        return Response::json($data);
+    } // end handlePhotoUpload
     protected function handleDeleteAction()
     {
         $idRow = $this->_getRowID();

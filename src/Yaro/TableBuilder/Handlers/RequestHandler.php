@@ -52,6 +52,9 @@ class RequestHandler {
             case 'upload_photo':
                 return $this->handlePhotoUpload();
             
+            case 'upload_photo_wysiwyg':
+                return $this->handlePhotoUploadFromWysiwyg();
+                
             default:
                 return $this->handleShowList();
                 break;
@@ -74,10 +77,35 @@ class RequestHandler {
         
         $data = array(
             'status' => $status,
-            'link'   => URL::to($destinationPath . $fileName)
+            'link'   => URL::to($destinationPath . $fileName),
+            'short_link' => $destinationPath . $fileName,
+            // FIXME: naughty hack
+            'delimiter' => ','
         );
         return Response::json($data);
     } // end handlePhotoUpload
+    
+    protected function handlePhotoUploadFromWysiwyg()
+    {
+        // FIXME:
+        $file = Input::file('image');
+        $extension = $file->guessExtension();
+        $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        $status = $file->move($destinationPath, $fileName);
+        
+        $data = array(
+            'status' => $status,
+            'link'   => URL::to($destinationPath . $fileName)
+        );
+        return Response::json($data);
+    } // end handlePhotoUploadFromWysiwyg
+    
     protected function handleDeleteAction()
     {
         $idRow = $this->_getRowID();

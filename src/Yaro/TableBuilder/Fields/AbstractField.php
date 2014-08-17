@@ -1,4 +1,6 @@
-<?php namespace Yaro\TableBuilder\Fields;
+<?php 
+
+namespace Yaro\TableBuilder\Fields;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
@@ -85,11 +87,13 @@ abstract class AbstractField {
         $type = $this->getAttribute('type');
         $tplPath = $this->getOption('tpl_path');
 
-        $table = View::make($tplPath .'.input_'. $type);
-        $table->value = $this->getValue($row);
-        $table->name  = $this->getFieldName();
+        $input = View::make($tplPath .'.input_'. $type);
+        $input->value = $this->getValue($row);
+        $input->name  = $this->getFieldName();
+        $input->placeholder = $this->getAttribute('placeholder');
+        
 
-        return $table->render();
+        return $input->render();
     } // end getEditInput
 
     public function getFilterInput()
@@ -105,11 +109,11 @@ abstract class AbstractField {
         $type = $this->getAttribute('filter');
         $tplPath = $this->getOption('tpl_path');
 
-        $table = View::make($tplPath .'.filter_'. $type);
-        $table->name = $this->getFieldName();
-        $table->value = $filter;
+        $input = View::make($tplPath .'.filter_'. $type);
+        $input->name = $this->getFieldName();
+        $input->value = $filter;
 
-        return $table->render();
+        return $input->render();
     } // end getFilterInput
 
     protected function hasCustomHandlerMethod($methodName)

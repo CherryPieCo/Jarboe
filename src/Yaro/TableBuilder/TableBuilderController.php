@@ -141,8 +141,7 @@ class TableBuilderController {
             throw new \RuntimeException("Definition \n[{$path}]\n does not exist.");
         }
 
-        $jsonDef = file_get_contents($path);
-        $definition = json_decode($jsonDef, true);
+        $definition = require($path);
         if (!$definition) {
             $error = json_last_error();
             throw new \RuntimeException("Error in table definition \n[{$path}]:\n #{$error}.");

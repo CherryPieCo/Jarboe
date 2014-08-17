@@ -50,7 +50,7 @@ class TableBuilderController {
     {
         return in_array($id, $this->allowedIds);
     } // end isAllowedID
-
+    
     protected function getPreparedOptions($opt)
     {
         // TODO:

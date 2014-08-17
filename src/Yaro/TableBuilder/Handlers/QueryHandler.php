@@ -38,6 +38,7 @@ class QueryHandler {
         $this->db = DB::table($this->dbOptions['table']);
 
         $this->prepareSelectValues();
+        $this->prepareFilterValues();
 
         $this->onSearchFilterQuery();
 
@@ -56,7 +57,17 @@ class QueryHandler {
         }
         return $this->db->get();
     } // end getRows
-
+    
+    protected function prepareFilterValues()
+    {
+        $definition = $this->controller->getDefinition();
+        $filters = isset($definition['filters']) ? $definition['filters'] : array();
+        
+        foreach ($filters as $name => $field) {
+            $this->db->where($name, $field['sign'], $field['value']);
+        }
+    } // end prepareFilterValues
+    
     protected function prepareSelectValues()
     {
         $this->db->select($this->getOptionDB('table') .'.id');
@@ -81,6 +92,9 @@ class QueryHandler {
     public function getTableAllowedIds()
     {
         $this->db = DB::table($this->getOptionDB('table'));
+        
+        $this->prepareFilterValues();
+        
         $ids = $this->db->lists('id');
 
         return $ids;

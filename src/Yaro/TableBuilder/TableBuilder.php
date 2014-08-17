@@ -1,6 +1,10 @@
-<?php namespace Yaro\TableBuilder;
+<?php 
 
+namespace Yaro\TableBuilder;
+
+use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Response;
 
 
 class TableBuilder {
@@ -29,7 +33,12 @@ class TableBuilder {
     public function create($options)
     {
         $this->onInit($options);
-        $result = $this->controller->handle();
+        try {
+            $result = $this->controller->handle();
+        } catch (TableBuilderValidationException $e) {
+            // FIXME:
+            return Response::json(array('status' => false));
+        }
         $this->onFinish();
 
         return $result;

@@ -2,8 +2,10 @@
 
 namespace Yaro\TableBuilder\Fields;
 
+use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 
 abstract class AbstractField {
@@ -141,6 +143,67 @@ abstract class AbstractField {
     {
         return false;
     } // end isReadonly
+    
+    public function getClientsideValidatorRules()
+    {
+        $tplPath = $this->getOption('tpl_path');
+        
+        $validation = $this->getAttribute('validation');
+        if (!isset($validation['client'])) {
+            return;
+        }
+        $validation = $validation['client'];
+        
+        $rules      = isset($validation['rules']) ? $validation['rules'] : array();
+        $name       = $this->getFieldName();
+        
+        $data = compact('rules', 'name');
+        return View::make($tplPath .'.validator_rules', $data)->render();
+    } // end getClientsideValidatorRules
+    
+    public function getClientsideValidatorMessages()
+    {
+        $tplPath = $this->getOption('tpl_path');
+        
+        $validation = $this->getAttribute('validation');
+        if (!isset($validation['client'])) {
+            return;
+        }
+        $validation = $validation['client'];
+        
+        $messages   = isset($validation['messages']) ? $validation['messages'] : array();
+        $name       = $this->getFieldName();
+        
+        $data = compact('messages', 'name');
+        return View::make($tplPath .'.validator_messages', $data)->render();
+    } // end getClientsideValidatorMessages
+    
+    public function doValidate($value)
+    {
+        $validation = $this->getAttribute('validation');
+        if (!isset($validation['server'])) {
+            return;
+        }
+        
+        $rules = $validation['server']['rules'];
+        $messages = isset($validation['server']['messages']) ? $validation['server']['messages'] : array();
+        $name = $this->getFieldName();
+        
+        $validator = Validator::make(
+            array(
+                $name => $value,
+            ),
+            array(
+                $name => $rules,
+            ),
+            $messages
+        );
+        
+        if ($validator->fails()) {
+            $errors = implode('|', $validator->messages()->all());
+            throw new TableBuilderValidationException($errors);
+        }
+    } // end doValidate
 
     abstract public function onSearchFilter(&$db, $value);
     

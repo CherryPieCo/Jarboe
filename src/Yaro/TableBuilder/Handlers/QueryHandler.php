@@ -68,6 +68,16 @@ class QueryHandler {
         }
     } // end prepareFilterValues
     
+    protected function doPrependFilterValues(&$values)
+    {
+        $definition = $this->controller->getDefinition();
+        $filters = isset($definition['filters']) ? $definition['filters'] : array();
+        
+        foreach ($filters as $name => $field) {
+            $values[$name] = $field['value'];
+        }
+    } // end doPrependFilterValues
+    
     protected function prepareSelectValues()
     {
         $this->db->select($this->getOptionDB('table') .'.id');
@@ -145,10 +155,14 @@ class QueryHandler {
     {
         $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
-    
+        
         if ($this->controller->hasCustomHandlerMethod('onUpdateRowData')) {
             $this->controller->getCustomHandler()->onUpdateRowData($updateData);
         }
+        $this->doValidate($updateData);
+        
+        $this->doPrependFilterValues($updateData);
+        
         $status = $this->db->where('id', $values['id'])->update($updateData);
 	
         $res = array(
@@ -185,6 +199,10 @@ class QueryHandler {
         if ($this->controller->hasCustomHandlerMethod('onInsertRowData')) {
             $this->controller->getCustomHandler()->onInsertRowData($insertData);
         }
+        $this->doValidate($insertData);
+        
+        $this->doPrependFilterValues($insertData);
+        
         $id = $this->db->insertGetId($insertData);
 
         $res = array(
@@ -197,6 +215,15 @@ class QueryHandler {
 
         return $res;
     } // end insertRow
+    
+    private function doValidate($values)
+    {
+        // FIXME:
+        foreach ($values as $ident => $value) {
+            $field = $this->controller->getField($ident);
+            $field->doValidate($value);
+        }
+    } // end doValidate
 
     private function _getRowQueryValues($values)
     {

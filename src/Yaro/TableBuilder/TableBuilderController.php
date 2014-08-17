@@ -1,4 +1,6 @@
-<?php namespace Yaro\TableBuilder;
+<?php 
+
+namespace Yaro\TableBuilder;
 
 use Yaro\TableBuilder\Handlers\ViewHandler;
 use Yaro\TableBuilder\Handlers\RequestHandler;
@@ -135,7 +137,7 @@ class TableBuilderController {
 
     protected function getTableDefinition($table)
     {
-        $path = $this->getOption('def_path'). $table .'.json';
+        $path = $this->getOption('def_path'). $table .'.php';
 
         if (!file_exists($path)) {
             throw new \RuntimeException("Definition \n[{$path}]\n does not exist.");

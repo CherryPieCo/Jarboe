@@ -42,7 +42,12 @@ class QueryHandler {
 
         $this->onSearchFilterQuery();
 
-        if ($this->hasOptionDB('order')) {
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.order';
+        $order = Session::get($sessionPath, array());
+        if ($order) {
+            $this->db->orderBy($order['field'], $order['direction']);
+        } else if ($this->hasOptionDB('order')) {
             $order = $this->getOptionDB('order');
             foreach ($order as $field => $direction) {
                 $this->db->orderBy($field, $direction);

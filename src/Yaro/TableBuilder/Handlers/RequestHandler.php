@@ -55,12 +55,32 @@ class RequestHandler {
             case 'upload_photo_wysiwyg':
                 return $this->handlePhotoUploadFromWysiwyg();
                 
+            case 'change_direction':
+                return $this->handleChangeDirection();
+                
             default:
                 return $this->handleShowList();
                 break;
         }
     } // end handle
+    
+    protected function handleChangeDirection()
+    {
+        $order = array(
+            'direction' => Input::get('direction'),
+            'field' => Input::get('field')
+        );
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.order';
+        Session::put($sessionPath, $order);
 
+        $response = array(
+            'url' => $this->controller->getOption('url')
+        );
+        return Response::json($response);
+    } // end handleChangeDirection
+    
     protected function handlePhotoUpload()
     {
         // FIXME:
@@ -218,6 +238,6 @@ class RequestHandler {
         $sessionPath = 'table_builder.'.$definitionName.'.filters';
         Session::put($sessionPath, $newFilters);
     } // end _prepareSearchFilters
-
+    
 
 }

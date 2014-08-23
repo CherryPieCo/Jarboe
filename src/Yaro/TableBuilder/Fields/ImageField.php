@@ -24,6 +24,10 @@ class ImageField extends AbstractField {
     
     private function getListSingle($row)
     {
+        if (!$this->getValue($row)) {
+            return '';
+        }
+        
         $src = $this->getAttribute('before_link')
               . $this->getValue($row)
               . $this->getAttribute('after_link');

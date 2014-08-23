@@ -59,16 +59,18 @@ abstract class AbstractField {
         return $this->getAttribute('hide');
     } // end isHidden
 
-    public function getValue($row)
+    public function getValue($row, $postfix = '')
     {
         if ($this->hasCustomHandlerMethod('onGetValue')) {
-            $res = $this->handler->onGetValue($this, $row);
+            $res = $this->handler->onGetValue($this, $row, $postfix);
             if ($res) {
                 return $res;
             }
         }
-
-        $value = isset($row[$this->getFieldName()]) ? $row[$this->getFieldName()] : '';
+        
+        $fieldName = $this->getFieldName() . $postfix;
+        $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
+        
         return $value;
     } // end getValue
 
@@ -93,10 +95,52 @@ abstract class AbstractField {
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->placeholder = $this->getAttribute('placeholder');
-        
 
         return $input->render();
     } // end getEditInput
+    
+    public function getTabbedEditInput($row = array())
+    {
+        if ($this->hasCustomHandlerMethod('onGetTabbedEditInput')) {
+            $res = $this->handler->onGetTabbedEditInput($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $type = $this->getAttribute('type');
+        $tplPath = $this->getOption('tpl_path');
+        
+        $input = View::make($tplPath .'.tab_input_'. $type);
+        $input->value = $this->getValue($row);
+        $input->name  = $this->getFieldName();
+        $input->placeholder = $this->getAttribute('placeholder');
+        $input->caption = $this->getAttribute('caption');
+        $input->tabs = $this->getPreparedTabs($row);
+        
+        
+        return $input->render();
+    } // end getTabbedEditInput
+    
+    protected function getPreparedTabs($row)
+    {
+        $tabs = $this->getAttribute('tabs');
+        $required = array(
+            'placeholder',
+            'postfix'
+        );
+        foreach ($tabs as &$tab) {
+            foreach ($required as $option) {
+                if (!isset($tab[$option])) {
+                    $tab[$option] = '';
+                }
+            }
+            
+            $tab['value'] = $this->getValue($row, $tab['postfix']);
+        }
+        
+        return $tabs;
+    } // end getPreparedTabs
 
     public function getFilterInput()
     {
@@ -136,7 +180,15 @@ abstract class AbstractField {
 
     public function onSelectValue(&$db)
     {
-        $db->addSelect($this->definition['db']['table'] .'.'. $this->getFieldName());
+        $tabs = $this->getAttribute('tabs');
+        if ($tabs) {
+            foreach ($tabs as $tab) {
+                $name = $this->definition['db']['table'] .'.'. $this->getFieldName() . $tab['postfix'];
+                $db->addSelect($name);
+            }
+        } else {
+            $db->addSelect($this->definition['db']['table'] .'.'. $this->getFieldName());
+        }
     } // end onSelectValue
     
     public function isReadonly()
@@ -154,10 +206,11 @@ abstract class AbstractField {
         }
         $validation = $validation['client'];
         
-        $rules      = isset($validation['rules']) ? $validation['rules'] : array();
-        $name       = $this->getFieldName();
+        $rules = isset($validation['rules']) ? $validation['rules'] : array();
+        $name  = $this->getFieldName();
+        $tabs  = $this->getAttribute('tabs');
         
-        $data = compact('rules', 'name');
+        $data = compact('rules', 'name', 'tabs');
         return View::make($tplPath .'.validator_rules', $data)->render();
     } // end getClientsideValidatorRules
     
@@ -171,10 +224,11 @@ abstract class AbstractField {
         }
         $validation = $validation['client'];
         
-        $messages   = isset($validation['messages']) ? $validation['messages'] : array();
-        $name       = $this->getFieldName();
+        $messages = isset($validation['messages']) ? $validation['messages'] : array();
+        $name     = $this->getFieldName();
+        $tabs     = $this->getAttribute('tabs');
         
-        $data = compact('messages', 'name');
+        $data = compact('messages', 'name', 'tabs');
         return View::make($tplPath .'.validator_messages', $data)->render();
     } // end getClientsideValidatorMessages
     

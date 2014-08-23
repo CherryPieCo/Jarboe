@@ -224,18 +224,56 @@ class QueryHandler {
     private function doValidate($values)
     {
         // FIXME:
+        /*
         foreach ($values as $ident => $value) {
             $field = $this->controller->getField($ident);
             $field->doValidate($value);
+        }
+        */
+        
+        $definition = $this->controller->getDefinition();
+        $fields = $definition['fields'];
+        foreach ($fields as $ident => $options) {
+            $field = $this->controller->getField($ident);
+            $tabs = $field->getAttribute('tabs');
+            if ($tabs) {
+                foreach ($tabs as $tab) {
+                    $fieldName = $ident . $tab['postfix'];
+                    $field->doValidate($values[$fieldName]);
+                }
+            } else {
+                if (isset($values[$ident])) {
+                    $field->doValidate($values[$ident]);
+                }
+            }
         }
     } // end doValidate
 
     private function _getRowQueryValues($values)
     {
         $values = $this->_unsetFutileFields($values);
-        array_walk($values, function(&$value, $ident) { 
-            $value = $this->controller->getField($ident)->prepareQueryValue($value);
+        /*
+        array_walk($values, function(&$value, $ident) {
+            $field = $this->controller->getField($ident);
+            $value = $field->prepareQueryValue($value);
         }); 
+        */
+        $definition = $this->controller->getDefinition();
+        $fields = $definition['fields'];
+        foreach ($fields as $ident => $options) {
+            $field = $this->controller->getField($ident);
+            $tabs = $field->getAttribute('tabs');
+            if ($tabs) {
+                foreach ($tabs as $tab) {
+                    $fieldName = $ident . $tab['postfix'];
+                    $values[$fieldName] = $field->prepareQueryValue($values[$fieldName]);
+                }
+            } else {
+                if (isset($values[$ident])) {
+                    $values[$ident] = $field->prepareQueryValue($values[$ident]);
+                }
+            }
+        }
 
         return $values;
     } // end _getRowQueryValues
@@ -250,15 +288,25 @@ class QueryHandler {
 
     private function _checkFields($values)
     {
-        foreach ($values as $ident => $value) {
-            $this->_checkField($values, $ident);
+        $definition = $this->controller->getDefinition();
+        $fields = $definition['fields'];
+        foreach ($fields as $ident => $options) {
+            $field = $this->controller->getField($ident);
+            $tabs = $field->getAttribute('tabs');
+            if ($tabs) {
+                foreach ($tabs as $tab) {
+                    $this->_checkField($values, $ident, $field);
+                }
+            } else {
+                if (isset($values[$ident])) {
+                    $this->_checkField($values, $ident, $field);
+                }
+            }
         }
     } // end _checkFields
 
-    private function _checkField($values, $ident)
+    private function _checkField($values, $ident, $field)
     {
-        $field = $this->controller->getField($ident);
-        
         if (!$field->isEditable()) {
             throw new \RuntimeException("Field [{$ident}] is not editable");
         }

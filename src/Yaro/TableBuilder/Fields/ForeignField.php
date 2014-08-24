@@ -35,7 +35,7 @@ class ForeignField extends AbstractField {
         $db->addSelect($foreignTable .'.'. $this->getAttribute('foreign_value_field'));
     } // end onSelectValue
 
-    public function getValue($row)
+    public function getValue($row, $postfix = '')
     {
         if ($this->hasCustomHandlerMethod('onGetValue')) {
             $res = $this->handler->onGetValue($this, $row);

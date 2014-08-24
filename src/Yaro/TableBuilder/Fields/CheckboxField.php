@@ -76,7 +76,7 @@ class CheckboxField extends AbstractField {
     } // end getListValue
     
         
-    public function getValue($row)
+    public function getValue($row, $postfix = '')
     {
         if ($this->hasCustomHandlerMethod('onGetValue')) {
             $res = $this->handler->onGetValue($this, $row);

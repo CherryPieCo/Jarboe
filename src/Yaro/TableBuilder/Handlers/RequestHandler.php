@@ -58,6 +58,9 @@ class RequestHandler {
             case 'change_direction':
                 return $this->handleChangeDirection();
                 
+            case 'upload_file':
+                return $this->handleFileUpload();
+                
             default:
                 return $this->handleShowList();
                 break;
@@ -80,6 +83,28 @@ class RequestHandler {
         );
         return Response::json($response);
     } // end handleChangeDirection
+    
+    protected function handleFileUpload()
+    {
+        // FIXME:
+        $file = Input::file('file');
+        $extension = $file->getClientOriginalExtension();
+        $fileName  = time() .'_'. $file->getClientOriginalName();
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        $status = $file->move($destinationPath, $fileName);
+        
+        $data = array(
+            'status' => $status,
+            'link'   => URL::to($destinationPath . $fileName),
+            'short_link' => $destinationPath . $fileName,
+        );
+        return Response::json($data);
+    } // end handlePhotoUpload
     
     protected function handlePhotoUpload()
     {

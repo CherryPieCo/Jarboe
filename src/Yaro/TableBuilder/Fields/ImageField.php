@@ -37,7 +37,7 @@ class ImageField extends AbstractField {
               . $src
               . '" />';
         return $html;
-    } // end onListSingle    
+    } // end getListSingle    
     
     private function getListMultiple($row)
     {

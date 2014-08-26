@@ -104,6 +104,15 @@ class TableBuilderController {
 
         throw new \RuntimeException("Undefined option [{$ident}].");
     } // end getOption
+    
+    public function getAdditionalOptions()
+    {
+        if (isset($this->options['additional'])) {
+            return $this->options['additional'];
+        }
+        
+        return array();
+    } // end getAdditionalOptions
 
     public function getDefinition()
     {
@@ -143,10 +152,10 @@ class TableBuilderController {
             throw new \RuntimeException("Definition \n[{$path}]\n does not exist.");
         }
 
+        $options = $this->getAdditionalOptions();
         $definition = require($path);
         if (!$definition) {
-            $error = json_last_error();
-            throw new \RuntimeException("Error in table definition \n[{$path}]:\n #{$error}.");
+            throw new \RuntimeException("Empty definition?");
         }
 
         $definition['is_searchable'] = $this->_isSearchable($definition);

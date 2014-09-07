@@ -94,6 +94,7 @@ abstract class AbstractField {
         $input = View::make($tplPath .'.input_'. $type);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
+        $input->rows  = $this->getAttribute('rows');
         $input->placeholder = $this->getAttribute('placeholder');
 
         return $input->render();
@@ -114,6 +115,7 @@ abstract class AbstractField {
         $input = View::make($tplPath .'.tab_input_'. $type);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
+        $input->rows  = $this->getAttribute('rows');
         $input->placeholder = $this->getAttribute('placeholder');
         $input->caption = $this->getAttribute('caption');
         $input->tabs = $this->getPreparedTabs($row);
@@ -258,6 +260,11 @@ abstract class AbstractField {
             throw new TableBuilderValidationException($errors);
         }
     } // end doValidate
+    
+    public function getLabelClass()
+    {
+        return 'input';
+    } // end getLabelClass
 
     abstract public function onSearchFilter(&$db, $value);
     

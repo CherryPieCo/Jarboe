@@ -133,7 +133,7 @@ class TableBuilderController {
 
     protected function createFieldInstance($name, $info)
     {
-        $className = 'Yaro\\TableBuilder\\Fields\\'. ucfirst($info['type']) ."Field";
+        $className = 'Yaro\\TableBuilder\\Fields\\'. ucfirst(camel_case($info['type'])) ."Field";
 
         return new $className(
             $name, 

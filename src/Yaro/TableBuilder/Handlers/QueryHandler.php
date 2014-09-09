@@ -1,6 +1,10 @@
-<?php namespace Yaro\TableBuilder\Handlers;
+<?php 
+
+namespace Yaro\TableBuilder\Handlers;
 
 use Yaro\TableBuilder\TableBuilderController;
+use Yaro\TableBuilder\TableBuilderValidationException as TableBuilderValidationException;
+use Yaro\TableBuilder\TableBuilderPreValidationException as TableBuilderPreValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -230,22 +234,33 @@ class QueryHandler {
             $field->doValidate($value);
         }
         */
+        $errors = array();
         
         $definition = $this->controller->getDefinition();
         $fields = $definition['fields'];
         foreach ($fields as $ident => $options) {
-            $field = $this->controller->getField($ident);
-            $tabs = $field->getAttribute('tabs');
-            if ($tabs) {
-                foreach ($tabs as $tab) {
-                    $fieldName = $ident . $tab['postfix'];
-                    $field->doValidate($values[$fieldName]);
+            try {
+                $field = $this->controller->getField($ident);
+                $tabs = $field->getAttribute('tabs');
+                if ($tabs) {
+                    foreach ($tabs as $tab) {
+                        $fieldName = $ident . $tab['postfix'];
+                        $field->doValidate($values[$fieldName]);
+                    }
+                } else {
+                    if (isset($values[$ident])) {
+                        $field->doValidate($values[$ident]);
+                    }
                 }
-            } else {
-                if (isset($values[$ident])) {
-                    $field->doValidate($values[$ident]);
-                }
+            } catch (TableBuilderPreValidationException $e) {
+                $errors = array_merge($errors, explode('|', $e->getMessage()));
+                continue;
             }
+        }
+        
+        if ($errors) {
+            $errors = implode('|', $errors);
+            throw new TableBuilderValidationException($errors);
         }
     } // end doValidate
 
@@ -280,9 +295,16 @@ class QueryHandler {
 
     private function _unsetFutileFields($values)
     {
+        if (isset($values['many2many'])) {
+            $field = $this->controller->getField('many2many');
+            $field->onPrepareRowValues($values['many2many'], $values['id']);
+            
+            unset($values['many2many']);
+        }
+        
         unset($values['id']);
         unset($values['query_type']);
-
+        
         return $values;
     } // end _unsetFutileFields
 

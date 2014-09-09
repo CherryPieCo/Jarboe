@@ -5,6 +5,7 @@ namespace Yaro\TableBuilder;
 use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 
 
 class TableBuilder {
@@ -33,12 +34,21 @@ class TableBuilder {
     public function create($options)
     {
         $this->onInit($options);
+        DB::beginTransaction();
+        
         try {
             $result = $this->controller->handle();
         } catch (TableBuilderValidationException $e) {
-            // FIXME:
-            return Response::json(array('status' => false));
+            DB::rollback();
+            
+            $data = array(
+                'status' => false,
+                'errors' => explode('|', $e->getMessage())
+            );
+            return Response::json($data);
         }
+        
+        DB::commit();
         $this->onFinish();
 
         return $result;

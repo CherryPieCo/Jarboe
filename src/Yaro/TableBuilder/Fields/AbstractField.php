@@ -2,7 +2,7 @@
 
 namespace Yaro\TableBuilder\Fields;
 
-use Yaro\TableBuilder\TableBuilderValidationException;
+use Yaro\TableBuilder\TableBuilderPreValidationException;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -257,7 +257,7 @@ abstract class AbstractField {
         
         if ($validator->fails()) {
             $errors = implode('|', $validator->messages()->all());
-            throw new TableBuilderValidationException($errors);
+            throw new TableBuilderPreValidationException($errors);
         }
     } // end doValidate
     

@@ -95,6 +95,7 @@ abstract class AbstractField {
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->rows  = $this->getAttribute('rows');
+        $input->mask  = $this->getAttribute('mask');
         $input->placeholder = $this->getAttribute('placeholder');
 
         return $input->render();
@@ -116,6 +117,7 @@ abstract class AbstractField {
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->rows  = $this->getAttribute('rows');
+        $input->mask  = $this->getAttribute('mask');
         $input->placeholder = $this->getAttribute('placeholder');
         $input->caption = $this->getAttribute('caption');
         $input->tabs = $this->getPreparedTabs($row);

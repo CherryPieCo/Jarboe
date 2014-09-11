@@ -50,11 +50,11 @@ class QueryHandler {
         $sessionPath = 'table_builder.'.$definitionName.'.order';
         $order = Session::get($sessionPath, array());
         if ($order) {
-            $this->db->orderBy($order['field'], $order['direction']);
+            $this->db->orderBy($this->getOptionDB('table') .'.'. $order['field'], $order['direction']);
         } else if ($this->hasOptionDB('order')) {
             $order = $this->getOptionDB('order');
             foreach ($order as $field => $direction) {
-                $this->db->orderBy($field, $direction);
+                $this->db->orderBy($this->getOptionDB('table') .'.'. $field, $direction);
             }
         }
 

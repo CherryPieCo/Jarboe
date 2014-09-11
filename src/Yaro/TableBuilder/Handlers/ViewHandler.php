@@ -46,8 +46,8 @@ class ViewHandler {
     
     public function getRowHtml($data)
     {
-        // FIXME:
-        $data['values']['id'] = $data['id'];
+        // FIXME: primary key
+        $data['values'] = $this->controller->query->getRow($data['id']);
         
         $row = View::make($this->controller->getOption('tpl_path') .'.single_row');
         $row->controller = $this->controller;

@@ -32,7 +32,11 @@ class ForeignField extends AbstractField {
             $foreignKeyField, '=', $internalSelect
         );
 
-        $db->addSelect($foreignTable .'.'. $this->getAttribute('foreign_value_field'));
+        if ($this->getAttribute('is_select_all')) {
+            $db->addSelect($foreignTable .'.*');
+        } else {
+            $db->addSelect($foreignTable .'.'. $this->getAttribute('foreign_value_field'));
+        }
     } // end onSelectValue
 
     public function getValue($row, $postfix = '')
@@ -57,6 +61,10 @@ class ForeignField extends AbstractField {
             if ($res) {
                 return $res;
             }
+        }
+        
+        if ($this->getAttribute('is_readonly')) {
+            return $this->getValue($row);
         }
 
         $tplPath = $this->getOption('tpl_path');

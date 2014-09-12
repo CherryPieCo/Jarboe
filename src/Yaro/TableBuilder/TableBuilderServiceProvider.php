@@ -1,6 +1,10 @@
-<?php namespace Yaro\TableBuilder;
+<?php 
 
+namespace Yaro\TableBuilder;
+
+use Yaro\TableBuilder\PrepareArtisanCommand;
 use Illuminate\Support\ServiceProvider;
+
 
 class TableBuilderServiceProvider extends ServiceProvider {
 
@@ -19,7 +23,9 @@ class TableBuilderServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('yaro/table-builder');
-	}
+        
+        \View::addNamespace('admin', __DIR__.'/../../views/');
+	} // end boot
 
 	/**
 	 * Register the service provider.
@@ -31,7 +37,13 @@ class TableBuilderServiceProvider extends ServiceProvider {
 		$this->app['tablebuilder'] = $this->app->share(function($app) {
             return new TableBuilder();
         });
-	}
+        
+        // register artisan command
+        $this->app['prepare'] = $this->app->share(function($app) {
+            return new PrepareArtisanCommand();
+        });
+        $this->commands('prepare');
+	} // end register
 
 	/**
 	 * Get the services provided by the provider.

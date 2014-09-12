@@ -2,6 +2,7 @@
 
 namespace Yaro\TableBuilder;
 
+use Yaro\TableBuilder\NavigationMenu;
 use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
@@ -21,7 +22,7 @@ class TableBuilder {
             'pagination' => Config::get('view.pagination'),
             'fetch' => Config::get('database.fetch')
         );
-        Config::set('view.pagination', $this->controller->getOption('tpl_path').'/pagination');
+        Config::set('view.pagination', 'admin::tb.pagination');
         Config::set('database.fetch', \PDO::FETCH_ASSOC);
     } // end onInit
 
@@ -53,6 +54,20 @@ class TableBuilder {
 
         return $result;
     } // end create
+    
+    public function fetchNavigation()
+    {
+        $menu = new NavigationMenu();
+        
+        return $menu->fetch();
+    } // end fetchNavigation
+    
+    public function checkNavigationPermissions()
+    {   
+        $menu = new NavigationMenu();
+        
+        $menu->checkPermissions();
+    } // end checkNavigationPermissions
 
 }
 

@@ -24,7 +24,7 @@ class TableBuilderController {
 
     public function __construct($options)
     {
-        $this->options = $this->getPreparedOptions($options);
+        $this->options = $options; //$this->getPreparedOptions($options);
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
 
         $this->handler = $this->createCustomHandlerInstance();
@@ -146,7 +146,7 @@ class TableBuilderController {
 
     protected function getTableDefinition($table)
     {
-        $path = $this->getOption('def_path'). $table .'.php';
+        $path = app_path() .'/tb-definitions/'. $table .'.php';
 
         if (!file_exists($path)) {
             throw new \RuntimeException("Definition \n[{$path}]\n does not exist.");

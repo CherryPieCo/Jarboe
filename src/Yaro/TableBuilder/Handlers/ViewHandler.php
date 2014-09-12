@@ -17,7 +17,7 @@ class ViewHandler {
 
     public function showList()
     {
-        $table = View::make($this->controller->getOption('tpl_path') .'.table_builder');
+        $table = View::make('admin::tb.table_builder');
         $table->def  = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
         $table->controller = $this->controller;
@@ -27,9 +27,9 @@ class ViewHandler {
 
     public function showEditForm($id = false)
     {
-        $table = View::make($this->controller->getOption('tpl_path') .'.modal_form');
+        $table = View::make('admin::tb.modal_form');
         if ($id) {
-            $table = View::make($this->controller->getOption('tpl_path') .'.modal_form_edit');
+            $table = View::make('admin::tb.modal_form_edit');
         }
         
         $table->def = $this->controller->getDefinition();
@@ -49,7 +49,7 @@ class ViewHandler {
         // FIXME: primary key
         $data['values'] = $this->controller->query->getRow($data['id']);
         
-        $row = View::make($this->controller->getOption('tpl_path') .'.single_row');
+        $row = View::make('admin::tb.single_row');
         $row->controller = $this->controller;
         $row->def        = $this->controller->getDefinition();
         $row->data       = $data;

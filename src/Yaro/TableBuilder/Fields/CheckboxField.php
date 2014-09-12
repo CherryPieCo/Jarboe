@@ -39,9 +39,7 @@ class CheckboxField extends AbstractField {
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
         $filter = Session::get($sessionPath, '');
 
-        $tplPath = $this->getOption('tpl_path');
-
-        $table = View::make($tplPath .'.filter_checkbox');
+        $table = View::make('admin::tb.filter_checkbox');
         $table->filter = $filter;
         $table->name  = $this->getFieldName();
         $table->options = $this->getAttribute('options');
@@ -58,9 +56,7 @@ class CheckboxField extends AbstractField {
             }
         }
 
-        $tplPath = $this->getOption('tpl_path');
-
-        $table = View::make($tplPath .'.input_checkbox');
+        $table = View::make('admin::tb.input_checkbox');
         $table->value = $this->getValue($row);
         $table->name  = $this->getFieldName();
         $table->caption = $this->getAttribute('caption');
@@ -70,9 +66,7 @@ class CheckboxField extends AbstractField {
     
     public function getListValue($row)
     {
-        $tplPath = $this->getOption('tpl_path');
-        
-        return View::make($tplPath .'.input_checkbox_list')->with('is_checked', $this->getValue($row));
+        return View::make('admin::tb.input_checkbox_list')->with('is_checked', $this->getValue($row));
     } // end getListValue
     
         

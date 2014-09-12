@@ -89,9 +89,8 @@ abstract class AbstractField {
         }
 
         $type = $this->getAttribute('type');
-        $tplPath = $this->getOption('tpl_path');
 
-        $input = View::make($tplPath .'.input_'. $type);
+        $input = View::make('admin::tb.input_'. $type);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->rows  = $this->getAttribute('rows');
@@ -111,9 +110,8 @@ abstract class AbstractField {
         }
         
         $type = $this->getAttribute('type');
-        $tplPath = $this->getOption('tpl_path');
         
-        $input = View::make($tplPath .'.tab_input_'. $type);
+        $input = View::make('admin::tb.tab_input_'. $type);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->rows  = $this->getAttribute('rows');
@@ -157,9 +155,8 @@ abstract class AbstractField {
         $filter = Session::get($sessionPath, '');
 
         $type = $this->getAttribute('filter');
-        $tplPath = $this->getOption('tpl_path');
 
-        $input = View::make($tplPath .'.filter_'. $type);
+        $input = View::make('admin::tb.filter_'. $type);
         $input->name = $this->getFieldName();
         $input->value = $filter;
 
@@ -202,8 +199,6 @@ abstract class AbstractField {
     
     public function getClientsideValidatorRules()
     {
-        $tplPath = $this->getOption('tpl_path');
-        
         $validation = $this->getAttribute('validation');
         if (!isset($validation['client'])) {
             return;
@@ -215,13 +210,11 @@ abstract class AbstractField {
         $tabs  = $this->getAttribute('tabs');
         
         $data = compact('rules', 'name', 'tabs');
-        return View::make($tplPath .'.validator_rules', $data)->render();
+        return View::make('admin::tb.validator_rules', $data)->render();
     } // end getClientsideValidatorRules
     
     public function getClientsideValidatorMessages()
     {
-        $tplPath = $this->getOption('tpl_path');
-        
         $validation = $this->getAttribute('validation');
         if (!isset($validation['client'])) {
             return;
@@ -233,7 +226,7 @@ abstract class AbstractField {
         $tabs     = $this->getAttribute('tabs');
         
         $data = compact('messages', 'name', 'tabs');
-        return View::make($tplPath .'.validator_messages', $data)->render();
+        return View::make('admin::tb.validator_messages', $data)->render();
     } // end getClientsideValidatorMessages
     
     public function doValidate($value)

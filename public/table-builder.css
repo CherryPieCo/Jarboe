@@ -1,0 +1,132 @@
+/* Admin Template Fixes */
+div.login-info img.online {
+    border-left: none;
+}
+
+
+
+.table>tbody>tr>td,
+.table>thead>tr>th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+div.smoke_lol {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #999;
+    z-index: 12;
+    position: absolute;
+    opacity: 0.6;
+}
+div.smoke_lol i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -23px;
+    margin-left: -23px;
+}
+button.tb-search-btn {
+    width: 100%;
+}
+div.tb-pagination {
+    margin: 0;
+    padding-bottom: 0;
+}
+div.tb-pagination ul.pagination {
+    float: right;
+}
+
+/* Upload image */
+div.tb-uploaded-image-container {
+    background-color: #ddd;
+    cursor: pointer;
+}
+div.tb-uploaded-image-container ul {
+    height: 80px;
+    list-style-type: none;
+}
+div.tb-uploaded-image-container ul:empty {
+    height: 0px;
+}
+div.tb-uploaded-image-container ul li {
+    float: left;
+    position: relative;
+}
+div.tb-uploaded-image-container ul li img {
+    height: 80px;
+    margin-right: 5px;
+}
+
+div.tb-uploaded-image-container div.tb-btn-delete-wrap {
+    position: absolute;
+    right: 8px;
+    top: 2px;
+}
+div.tb-uploaded-image-container button.tb-btn-image-delete {
+    position: static;
+    width: 22px;
+    height: 22px;
+}
+div.tb-uploaded-image-container button.tb-btn-image-delete i {
+    right: 4px;
+    top: 3px;
+    position: absolute;
+    font-size: 16px;
+}
+
+
+.table-builder .widget-body {
+    overflow-x: scroll;
+}
+
+
+/* Modal */
+div#modal_wrapper div.modal,
+div#modal_form {
+    z-index: 99999;
+}
+
+
+/* Pagination */
+div.tb-pagination {
+    margin: 10px !important;
+}
+div.tb-pagination-info {
+    font-size: 13px;
+    font-weight: 700;
+    color: #969696;
+}
+
+/* Summernote fix */
+div.note-image-dialog {
+    position: absolute;
+}
+div.note-image-dialog .modal-content {
+    padding: 12px;
+}
+div.note-image-dialog input.note-image-input {
+    padding: 4px;
+}
+div.note-image-dialog .modal-header {
+    padding: 6px;
+}
+div.note-image-dialog .modal-footer {
+    padding: 8px 0;
+}
+div.note-image-dialog .modal-footer button {
+    padding: 3px;
+}
+div.note-image-dialog form.note-modal-form {
+    padding: 6px;
+}
+
+/* Validation errors */
+form.smart-form em.invalid {
+    margin-top: 6px;
+    padding: 0 1px;
+    font-size: 11px;
+    line-height: 15px;
+    color: #999;
+}

@@ -1,21 +1,21 @@
-<form id="{{ $def['options']['table_ident'] }}" 
-      action="{{ $def['options']['action_url'] }}" 
-      method="post" 
-      class="form-horizontal tb-table"
-      target="submiter" >
+@extends('admin::layouts.default')
 
-<table class="table table-bordered table-striped table-hover">
 
-    <thead>
-        @include('tb::table_thead')
-    </thead>
+@section('main')
 
-    <tbody>
-        @include('tb::table_tbody')
-    </tbody>
+    <!-- MAIN CONTENT -->
+    <div id="content">
 
-</table> 
+        <div class="row">
+            {{ $table }}
 
-@include('tb::table_pagination')
+            <div id="modal_wrapper"></div>
+            
+            {{ $form }}
+        
+        </div>
+    
+    </div>
+    <!-- END MAIN CONTENT -->
 
-</form>    
+@stop

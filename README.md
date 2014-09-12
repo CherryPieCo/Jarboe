@@ -1,3 +1,10 @@
+````
+php artisan config:publish --path="/workbench/yaro/table-builder/src/config" yaro/table-builder
+php artisan asset:publish --path="/workbench/yaro/table-builder/src/config" yaro/table-builder
+
+// php artisan asset:publish --bench="vendor/package"
+````
+
 To show table:
 ```php
 $options = array(

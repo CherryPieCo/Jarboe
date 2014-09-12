@@ -32,6 +32,7 @@ class ImageField extends AbstractField {
               . $this->getValue($row)
               . $this->getAttribute('after_link');
               
+        // FIXME: move to template
         $src = $this->getAttribute('is_remote') ? $src : URL::to($src);
         $html = '<img height="'.$this->getAttribute('img_height').'" src="'
               . $src
@@ -66,9 +67,7 @@ class ImageField extends AbstractField {
             return parent::getEditInput($row);
         }
 
-        $tplPath = $this->getOption('tpl_path');
-
-        $table = View::make($tplPath .'.input_image_upload');
+        $table = View::make('admin::tb.input_image_upload');
         $table->value = $this->getValue($row);
         $table->name  = $this->getFieldName();
         $table->caption = $this->getAttribute('caption');

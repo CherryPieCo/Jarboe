@@ -64,9 +64,7 @@ class ManyToManyField extends AbstractField {
             }
         }
 
-        $tplPath = $this->getOption('tpl_path');
-
-        $input = View::make($tplPath .'.input_many2many');
+        $input = View::make('admin::tb.input_many2many');
         $input->selected = array();
         if ($row) {
             $input->selected = $this->getRelatedExternalFieldOptions($row);

@@ -26,11 +26,7 @@
 
     @if (isset($def['actions']['insert']))
     <th class="e-insert_button-cell">
-        <button class="btn btn-default btn-sm"  style="min-width: 66px;"
-                type="button"
-                onclick="TableBuilder.getCreateForm();">
-            {{ $def['actions']['insert']['caption'] or 'Add' }}
-        </button>
+        {{ $controller->actions->fetch('insert') }}
     </th>
     @else
         <th></th>

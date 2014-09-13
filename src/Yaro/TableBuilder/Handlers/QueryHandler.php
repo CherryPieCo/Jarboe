@@ -162,6 +162,10 @@ class QueryHandler {
 
     public function updateRow($values)
     {
+        if (!$this->controller->actions->isAllowed('update')) {
+            throw new \RuntimeException('Update action is not permitted');
+        }
+        
         $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
         
@@ -187,6 +191,10 @@ class QueryHandler {
 
     public function deleteRow($id)
     {
+        if (!$this->controller->actions->isAllowed('delete')) {
+            throw new \RuntimeException('Delete action is not permitted');
+        }
+        
         $res = $this->db->where('id', $id)->delete();
 
         $res = array(
@@ -202,6 +210,10 @@ class QueryHandler {
 
     public function insertRow($values)
     {
+        if (!$this->controller->actions->isAllowed('insert')) {
+            throw new \RuntimeException('Insert action is not permitted');
+        }
+        
         $insertData = $this->_getRowQueryValues($values);
         $this->_checkFields($insertData);
         

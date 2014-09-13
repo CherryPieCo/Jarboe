@@ -56,7 +56,7 @@
       class="form-horizontal tb-table"
       target="submiter" >
 
-<table id="datatable_fixed_column" class="table table-bordered table-striped table-hover smart-form">
+<table id="datatable_fixed_column" class="table table-bordered table-striped table-hover smart-form dataTable">
 
     <thead>
         @include('admin::tb.table_thead')

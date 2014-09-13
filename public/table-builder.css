@@ -3,6 +3,22 @@ div.login-info img.online {
     border-left: none;
 }
 
+/* Modal */
+div.modal div.tb-modal-fullscreen {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+}
+div.modal div.tb-modal-fullscreen div.modal-content {
+    height: 100%;
+}
+
+/* sorting icon */
+.tb-table table.table-bordered.dataTable {
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
 
 
 .table>tbody>tr>td,

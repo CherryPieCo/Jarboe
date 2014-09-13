@@ -51,10 +51,21 @@ class ViewHandler {
         
         $row = View::make('admin::tb.single_row');
         $row->controller = $this->controller;
+        $row->actions    = $this->controller->actions;
         $row->def        = $this->controller->getDefinition();
-        $row->data       = $data;
+        $row->row        = $data['values'];
         
         return $row->render();
     } // end getRowHtml
+    
+    public function fetchActions(array $row)
+    {
+        $actions = View::make('admin::tb.single_row_actions');
+        $actions->row = $row;
+        $actions->def = $this->controller->getDefinition();
+        $actions->actions = $this->controller->actions;
+        
+        return $actions->render();
+    } // end fetchActions
 
 }

@@ -5,6 +5,7 @@ namespace Yaro\TableBuilder;
 use Yaro\TableBuilder\Handlers\ViewHandler;
 use Yaro\TableBuilder\Handlers\RequestHandler;
 use Yaro\TableBuilder\Handlers\QueryHandler;
+use Yaro\TableBuilder\Handlers\ActionsHandler;
 use Illuminate\Support\Facades\Session;
 
 
@@ -19,6 +20,7 @@ class TableBuilderController {
     public $view;
     public $request;
     public $query;
+    public $actions;
 
     protected $allowedIds;
 
@@ -30,6 +32,7 @@ class TableBuilderController {
         $this->handler = $this->createCustomHandlerInstance();
         $this->fields  = $this->loadFields();
 
+        $this->actions = new ActionsHandler($this->definition['actions']);
         $this->query   = new QueryHandler($this);
         $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);

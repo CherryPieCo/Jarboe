@@ -1,12 +1,12 @@
 
 <div class="row tb-pagination">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <div class="tb-pagination-info">
             Показано: {{$rows->getFrom()}} по {{$rows->getTo()}} <br>
             Всего: {{$rows->getTotal()}}
         </div>
     </div>
-    <div class="col-sm-6 text-right">
+    <div class="col-sm-8 text-right">
         <div class="dataTables_paginate paging_bootstrap_full">
             {{$rows->links()}}
         </div>

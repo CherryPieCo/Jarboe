@@ -2,6 +2,7 @@
 
 namespace Yaro\TableBuilder;
 
+use Yaro\TableBuilder\Helpers\URLify;
 use Yaro\TableBuilder\NavigationMenu;
 use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
@@ -58,16 +59,19 @@ class TableBuilder {
     public function fetchNavigation()
     {
         $menu = new NavigationMenu();
-        
         return $menu->fetch();
     } // end fetchNavigation
     
     public function checkNavigationPermissions()
     {   
         $menu = new NavigationMenu();
-        
         $menu->checkPermissions();
     } // end checkNavigationPermissions
+    
+    public function urlify($string)
+    {   
+        return URLify::filter($string);
+    } // end urlify
 
 }
 

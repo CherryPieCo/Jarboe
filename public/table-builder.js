@@ -242,6 +242,7 @@ var TableBuilder = {
 
         //jQuery(TableBuilder.form_label).text('Create');
         jQuery(TableBuilder.form).modal('show');
+        TableBuilder.initSummernoteFullscreen();
 
         TableBuilder.hidePreloader();
     }, // end getCreateForm
@@ -271,6 +272,8 @@ var TableBuilder = {
                     });
                     
                     jQuery(context).parent().parent().attr('data-editing', 'true');
+                    
+                    TableBuilder.initSummernoteFullscreen();
                 } else {
                     jQuery.smallBox({
                         title : "Что-то пошло не так, попробуйте позже",
@@ -285,6 +288,13 @@ var TableBuilder = {
             }
         });
     }, // end getEditForm
+    
+    initSummernoteFullscreen: function()
+    {
+        jQuery('[data-event="fullscreen"]').click(function(){
+            jQuery('.modal-dialog').css({width: '100%', margin: '0px'});
+        });
+    }, // end initSummernoteFullscreen
 
     closeEditForm: function()
     {

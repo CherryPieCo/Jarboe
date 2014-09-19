@@ -261,8 +261,11 @@ abstract class AbstractField {
         return 'input';
     } // end getLabelClass
 
+    public function isEditable()
+    {
+        return true;
+    } // end isEditable
+    
     abstract public function onSearchFilter(&$db, $value);
     
-    abstract public function isEditable();
-
 }

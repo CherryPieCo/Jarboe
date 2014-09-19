@@ -20,17 +20,14 @@ abstract class CustomHandler {
 
     public function handle()
     {
-        return false;
     } // end handle
 
-    public function onGetValue($formField, array &$row)
+    public function onGetValue($formField, array &$row, &$postfix)
     {
-        return false;
     } // end onGetValue
 
     public function onGetEditInput($formField, array &$row)
     {
-        return false;
     } // end onGetEditInput
 
     public function onPrepareSearchFilters(&$filters)
@@ -39,7 +36,6 @@ abstract class CustomHandler {
     
     public function onSearchFilter(&$db, $name, $value)
     {
-        return false;
     } // end onSearchFilter
 
     public function onUpdateRowResponse(array &$response)
@@ -65,4 +61,25 @@ abstract class CustomHandler {
     public function onUpdateRowData(array &$data)
     {
     } // end onUpdateRowData
+    
+    public function onSearchCustomFilter($formField, &$db, $value)
+    {
+    } // end onSearchCustomFilter
+    
+    public function onGetCustomValue($formField, array &$row, &$postfix)
+    {
+    } // end onGetCustomValue
+    
+    public function onGetCustomEditInput($formField, array &$row)
+    {
+    } // end onGetCustomEditInput
+        
+    public function onGetCustomListValue($formField, array &$row)
+    {
+    } // end onGetCustomListValue
+    
+    public function onSelectCustomValue(&$db)
+    {
+    } // end onSelectCustomValue
+    
 }

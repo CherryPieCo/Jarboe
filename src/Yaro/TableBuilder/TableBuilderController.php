@@ -162,6 +162,7 @@ class TableBuilderController {
         }
 
         $definition['is_searchable'] = $this->_isSearchable($definition);
+        $definition['options']['admin_uri'] = \Config::get('table-builder::admin.uri');
 
         return $definition;
     } // end getTableDefinition

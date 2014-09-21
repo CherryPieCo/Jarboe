@@ -9,6 +9,15 @@
           },
           onImageUpload: function(files, editor, $editable) {
               TableBuilder.uploadImageFromWysiwygSummertime(files, editor, $editable);
+          },
+          onpaste: function(e) {
+              var $note = jQuery(this);
+              
+              setTimeout(function () {
+                  //this kinda sucks, but if you don't do a setTimeout, 
+                  //the function is called before the text is really pasted.
+                  TableBuilder.doEmbedToText($note);
+              }, 1);
           }
       });
     });

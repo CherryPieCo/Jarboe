@@ -57,6 +57,7 @@
         <link rel="stylesheet" href="{{asset('packages/yaro/table-builder/table-builder.css')}}">
 
         <link rel="stylesheet" href="{{asset('packages/yaro/table-builder/css/smartadmin-production.min.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/your_style.css')}}">
     </head>
     <body class="">
         <script>

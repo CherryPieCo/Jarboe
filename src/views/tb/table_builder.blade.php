@@ -30,5 +30,6 @@ jQuery(document).ready(function() {
             //Dashboard.initTooltips();
         },
     });
+    TableBuilder.admin_prefix = '{{ $def['options']['admin_uri'] }}';
 });
 </script>

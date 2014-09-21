@@ -24,6 +24,9 @@ class TableBuilderServiceProvider extends ServiceProvider {
 	{
 		$this->package('yaro/table-builder');
         
+        //include __DIR__.'/../../filters.php';
+        include __DIR__.'/../../routes.php';
+        
         \View::addNamespace('admin', __DIR__.'/../../views/');
 	} // end boot
 

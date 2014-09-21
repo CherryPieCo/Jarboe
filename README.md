@@ -5,6 +5,16 @@ php artisan asset:publish --path="/workbench/yaro/table-builder/src/config" yaro
 // php artisan asset:publish --bench="vendor/package"
 ````
 
+To app/config/app.php
+```php
+// ...
+'TableBuilder'  => 'Yaro\TableBuilder\Facades\TableBuilder',
+'Settings'      => 'Yaro\TableBuilder\Helpers\Settings',
+// ...
+```
+
+
+
 To show table:
 ```php
 $options = array(

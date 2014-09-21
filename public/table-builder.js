@@ -818,6 +818,25 @@ var TableBuilder = {
             timeout : 4000
         });
     }, // end showErrorNotification
+    
+    doEmbedToText: function($summernote)
+    {
+        jQuery.ajax({
+            type: "POST",
+            // FIXME: move action url to options
+            url: TableBuilder.admin_prefix +'/tb/embed-to-text',
+            data: {text: $summernote.code()},
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    console.log(response);
+                    $summernote.code('').html(response.html);
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    } // end doEmbedToText
 
 };
 

@@ -8,6 +8,8 @@ use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
+use Yandex\Translate\Translator;
+use Yandex\Translate\Exception;
 
 
 class TableBuilder {
@@ -72,6 +74,20 @@ class TableBuilder {
     {   
         return URLify::filter($string);
     } // end urlify
+    
+    public function translate($text, $language, $isHtml = false, $options = 0)
+    {
+        $key = Config::get('table-builder::admin.yandex_api_translation_key');
+        if (!$key) {
+            throw new \RuntimeException('Yandex api key for translations is not set');
+        }
+        
+        $translator = new Translator($key);
+        $translation = $translator->translate($text, $language, $isHtml, $options);
+        
+        // FIXME: 
+        return $translation->__toString();
+    } // end translate
 
 }
 

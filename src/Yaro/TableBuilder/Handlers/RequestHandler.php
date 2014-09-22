@@ -88,6 +88,14 @@ class RequestHandler {
     {
         // FIXME:
         $file = Input::file('file');
+        
+        if ($this->controller->hasCustomHandlerMethod('onFileUpload')) {
+            $res = $this->controller->getCustomHandler()->onFileUpload($file);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $extension = $file->getClientOriginalExtension();
         $fileName  = time() .'_'. $file->getClientOriginalName();
         
@@ -110,6 +118,14 @@ class RequestHandler {
     {
         // FIXME:
         $file = Input::file('image');
+        
+        if ($this->controller->hasCustomHandlerMethod('onPhotoUpload')) {
+            $res = $this->controller->getCustomHandler()->onPhotoUpload($file);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $extension = $file->guessExtension();
         $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
         
@@ -134,6 +150,14 @@ class RequestHandler {
     {
         // FIXME:
         $file = Input::file('image');
+        
+        if ($this->controller->hasCustomHandlerMethod('onPhotoUploadFromWysiwyg')) {
+            $res = $this->controller->getCustomHandler()->onPhotoUploadFromWysiwyg($file);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $extension = $file->guessExtension();
         $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
         

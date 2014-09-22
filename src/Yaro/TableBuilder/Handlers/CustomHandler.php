@@ -82,4 +82,40 @@ abstract class CustomHandler {
     {
     } // end onSelectCustomValue
     
+    public function onFileUpload($file)
+    {
+        /*
+        $data = array(
+            'status'     => true|false,
+            'link'       => absolute path,
+            'short_link' => relative path,
+        );
+        return Response::json($data);
+        */
+    } // end onFileUpload
+    
+    public function onPhotoUpload($file)
+    {
+        /*
+        $data = array(
+            'status'     => true|false,
+            'link'       => absolute path,
+            'short_link' => relative path,
+            'delimiter'  => ','
+        );
+        return Response::json($data);
+        */
+    } // end onPhotoUpload
+    
+    public function onPhotoUploadFromWysiwyg($file)
+    {
+        /*
+        $data = array(
+            'status' => true|false,
+            'link'   => absolute path
+        );
+        return Response::json($data);
+        */
+    } // end onPhotoUploadFromWysiwyg
+    
 }

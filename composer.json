@@ -13,7 +13,9 @@
         "radic/blade-extensions": "dev-master",
         "baum/baum": "dev-develop",
         "yandex/translate-api": "~1.0",
-        "mpratt/embera": "~1.0"
+        "mpratt/embera": "~1.0",
+        "cartalyst/sentry": "2.1.*",
+        "intervention/image": "2.*"
     },
     "autoload": {
         "classmap": [

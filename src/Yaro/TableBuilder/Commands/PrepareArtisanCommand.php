@@ -22,6 +22,20 @@ class PrepareArtisanCommand extends Command
         mkdir(app_path() . '/tb-definitions');
         
         $this->info('Folder /app/tb-definitions successfully created. Place there your table definitions.');
+        
+        if ($this->confirm('Create `settings` table with definition? [yes|no]')) {
+            Schema::create('settings', function($table) {
+                $table->increments('id');
+                $table->char('name', 255);
+                $table->char('value', 255);
+                $table->char('description', 255);
+            });
+            copy(
+                __DIR__ . '/../../../tb-definitions/settings.php', 
+                app_path() . '/tb-definitions/settings.php'
+            );
+        }
+        
     } // end fire
 
 }

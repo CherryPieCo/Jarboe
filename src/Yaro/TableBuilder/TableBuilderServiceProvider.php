@@ -2,7 +2,7 @@
 
 namespace Yaro\TableBuilder;
 
-use Yaro\TableBuilder\PrepareArtisanCommand;
+use Yaro\TableBuilder\Commands\PrepareArtisanCommand;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -28,6 +28,8 @@ class TableBuilderServiceProvider extends ServiceProvider {
         include __DIR__.'/../../routes.php';
         
         \View::addNamespace('admin', __DIR__.'/../../views/');
+        
+        $this->doCommandsRegister();
 	} // end boot
 
 	/**
@@ -40,13 +42,17 @@ class TableBuilderServiceProvider extends ServiceProvider {
 		$this->app['tablebuilder'] = $this->app->share(function($app) {
             return new TableBuilder();
         });
-        
-        // register artisan command
-        $this->app['prepare'] = $this->app->share(function($app) {
+	} // end register
+	
+	private function doCommandsRegister()
+    {
+        $this->app->bind('tb::command.prepare', function($app) {
             return new PrepareArtisanCommand();
         });
-        $this->commands('prepare');
-	} // end register
+        $this->commands(array(
+            'tb::command.prepare'
+        ));
+    } // end doCommandsRegister
 
 	/**
 	 * Get the services provided by the provider.

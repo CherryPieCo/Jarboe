@@ -32,7 +32,9 @@ class ForeignField extends AbstractField {
             $foreignTable = $this->getAttribute('alias');
         }
         $foreignKeyField = $foreignTable .'.'. $this->getAttribute('foreign_key_field');
-        $db->join(
+        
+        $join = $this->getAttribute('is_null') ? 'leftJoin' : 'join';
+        $db->$join(
             $foreignTableName, 
             $foreignKeyField, '=', $internalSelect
         );
@@ -40,7 +42,8 @@ class ForeignField extends AbstractField {
         if ($this->getAttribute('is_select_all')) {
             $db->addSelect($foreignTable .'.*');
         } else {
-            $db->addSelect($foreignTable .'.'. $this->getAttribute('foreign_value_field'));
+            $fieldAlias = ' as '. $foreignTable.'_'.$this->getAttribute('foreign_value_field');
+            $db->addSelect($foreignTable .'.'. $this->getAttribute('foreign_value_field') . $fieldAlias);
         }
     } // end onSelectValue
 
@@ -54,7 +57,15 @@ class ForeignField extends AbstractField {
         }
 
         $fieldName = $this->getAttribute('foreign_value_field');
+        if ($this->getAttribute('alias')) {
+            $fieldName = $this->getAttribute('alias') .'_'. $fieldName;
+        }
         $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
+        
+        if (!$value && $this->getAttribute('is_null')) {
+            // FIXME:
+            $value = '<i class="fa fa-minus"></i>';
+        }
 
         return $value;
     } // end getValue
@@ -72,12 +83,14 @@ class ForeignField extends AbstractField {
             return $this->getValue($row);
         }
 
-        $table = View::make('admin::tb.input_foreign');
-        $table->selected = $this->getValue($row);
-        $table->name     = $this->getFieldName();
-        $table->options  = $this->getForeignKeyOptions();
+        $input = View::make('admin::tb.input_foreign');
+        $input->selected = $this->getValue($row);
+        $input->name     = $this->getFieldName();
+        $input->options  = $this->getForeignKeyOptions();
+        $input->is_null  = $this->getAttribute('is_null');
+        $input->null_caption = $this->getAttribute('null_caption');
 
-        return $table->render();
+        return $input->render();
     } // end getEditInput
 
     protected function getForeignKeyOptions()

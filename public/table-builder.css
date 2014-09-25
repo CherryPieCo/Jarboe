@@ -27,6 +27,10 @@ div.modal div.tb-modal-fullscreen div.modal-content {
     text-align: center;
 }
 
+.tb-table thead tr th.e-insert_button-cell {
+    padding-right: 10px;
+}
+
 div.smoke_lol {
     display: none;
     width: 100%;

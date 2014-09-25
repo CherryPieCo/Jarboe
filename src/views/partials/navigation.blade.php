@@ -8,9 +8,11 @@
                     
                     {{--<a href="javascript:void(0);" id="show-shortcut">--}}
                     <a href="javascript:void(0);">
-                        <img src="{{ \Config::get('table-builder::admin.user_image') }}" alt="me" class="online" /> 
+                        <?php $imgClosure = \Config::get('table-builder::admin.user_image'); ?>
+                        <img src="{{ $imgClosure() }}" alt="me" class="online" /> 
                         <span>
-                            {{ \Config::get('table-builder::admin.user_name') }}
+                            <?php $nameClosure = \Config::get('table-builder::admin.user_name'); ?>
+                            {{ $nameClosure() }}
                         </span>
                         {{--<i class="fa fa-angle-down"></i>--}}
                     </a> 

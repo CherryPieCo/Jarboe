@@ -26,9 +26,14 @@ class ForeignField extends AbstractField {
         $db->addSelect($internalSelect);
 
         $foreignTable = $this->getAttribute('foreign_table');
+        $foreignTableName = $foreignTable;
+        if ($this->getAttribute('alias')) {
+            $foreignTableName .= ' as '. $this->getAttribute('alias');
+            $foreignTable = $this->getAttribute('alias');
+        }
         $foreignKeyField = $foreignTable .'.'. $this->getAttribute('foreign_key_field');
         $db->join(
-            $foreignTable, 
+            $foreignTableName, 
             $foreignKeyField, '=', $internalSelect
         );
 

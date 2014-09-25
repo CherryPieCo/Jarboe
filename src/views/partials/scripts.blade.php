@@ -28,13 +28,13 @@
 
 <!-- JARVIS WIDGETS -->
 <script src="{{asset('packages/yaro/table-builder/js/smartwidgets/jarvis.widget.min.js')}}"></script>
-
+{{--
 <!-- EASY PIE CHARTS -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js')}}"></script>
 
 <!-- SPARKLINES -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/sparkline/jquery.sparkline.min.js')}}"></script>
-
+--}}
 <!-- JQUERY VALIDATE -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
 
@@ -46,6 +46,7 @@
 <!-- JQUERY MASKED INPUT -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
 
+{{--
 <!-- JQUERY SELECT2 INPUT -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/select2/select2.min.js')}}"></script>
 
@@ -54,7 +55,7 @@
 
 <!-- browser msie issue fix -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/msie-fix/jquery.mb.browser.min.js')}}"></script>
-
+--}}
 <!-- FastClick: For mobile devices -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/fastclick/fastclick.js')}}"></script>
 
@@ -81,9 +82,9 @@
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/media/js/TableTools.min.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/DT_bootstrap.js')}}"></script>
 <script src="{{asset('backend/js/plugin/jquery-nestable/jquery.nestable.min.js')}}"></script>
-
+{{--
 <script src="{{asset('packages/yaro/table-builder/js/table.js')}}"></script>
-
+--}}
 <script type="text/javascript">
 
 // DO NOT REMOVE : GLOBAL FUNCTIONS!

@@ -4,6 +4,7 @@ namespace Yaro\TableBuilder;
 
 use Yaro\TableBuilder\Helpers\URLify;
 use Yaro\TableBuilder\NavigationMenu;
+use Yaro\TableBuilder\CatalogController;
 use Yaro\TableBuilder\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
@@ -88,6 +89,18 @@ class TableBuilder {
         // FIXME: 
         return $translation->__toString();
     } // end translate
+    
+    public function catalog($name, $options = array())
+    {
+        $model = ucfirst(camel_case($name));
+        if (!class_exists($model)) {
+            throw new \RuntimeException('Model "'. $model .'" is not defined');
+        }
+        
+        $controller = new CatalogController($model, $options);
+        
+        return $controller->handle();
+    } // end catalog
 
 }
 

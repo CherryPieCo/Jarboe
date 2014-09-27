@@ -28,8 +28,6 @@ class TableBuilderServiceProvider extends ServiceProvider {
         include __DIR__.'/../../routes.php';
         
         \View::addNamespace('admin', __DIR__.'/../../views/');
-        
-        $this->doCommandsRegister();
 	} // end boot
 
 	/**
@@ -42,15 +40,20 @@ class TableBuilderServiceProvider extends ServiceProvider {
 		$this->app['tablebuilder'] = $this->app->share(function($app) {
             return new TableBuilder();
         });
+        
+        $this->doCommandsRegister();
 	} // end register
 	
 	private function doCommandsRegister()
     {
-        $this->app->bind('tb::command.prepare', function($app) {
-            return new PrepareArtisanCommand();
-        });
+        $this->app['command.tablebuilder.prepare'] = $this->app->share(
+            function ($app) {
+                return new PrepareArtisanCommand();
+            }
+        );
+
         $this->commands(array(
-            'tb::command.prepare'
+            'command.tablebuilder.prepare'
         ));
     } // end doCommandsRegister
 
@@ -61,7 +64,9 @@ class TableBuilderServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array(
+		    'command.tablebuilder.prepare'
+        );
 	}
 
 }

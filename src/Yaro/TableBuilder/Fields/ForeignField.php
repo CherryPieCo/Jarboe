@@ -56,10 +56,12 @@ class ForeignField extends AbstractField {
             }
         }
 
-        $fieldName = $this->getAttribute('foreign_value_field');
+        $foreignTableName = $this->getAttribute('foreign_table');
         if ($this->getAttribute('alias')) {
-            $fieldName = $this->getAttribute('alias') .'_'. $fieldName;
+            $foreignTableName = $this->getAttribute('alias');
         }
+        $fieldName = $foreignTableName .'_'. $this->getAttribute('foreign_value_field');
+        
         $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
         
         if (!$value && $this->getAttribute('is_null')) {

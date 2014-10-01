@@ -256,6 +256,11 @@ abstract class AbstractField {
         }
     } // end doValidate
     
+    public function getSubActions()
+    {
+        return '';
+    } // end getSubActions
+    
     public function getLabelClass()
     {
         return 'input';

@@ -150,3 +150,25 @@ form.smart-form em.invalid {
     line-height: 15px;
     color: #999;
 }
+
+/* Subactions */
+div.dropdown.subactions {
+    position: absolute; 
+    right: 0; 
+    top: 0;
+    background-color: #eee;
+    padding: 5px;
+    border-color: #bdbdbd;
+    border-width: 1px;
+    border-style: solid;
+}
+div.dropdown.subactions a.dropdown-toggle{
+    color: #666;
+}
+div.dropdown.subactions a.dropdown-toggle:hover{
+    color: #333;
+}
+div.dropdown.subactions .dropdown-menu {
+    left: auto; 
+    right: 0;
+}

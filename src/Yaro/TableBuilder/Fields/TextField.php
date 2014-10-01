@@ -1,4 +1,8 @@
-<?php namespace Yaro\TableBuilder\Fields;
+<?php 
+
+namespace Yaro\TableBuilder\Fields;
+
+use Illuminate\Support\Facades\View;
 
 
 class TextField extends AbstractField {
@@ -12,5 +16,15 @@ class TextField extends AbstractField {
     {
         $db->where($this->getFieldName(), 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
+    
+    public function getSubActions()
+    {
+        $subactions = $this->getAttribute('subactions');
+        if (!$subactions) {
+            return '';
+        }
+        
+        return View::make('admin::tb.subactions', compact('subactions'))->render();
+    } // end getSubActions
 
 }

@@ -101,6 +101,27 @@ class TableBuilder {
         
         return $controller->handle();
     } // end catalog
+    
+    public static function geo($ip = false)
+    {
+        if (!$ip) {
+            $ip = \Request::getClientIp();
+        }
+        
+        $url = 'http://geoip.elib.ru/cgi-bin/getdata.pl?ip=';
+        $xmlInfo = file_get_contents($url . $ip);
+        // easy-breezy lol
+        $xml  = simplexml_load_string($xmlInfo);
+        $json = json_encode($xml);
+        
+        $info = json_decode($json, true);
+        
+        return array(
+            'town'      => $info['GeoAddr']['Town'],
+            'latitude'  => $info['GeoAddr']['Lat'],
+            'longitude' => $info['GeoAddr']['Lon'],
+        );
+    } // end geo
 
 }
 

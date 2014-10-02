@@ -1,7 +1,7 @@
 
 <li
     @if ($item['is_active'])
-       class="active open"
+       class="active"
     @endif
     >
     

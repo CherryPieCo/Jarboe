@@ -177,6 +177,8 @@ class QueryHandler {
         $this->doPrependFilterValues($updateData);
         
         $status = $this->db->where('id', $values['id'])->update($updateData);
+        
+        $this->onManyToManyValues($values, $values['id']);
 	
         $res = array(
             'id'     => $values['id'],
@@ -225,6 +227,8 @@ class QueryHandler {
         $this->doPrependFilterValues($insertData);
         
         $id = $this->db->insertGetId($insertData);
+        
+        $this->onManyToManyValues($values, $id);
 
         $res = array(
             'id'     => $id,
@@ -236,6 +240,15 @@ class QueryHandler {
 
         return $res;
     } // end insertRow
+    
+    private function onManyToManyValues($values, $id)
+    {
+        // FIXME:
+        if (isset($values['many2many'])) {
+            $field = $this->controller->getField('many2many');
+            $field->onPrepareRowValues($values['many2many'], $id);
+        }
+    } // end onManyToManyValues
     
     private function doValidate($values)
     {
@@ -307,15 +320,9 @@ class QueryHandler {
 
     private function _unsetFutileFields($values)
     {
-        if (isset($values['many2many'])) {
-            $field = $this->controller->getField('many2many');
-            $field->onPrepareRowValues($values['many2many'], $values['id']);
-            
-            unset($values['many2many']);
-        }
-        
         unset($values['id']);
         unset($values['query_type']);
+        unset($values['many2many']);
         
         return $values;
     } // end _unsetFutileFields

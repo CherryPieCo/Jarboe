@@ -2,9 +2,12 @@
 @foreach ($menu as $item)
     <li
         @if ($item['is_active'])
-           class="active open"
+           class="active 
+           @if (isset($submenu['submenu']))
+            open
+           @endif
         @endif
-        >
+        ">
         @if (isset($item['submenu']))
             <a href="#" 
                title="{{$item['title']}}">
@@ -15,9 +18,12 @@
                 @foreach ($item['submenu'] as $submenu)
                 <li
                     @if ($submenu['is_active'])
-                       class="active open"
+                       class="active 
+                       @if (isset($submenu['submenu']))
+                        open
+                       @endif
                     @endif
-                    >
+                    ">
                     <a href="{{url(Config::get('admin.uri') . $submenu['link'])}}">
                         {{$submenu['title']}}
                     </a>
@@ -38,9 +44,12 @@
 @foreach ($menu as $item)
     <li
         @if ($item['is_active'])
-           class="active open"
+           class="active 
+           @if (isset($submenu['submenu']))
+            open
+           @endif
         @endif
-        >
+        ">
         @if (isset($item['submenu']))
             <a href="#" 
                title="{{$item['title']}}">

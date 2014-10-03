@@ -108,6 +108,12 @@ class TableBuilder {
             $ip = \Request::getClientIp();
         }
         
+        $info = \DB::table('ip_geo_locations')->where('ip', $ip)->first();
+        if ($info) {
+            unset($info['id']);
+            return $info;
+        }
+        
         $url = 'http://geoip.elib.ru/cgi-bin/getdata.pl?ip=';
         $xmlInfo = file_get_contents($url . $ip);
         // easy-breezy lol
@@ -116,11 +122,14 @@ class TableBuilder {
         
         $info = json_decode($json, true);
         
-        return array(
+        $data = array(
             'town'      => $info['GeoAddr']['Town'],
             'latitude'  => $info['GeoAddr']['Lat'],
             'longitude' => $info['GeoAddr']['Lon'],
         );
+        \DB::table('ip_geo_locations')->insert($data);
+        
+        return $data;
     } // end geo
 
 }

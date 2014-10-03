@@ -25,8 +25,8 @@ class PrepareArtisanCommand extends Command
         
         if ($this->confirm('Create `settings` table with definition? [yes|no]')) {
             Schema::create('settings', function($table) {
-                $table->increments('id');
-                $table->char('name', 255);
+                $table->increments('id')->unsigned();
+                $table->char('name', 255)->unique();
                 $table->char('value', 255);
                 $table->char('description', 255);
             });
@@ -34,6 +34,15 @@ class PrepareArtisanCommand extends Command
                 __DIR__ . '/../../../tb-definitions/settings.php', 
                 app_path() . '/tb-definitions/settings.php'
             );
+        }
+        
+        if ($this->confirm('Create `ip_geo_locations` table with definition? [yes|no]')) {
+            Schema::create('ip_geo_locations', function($table) {
+                $table->increments('id')->unsigned();
+                $table->char('name', 60);
+                $table->decimal('amount', 10, 7);
+                $table->decimal('amount', 10, 7);
+            });
         }
         
     } // end fire

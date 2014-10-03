@@ -2,7 +2,7 @@
 
 namespace Yaro\TableBuilder\Fields;
 
-use Yaro\TableBuilder\TableBuilderPreValidationException;
+use Yaro\TableBuilder\Exceptions\TableBuilderPreValidationException;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;

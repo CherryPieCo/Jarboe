@@ -3,8 +3,8 @@
 namespace Yaro\TableBuilder\Handlers;
 
 use Yaro\TableBuilder\TableBuilderController;
-use Yaro\TableBuilder\TableBuilderValidationException as TableBuilderValidationException;
-use Yaro\TableBuilder\TableBuilderPreValidationException as TableBuilderPreValidationException;
+use Yaro\TableBuilder\Exceptions\TableBuilderValidationException as TableBuilderValidationException;
+use Yaro\TableBuilder\Exceptions\TableBuilderPreValidationException as TableBuilderPreValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;

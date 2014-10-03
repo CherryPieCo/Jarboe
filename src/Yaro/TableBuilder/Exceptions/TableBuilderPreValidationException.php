@@ -1,6 +1,6 @@
 <?php
 
-namespace Yaro\TableBuilder;
+namespace Yaro\TableBuilder\Exceptions;
 
 
 class TableBuilderPreValidationException extends \Exception {}

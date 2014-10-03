@@ -5,7 +5,7 @@ namespace Yaro\TableBuilder;
 use Yaro\TableBuilder\Helpers\URLify;
 use Yaro\TableBuilder\NavigationMenu;
 use Yaro\TableBuilder\CatalogController;
-use Yaro\TableBuilder\TableBuilderValidationException;
+use Yaro\TableBuilder\Exceptions\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;

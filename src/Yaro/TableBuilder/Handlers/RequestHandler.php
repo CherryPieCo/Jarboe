@@ -274,8 +274,17 @@ class RequestHandler {
 
         $newFilters = array();
         foreach ($filters as $key => $value) {
-            if ($value || $value === '0') {
-                $newFilters[$key] = $value;
+            if (is_array($value)) {
+                if (isset($value['from']) && $value['from']) {
+                    $newFilters[$key]['from'] = $value['from'];
+                }
+                if (isset($value['to']) && $value['to']) {
+                    $newFilters[$key]['to'] = $value['to'];
+                }
+            } else {
+                if ($value || $value === '0') {
+                    $newFilters[$key] = $value;
+                }
             }
         }
 

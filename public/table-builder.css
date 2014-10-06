@@ -172,3 +172,22 @@ div.dropdown.subactions .dropdown-menu {
     left: auto; 
     right: 0;
 }
+
+
+/* Form elements */
+.input-group-addon.form-input-icon {
+    width: 18px;
+    height: 18px;
+    right: 0;
+    top: 0;
+    position: absolute;
+}
+.input-group-addon.form-input-icon .fa {
+    padding: 2px;
+}
+
+.input-group-addon.form-input-icon.form-input-filter-icon {
+    width: 20px;
+    height: 20px;
+    right: -2px;
+}

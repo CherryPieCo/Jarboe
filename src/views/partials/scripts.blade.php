@@ -6,12 +6,13 @@
 
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script>
     if (!window.jQuery.ui) {
         document.write('<script src="{{asset('packages/yaro/table-builder/js/libs/jquery-ui-1.10.3.min.js')}}"><\/script>');
     }
 </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="{{asset('packages/yaro/table-builder/js/plugin/datepicker/jquery.ui.datepicker-ru.js')}}"></script>
 
 <script src="{{asset('packages/yaro/table-builder/js/app.config.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/app.min.js')}}"></script>
@@ -47,6 +48,9 @@
 <script src="{{asset('packages/yaro/table-builder/js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
 
 {{--
+<script src="{{asset('packages/yaro/table-builder/js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
+
+
 <!-- JQUERY SELECT2 INPUT -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/select2/select2.min.js')}}"></script>
 

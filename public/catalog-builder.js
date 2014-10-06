@@ -337,6 +337,11 @@ var CatalogBuilder =
         $input.val(newValue);
     }, // end deleteImage
     
+    translate: function(context, from, to)
+    {
+        
+    }, // end translate
+    
 };
 
 jQuery(document).ready(function(){

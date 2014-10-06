@@ -14,6 +14,9 @@ var TableBuilder = {
     create_form: '#create_form',
     edit_form: '#edit_form',
     filter: '#filters-row :input',
+    
+    onDoEdit: null,
+    onDoCreate: null,
 
     init: function(options)
     {
@@ -471,6 +474,11 @@ var TableBuilder = {
         values.push({ name: 'id', value: id });
         values.push({ name: 'query_type', value: "save_edit_form" });
         
+        // FIXME:
+        if (TableBuilder.onDoEdit) {
+            values = TableBuilder.onDoEdit(values);
+        }
+        
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         values = values.concat(
             jQuery(TableBuilder.edit_form).find('input[type=checkbox]:not(:checked)')
@@ -549,6 +557,11 @@ var TableBuilder = {
 
         var values = jQuery(TableBuilder.create_form).serializeArray();
         values.push({ name: "query_type", value: "save_add_form" });
+        
+        // FIXME:
+        if (TableBuilder.onDoCreate) {
+            values = TableBuilder.onDoCreate(values);
+        }
         
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         values = values.concat(

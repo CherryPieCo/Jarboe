@@ -39,7 +39,8 @@ class PrepareArtisanCommand extends Command
         if ($this->confirm('Create `ip_geo_locations` table? [yes|no]')) {
             Schema::create('ip_geo_locations', function($table) {
                 $table->increments('id')->unsigned();
-                $table->char('name', 60);
+                $table->char('ip', 32)->unique();
+                $table->char('town', 60);
                 $table->decimal('amount', 10, 7);
                 $table->decimal('amount', 10, 7);
             });

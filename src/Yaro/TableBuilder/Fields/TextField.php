@@ -19,9 +19,15 @@ class TextField extends AbstractField {
     
     public function getSubActions()
     {
-        $subactions = $this->getAttribute('subactions');
-        if (!$subactions) {
+        $def = $this->getAttribute('subactions');
+        if (!$def) {
             return '';
+        }
+        
+        $subactions = array();
+        foreach ($def as $options) {
+            $class = '\\Yaro\\TableBuilder\\Fields\\Subactions\\'. ucfirst($options['type']);
+            $subactions[] = new $class($options);
         }
         
         return View::make('admin::tb.subactions', compact('subactions'))->render();

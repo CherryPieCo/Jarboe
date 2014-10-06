@@ -6,7 +6,7 @@
     <ul class="dropdown-menu">
         @foreach ($subactions as $sub)
         <li>
-            <a href="#l3" data-toggle="tab">{{$sub['caption']}}</a>
+            {{$sub->fetch()}}
         </li>
         @endforeach
     </ul>

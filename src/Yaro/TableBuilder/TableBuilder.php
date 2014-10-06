@@ -123,6 +123,7 @@ class TableBuilder {
         $info = json_decode($json, true);
         
         $data = array(
+            'ip'        => $ip,
             'town'      => $info['GeoAddr']['Town'],
             'latitude'  => $info['GeoAddr']['Lat'],
             'longitude' => $info['GeoAddr']['Lon'],

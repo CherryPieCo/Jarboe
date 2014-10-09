@@ -1,9 +1,12 @@
-<?php namespace Yaro\TableBuilder\Handlers;
+<?php 
+
+namespace Yaro\TableBuilder\Handlers;
 
 use Yaro\TableBuilder\TableBuilderController;
 
 
-abstract class CustomHandler {
+abstract class CustomHandler 
+{
 
     protected $controller;
 
@@ -29,6 +32,10 @@ abstract class CustomHandler {
     public function onGetEditInput($formField, array &$row)
     {
     } // end onGetEditInput
+    
+    public function onGetListValue($formField, array &$row)
+    {
+    } // end onGetListValue
 
     public function onPrepareSearchFilters(&$filters)
     {

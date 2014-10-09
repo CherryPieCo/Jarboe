@@ -62,8 +62,16 @@ class TableBuilder {
     public function fetchNavigation()
     {
         $menu = new NavigationMenu();
+        
         return $menu->fetch();
     } // end fetchNavigation
+    
+    public function fetchInformer()
+    {
+        $menu = new Informer();
+        
+        return $menu->fetch();
+    } // end fetchInformer
     
     public function checkNavigationPermissions()
     {   

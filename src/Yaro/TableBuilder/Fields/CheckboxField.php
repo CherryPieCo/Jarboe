@@ -66,6 +66,13 @@ class CheckboxField extends AbstractField {
     
     public function getListValue($row)
     {
+    	if ($this->hasCustomHandlerMethod('onGetListValue')) {
+            $res = $this->handler->onGetListValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+		
         return View::make('admin::tb.input_checkbox_list')->with('is_checked', $this->getValue($row));
     } // end getListValue
     

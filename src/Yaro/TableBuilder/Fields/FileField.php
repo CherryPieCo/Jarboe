@@ -19,6 +19,13 @@ class FileField extends AbstractField {
     
     public function getListValue($row)
     {
+    	if ($this->hasCustomHandlerMethod('onGetListValue')) {
+            $res = $this->handler->onGetListValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+		
         if (!$this->getValue($row)) {
             return '';
         }

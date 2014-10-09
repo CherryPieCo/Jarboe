@@ -10,7 +10,14 @@ class WysiwygField extends AbstractField {
 
     public function getListValue($row)
     {
-        return substr($this->getValue($row), 0, 300);
+    	if ($this->hasCustomHandlerMethod('onGetListValue')) {
+            $res = $this->handler->onGetListValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+		
+        return substr(strip_tags($this->getValue($row), 0, 300)) . '...';
     } // end getListValue
 
     public function onSearchFilter(&$db, $value)

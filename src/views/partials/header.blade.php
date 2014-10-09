@@ -6,6 +6,8 @@
                 <span id="logo" style="margin-top: 10px;"> <img src="{{asset('/backend/img/logo.png')}}" alt="Vis-a-Vis"> </span>
                 <!-- END LOGO PLACEHOLDER -->
                 
+                {{ TableBuilder::fetchInformer() }}
+                
                 {{--
                 <!-- Note: The activity badge color changes when clicked and resets the number to 0
                 Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->

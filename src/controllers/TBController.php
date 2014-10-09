@@ -77,5 +77,30 @@ class TBController extends \Controller
         );
         return \Response::json($info);
     } // end doEmbedToText
+    
+    public function getInformNotification()
+    {
+        $index = \Input::get('index');
+        $informer = new Informer();
+        
+        $data = array(
+            'status' => true,
+            'html'   => $informer->getContentByIndex($index)
+        );
+        return \Response::json($data);
+    } // end getInformNotification
+    
+    public function getInformNotificationCounts()
+    {
+        $informer = new Informer();
+        list($total, $counts) = $informer->getCounts();
+        
+        $data = array(
+            'status' => true,
+            'total'  => $total,
+            'counts' => $counts,
+        );
+        return \Response::json($data);
+    } // end getInformNotificationCounts
 
 }

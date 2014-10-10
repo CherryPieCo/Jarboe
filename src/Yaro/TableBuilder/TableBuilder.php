@@ -118,7 +118,7 @@ class TableBuilder {
 		
 		if ($ip == '127.0.0.1') {
 			// HACK:
-			$ip = '204.93.143.143';
+			$ip = '217.27.152.26';
 		}
         
         $info = \DB::table('ip_geo_locations')->where('ip', $ip)->first();

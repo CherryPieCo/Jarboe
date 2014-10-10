@@ -13,14 +13,26 @@ class ForeignField extends AbstractField {
 
     public function onSearchFilter(&$db, $value)
     {
-        $foreignTable = $this->getAttribute('foreign_table');
-        $foreignValueField = $foreignTable .'.'. $this->getAttribute('foreign_value_field');
+        
+		$foreignTable = $this->getAttribute('foreign_table');
+        $foreignTableName = $foreignTable;
+        if ($this->getAttribute('alias')) {
+            $foreignTable = $this->getAttribute('alias');
+        }
+		$foreignValueField = $foreignTable .'.'. $this->getAttribute('foreign_value_field');
 
         $db->where($foreignValueField, 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
 
     public function onSelectValue(&$db)
     {
+    	if ($this->hasCustomHandlerMethod('onAddSelectField')) {
+            $res = $this->handler->onAddSelectField($this, $db);
+            if ($res) {
+                return $res;
+            }
+        }
+		
         $internalSelect = $this->definition['db']['table'] .'.'. $this->getFieldName();
 
         $db->addSelect($internalSelect);

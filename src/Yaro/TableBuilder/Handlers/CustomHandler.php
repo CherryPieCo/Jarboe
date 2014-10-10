@@ -36,6 +36,10 @@ abstract class CustomHandler
     public function onGetListValue($formField, array &$row)
     {
     } // end onGetListValue
+    
+    public function onSelectField($formField, &$db)
+    {
+    } // end onSelectField
 
     public function onPrepareSearchFilters(&$filters)
     {

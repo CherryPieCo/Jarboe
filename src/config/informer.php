@@ -7,12 +7,14 @@ return array(
         /*
         array(
             'caption' => 'hai',
-            'info' => function() {
-                return array(
-                    'count'   => '3',
-                    'content' => 'priv'
-                );
-            },
+            'info' => return array(
+                'count' => function() {
+                     return rand(0, 3);
+                 },
+                 'content' => function() {
+                     return 'oh hai!';
+                 },
+            ),
             'check' => function() {
                 return true;
             }

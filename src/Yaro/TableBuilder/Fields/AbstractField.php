@@ -188,6 +188,13 @@ abstract class AbstractField {
 
     public function onSelectValue(&$db)
     {
+    	if ($this->hasCustomHandlerMethod('onAddSelectField')) {
+            $res = $this->handler->onAddSelectField($this, $db);
+            if ($res) {
+                return $res;
+            }
+        }
+		
         $tabs = $this->getAttribute('tabs');
         if ($tabs) {
             foreach ($tabs as $tab) {

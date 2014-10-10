@@ -220,16 +220,20 @@ class QueryHandler {
         $this->_checkFields($insertData);
         
         if ($this->controller->hasCustomHandlerMethod('onInsertRowData')) {
-            $this->controller->getCustomHandler()->onInsertRowData($insertData);
+            $id = $this->controller->getCustomHandler()->onInsertRowData($insertData);
         }
-        $this->doValidate($insertData);
-        
-        $this->doPrependFilterValues($insertData);
-        
-        $id = $this->db->insertGetId($insertData);
-        
-        $this->onManyToManyValues($values, $id);
-
+		
+		if (!$id) {
+	        $this->doValidate($insertData);
+	        $this->doPrependFilterValues($insertData);
+	        $id = $this->db->insertGetId($insertData);
+		}
+		
+        // FIXME:
+        if (isset($values['many2many'])) {
+        	$this->onManyToManyValues($values, $id);
+		}
+		
         $res = array(
             'id'     => $id,
             'values' => $insertData
@@ -243,11 +247,8 @@ class QueryHandler {
     
     private function onManyToManyValues($values, $id)
     {
-        // FIXME:
-        if (isset($values['many2many'])) {
-            $field = $this->controller->getField('many2many');
-            $field->onPrepareRowValues($values['many2many'], $id);
-        }
+        $field = $this->controller->getField('many2many');
+        $field->onPrepareRowValues($values['many2many'], $id);
     } // end onManyToManyValues
     
     private function doValidate($values)

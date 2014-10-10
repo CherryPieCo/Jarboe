@@ -25,7 +25,7 @@ Suggestion: You may want to set a flag when this happens to tick off all checked
 
         <div class="alert alert-transparent">
             <h4>Выберите вкладку для получения информации</h4>
-            Это пустое сообщение служит для защиты вашей конфиденциальности.
+            Это пустое сообщение служит для защиты Вашей конфиденциальности.
         </div>
 
         <i class="fa fa-lock fa-4x fa-border"></i>
@@ -36,7 +36,7 @@ Suggestion: You may want to set a flag when this happens to tick off all checked
     <div id="default-lock-message" style="display:none;">
         <div class="alert alert-transparent">
             <h4>Выберите вкладку для получения информации</h4>
-            Это пустое сообщение служит для защиты вашей конфиденциальности.
+            Это пустое сообщение служит для защиты Вашей конфиденциальности.
         </div>
         <i class="fa fa-lock fa-4x fa-border"></i>
     </div>

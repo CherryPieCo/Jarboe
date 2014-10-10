@@ -20,7 +20,7 @@ class Informer
     {
         list($total, $tabs) = $this->getPreparedTabs();
         
-        return $tabs[$index]['info']['content'];
+        return $tabs[$index]['info']['content']();
     } // end getContentByIndex
     
     public function getCounts()
@@ -43,7 +43,7 @@ class Informer
         foreach ($tabs as $tab) {
             $isAllow = $tab['check'];
             if ($isAllow()) {
-                $tab['info'] = $tab['info']();
+                $tab['info']['count'] = $tab['info']['count']();
                 $total += $tab['info']['count'];
                 
                 $prepared[] = $tab;

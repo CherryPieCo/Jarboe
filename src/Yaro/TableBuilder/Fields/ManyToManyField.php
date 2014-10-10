@@ -38,6 +38,7 @@ class ManyToManyField extends AbstractField {
 
     public function onSelectValue(&$db)
     {
+    	// HACK: we dont need this method to be called for many2many field
     } // end onSelectValue
 
     public function getValue($row, $postfix = '')

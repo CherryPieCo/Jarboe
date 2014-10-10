@@ -24,6 +24,7 @@ class TableBuilderServiceProvider extends ServiceProvider {
 	{
 		$this->package('yaro/table-builder');
         
+        include __DIR__.'/../../helpers.php';
         //include __DIR__.'/../../filters.php';
         include __DIR__.'/../../routes.php';
         

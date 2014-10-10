@@ -115,6 +115,11 @@ class TableBuilder {
         if (!$ip) {
             $ip = \Request::getClientIp();
         }
+		
+		if ($ip == '127.0.0.1') {
+			// HACK:
+			$ip = '204.93.143.143';
+		}
         
         $info = \DB::table('ip_geo_locations')->where('ip', $ip)->first();
         if ($info) {

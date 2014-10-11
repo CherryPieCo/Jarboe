@@ -61,6 +61,25 @@ abstract class CustomHandler
     {
     } // end onDeleteRowResponse
     
+    public function handleDeleteRow($id)
+    {
+        /*
+        return array(
+            'id'     => $id,
+            'status' => true|false
+        );
+        */
+    } // end handleDeleteRow
+    
+    public function handleInsertRow($values)
+    {
+        /*
+        return array(
+            'id' => $idInsertedRow,
+        );
+        */
+    } // end handleInsertRow
+    
     public function onUpdateFastRowResponse(array &$response)
     {
     } // end onUpdateFastRowResponse
@@ -129,4 +148,16 @@ abstract class CustomHandler
         */
     } // end onPhotoUploadFromWysiwyg
     
+    
+    public function onInsertButtonFetch($def)
+    {
+    } // end onInsertButtonFetch
+    
+    public function onUpdateButtonFetch($def)
+    {
+    } // end onUpdateButtonFetch
+    
+    public function onDeleteButtonFetch($def)
+    {
+    } // end onDeleteButtonFetch
 }

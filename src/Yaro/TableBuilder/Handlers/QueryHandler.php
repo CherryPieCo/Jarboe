@@ -197,10 +197,17 @@ class QueryHandler {
             throw new \RuntimeException('Delete action is not permitted');
         }
         
+        if ($this->controller->hasCustomHandlerMethod('handleDeleteRow')) {
+            $res = $this->controller->getCustomHandler()->handleDeleteRow($id);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $res = $this->db->where('id', $id)->delete();
 
         $res = array(
-            'id' => $id,
+            'id'     => $id,
             'status' => $res
         );
         if ($this->controller->hasCustomHandlerMethod('onDeleteRowResponse')) {
@@ -214,6 +221,13 @@ class QueryHandler {
     {
         if (!$this->controller->actions->isAllowed('insert')) {
             throw new \RuntimeException('Insert action is not permitted');
+        }
+        
+        if ($this->controller->hasCustomHandlerMethod('handleInsertRow')) {
+            $res = $this->controller->getCustomHandler()->handleInsertRow($values);
+            if ($res) {
+                return $res;
+            }
         }
         
         $insertData = $this->_getRowQueryValues($values);
@@ -236,7 +250,7 @@ class QueryHandler {
 		
         $res = array(
             'id'     => $id,
-            'values' => $insertData
+            //'values' => $insertData
         );
         if ($this->controller->hasCustomHandlerMethod('onInsertRowResponse')) {
             $this->controller->getCustomHandler()->onInsertRowResponse($res);

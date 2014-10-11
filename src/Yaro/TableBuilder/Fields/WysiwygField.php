@@ -17,7 +17,7 @@ class WysiwygField extends AbstractField {
             }
         }
 		
-        return substr(strip_tags($this->getValue($row), 0, 300)) . '...';
+        return substr(strip_tags($this->getValue($row)), 0, 300) . '...';
     } // end getListValue
 
     public function onSearchFilter(&$db, $value)

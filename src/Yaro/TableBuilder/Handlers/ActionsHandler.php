@@ -6,10 +6,12 @@ class ActionsHandler
 {
     
     protected $def;
+    protected $controller;
 
-    public function __construct(array $actionsDefinition)
+    public function __construct(array $actionsDefinition, &$controller)
     {
         $this->def = $actionsDefinition;
+        $this->controller = $controller;
     } // end __construct
     
     public function fetch($type, $row = array(), $buttonDefinition = array())
@@ -51,6 +53,13 @@ class ActionsHandler
             return '';
         }
         
+        if ($this->controller->hasCustomHandlerMethod('onInsertButtonFetch')) {
+            $res = $this->controller->getCustomHandler()->onInsertButtonFetch($this->def['insert']);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $action = \View::make('admin::tb.action_insert');
         $action->def = $this->def['insert'];
         
@@ -61,6 +70,13 @@ class ActionsHandler
     {
         if (!$this->isAllowed('update')) {
             return '';
+        }
+        
+        if ($this->controller->hasCustomHandlerMethod('onUpdateButtonFetch')) {
+            $res = $this->controller->getCustomHandler()->onUpdateButtonFetch($this->def['update']);
+            if ($res) {
+                return $res;
+            }
         }
         
         $action = \View::make('admin::tb.action_update');
@@ -76,6 +92,13 @@ class ActionsHandler
             return '';
         }
         
+        if ($this->controller->hasCustomHandlerMethod('onDeleteButtonFetch')) {
+            $res = $this->controller->getCustomHandler()->onDeleteButtonFetch($this->def['delete']);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $action = \View::make('admin::tb.action_delete');
         $action->row = $row;
         $action->def = $this->def['delete'];
@@ -85,9 +108,12 @@ class ActionsHandler
     
     public function isAllowed($type, $buttonDefinition = array())
     {
-        $def = $buttonDefinition ? $buttonDefinition : $this->def[$type];
+        $def = isset($this->def[$type]) ? $this->def[$type] : false;
+        if ($buttonDefinition) {
+            $def = $buttonDefinition;
+        }
         
-        if (isset($def)) {
+        if ($def) {
             if (array_key_exists('check', $def)) {
                 return $def['check']();
             }

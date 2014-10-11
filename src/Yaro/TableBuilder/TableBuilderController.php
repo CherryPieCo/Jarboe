@@ -32,7 +32,7 @@ class TableBuilderController {
         $this->handler = $this->createCustomHandlerInstance();
         $this->fields  = $this->loadFields();
 
-        $this->actions = new ActionsHandler($this->definition['actions']);
+        $this->actions = new ActionsHandler($this->definition['actions'], $this);
         $this->query   = new QueryHandler($this);
         $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);

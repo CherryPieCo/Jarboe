@@ -2,9 +2,10 @@
 
 namespace Yaro\TableBuilder;
 
-use Cartalyst\Sentry\Users\UserExistsException,
-    Cartalyst\Sentry\Users\WrongPasswordException,
-    Cartalyst\Sentry\Users\UserNotFoundException;
+use Cartalyst\Sentry\Users\UserExistsException;
+use Cartalyst\Sentry\Users\WrongPasswordException;
+use Cartalyst\Sentry\Users\UserNotFoundException;
+
 
 class TBUsersController extends \Controller
 {
@@ -12,28 +13,117 @@ class TBUsersController extends \Controller
     public function showUsers()
     {
         $users  = \Sentry::findAllUsers();
-        $fields = \Config::get('table-builder::users.fields');
         
-        return \View::make('admin::users.users_list', compact('users', 'fields'));
+        return \View::make('admin::users.users_list', compact('users'));
     } // end showUsers
     
     public function showEditUser($id)
     {
-        $user   = \Sentry::findUserById($id);
-        $fields = \Config::get('table-builder::users.fields');
+        $isAllow = \Config::get('table-builder::users.check.users.update');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
         
-        return \View::make('admin::users.users_edit', compact('user', 'fields'));
+        $user   = \Sentry::findUserById($id);
+        $groups = \Sentry::findAllGroups();
+        $userPermissions = $user->getPermissions();
+        
+        $userGroups = array();
+        foreach ($user->getGroups() as $group) {
+            $userGroups[] = $group->name;
+        }
+        
+        
+        $data = compact('user', 'userGroups', 'groups', 'userPermissions');
+        return \View::make('admin::users.users_edit', $data);
     } // end showEditUser
+    
+    public function showEditGroup($id)
+    {
+        $isAllow = \Config::get('table-builder::users.check.groups.update');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
+        $group = \Sentry::findGroupById($id);
+        $groupPermissions = $group->getPermissions();
+        
+        return \View::make('admin::users.groups_edit', compact('group', 'groupPermissions'));
+    } // end showEditGroup
     
     public function showCreateUser()
     {
-        $fields = \Config::get('table-builder::users.fields');
+        $isAllow = \Config::get('table-builder::users.check.users.create');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
         
-        return \View::make('admin::users.users_create', compact('fields'));
+        $groups = \Sentry::findAllGroups();
+        
+        return \View::make('admin::users.users_create', compact('groups'));
     } // end showCreateUser
+    
+    public function showCreateGroup()
+    {
+        $isAllow = \Config::get('table-builder::users.check.groups.create');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
+        return \View::make('admin::users.groups_create');
+    } // end showCreateGroup
+    
+    public function doCreateGroup()
+    {
+        $isAllow = \Config::get('table-builder::users.check.groups.create');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
+        $permissions = $this->getPermissions(\Input::get('permissions', array()));
+        $total = 0;
+        $perms = \Config::get('table-builder::users.permissions', array());
+        foreach ($perms as $perm) {
+            $total += count($perm['rights']);
+        }
+        
+        if ($total != count($permissions) || !\Input::get('name')) {
+            return \Response::json(array(
+                'status' => false,
+                'errors' => array(
+                    'Необходимо заполнить все поля'
+                )
+            ));
+        }
+        
+        try {
+            $group = \Sentry::createGroup(array(
+                'name'        => \Input::get('name'),
+                'permissions' => $permissions,
+            ));
+            $data = array(
+                'status' => true,
+                'id'     => $group->id,
+            );
+        } catch (Cartalyst\Sentry\Groups\GroupExistsException $e) {
+            $data = array(
+                'status' => false,
+                'errors' => array(
+                    'Группа уже существует'
+                )
+            );
+        }
+        
+        return \Response::json($data);
+    } // end doCreateGroup
     
     public function doDeleteUser()
     {
+        $isAllow = \Config::get('table-builder::users.check.users.delete');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
         $user = \Sentry::findUserById(\Input::get('id'));
         $user->delete();
         
@@ -44,6 +134,11 @@ class TBUsersController extends \Controller
     
     public function doCreateUser()
     {
+        $isAllow = \Config::get('table-builder::users.check.users.create');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
         $email     = \Input::get('email');
         $password  = \Input::get('password');
         $firstName = \Input::get('first_name');
@@ -75,34 +170,26 @@ class TBUsersController extends \Controller
         }
 
         try {
+            $permissions = $this->getPermissions(\Input::get('permissions', array()));
             $user = \Sentry::createUser(array(
                 'email'         => $email,
                 'password'      => $password,
                 'first_name'    => $firstName,
                 'last_name'     => $lastName,
                 'activated'     => $isActivated,
-                'is_subscribed' => $isSubscribed
+                'is_subscribed' => $isSubscribed,
+                'permissions'   => $permissions,
             ));
             
 			if (\Input::file('image', false)) {
 				$data = $this->onUploadImage($user, \Input::file('image'));
             	$user->image = $data['short_link'];
 			}
-            
             $user->save();
             
-            /*
-            $activationCode = $user->getActivationCode();
+            $groupIDs = array_keys(\Input::get('groups', array()));
+            $this->onAddGroupToUser($user, $groupIDs);
 
-            $mailData = array(
-                'user' => array(
-                    'full_name' => $user->getFullName()
-                ),
-                'link' => URL::to('/') . '/activate/' . $activationCode
-            );
-
-            MailTemplate::ident('activate_user')->send($email, $mailData);
-            */
             return \Response::json(array(
                 'status' => true,
                 'id'     => $user->id,
@@ -117,6 +204,33 @@ class TBUsersController extends \Controller
             return \Response::json($data);
         }
     } // end doCreateUser
+    
+    private function onAddGroupToUser($user, $groupIDs)
+    {
+        $allGroups = \Sentry::findAllGroups();
+        foreach ($allGroups as $group) {
+            $flushGroup = \Sentry::findGroupById($group->id);
+            $user->removeGroup($flushGroup);
+        }
+        
+        foreach ($groupIDs as $id) {
+            $group = \Sentry::findGroupById($id);
+            $user->addGroup($group);
+        }
+    } // end onAddGroupToUser
+    
+    private function getPermissions($perms)
+    {
+        $prepared = array();
+        foreach ($perms as $ident => $permissions) {
+            foreach ($permissions as $type => $permission) {
+                $permIdent = $ident .'.'. $type;
+                $prepared[$permIdent] = $permission;
+            }
+        }
+        
+        return $prepared;
+    } // end getPermissions
     
     public function doUploadImage()
     {
@@ -149,6 +263,11 @@ class TBUsersController extends \Controller
     
     public function doUpdateUser()
     {
+        $isAllow = \Config::get('table-builder::users.check.users.update');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
         $user = \Sentry::findUserById(\Input::get('id'));
         
         $validator = \Validator::make(
@@ -184,6 +303,11 @@ class TBUsersController extends \Controller
         $user->is_subscribed = \Input::has('is_subscribed');
         $user->activated     = \Input::has('activated');
         
+        $user->permissions = $this->getPermissions(\Input::get('permissions', array()));
+        
+        $groupIDs = array_keys(\Input::get('groups', array()));
+        $this->onAddGroupToUser($user, $groupIDs);
+        
         $user->save();
         
         $data = array(
@@ -191,6 +315,42 @@ class TBUsersController extends \Controller
         );
         return \Response::json($data);
     } // end doUpdateUser
+        
+    public function doUpdateGroup()
+    {
+        $isAllow = \Config::get('table-builder::users.check.groups.update');
+        if (!$isAllow()) {
+            \App::abort(404);
+        }
+        
+        $permissions = $this->getPermissions(\Input::get('permissions', array()));
+        $total = 0;
+        $perms = \Config::get('table-builder::users.permissions', array());
+        foreach ($perms as $perm) {
+            $total += count($perm['rights']);
+        }
+        
+        if ($total != count($permissions) || !\Input::get('name')) {
+            return \Response::json(array(
+                'status' => false,
+                'errors' => array(
+                    'Необходимо заполнить все поля'
+                )
+            ));
+        }
+        
+        $group = \Sentry::findGroupById(\Input::get('id'));
+        
+        $group->permissions = $permissions;
+        $group->name = \Input::get('name');
+        
+        $group->save();
+        
+        $data = array(
+            'status' => true,
+        );
+        return \Response::json($data);
+    } // end doUpdateGroup
         
     private function getPathByID($id)
     {

@@ -14,24 +14,24 @@ var TableBuilder = {
     create_form: '#create_form',
     edit_form: '#edit_form',
     filter: '#filters-row :input',
-    
+
     onDoEdit: null,
     onDoCreate: null,
 
     init: function(options)
     {
         TableBuilder.options = TableBuilder.getOptions(options);
-        
+
         TableBuilder.initDoubleClickEditor();
         TableBuilder.initSearchOnEnterPressed();
     }, // end init    
-    
+
     initSearchOnEnterPressed: function()
     {
         jQuery('.filters-row input').keypress(function(event) {
             var keyCode   = event.keyCode ? event.keyCode : event.which;
             var enterCode = '13';
-            
+
             if (keyCode == enterCode) {
                 TableBuilder.search();
             }
@@ -49,19 +49,19 @@ var TableBuilder = {
             onFastEditResponse: null,
             onShowEditFormResponse: null,
         };
-        
+
         var options = jQuery.extend(defaultOptions, options);
         TableBuilder.checkOptions(options);
-        
+
         return options;
     }, // end getOptions
 
     checkOptions: function(options)
     {
         var requiredOptions = [
-            'ident', 
-            'table_ident', 
-            'form_ident', 
+            'ident',
+            'table_ident',
+            'form_ident',
             'action_url'
         ];
 
@@ -76,7 +76,7 @@ var TableBuilder = {
         if (typeof TableBuilder.options.lang[ident] != "undefined") {
             return TableBuilder.options.lang[ident];
         }
-        
+
         return ident;
     }, // end lang
 
@@ -88,7 +88,7 @@ var TableBuilder = {
 
         var data = $form.serializeArray();
         data.push({ name: "query_type", value: "search" });
-        
+
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         data = data.concat(
             $form.find('input[type=checkbox]:not(:checked)')
@@ -102,23 +102,23 @@ var TableBuilder = {
         $posting.done(function(response) {
             window.location.replace(response.url);
             /*
-            TableBuilder.hideProgressBar();
+             TableBuilder.hideProgressBar();
 
-            $form.find('tbody')
-                .fadeOut("fast")
-                .html(response.tbody)
-                .fadeIn("fast");
+             $form.find('tbody')
+             .fadeOut("fast")
+             .html(response.tbody)
+             .fadeIn("fast");
 
-            $form.find('.tb-pagination')
-                .fadeOut("fast")
-                .html(response.pagination)
-                .fadeIn("fast");
+             $form.find('.tb-pagination')
+             .fadeOut("fast")
+             .html(response.pagination)
+             .fadeIn("fast");
 
-            if (jQuery.isFunction(TableBuilder.options.onSearchResponse)) {
-                TableBuilder.options.onSearchResponse(response);
-            }
-            TableBuilder.initDoubleClickEditor();
-            */
+             if (jQuery.isFunction(TableBuilder.options.onSearchResponse)) {
+             TableBuilder.options.onSearchResponse(response);
+             }
+             TableBuilder.initDoubleClickEditor();
+             */
         });
 
     }, // end search
@@ -196,7 +196,7 @@ var TableBuilder = {
             {name: "value", value: value}
         ];
 
-        
+
         var $posting = jQuery.post(TableBuilder.options.action_url, data);
 
         $posting.done(function(response) {
@@ -234,11 +234,11 @@ var TableBuilder = {
                         .promise()
                         .done(function() {
                             TableBuilder.hideProgressBar();
-                    });
-            });
+                        });
+                });
         });
     }, // end showEditForm
-    
+
     getCreateForm: function()
     {
         TableBuilder.showPreloader();
@@ -249,7 +249,7 @@ var TableBuilder = {
 
         TableBuilder.hidePreloader();
     }, // end getCreateForm
-    
+
     getEditForm: function(id, context)
     {
         TableBuilder.showPreloader();
@@ -261,21 +261,21 @@ var TableBuilder = {
             data: { id: id, query_type: "show_edit_form" },
             dataType: 'json',
             success: function(response) {
-            console.log('edit form');
+                console.log('edit form');
 //modal_wrapper
                 if (response.status) {
                     jQuery(TableBuilder.form_wrapper).html(response.html);
 
                     //jQuery(TableBuilder.form_label).text('Edit');
-                    
+
                     jQuery(TableBuilder.form_edit).modal('show');
                     jQuery(TableBuilder.form_edit).find('input[data-mask]').each(function() {
                         var $input = jQuery(this);
                         $input.mask($input.attr('data-mask'));
                     });
-                    
+
                     jQuery(context).parent().parent().attr('data-editing', 'true');
-                    
+
                     TableBuilder.initSummernoteFullscreen();
                 } else {
                     jQuery.smallBox({
@@ -291,7 +291,7 @@ var TableBuilder = {
             }
         });
     }, // end getEditForm
-    
+
     initSummernoteFullscreen: function()
     {
         jQuery('[data-event="fullscreen"]').click(function(){
@@ -310,9 +310,9 @@ var TableBuilder = {
                     .show("slide", { direction: "right" }, 500)
                     .promise()
                     .done(function() {
-                    TableBuilder.hideProgressBar();
-                });
-        });
+                        TableBuilder.hideProgressBar();
+                    });
+            });
     }, // end closeEditForm
 
     saveEditForm: function()
@@ -323,7 +323,7 @@ var TableBuilder = {
 
         var data = $form.serializeArray();
         data.push({ name: "query_type", value: "save_edit_form" });
-        
+
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         data = data.concat(
             $form.find('input[type=checkbox]:not(:checked)')
@@ -363,8 +363,8 @@ var TableBuilder = {
                         .promise()
                         .done(function() {
                             TableBuilder.hideProgressBar();
-                    });
-            });
+                        });
+                });
         });
     }, // end insert
 
@@ -376,7 +376,7 @@ var TableBuilder = {
 
         var data = $form.serializeArray();
         data.push({ name: "query_type", value: "save_add_form" });
-        
+
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         data = data.concat(
             $form.find('input[type=checkbox]:not(:checked)')
@@ -414,10 +414,10 @@ var TableBuilder = {
                 .promise()
                 .done(function() {
                     TableBuilder.hideProgressBar();
-            });
+                });
         });
     }, // end delete
-    
+
     doDelete: function(id, context)
     {
         jQuery.SmartMessageBox({
@@ -464,7 +464,7 @@ var TableBuilder = {
 
         });
     }, // end doDelete
-    
+
     doEdit: function(id)
     {
         TableBuilder.showPreloader();
@@ -473,12 +473,12 @@ var TableBuilder = {
         var values = jQuery(TableBuilder.edit_form).serializeArray();
         values.push({ name: 'id', value: id });
         values.push({ name: 'query_type', value: "save_edit_form" });
-        
+
         // FIXME:
         if (TableBuilder.onDoEdit) {
             values = TableBuilder.onDoEdit(values);
         }
-        
+
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         values = values.concat(
             jQuery(TableBuilder.edit_form).find('input[type=checkbox]:not(:checked)')
@@ -486,8 +486,7 @@ var TableBuilder = {
                     return {"name": this.name, "value": 0};
                 }).get()
         );
-        console.log(values);
-        
+
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.options.action_url,
@@ -511,19 +510,19 @@ var TableBuilder = {
                     });
                 } else {
                     /*
-                    jQuery.smallBox({
-                        title : response.error, // "Что-то пошло не так, попробуйте позже"
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
-                    */
+                     jQuery.smallBox({
+                     title : response.error, // "Что-то пошло не так, попробуйте позже"
+                     content : "",
+                     color : "#C46A69",
+                     iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                     timeout : 4000
+                     });
+                     */
                     var errors = '';
                     jQuery(response.errors).each(function(key, val) {
                         errors += val +'<br>';
                     });
-                    
+
                     jQuery.bigBox({
                         //title : "Big Information box",
                         content : errors,
@@ -549,7 +548,7 @@ var TableBuilder = {
         jQuery('textarea', context).text('');
         jQuery('div[id$="-wysiwyg"]', context).code('');
     }, // end removeInputValues
-    
+
     doCreate: function()
     {
         TableBuilder.showPreloader();
@@ -557,12 +556,12 @@ var TableBuilder = {
 
         var values = jQuery(TableBuilder.create_form).serializeArray();
         values.push({ name: "query_type", value: "save_add_form" });
-        
+
         // FIXME:
         if (TableBuilder.onDoCreate) {
             values = TableBuilder.onDoCreate(values);
         }
-        
+
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         values = values.concat(
             jQuery(TableBuilder.create_form).find('input[type=checkbox]:not(:checked)')
@@ -570,7 +569,7 @@ var TableBuilder = {
                     return {"name": this.name, "value": 0};
                 }).get()
         );
-        
+
         console.log(values);
         jQuery.ajax({
             type: "POST",
@@ -607,7 +606,7 @@ var TableBuilder = {
             }
         });
     }, // end doCreate
-    
+
     showPreloader: function()
     {
         jQuery(TableBuilder.preloader).show();
@@ -627,13 +626,13 @@ var TableBuilder = {
     {
         jQuery(TableBuilder.form_preloader, context).hide();
     }, // end hidePreloader
-    
+
     uploadImage: function(context)
     {
         var data = new FormData();
         data.append("image", context.files[0]);
         data.append('query_type', 'upload_photo');
-        
+
         jQuery.ajax({
             data: data,
             type: "POST",
@@ -644,7 +643,7 @@ var TableBuilder = {
             success: function(response) {
                 if (response.status) {
                     jQuery(context).parent().next().val(response.short_link);
-                    
+
                     var html = '<img height="80px" src="'+ response.link +'" />';
                     jQuery(context).parent().parent().next().html(html);
                 } else {
@@ -659,13 +658,13 @@ var TableBuilder = {
             }
         });
     }, // end uploadImage 
-       
+
     uploadMultipleImages: function(context, delimiter)
     {
         var data = new FormData();
         data.append("image", context.files[0]);
         data.append('query_type', 'upload_photo');
-        
+
         jQuery.ajax({
             data: data,
             type: "POST",
@@ -677,26 +676,26 @@ var TableBuilder = {
                 if (response.status) {
                     var $input = jQuery(context).parent().next();
                     var value = $input.val();
-                    
+
                     if (!!value) {
                         value += delimiter + response.short_link;
                     } else {
                         value = response.short_link;
                     }
                     $input.val(value);
-                    
+
                     var html = '';
                     html += '<li>';
                     html += '<img src="'+ response.link +'" />';
                     html += '<div class="tb-btn-delete-wrap">';
                     html +=   '<button class="btn btn-default btn-sm tb-btn-image-delete" '
                     html +=         'type="button" '
-                    html +=         "onclick=\"TableBuilder.deleteImage('"+encodeURIComponent(response.short_link)+"','"+response.delimiter+"', this);\">"       
+                    html +=         "onclick=\"TableBuilder.deleteImage('"+encodeURIComponent(response.short_link)+"','"+response.delimiter+"', this);\">"
                     html +=     '<i class="fa fa-times"></i>'
                     html += '</button>'
                     html += '</div>';
                     html += '</li>';
-                    
+
                     jQuery(context).parent().parent().next().children().append(html);
                 } else {
                     jQuery.smallBox({
@@ -710,20 +709,20 @@ var TableBuilder = {
             }
         });
     }, // end uploadMultipleImages
-    
+
     deleteImage: function(link, delimiter, context)
     {
         // XXX: 
         var $li = jQuery(context).parent().parent();
         $li.hide();
-        
+
         var $section = $li.parent().parent().parent();
         var input = $section.children().children()[1];
         var $input = jQuery(input);
         var values = $input.val();console.log(values);
-        
+
         var arr = values.split(',');console.log(arr);
-        
+
         var index = jQuery.inArray(decodeURIComponent(link), arr);console.log(decodeURIComponent(link));
         if (~index) {
             arr.splice(index, 1);
@@ -731,17 +730,17 @@ var TableBuilder = {
         var newValue = arr.join(delimiter);console.log(newValue);
         $input.val(newValue);
     }, // end deleteImage
-    
+
     uploadImageFromWysiwygSummertime: function(files, editor, $editable)
     {
         if (files.length < 1) {
             return;
         }
-        
+
         var data = new FormData();
         data.append("image", files[0]);
         data.append('query_type', 'upload_photo_wysiwyg');
-        
+
         jQuery.ajax({
             data: data,
             type: "POST",
@@ -764,22 +763,22 @@ var TableBuilder = {
             }
         });
     }, // end uploadImageFromWysiwygSummertime
-    
+
     doChangeSortingDirection: function(ident, context)
     {
         TableBuilder.showPreloader();
-        
+
         var $context = jQuery(context);
-        
+
         var isAscDirection = $context.hasClass('sorting_asc');
         var direction = isAscDirection ? 'desc' : 'asc';
-        
+
         var vals = [
             {name: "query_type", value: "change_direction"},
             {name: "direction", value: direction},
             {name: "field", value: ident}
         ];
-        
+
         jQuery.ajax({
             data: vals,
             type: "POST",
@@ -792,15 +791,15 @@ var TableBuilder = {
             }
         });
     }, // end doChangeSortingDirection
-    
-        
+
+
     uploadFile: function(context, ident)
     {
         var data = new FormData();
         data.append("file", context.files[0]);
         data.append('query_type', 'upload_file');
         data.append('ident', ident);
-        
+
         jQuery.ajax({
             data: data,
             type: "POST",
@@ -811,7 +810,7 @@ var TableBuilder = {
             success: function(response) {
                 if (response.status) {
                     jQuery(context).parent().next().val(response.short_link);
-                    
+
                     var html = '<a href="'+ response.link +'" target="_blank">Скачать</a>';
                     jQuery(context).parent().parent().next().html(html);
                 } else {
@@ -820,7 +819,7 @@ var TableBuilder = {
             }
         });
     }, // end uploadFile 
-    
+
     showErrorNotification: function(message)
     {
         jQuery.smallBox({
@@ -831,7 +830,7 @@ var TableBuilder = {
             timeout : 4000
         });
     }, // end showErrorNotification
-    
+
     doEmbedToText: function($summernote)
     {
         jQuery.ajax({
@@ -849,7 +848,22 @@ var TableBuilder = {
                 }
             }
         });
-    } // end doEmbedToText
+    }, // end doEmbedToText
+    
+    setPerPageAmount: function(perPage)
+    {
+        TableBuilder.showProgressBar();
+
+        var data = {
+            query_type: "set_per_page",
+            per_page: perPage
+        };
+
+        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        $posting.done(function(response) {
+            window.location.replace(response.url);
+        });
+    }, // end setPerPageAmount
 
 };
 

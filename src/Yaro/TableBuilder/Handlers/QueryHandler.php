@@ -178,7 +178,10 @@ class QueryHandler {
         
         $status = $this->db->where('id', $values['id'])->update($updateData);
         
-        $this->onManyToManyValues($values, $values['id']);
+        // FIXME:
+        if (isset($values['many2many'])) {
+            $this->onManyToManyValues($values, $values['id']);
+        }
 	
         $res = array(
             'id'     => $values['id'],

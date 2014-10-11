@@ -85,7 +85,9 @@
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/ZeroClipboard.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/media/js/TableTools.min.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/DT_bootstrap.js')}}"></script>
-<script src="{{asset('backend/js/plugin/jquery-nestable/jquery.nestable.min.js')}}"></script>
+<script src="{{asset('packages/yaro/table-builder/js/plugin/jquery-nestable/jquery.nestable.min.js')}}"></script>
+<script src="{{asset('packages/yaro/table-builder/js/plugin/x-editable/moment.min.js')}}"></script>
+<script src="{{asset('packages/yaro/table-builder/js/plugin/x-editable/x-editable.min.js')}}"></script>
 {{--
 <script src="{{asset('packages/yaro/table-builder/js/table.js')}}"></script>
 --}}

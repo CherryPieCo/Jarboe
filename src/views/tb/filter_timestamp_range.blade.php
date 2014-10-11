@@ -11,7 +11,7 @@
 </span>
 </div>
 
-<div style="margin: 8px 20px 0; float:left;"><i class="fa fa-minus"></i></div>
+<div style="margin: 10px 20px; float:left;"><i class="fa fa-minus"></i></div>
 
 <div style="position: relative; width: 45%; float:left;">
 <input type="text" 

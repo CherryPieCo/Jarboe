@@ -60,12 +60,30 @@ class QueryHandler {
 
         if ($this->hasOptionDB('pagination')) {
             $pagination = $this->getOptionDB('pagination');
-            $paginator = $this->db->paginate($pagination['per_page']);
+            $perPage = $this->getPerPageAmount($pagination['per_page']);
+            $paginator = $this->db->paginate($perPage);
             $paginator->setBaseUrl($pagination['uri']);
             return $paginator;
         }
         return $this->db->get();
     } // end getRows
+    
+    private function getPerPageAmount($info)
+    {
+        if (!is_array($info)) {
+            return $info;
+        }
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.per_page';
+        $perPage = Session::get($sessionPath);
+        if (!$perPage) {
+            $keys = array_keys($perPageAmounts);
+            $perPage = $keys[0];
+        }
+        
+        return $perPage;
+    } // end getPerPageAmount
     
     protected function prepareFilterValues()
     {

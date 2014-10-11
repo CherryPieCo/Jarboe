@@ -24,6 +24,10 @@ class RequestHandler {
             case 'search':
                 return $this->handleSearchAction();
                 break;
+                
+            case 'set_per_page':
+                return $this->handleSetPerPageAmountAction();
+                break;
 
             case 'fast_save':
                 return $this->handleFastSaveAction();
@@ -66,6 +70,20 @@ class RequestHandler {
                 break;
         }
     } // end handle
+    
+    protected function handleSetPerPageAmountAction()
+    {
+        $perPage = Input::get('per_page');
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.per_page';
+        Session::put($sessionPath, $perPage);
+        
+        $response = array(
+            'url' => $this->controller->getOption('url')
+        );
+        return Response::json($response);
+    } // end handleSetPerPageAmountAction
     
     protected function handleChangeDirection()
     {

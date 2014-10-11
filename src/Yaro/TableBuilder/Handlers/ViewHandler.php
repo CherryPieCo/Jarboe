@@ -21,6 +21,10 @@ class ViewHandler {
         $table->def  = $this->controller->getDefinition();
         $table->rows = $this->controller->query->getRows();
         $table->controller = $this->controller;
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.per_page';
+        $table->per_page = Session::get($sessionPath);
 
         return $table;
     } // end showList

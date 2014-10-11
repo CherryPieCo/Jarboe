@@ -9,22 +9,23 @@
     <div class="col-sm-8 text-right">
         <div class="dataTables_paginate paging_bootstrap_full">
             {{$rows->links()}}
+            
+            @if (is_array($def['db']['pagination']['per_page']))
+                @include('admin::tb.pagination_show_amount')
+            @endif
         </div>
     </div>
 </div>
 
+
 {{--
     
 <div class="tb-pagination">
-    <div>
-        
-    </div>
     <div class="tb-pagination-inner fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
         {{ $rows->links() }}
     </div>
 </div>
     
---}}
 
 <!--
 <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
@@ -43,3 +44,5 @@
 </div>
 </div>
 -->
+
+--}}

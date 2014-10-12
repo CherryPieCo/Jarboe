@@ -78,7 +78,7 @@ class QueryHandler {
         $sessionPath = 'table_builder.'.$definitionName.'.per_page';
         $perPage = Session::get($sessionPath);
         if (!$perPage) {
-            $keys = array_keys($perPageAmounts);
+            $keys = array_keys($info);
             $perPage = $keys[0];
         }
         

@@ -200,7 +200,7 @@ class QueryHandler {
         if (isset($values['many2many'])) {
             $this->onManyToManyValues($values, $values['id']);
         }
-	
+    
         $res = array(
             'id'     => $values['id'],
             'values' => $updateData
@@ -254,23 +254,24 @@ class QueryHandler {
         $insertData = $this->_getRowQueryValues($values);
         $this->_checkFields($insertData);
         
+		$id = false;
         if ($this->controller->hasCustomHandlerMethod('onInsertRowData')) {
             $id = $this->controller->getCustomHandler()->onInsertRowData($insertData);
         }
-		
-		if (!$id) {
-	        $this->doValidate($insertData);
-	        $this->doPrependFilterValues($insertData);
-	        $id = $this->db->insertGetId($insertData);
-		}
-		
+        
+        if (!$id) {
+            $this->doValidate($insertData);
+            $this->doPrependFilterValues($insertData);
+            $id = $this->db->insertGetId($insertData);
+        }
+        
         // FIXME:
         if (isset($values['many2many'])) {
-        	$this->onManyToManyValues($values, $id);
-		}
-		
+            $this->onManyToManyValues($values, $id);
+        }
+        
         $res = array(
-            'id'     => $id,
+            'id' => $id,
             //'values' => $insertData
         );
         if ($this->controller->hasCustomHandlerMethod('onInsertRowResponse')) {

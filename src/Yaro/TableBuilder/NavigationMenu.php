@@ -78,7 +78,7 @@ class NavigationMenu
             if (\Request::URL() == $menuLink) {
                 $isAllowed = $item['check'];
                 if (!$isAllowed()) {
-                    App::abort(404);
+                    \App::abort(404);
                 }
             }
         }

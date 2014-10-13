@@ -20,7 +20,7 @@
 </div>
 
 <script type="text/javascript">
-jQuery(document).ready(function() {
+//jQuery(document).ready(function() {
     TableBuilder.init({
         ident: '{{ $def['options']['ident'] }}',
         table_ident: '{{ $def['options']['table_ident'] }}',
@@ -31,5 +31,5 @@ jQuery(document).ready(function() {
         },
     });
     TableBuilder.admin_prefix = '{{ $def['options']['admin_uri'] }}';
-});
+//});
 </script>

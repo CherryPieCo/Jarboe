@@ -49,11 +49,12 @@
 
 {{--
 <script src="{{asset('packages/yaro/table-builder/js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
-
+--}}
 
 <!-- JQUERY SELECT2 INPUT -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/select2/select2.min.js')}}"></script>
 
+{{--
 <!-- JQUERY UI + Bootstrap Slider -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/bootstrap-slider/bootstrap-slider.min.js')}}"></script>
 

@@ -2,3 +2,17 @@
 .note-editor.codeview .note-codable {
     background-color: #222;
 }
+
+/* select2 */
+div.select2-drop {
+    z-index: 99999;
+}
+.select2-container-multi a.select2-search-choice-close {
+    padding: 0;
+    text-align: center;
+}
+a.select2-search-choice-close:before {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}

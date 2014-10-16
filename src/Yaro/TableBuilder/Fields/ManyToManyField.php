@@ -24,10 +24,13 @@ class ManyToManyField extends AbstractField {
           
         $data = array();
         $values = array_filter($values);
-        foreach ($values as $idExternal => $val) {
+        // HACK: in checkbox we have id as key of element, in select - as value
+        $isInValueElement = ($this->getAttribute('show_type', 'checkbox') == 'select2');
+        foreach ($values as $key => $val) {
+        	$externalID = $isInValueElement ? $val : $key;
             $data[] = array(
-                $this->getAttribute('mtm_key_field') => $id,
-                $this->getAttribute('mtm_external_key_field') => $idExternal
+                $this->getAttribute('mtm_key_field')          => $id,
+                $this->getAttribute('mtm_external_key_field') => $externalID
             );
         }
         
@@ -65,17 +68,18 @@ class ManyToManyField extends AbstractField {
             }
         }
 
-        $input = View::make('admin::tb.input_many2many');
+		$showType = $this->getAttribute('show_type', 'checkbox');
+        $input = View::make('admin::tb.input_many2many_'. $showType);
         $input->selected = array();
         if ($row) {
             $input->selected = $this->getRelatedExternalFieldOptions($row);
         }
         
         $input->name    = $this->getFieldName();
-        $input->divide  = $this->getAttribute('divide_columns');
+        $input->divide  = $this->getAttribute('divide_columns', 2);
         $input->options = $this->doDivideOnParts(
             $this->getAllExternalFieldOptions(), 
-            $this->getAttribute('divide_columns')
+            $this->getAttribute('divide_columns', 2)
         );
 
         return $input->render();

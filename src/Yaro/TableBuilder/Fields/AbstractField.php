@@ -49,9 +49,9 @@ abstract class AbstractField {
         return $this->options[$ident];
     } // end getOption
 
-    public function getAttribute($ident)
+    public function getAttribute($ident, $default = false)
     {
-        return isset($this->attributes[$ident]) ? $this->attributes[$ident] : false;
+        return isset($this->attributes[$ident]) ? $this->attributes[$ident] : $default;
     } // end getAttribute
     
     public function isHidden()

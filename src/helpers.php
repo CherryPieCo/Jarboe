@@ -35,3 +35,34 @@ if (!function_exists('dr'))
         die(print_r($array));
     } // end dr
 }
+
+if (!function_exists('cartesian'))
+{
+    function cartesian($arr, $isElementsDuplicated = false) 
+    {
+        $variant = array();
+        $result  = array();
+        $arrayCount = sizeof($arr);
+        
+            function recurseIt($arr, $variant, $level, $result, $arrayCount, $isElementsDuplicated) {
+                $level++;
+                if ($level < $arrayCount) {
+                    foreach ($arr[$level] as $val) {
+                        $variant[$level] = $val;
+                        $result = recurseIt($arr, $variant, $level, $result, $arrayCount, $isElementsDuplicated);
+                    }
+                } else {
+                    if (!$isElementsDuplicated) {
+                        $result[] = $variant;
+                    } else {
+                        if (sizeof(array_flip(array_flip($variant))) == $arrayCount) {
+                            $result[] = $variant;
+                        }
+                    }
+                }        
+                return $result;
+            }
+        
+        return recurseIt($arr, $variant, -1, $result, $arrayCount, $isElementsDuplicated);
+    } // end cartesian
+}

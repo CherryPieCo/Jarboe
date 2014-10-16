@@ -29,23 +29,23 @@
                     <div class="well no-padding">
                         <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post">
                             <header>
-                                Sign In
+                                {{trans('table-builder::login.sign_in')}}
                             </header>
 
                             <fieldset>
                                 
                                 <section>
-                                    <label class="label">E-mail</label>
+                                    <label class="label">{{trans('table-builder::login.email')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="email" name="email">
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address</b></label>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{trans('table-builder::login.email_tooltip')}}</b></label>
                                 </section>
 
                                 <section>
-                                    <label class="label">Password</label>
+                                    <label class="label">{{trans('table-builder::login.password')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
                                         <input type="password" name="password">
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{trans('table-builder::login.password_tooltip')}}</b> </label>
                                     
                                     {{--
                                     <div class="note">
@@ -57,12 +57,12 @@
                                 <section>
                                     <label class="checkbox">
                                         <input type="checkbox" name="remember">
-                                        <i></i>Stay signed in</label>
+                                        <i></i>{{trans('table-builder::login.remember_me')}}</label>
                                 </section>
                             </fieldset>
                             <footer>
                                 <button type="submit" class="btn btn-primary">
-                                    Sign in
+                                    {{trans('table-builder::login.sign_in')}}
                                 </button>
                             </footer>
                         </form>

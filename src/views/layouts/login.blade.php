@@ -36,11 +36,16 @@
 
         <!-- GOOGLE FONT -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
-
+        
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/trianglify/0.1.5/trianglify.min.js"></script>
+        
         <style>
+            {{--
             body#login {
                 background: url('/packages/yaro/table-builder/img/backs/{{rand(1,18)}}.png') #f4f4f4;
             }
+            --}}
             div#main {
                 background: none !important;
             }
@@ -57,7 +62,11 @@
 
         @yield('main')
         
-        
+        <script>
+            var t = new Trianglify();
+            var pattern = t.generate(document.body.clientWidth + 200, document.body.clientHeight + 200);
+            document.body.setAttribute('style', 'background-image: '+pattern.dataUrl);
+        </script>
         <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script> if (!window.jQuery) { document.write('<script src="{{asset('packages/yaro/table-builder/js/libs/jquery-2.0.2.min.js')}}"><\/script>');} </script>
@@ -90,11 +99,11 @@
                         // Messages for form validation
                         messages : {
                             email : {
-                                required : 'Please enter your email address',
-                                email : 'Please enter a VALID email address'
+                                required : '{{trans('table-builder::login.email_required')}}',
+                                email : '{{trans('table-builder::login.email_valid')}}'
                             },
                             password : {
-                                required : 'Please enter your password'
+                                required : '{{trans('table-builder::login.password_required')}}'
                             }
                         },
     

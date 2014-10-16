@@ -33,6 +33,7 @@ class TBController extends \Controller
             
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
             // FIXME: show errors
+            \Session::put('tb_login_not_found', \Lang::get('table-builder::login.not_found'));
             return \Redirect::to(\Config::get('table-builder::admin.uri'));
         }
     } // end 

@@ -26,6 +26,16 @@
 
             
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4" style="float: right;">
+                @if (\Session::has('tb_login_not_found'))
+            		<div class="alert alert-danger fade in">
+						<button class="close" data-dismiss="alert">
+							×
+						</button>
+						<i class="fa-fw fa fa-times"></i>
+						{{\Session::pull('tb_login_not_found')}}
+					</div>
+                @endif
+                
                     <div class="well no-padding">
                         <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post">
                             <header>

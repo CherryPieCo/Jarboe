@@ -28,6 +28,10 @@ abstract class CustomHandler
     public function onGetValue($formField, array &$row, &$postfix)
     {
     } // end onGetValue
+    
+    public function onGetExportValue($formField, $type, array &$row, &$postfix)
+    {
+    } // end onGetExportValue
 
     public function onGetEditInput($formField, array &$row)
     {

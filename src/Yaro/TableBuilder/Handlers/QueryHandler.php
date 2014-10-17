@@ -37,19 +37,21 @@ class QueryHandler {
         return isset($this->dbOptions[$ident]);
     } // end hasOptionDB
 
-    public function getRows()
+    public function getRows($isPagination = true, $isUserFilters = true)
     {
         $this->db = DB::table($this->dbOptions['table']);
 
         $this->prepareSelectValues();
         $this->prepareFilterValues();
 
-        $this->onSearchFilterQuery();
+        if ($isUserFilters) {
+            $this->onSearchFilterQuery();
+        }
 
         $definitionName = $this->controller->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.order';
         $order = Session::get($sessionPath, array());
-        if ($order) {
+        if ($order && $isUserFilters) {
             $this->db->orderBy($this->getOptionDB('table') .'.'. $order['field'], $order['direction']);
         } else if ($this->hasOptionDB('order')) {
             $order = $this->getOptionDB('order');
@@ -58,7 +60,7 @@ class QueryHandler {
             }
         }
 
-        if ($this->hasOptionDB('pagination')) {
+        if ($this->hasOptionDB('pagination') && $isPagination) {
             $pagination = $this->getOptionDB('pagination');
             $perPage = $this->getPerPageAmount($pagination['per_page']);
             $paginator = $this->db->paginate($perPage);

@@ -73,16 +73,32 @@ abstract class AbstractField {
         
         return $value;
     } // end getValue
+    
+    public function getExportValue($type, $row, $postfix = '')
+    {
+        if ($this->hasCustomHandlerMethod('onGetExportValue')) {
+            $res = $this->handler->onGetExportValue($this, $type, $row, $postfix);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $value = $this->getValue($row, $postfix);
+        // cuz double quotes is escaping by more double quotes in csv
+        $escapedValue = preg_replace('~"~', '""', $value);
+        
+        return $escapedValue;
+    } // end getExportValue
 
     public function getListValue($row)
     {
-    	if ($this->hasCustomHandlerMethod('onGetListValue')) {
+        if ($this->hasCustomHandlerMethod('onGetListValue')) {
             $res = $this->handler->onGetListValue($this, $row);
             if ($res) {
                 return $res;
             }
         }
-		
+        
         return $this->getValue($row);
     } // end getListValue
 
@@ -188,13 +204,13 @@ abstract class AbstractField {
 
     public function onSelectValue(&$db)
     {
-    	if ($this->hasCustomHandlerMethod('onAddSelectField')) {
+        if ($this->hasCustomHandlerMethod('onAddSelectField')) {
             $res = $this->handler->onAddSelectField($this, $db);
             if ($res) {
                 return $res;
             }
         }
-		
+        
         $tabs = $this->getAttribute('tabs');
         if ($tabs) {
             foreach ($tabs as $tab) {

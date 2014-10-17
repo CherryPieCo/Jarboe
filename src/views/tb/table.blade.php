@@ -34,7 +34,8 @@
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>{{ $def['options']['caption'] }}</h2>
-
+                    
+                    {{ $controller->export->fetch() }}
                 </header>
 
                 <!-- widget div-->

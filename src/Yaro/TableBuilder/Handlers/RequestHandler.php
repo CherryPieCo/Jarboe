@@ -25,6 +25,10 @@ class RequestHandler {
                 return $this->handleSearchAction();
                 break;
                 
+            case 'export':
+                return $this->handleExport(Input::get('type'));
+                break;
+                
             case 'set_per_page':
                 return $this->handleSetPerPageAmountAction();
                 break;
@@ -71,6 +75,14 @@ class RequestHandler {
         }
     } // end handle
     
+    protected function handleExport($type)
+    {
+        $method = 'doExport'. ucfirst($type);
+        $idents = array_keys(Input::get('b', array()));
+        
+        $this->controller->export->$method($idents);
+    } // end handleExport
+
     protected function handleSetPerPageAmountAction()
     {
         $perPage = Input::get('per_page');
@@ -263,7 +275,7 @@ class RequestHandler {
         return array(
             $this->controller->view->showList(),
             $this->controller->view->showEditForm()
-        );	
+        );    
     } // end handleShowList
 
     protected function handleFastSaveAction()

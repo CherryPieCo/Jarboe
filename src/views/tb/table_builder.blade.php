@@ -12,7 +12,7 @@
         
         @include('admin::tb.ui_overlay')
 
-        <iframe id="submiter" name="submiter" style="display:none;"></iframe>                    
+        <iframe id="submiter" name="submiter" style="display:none; visibility:hidden;"></iframe>                    
     </div>
 
 

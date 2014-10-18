@@ -43,20 +43,20 @@ class ExportHandler
             $csvRow .= '"'. $field->getAttribute('caption') .'"'. $delimiter;
         }
         $csvRow = rtrim($csvRow, $delimiter);
-        $csv = $csvRow ."\n";
+        $csv = $csvRow;
         
         
         $between = $this->getBetweenValues();
         // FIXME: move to separate method, maybe
         $rows = $this->controller->query->getRows(false, false, $between); // without pagination & user filters
         foreach ($rows as $row) {
-            $csvRow = '';
+            $csvRow = "\n";
             foreach ($idents as $ident) {
                 $field = $this->controller->getField($ident);
                 $csvRow .= '"'. $field->getExportValue('csv', $row) .'"'. $delimiter;
             }
             $csvRow = rtrim($csvRow, $delimiter);
-            $csv .= $csvRow ."\n";
+            $csv .= $csvRow;
         }
         
         $name = $this->getAttribute('filename', 'export');

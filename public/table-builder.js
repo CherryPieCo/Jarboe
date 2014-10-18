@@ -9,6 +9,7 @@ var TableBuilder = {
     form_preloader: '.form-preloader',
     form: '#modal_form',
     form_edit: '#modal_form_edit',
+    export_form: '#tb-export-form',
     form_label: '#modal_form_edit_label',
     form_wrapper: '#modal_wrapper',
     create_form: '#create_form',
@@ -864,6 +865,24 @@ var TableBuilder = {
             window.location.replace(response.url);
         });
     }, // end setPerPageAmount
+    
+    doExport: function(type)
+    {
+        var $iframe = jQuery("#submiter");
+        
+        var values = jQuery(TableBuilder.export_form).serializeArray();
+        values.push({ name: 'type', value: type });
+        values.push({ name: 'query_type', value: "export" });
+        
+        var out = new Array();
+        jQuery.each(values, function(index, val) {
+            out.push(val['name'] +'='+ val['value']);
+        });
+        
+        var url = document.location.pathname +'?'+ out.join('&');;
+        
+        $iframe.attr('src', url);
+    } // end doExport
 
 };
 

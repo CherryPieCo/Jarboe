@@ -103,5 +103,19 @@ class TBController extends \Controller
         );
         return \Response::json($data);
     } // end getInformNotificationCounts
+    
+    public function doSaveMenuPreference()
+    {
+        $option = \Input::get('option');
+        $cookie = \Cookie::forever('tb-misc-body_class', $option);
+        
+        $data = array(
+            'status' => true
+        );
+        $response = \Response::json($data);
+        $response->headers->setCookie($cookie);
+        
+        return $response;
+    } // end doSaveMenuPreference
 
 }

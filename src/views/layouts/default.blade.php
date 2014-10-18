@@ -55,20 +55,13 @@
         
         <script src="{{asset('packages/yaro/table-builder/table-builder.js')}}"></script>
         <link rel="stylesheet" href="{{asset('packages/yaro/table-builder/table-builder.css')}}">
+        
+        <script src="{{asset('packages/yaro/table-builder/tb-menu.js')}}"></script>
 
         <link rel="stylesheet" href="{{asset('packages/yaro/table-builder/css/smartadmin-production.min.css')}}">
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/your_style.css')}}">
     </head>
-    <body class="">
-        <script>
-            function getCookie(name) {
-                var value = "; " + document.cookie;
-                var parts = value.split("; " + name + "=");
-                if (parts.length == 2) return parts.pop().split(";").shift();
-            }
-            
-            jQuery('body').addClass(getCookie('admin_body_class'));
-        </script>
+    <body class="{{ \Cookie::get('tb-misc-body_class', '') }}">
         
         @include('admin::partials.header')
         @include('admin::partials.navigation')

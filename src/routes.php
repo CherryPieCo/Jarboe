@@ -14,6 +14,9 @@ Route::group(array('prefix' => Config::get('table-builder::admin.uri')), functio
     Route::post('tb/informer/get-notification', 'Yaro\TableBuilder\TBController@getInformNotification');
     Route::post('tb/informer/get-notification-counts', 'Yaro\TableBuilder\TBController@getInformNotificationCounts');
     
+    // menu
+    Route::post('tb/menu/collapse', 'Yaro\TableBuilder\TBController@doSaveMenuPreference');
+    
     // FIXME: access permission check
     // users
     //Route::get('tb/users', 'Yaro\TableBuilder\TBUsersController@showUsers');

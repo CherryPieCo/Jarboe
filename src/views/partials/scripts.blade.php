@@ -188,5 +188,5 @@ $(document).ready(function() {
 </style>
 
 <script type="text/javascript">
-    
+    TBMenu.admin_uri = '{{\Config::get('table-builder::admin.uri')}}';
 </script>

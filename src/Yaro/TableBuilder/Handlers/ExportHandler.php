@@ -3,6 +3,7 @@
 namespace Yaro\TableBuilder\Handlers;
 
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 
 
 class ExportHandler 
@@ -44,8 +45,10 @@ class ExportHandler
         $csvRow = rtrim($csvRow, $delimiter);
         $csv = $csvRow ."\n";
         
+        
+        $between = $this->getBetweenValues();
         // FIXME: move to separate method, maybe
-        $rows = $this->controller->query->getRows(false, false); // without pagination & user filters
+        $rows = $this->controller->query->getRows(false, false, $between); // without pagination & user filters
         foreach ($rows as $row) {
             $csvRow = '';
             foreach ($idents as $ident) {
@@ -62,6 +65,28 @@ class ExportHandler
         die($csv);
     } // end doExportCsv
     
+    private function getBetweenValues()
+    {
+        $between = array();
+        if ($this->getAttribute('date_range_field')) {
+            // XXX:
+            $from = Input::get('d.from', '01/01/1900');
+            $from = strtotime(str_replace('/', '-', $from));
+            $from = date('Y-m-d', $from) .' 00:00:00';
+            // XXX:
+            $to = Input::get('d.$to', '01/01/2199');
+            $to = strtotime(str_replace('/', '-', $to));
+            $to = date('Y-m-d', $to) .' 23:59:59';
+            
+            $between['field'] = $this->getAttribute('date_range_field');
+            $between['values'] = array(
+                $from, $to
+            );
+        }
+        
+        return $between;
+    } // end getBetweenValues
+    
     public function doExportXls($idents)
     {
         $xls = '';
@@ -74,8 +99,9 @@ class ExportHandler
         }
         $this->addXlsRow($row, $xls);
         
+        $between = $this->getBetweenValues();
         // FIXME: move to separate method, maybe
-        $rows = $this->controller->query->getRows(false, false); // without pagination & user filters
+        $rows = $this->controller->query->getRows(false, false, $between); // without pagination & user filters
         foreach ($rows as $row) {
             $xlsRow = array();
             foreach ($idents as $ident) {

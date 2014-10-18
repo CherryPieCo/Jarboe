@@ -13,19 +13,31 @@
         
         <form id="tb-export-form" class="smart-form">
             <fieldset style="padding: 12px 12px 0;">
-            <section>
-                <div class="row">
-                    <div class="col col-12">
-                        @foreach ($fields as $field)
-                        <label class="checkbox">
-                            <input type="checkbox" name="b[{{ $field->getFieldName() }}]">
-                            <i></i>
-                            {{ $field->getAttribute('caption') }}
-                        </label>
-                        @endforeach
+                @if (isset($def['date_range_field']))
+                <section>
+                    <div class="row">
+                        <div class="col col-6">
+                            <input placeholder="От" type="text" id="export-date-from" name="d[from]" class="form-control input-small datepicker">
+                        </div>
+                        <div class="col col-6">
+                            <input placeholder="До" type="text" id="export-date-to" name="d[to]" class="form-control input-small datepicker">
+                        </div>
+                </section>
+                @endif
+                
+                <section>
+                    <div class="row">
+                        <div class="col col-12">
+                            @foreach ($fields as $field)
+                            <label class="checkbox">
+                                <input type="checkbox" name="b[{{ $field->getFieldName() }}]">
+                                <i></i>
+                                {{ $field->getAttribute('caption') }}
+                            </label>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
             </fieldset>
         </form>
         
@@ -45,7 +57,21 @@
 </div>
 
 <script type="text/javascript">
-    jQuery('#tb-export-form').bind('click', function(e) { 
-        e.stopPropagation() 
+jQuery('#tb-export-form').bind('click', function(e) { 
+    e.stopPropagation() 
+});
+
+// FIXME: move to options
+jQuery(document).ready(function() {
+    jQuery("#export-date-from, #export-date-to").datepicker({
+        changeMonth: true,
+        numberOfMonths: 1,
+        prevText: '<i class="fa fa-chevron-left"></i>',
+        nextText: '<i class="fa fa-chevron-right"></i>',
+        dateFormat: "dd/mm/yy",
+        //showButtonPanel: true,
+        regional: ["ru"],
+        onClose: function (selectedDate) {}
     });
+});
 </script>

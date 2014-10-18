@@ -37,7 +37,7 @@ class QueryHandler {
         return isset($this->dbOptions[$ident]);
     } // end hasOptionDB
 
-    public function getRows($isPagination = true, $isUserFilters = true)
+    public function getRows($isPagination = true, $isUserFilters = true, $betweenWhere = array())
     {
         $this->db = DB::table($this->dbOptions['table']);
 
@@ -59,6 +59,15 @@ class QueryHandler {
                 $this->db->orderBy($this->getOptionDB('table') .'.'. $field, $direction);
             }
         }
+        
+        // FIXME:
+        if ($betweenWhere) {
+            $betweenField  = $betweenWhere['field'];
+            $betweenValues = $betweenWhere['values'];
+            
+            $this->db->whereBetween($betweenField, $betweenValues);
+        }
+        
 
         if ($this->hasOptionDB('pagination') && $isPagination) {
             $pagination = $this->getOptionDB('pagination');
@@ -256,7 +265,7 @@ class QueryHandler {
         $insertData = $this->_getRowQueryValues($values);
         $this->_checkFields($insertData);
         
-		$id = false;
+        $id = false;
         if ($this->controller->hasCustomHandlerMethod('onInsertRowData')) {
             $id = $this->controller->getCustomHandler()->onInsertRowData($insertData);
         }

@@ -2,7 +2,7 @@
 
 if (!function_exists('__'))
 {
-    function __($key, $namespace = 'messages', $locale = null)
+    function __()
     {
         /*
         $res = DB::table('translations')->get();
@@ -20,9 +20,22 @@ if (!function_exists('__'))
         
         return $key;
         */
-        
-        $locale = $locale ? $locale : Lang::getlocale();
-        return Translate::get($key, $namespace, $locale);
+        $args = func_get_args();
+	    if (!isset($args[0])) {
+	        return false;
+	    }
+	
+	    $word = Yaro\TableBuilder\Helpers\Translate::get($args[0], \Lang::getlocale());
+	    if (!$word) {
+	        $word = $args[0];
+	    }
+	
+	    $params = array_slice($args, 1);
+	    if ($params) {
+	        $word = vsprintf($word, $params);
+	    }
+	
+        return $word;
     } // end __
 }
 

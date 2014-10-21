@@ -13,7 +13,8 @@ class SelectField extends AbstractField {
 
     public function onSearchFilter(&$db, $value)
     {
-        $db->where($this->getFieldName(), '=', $value);
+    	$table = $this->definition['db']['table'];
+        $db->where($table .'.'. $this->getFieldName(), '=', $value);
     } // end onSearchFilter
 
     public function getFilterInput()

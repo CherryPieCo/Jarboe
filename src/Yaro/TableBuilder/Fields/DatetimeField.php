@@ -11,6 +11,7 @@ class DatetimeField extends AbstractField
 
     public function onSearchFilter(&$db, $value)
     {
+    	$table = $this->definition['db']['table'];
         if ($this->getAttribute('is_range')) {
             if (!isset($value['from']) && !isset($value['to'])) {
                 return;
@@ -19,14 +20,17 @@ class DatetimeField extends AbstractField
             $dateFrom = isset($value['from']) ? $this->getTimestamp($value['from']) : '28800';
             $dateTo = isset($value['to']) ? $this->getTimestamp($value['to']) : '2146939932';
             $db->whereBetween(
-                $this->getFieldName(), 
+                $table .'.'. $this->getFieldName(), 
                 array(
                     date('Y-m-d H:i:s', $dateFrom), 
                     date('Y-m-d H:i:s', $dateTo)
                 )
             );
         } else {
-            $db->where($this->getFieldName(), date('Y-m-d H:i:s', $this->getTimestamp($value)));
+            $db->where(
+            	$table .'.'. $this->getFieldName(), 
+            	date('Y-m-d H:i:s', $this->getTimestamp($value))
+			);
         }
     } // end onSearchFilter
     

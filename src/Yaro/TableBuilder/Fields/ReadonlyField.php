@@ -20,7 +20,8 @@ class ReadonlyField extends AbstractField {
 
     public function onSearchFilter(&$db, $value)
     {
-        $db->where($this->getFieldName(), 'LIKE', '%'.$value.'%');
+    	$table = $this->definition['db']['table'];
+        $db->where($table .'.'. $this->getFieldName(), 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
     
 }

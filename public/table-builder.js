@@ -3,7 +3,8 @@
 var TableBuilder = {
 
     options: null,
-    admin_prefix: null,
+    storage: {},
+    admin_prefix: '',
     table: '#widget-grid',
     preloader: '#table-preloader',
     form_preloader: '.form-preloader',
@@ -25,7 +26,235 @@ var TableBuilder = {
 
         TableBuilder.initDoubleClickEditor();
         TableBuilder.initSearchOnEnterPressed();
+        //TableBuilder.initImageEditable();
     }, // end init    
+    
+    initImageEditable: function()
+    {TableBuilder.initSeveralImageEditable();return;
+        (function (e) {
+            "use strict";
+            var t = function (e) {
+                this.init("image", e, t.defaults)
+            };
+            e.fn.editableutils.inherit(t, e.fn.editabletypes.abstractinput);
+            e.extend(t.prototype, {
+                render: function () {
+                    this.$input = this.$tpl.find("input")
+                },
+                value2html: function (t, n) {
+                    if (!t) {
+                        e(n).empty();
+                        return
+                    }
+                    var r = e("<div>").text(t.tbalt).html() + "" + e("<div>").text(t.tbtitle).html() +
+                            "" + e("<div>").text(t.tbident).html();
+                    e(n).html(r)
+                },
+                html2value: function (e) {
+                    return null
+                },
+                value2str: function (e) {
+                    var t = "";
+                    if (e)
+                        for (var n in e)
+                            t = t + n + ":" + e[n] + ";";
+                    return t
+                },
+                str2value: function (e) {
+                    return e
+                },
+                value2input: function (e) {
+                    if (!e)
+                        return;
+                    this.$input.filter('[name="tbalt"]').val(e.tbalt);
+                    this.$input.filter('[name="tbtitle"]').val(e.tbtitle);
+                    this.$input.filter('[name="tbident"]').val(e.tbident);
+                },
+                input2value: function () {
+                    return {
+                        tbalt:   this.$input.filter('[name="tbalt"]').val(),
+                        tbtitle: this.$input.filter('[name="tbtitle"]').val(),
+                        tbident: this.$input.filter('[name="tbident"]').val()
+                    };
+                },
+                activate: function () {
+                    this.$input.filter('[name="tbalt"]').focus()
+                },
+                autosubmit: function () {
+                    this.$input.keydown(function (t) {
+                        t.which === 13 && e(this).closest("form").submit()
+                    })
+                }
+            });
+            t.defaults = e.extend({}, e.fn.editabletypes.abstractinput.defaults, {
+                tpl: '<div class="editable-image"><label><span>Alt: </span><input type="text" name="tbalt" class="input-editable"></label></div><div class="editable-image"><label><span>Title: </span><input type="text" name="tbtitle" class="input-editable"></label></div><div><input type="hidden" name="tbident"></div>',
+                inputclass: ""
+            });
+            e.fn.editabletypes.image = t
+        })(window.jQuery);
+    }, // end initImageEditable
+    
+    initSeveralImageEditable: function()
+    {
+        (function (e) {
+            "use strict";
+            var t = function (e) {
+                this.init("image", e, t.defaults)
+            };
+            e.fn.editableutils.inherit(t, e.fn.editabletypes.abstractinput);
+            e.extend(t.prototype, {
+                render: function () {
+                    this.$input = this.$tpl.find("input")
+                },
+                value2html: function (t, n) {
+                    if (!t) {
+                        e(n).empty();
+                        return
+                    }
+                    var r = e("<div>").text(t.tbalt).html() + "" + e("<div>").text(t.tbtitle).html() +
+                            "" + e("<div>").text(t.tbident).html() +
+                            "" + e("<div>").text(t.tbnum).html();
+                    e(n).html(r)
+                },
+                html2value: function (e) {
+                    return null
+                },
+                value2str: function (e) {
+                    var t = "";
+                    if (e)
+                        for (var n in e)
+                            t = t + n + ":" + e[n] + ";";
+                    return t
+                },
+                str2value: function (e) {
+                    return e
+                },
+                value2input: function (e) {
+                    if (!e)
+                        return;
+                    this.$input.filter('[name="tbnum"]').val(e.tbnum);
+                    this.$input.filter('[name="tbalt"]').val(e.tbalt);
+                    this.$input.filter('[name="tbtitle"]').val(e.tbtitle);
+                    this.$input.filter('[name="tbident"]').val(e.tbident);
+                },
+                input2value: function () {
+                    return {
+                        tbnum:   this.$input.filter('[name="tbnum"]').val(),
+                        tbalt:   this.$input.filter('[name="tbalt"]').val(),
+                        tbtitle: this.$input.filter('[name="tbtitle"]').val(),
+                        tbident: this.$input.filter('[name="tbident"]').val()
+                    };
+                },
+                activate: function () {
+                    this.$input.filter('[name="tbalt"]').focus()
+                },
+                autosubmit: function () {
+                    this.$input.keydown(function (t) {
+                        t.which === 13 && e(this).closest("form").submit()
+                    })
+                }
+            });
+            t.defaults = e.extend({}, e.fn.editabletypes.abstractinput.defaults, {
+                tpl: '<div class="editable-image"><label><span>Alt: </span><input type="text" name="tbalt" class="input-editable"></label></div><div class="editable-image"><label><span>Title: </span><input type="text" name="tbtitle" class="input-editable"></label></div><div><input type="hidden" name="tbident"></div><div><input type="hidden" name="tbnum"></div>',
+                inputclass: ""
+            });
+            e.fn.editabletypes.image = t
+        })(window.jQuery);
+    }, // end initSeveralImageEditable
+    
+    initSingleImageEditable: function()
+    {
+        TableBuilder.initImageEditable();
+        //
+        var images = jQuery('div.tb-uploaded-image-container img.image-attr-editable, div.tb-uploaded-image-container img.images-attr-editable');
+        jQuery.each(images, function(key, img) {
+            var $img = jQuery(img);
+            $img.editable({
+                type: 'image',
+                showbuttons: 'bottom',
+                url: function(params) {
+                    var vals = params.value;
+                    
+                    // single image doesnt have tbnum
+                    if (vals.tbnum === "") {
+                        console.log('s');
+                        TableBuilder.storage[vals.tbident].alt   = vals.tbalt;
+                        TableBuilder.storage[vals.tbident].title = vals.tbtitle;
+                    } else {
+                        console.log('m');
+                        console.log(TableBuilder.storage[vals.tbident]);
+                        TableBuilder.storage[vals.tbident][vals.tbnum].alt = vals.tbalt;
+                        TableBuilder.storage[vals.tbident][vals.tbnum].title = vals.tbtitle;
+                        console.log(TableBuilder.storage[vals.tbident][vals.tbnum]);
+                    }
+                },
+                value: {
+                    tbalt:   $img.data('tbalt'),
+                    tbtitle: $img.data('tbtitle'),
+                    tbident: $img.data('tbident'),
+                    tbnum:   $img.data('tbnum')
+                },
+                display: function (value) {
+                    if (!value) {
+                        $(this).empty();
+                        return;
+                    }
+                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, ' 
+                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, ' 
+                             + jQuery('<div>').text(value.tbident).html() + '</b>, ' 
+                             + jQuery('<div>').text(value.tbnum).html();
+                    jQuery(this).html(html);
+                }
+            });
+        });
+    }, // end initSingleImageEditable
+    
+    initMultipleImageEditable: function()
+    {
+        TableBuilder.initSeveralImageEditable();
+        //
+        var images = jQuery('div.tb-uploaded-image-container img.images-attr-editable');
+        jQuery.each(images, function(key, img) {
+            var $img = jQuery(img);
+            $img.editable({
+                type: 'image',
+                showbuttons: 'bottom',
+                url: function(params) {
+                    var vals = params.value;
+                    
+                    // single image doesnt have tbnum
+                    if (vals.tbnum === "") {
+                        console.log('s');
+                        TableBuilder.storage[vals.tbident].alt   = vals.tbalt;
+                        TableBuilder.storage[vals.tbident].title = vals.tbtitle;
+                    } else {
+                        console.log('m');
+                        console.log(TableBuilder.storage[vals.tbident]);
+                        TableBuilder.storage[vals.tbident][vals.tbnum].alt = vals.tbalt;
+                        TableBuilder.storage[vals.tbident][vals.tbnum].title = vals.tbtitle;
+                        console.log(TableBuilder.storage[vals.tbident][vals.tbnum]);
+                    }
+                },
+                value: {
+                    tbnum:   $img.data('tbnum'),
+                    tbalt:   $img.data('tbalt'),
+                    tbtitle: $img.data('tbtitle'),
+                    tbident: $img.data('tbident')
+                },
+                display: function (value) {
+                    if (!value) {
+                        $(this).empty();
+                        return;
+                    }
+                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, ' 
+                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, ' 
+                             + jQuery('<div>').text(value.tbident).html() + '</b>, ' 
+                             + jQuery('<div>').text(value.tbnum).html();
+                    jQuery(this).html(html);
+                }
+            });
+        });
+    }, // end initMultipleImageEditable
 
     initSearchOnEnterPressed: function()
     {
@@ -243,6 +472,7 @@ var TableBuilder = {
     getCreateForm: function()
     {
         TableBuilder.showPreloader();
+        TableBuilder.flushStorage();
 
         //jQuery(TableBuilder.form_label).text('Create');
         jQuery(TableBuilder.form).modal('show');
@@ -254,6 +484,7 @@ var TableBuilder = {
     getEditForm: function(id, context)
     {
         TableBuilder.showPreloader();
+        TableBuilder.flushStorage();
         jQuery('#wid-id-1').find('tr[data-editing="true"]').removeAttr('data-editing');
 
         jQuery.ajax({
@@ -277,6 +508,8 @@ var TableBuilder = {
 
                     jQuery(context).parent().parent().attr('data-editing', 'true');
 
+                    TableBuilder.initSingleImageEditable();
+                    TableBuilder.initMultipleImageEditable();
                     TableBuilder.initSummernoteFullscreen();
                 } else {
                     jQuery.smallBox({
@@ -474,6 +707,17 @@ var TableBuilder = {
         var values = jQuery(TableBuilder.edit_form).serializeArray();
         values.push({ name: 'id', value: id });
         values.push({ name: 'query_type', value: "save_edit_form" });
+        
+        // take values from temp storage (for images)
+        jQuery.each(values, function(index, val) {
+            if (typeof TableBuilder.storage[val.name] !== 'undefined') {
+                var json = JSON.stringify(TableBuilder.storage[val.name]);
+                values[index] = { 
+                    name:  val.name, 
+                    value: json 
+                };
+            }
+        });
 
         // FIXME:
         if (TableBuilder.onDoEdit) {
@@ -487,7 +731,7 @@ var TableBuilder = {
                     return {"name": this.name, "value": 0};
                 }).get()
         );
-
+console.log(values);
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.options.action_url,
@@ -557,12 +801,23 @@ var TableBuilder = {
 
         var values = jQuery(TableBuilder.create_form).serializeArray();
         values.push({ name: "query_type", value: "save_add_form" });
+        
+        // take values from temp storage (for images)
+        jQuery.each(values, function(index, val) {
+            if (typeof TableBuilder.storage[val.name] !== 'undefined') {
+                var json = JSON.stringify(TableBuilder.storage[val.name]);
+                values[index] = { 
+                    name:  val.name, 
+                    value: json 
+                };
+            }
+        });
 
         // FIXME:
         if (TableBuilder.onDoCreate) {
             values = TableBuilder.onDoCreate(values);
         }
-
+console.log(values);
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         values = values.concat(
             jQuery(TableBuilder.create_form).find('input[type=checkbox]:not(:checked)')
@@ -628,10 +883,11 @@ var TableBuilder = {
         jQuery(TableBuilder.form_preloader, context).hide();
     }, // end hidePreloader
 
-    uploadImage: function(context)
+    uploadImage: function(context, ident)
     {
         var data = new FormData();
         data.append("image", context.files[0]);
+        data.append('ident', ident);
         data.append('query_type', 'upload_photo');
 
         jQuery.ajax({
@@ -643,10 +899,24 @@ var TableBuilder = {
             processData: false,
             success: function(response) {
                 if (response.status) {
-                    jQuery(context).parent().next().val(response.short_link);
+                    //jQuery(context).parent().next().val(response.short_link);
+                    
+                    TableBuilder.storage[ident] = {
+                        'alt'  : '',
+                        'title': '',
+                        'sizes': response.data.sizes
+                    };
 
-                    var html = '<img height="80px" src="'+ response.link +'" />';
-                    jQuery(context).parent().parent().next().html(html);
+                    var html = '<img class="image-attr-editable" '+
+                         'data-tbalt="" '+
+                         'data-tbtitle="" '+
+                         'data-tbident="'+ ident +'" '+
+                         'height="80px" src="'+ response.link +'" />';
+                         
+                    // FIXME: too ugly to execute
+                    jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').html(html);
+                    
+                    TableBuilder.initSingleImageEditable();
                 } else {
                     jQuery.smallBox({
                         title : "Ошибка при загрузке изображения",
@@ -660,11 +930,20 @@ var TableBuilder = {
         });
     }, // end uploadImage 
 
-    uploadMultipleImages: function(context, delimiter)
+    uploadMultipleImages: function(context, ident)
     {
         var data = new FormData();
         data.append("image", context.files[0]);
+        data.append('ident', ident);
         data.append('query_type', 'upload_photo');
+        
+        var num = 0;
+        if (typeof TableBuilder.storage[ident] !== 'undefined') {
+            num = TableBuilder.storage[ident].length;
+        }
+        console.log(TableBuilder.storage[ident]);
+        console.log(num);
+        data.append('num', num);
 
         jQuery.ajax({
             data: data,
@@ -675,29 +954,35 @@ var TableBuilder = {
             processData: false,
             success: function(response) {
                 if (response.status) {
-                    var $input = jQuery(context).parent().next();
-                    var value = $input.val();
-
-                    if (!!value) {
-                        value += delimiter + response.short_link;
-                    } else {
-                        value = response.short_link;
+                    if (!num) {
+                        TableBuilder.storage[ident] = [];
                     }
-                    $input.val(value);
-
+                    TableBuilder.storage[ident].push({
+                        'alt'  : '',
+                        'title': '',
+                        'sizes': response.data.sizes
+                    });
+console.log(num);
                     var html = '';
                     html += '<li>';
-                    html += '<img src="'+ response.link +'" />';
+                    html += '<img src="'+ response.link +'" class="images-attr-editable" '+
+                                 'data-tbnum="'+ num +'" '+
+                                 'data-tbalt="" '+
+                                 'data-tbtitle="" '+
+                                 'data-tbident="'+ ident +'" />';
                     html += '<div class="tb-btn-delete-wrap">';
                     html +=   '<button class="btn btn-default btn-sm tb-btn-image-delete" '
                     html +=         'type="button" '
-                    html +=         "onclick=\"TableBuilder.deleteImage('"+encodeURIComponent(response.short_link)+"','"+response.delimiter+"', this);\">"
+                    html +=         "onclick=\"TableBuilder.deleteImage('"+num+"','"+ident+"', this);\">"
                     html +=     '<i class="fa fa-times"></i>'
                     html += '</button>'
                     html += '</div>';
                     html += '</li>';
-
-                    jQuery(context).parent().parent().next().children().append(html);
+                    
+                    // FIXME: too ugly to execute
+                    jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').children().append(html);
+                    
+                    TableBuilder.initMultipleImageEditable();
                 } else {
                     jQuery.smallBox({
                         title : "Ошибка при загрузке изображения",
@@ -711,25 +996,13 @@ var TableBuilder = {
         });
     }, // end uploadMultipleImages
 
-    deleteImage: function(link, delimiter, context)
+    deleteImage: function(num, ident, context)
     {
-        // XXX: 
         var $li = jQuery(context).parent().parent();
         $li.hide();
 
-        var $section = $li.parent().parent().parent();
-        var input = $section.children().children()[1];
-        var $input = jQuery(input);
-        var values = $input.val();console.log(values);
-
-        var arr = values.split(',');console.log(arr);
-
-        var index = jQuery.inArray(decodeURIComponent(link), arr);console.log(decodeURIComponent(link));
-        if (~index) {
-            arr.splice(index, 1);
-        }
-        var newValue = arr.join(delimiter);console.log(newValue);
-        $input.val(newValue);
+        // remove deleted image from storage
+        TableBuilder.storage[ident][num].remove = true;
     }, // end deleteImage
 
     uploadImageFromWysiwygSummertime: function(files, editor, $editable)
@@ -882,7 +1155,12 @@ var TableBuilder = {
         var url = document.location.pathname +'?'+ out.join('&');;
         
         $iframe.attr('src', url);
-    } // end doExport
+    }, // end doExport
+    
+    flushStorage: function()
+    {
+        TableBuilder.storage = {};
+    }, // end flushStorage
 
 };
 

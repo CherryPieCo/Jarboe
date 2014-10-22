@@ -128,7 +128,7 @@ abstract class CustomHandler
         */
     } // end onFileUpload
     
-    public function onPhotoUpload($file)
+    public function onPhotoUpload($formField, $file)
     {
         /*
         $data = array(

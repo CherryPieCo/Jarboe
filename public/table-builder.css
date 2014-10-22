@@ -90,10 +90,10 @@ div.tb-uploaded-image-container button.tb-btn-image-delete {
     height: 22px;
 }
 div.tb-uploaded-image-container button.tb-btn-image-delete i {
-    right: 4px;
-    top: 3px;
+    right: 5px;
+    top: 4px;
     position: absolute;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 
@@ -190,4 +190,25 @@ div.dropdown.subactions .dropdown-menu {
     width: 20px;
     height: 20px;
     right: -2px;
+}
+
+/* Editable popover */
+form.smart-form div.popover-content {
+    padding: 9px 14px;
+}
+div.editable-image span {
+    width: 40px;
+    display: inline-block;
+}
+div.editable-input input.input-editable {
+    padding: 2px;
+}
+div.editable-input div.editable-image {
+    margin-bottom: 4px;
+}
+div.editable-buttons editable-buttons-bottom {
+    text-align: right;
+}
+div.tb-uploaded-image-container div.editable-container{
+    /*width: 235px;*/
 }

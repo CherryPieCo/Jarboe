@@ -11,7 +11,7 @@ class TimestampField extends AbstractField
 
     public function onSearchFilter(&$db, $value)
     {
-    	$table = $this->definition['db']['table'];
+        $table = $this->definition['db']['table'];
         if ($this->getAttribute('is_range')) {
             if (!isset($value['from']) && !isset($value['to'])) {
                 return;
@@ -28,9 +28,9 @@ class TimestampField extends AbstractField
             );
         } else {
             $db->where(
-            	$table .'.'. $this->getFieldName(), 
-            	date('Y-m-d H:i:s', $this->getTimestamp($value))
-			);
+                $table .'.'. $this->getFieldName(), 
+                date('Y-m-d H:i:s', $this->getTimestamp($value))
+            );
         }
     } // end onSearchFilter
     
@@ -54,13 +54,13 @@ class TimestampField extends AbstractField
     
     public function getListValue($row)
     {
-    	if ($this->hasCustomHandlerMethod('onGetListValue')) {
+        if ($this->hasCustomHandlerMethod('onGetListValue')) {
             $res = $this->handler->onGetListValue($this, $row);
             if ($res) {
                 return $res;
             }
         }
-		
+        
         if (!$this->getValue($row)) {
             return '';
         }

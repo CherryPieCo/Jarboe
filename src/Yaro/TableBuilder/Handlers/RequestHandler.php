@@ -26,7 +26,7 @@ class RequestHandler {
                 break;
                 
             case 'export':
-                return $this->handleExport(Input::get('type'));
+                return $this->handleExport();
                 break;
                 
             case 'set_per_page':
@@ -75,8 +75,9 @@ class RequestHandler {
         }
     } // end handle
     
-    protected function handleExport($type)
+    protected function handleExport()
     {
+        $type   = Input::get('type');
         $method = 'doExport'. ucfirst($type);
         $idents = array_keys(Input::get('b', array()));
         
@@ -142,37 +143,30 @@ class RequestHandler {
             'short_link' => $destinationPath . $fileName,
         );
         return Response::json($data);
-    } // end handlePhotoUpload
+    } // end handleFileUpload
     
     protected function handlePhotoUpload()
     {
         // FIXME:
-        $file = Input::file('image');
+        $ident = Input::get('ident');
+        $file  = Input::file('image');
+        $num   = Input::get('num');
+        
+        $field = $this->controller->getField($ident);
         
         if ($this->controller->hasCustomHandlerMethod('onPhotoUpload')) {
-            $res = $this->controller->getCustomHandler()->onPhotoUpload($file);
+            $res = $this->controller->getCustomHandler()->onPhotoUpload($field, $file);
             if ($res) {
                 return $res;
             }
         }
         
-        $extension = $file->guessExtension();
-        $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
+        $data = $field->doUpload($file);
+        // HACK: for generating multiple image upload template | mb no need
+        if ($num) {
+            $data['num'] = $data;
+        }
         
-        $definitionName = $this->controller->getOption('def_name');
-        $prefixPath = 'storage/tb-'.$definitionName.'/';
-        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
-        $destinationPath = $prefixPath . $postfixPath;
-        
-        $status = $file->move($destinationPath, $fileName);
-        
-        $data = array(
-            'status' => $status,
-            'link'   => URL::to($destinationPath . $fileName),
-            'short_link' => $destinationPath . $fileName,
-            // FIXME: naughty hack
-            'delimiter' => ','
-        );
         return Response::json($data);
     } // end handlePhotoUpload
     

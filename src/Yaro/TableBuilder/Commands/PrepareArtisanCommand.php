@@ -98,7 +98,7 @@ class PrepareArtisanCommand extends Command
         
         if ($this->confirm('Done? [yes|no]')) {
             $this->info('publising config...');
-            $this->call('config:publish', array('intervention/image'));
+            $this->call('config:publish', array('package' => 'intervention/image'));
             $this->info('ok');
         } else {
             $this->error('Intervention package install aborting');
@@ -116,7 +116,7 @@ class PrepareArtisanCommand extends Command
             $this->info('ok');
             
             $this->info('publising config...');
-            $this->call('config:publish', array('cartalyst/sentry'));
+            $this->call('config:publish', array('package' => 'cartalyst/sentry'));
             $this->info('ok');
         } else {
             $this->error('Sentry package install aborting');

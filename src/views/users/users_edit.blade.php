@@ -2,7 +2,7 @@
 
 @section('headline')
     <div>
-        <h1>Пользователь #{{$user->id}}: {{$user->getFullName()}}</h1>
+        <h1>Пользователь #{{$user->id}}: {{$user->first_name}} {{$user->last_name}}</h1>
     </div>
 @stop
 

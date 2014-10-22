@@ -17,11 +17,10 @@ class PrepareArtisanCommand extends Command
         if (is_dir(app_path() . '/tb-definitions')) {
             $this->info('Folder /app/tb-definitions is existing. Use it to store your table definitions.');
             return;
+        } else {
+            mkdir(app_path() . '/tb-definitions');
+            $this->info('Folder /app/tb-definitions successfully created. Place there your table definitions.');
         }
-        
-        mkdir(app_path() . '/tb-definitions');
-        
-        $this->info('Folder /app/tb-definitions successfully created. Place there your table definitions.');
         
         if ($this->confirm('Create `settings` table with definition? [yes|no]')) {
             \Schema::create('settings', function($table) {
@@ -41,8 +40,8 @@ class PrepareArtisanCommand extends Command
                 $table->increments('id')->unsigned();
                 $table->char('ip', 32)->unique();
                 $table->char('town', 60);
-                $table->decimal('amount', 10, 7);
-                $table->decimal('amount', 10, 7);
+                $table->decimal('longitude', 10, 7);
+                $table->decimal('latitude', 10, 7);
             });
         }
         

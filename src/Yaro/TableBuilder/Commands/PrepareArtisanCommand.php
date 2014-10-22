@@ -20,7 +20,7 @@ class PrepareArtisanCommand extends Command
             $this->info('Folder /app/tb-definitions is existing. Use it to store your table definitions.');
         } else {
             mkdir(app_path() . '/tb-definitions');
-            $this->info('Folder /app/tb-definitions infofully created. Place there your table definitions.');
+            $this->info('Folder /app/tb-definitions successfully created. Place there your table definitions.');
         }
         
         if ($this->confirm('Create `settings` table with definition? [yes|no]')) {
@@ -49,13 +49,13 @@ class PrepareArtisanCommand extends Command
         if ($this->confirm('Replace filters.php? [yes|no]')) {
             $res = unlink(app_path() . '/filters.php');
             if ($res) {
-                $this->info('infofully unlinked old app/filters.php');
+                $this->info('successfully unlinked old app/filters.php');
                 $res = copy(
                     __DIR__ . '/../../../misc/filters.php', 
                     app_path() . '/filters.php'
                 );
                 if ($res) {
-                    $this->info('infofully copied new filters.php');
+                    $this->info('successfully copied new filters.php');
                 } else {
                     $this->error('Unable to copy new filters.php. Copy it manually.');
                 }
@@ -79,15 +79,15 @@ class PrepareArtisanCommand extends Command
     private function doPrepareMisc()
     {
         $this->info('Add following in app/config/app.php');
-        $this->comment(
-            "providers:\n
-            'Radic\BladeExtensions\BladeExtensionsServiceProvider',\n
-            'Yaro\TableBuilder\TableBuilderServiceProvider',\n\n
-            aliases:\n
-            'TableBuilder'  => 'Yaro\TableBuilder\Facades\TableBuilder',\n
-            'Settings'      => 'Yaro\TableBuilder\Helpers\Settings',"
-        );
-        $this->ask('Done?');
+        $msg = "providers:\n"
+             . "'Radic\BladeExtensions\BladeExtensionsServiceProvider',\n"
+             . "'Yaro\TableBuilder\TableBuilderServiceProvider',\n\n"
+             . "aliases:\n"
+             . "'TableBuilder'  => 'Yaro\TableBuilder\Facades\TableBuilder',\n"
+             . "'Settings'      => 'Yaro\TableBuilder\Helpers\Settings',"
+            
+        $this->comment($msg);
+        $this->ask('Done? ');
         $this->info('bb gl');
     } // end doPrepareMisc
     

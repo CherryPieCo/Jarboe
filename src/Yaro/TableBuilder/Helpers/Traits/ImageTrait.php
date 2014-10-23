@@ -88,11 +88,11 @@ trait ImageTrait
         return $info[0]['title'];
     } // end getFirstImageTitle
         
-    public function getFirstImageSource($ident, $field = 'images')
+    public function getFirstImageSource($ident, $field = 'images', $default = '')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {
-            return '';
+            return $default;
         }
         
         return $info[0]['sizes'][$ident];

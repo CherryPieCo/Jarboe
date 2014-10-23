@@ -84,7 +84,7 @@ class PrepareArtisanCommand extends Command
              . "'Yaro\TableBuilder\TableBuilderServiceProvider',\n\n"
              . "aliases:\n"
              . "'TableBuilder'  => 'Yaro\TableBuilder\Facades\TableBuilder',\n"
-             . "'Settings'      => 'Yaro\TableBuilder\Helpers\Settings',"
+             . "'Settings'      => 'Yaro\TableBuilder\Helpers\Settings',";
             
         $this->comment($msg);
         $this->ask('Done? ');

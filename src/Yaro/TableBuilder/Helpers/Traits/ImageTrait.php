@@ -68,7 +68,7 @@ trait ImageTrait
         return $this->$ident;
     } // end getFirstImage
     
-    public function getFirstImageAlt($field = 'image')
+    public function getFirstImageAlt($field = 'images')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {
@@ -78,7 +78,7 @@ trait ImageTrait
         return $info[0]['alt'];
     } // end getFirstImageAlt    
     
-    public function getFirstImageTitle($field = 'image')
+    public function getFirstImageTitle($field = 'images')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {
@@ -88,7 +88,7 @@ trait ImageTrait
         return $info[0]['title'];
     } // end getFirstImageTitle
         
-    public function getFirstImageSource($ident, $field = 'image')
+    public function getFirstImageSource($ident, $field = 'images')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {

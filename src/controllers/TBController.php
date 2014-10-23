@@ -40,7 +40,7 @@ class TBController extends \Controller
  
     public function doLogout()
     {
-        Sentry::logout();
+        \Sentry::logout();
         $onLogout = \Config::get('table-builder::admin.on_logout');
         
         return $onLogout();

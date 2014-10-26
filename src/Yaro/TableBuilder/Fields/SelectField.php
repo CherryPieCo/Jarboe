@@ -51,5 +51,20 @@ class SelectField extends AbstractField {
 
         return $table->render();
     } // end getEditInput
+    
+    public function getListValue($row)
+    {
+        if ($this->hasCustomHandlerMethod('onGetListValue')) {
+            $res = $this->handler->onGetListValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $val = $this->getValue($row);
+        $options = $this->getAttribute('options');
+        
+        return $options[$val];
+    } // end getListValue
 
 }

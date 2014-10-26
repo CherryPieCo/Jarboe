@@ -21,20 +21,20 @@ if (!function_exists('__'))
         return $key;
         */
         $args = func_get_args();
-	    if (!isset($args[0])) {
-	        return false;
-	    }
-	
-	    $word = Yaro\TableBuilder\Helpers\Translate::get($args[0], \Lang::getlocale());
-	    if (!$word) {
-	        $word = $args[0];
-	    }
-	
-	    $params = array_slice($args, 1);
-	    if ($params) {
-	        $word = vsprintf($word, $params);
-	    }
-	
+        if (!isset($args[0])) {
+            return false;
+        }
+    
+        $word = Yaro\TableBuilder\Helpers\Translate::get($args[0], \Lang::getlocale());
+        if (!$word) {
+            $word = $args[0];
+        }
+    
+        $params = array_slice($args, 1);
+        if ($params) {
+            $word = vsprintf($word, $params);
+        }
+    
         return $word;
     } // end __
 }
@@ -57,25 +57,29 @@ if (!function_exists('cartesian'))
         $result  = array();
         $arrayCount = sizeof($arr);
         
-            function recurseIt($arr, $variant, $level, $result, $arrayCount, $isElementsDuplicated) {
-                $level++;
-                if ($level < $arrayCount) {
-                    foreach ($arr[$level] as $val) {
-                        $variant[$level] = $val;
-                        $result = recurseIt($arr, $variant, $level, $result, $arrayCount, $isElementsDuplicated);
-                    }
-                } else {
-                    if (!$isElementsDuplicated) {
-                        $result[] = $variant;
-                    } else {
-                        if (sizeof(array_flip(array_flip($variant))) == $arrayCount) {
-                            $result[] = $variant;
-                        }
-                    }
-                }        
-                return $result;
-            }
-        
-        return recurseIt($arr, $variant, -1, $result, $arrayCount, $isElementsDuplicated);
+        return cartesianRecurseIt($arr, $variant, -1, $result, $arrayCount, $isElementsDuplicated);
     } // end cartesian
+}
+
+if (!function_exists('cartesianRecurseIt'))
+{
+    function cartesianRecurseIt($arr, $variant, $level, $result, $arrayCount, $isElementsDuplicated) 
+    {
+        $level++;
+        if ($level < $arrayCount) {
+            foreach ($arr[$level] as $val) {
+                $variant[$level] = $val;
+                $result = cartesianRecurseIt($arr, $variant, $level, $result, $arrayCount, $isElementsDuplicated);
+            }
+        } else {
+            if (!$isElementsDuplicated) {
+                $result[] = $variant;
+            } else {
+                if (sizeof(array_flip(array_flip($variant))) == $arrayCount) {
+                    $result[] = $variant;
+                }
+            }
+        }        
+        return $result;
+    } // end cartesianRecurseIt
 }

@@ -25,6 +25,10 @@ class RequestHandler {
                 return $this->handleSearchAction();
                 break;
                 
+            case 'get_import_template':
+                return $this->handleImportTemplateDownload();
+                break;
+                
             case 'export':
                 return $this->handleExport();
                 break;
@@ -74,6 +78,14 @@ class RequestHandler {
                 break;
         }
     } // end handle
+    
+    protected function handleImportTemplateDownload()
+    {
+        $type = Input::get('type');
+        $method = 'do'. ucfirst($type) .'TemplateDownload';
+        
+        $this->controller->import->$method();
+    } // end handleImportTemplateDownload
     
     protected function handleExport()
     {

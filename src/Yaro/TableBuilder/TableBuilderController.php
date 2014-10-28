@@ -7,6 +7,7 @@ use Yaro\TableBuilder\Handlers\RequestHandler;
 use Yaro\TableBuilder\Handlers\QueryHandler;
 use Yaro\TableBuilder\Handlers\ActionsHandler;
 use Yaro\TableBuilder\Handlers\ExportHandler;
+use Yaro\TableBuilder\Handlers\ImportHandler;
 use Illuminate\Support\Facades\Session;
 
 
@@ -23,6 +24,7 @@ class TableBuilderController {
     public $query;
     public $actions;
     public $export;
+    public $import;
 
     protected $allowedIds;
 
@@ -37,6 +39,7 @@ class TableBuilderController {
 
         $this->actions = new ActionsHandler($this->definition['actions'], $this);
         $this->export  = new ExportHandler($this->definition['export'], $this);
+        $this->import  = new ImportHandler($this->definition['import'], $this);
         $this->query   = new QueryHandler($this);
         $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);
@@ -47,6 +50,9 @@ class TableBuilderController {
     {
         if (!isset($this->definition['export'])) {
             $this->definition['export'] = array();
+        }
+        if (!isset($this->definition['import'])) {
+            $this->definition['import'] = array();
         }
     } // end doPrepareDefinition
 

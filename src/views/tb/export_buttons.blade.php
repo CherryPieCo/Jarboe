@@ -5,7 +5,7 @@
     <div class="btn-group">
     
     <button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
-        <i class="fa fa-download"></i>
+        <i class="fa fa-upload"></i>
         {{ $def['caption'] or 'Export' }}
     </button>
     

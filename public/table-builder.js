@@ -1141,6 +1141,8 @@ console.log(num);
     
     doExport: function(type)
     {
+        TableBuilder.showPreloader();
+        
         var $iframe = jQuery("#submiter");
         
         var values = jQuery(TableBuilder.export_form).serializeArray();
@@ -1152,9 +1154,11 @@ console.log(num);
             out.push(val['name'] +'='+ val['value']);
         });
         
-        var url = document.location.pathname +'?'+ out.join('&');;
+        var url = document.location.pathname +'?'+ out.join('&');
         
         $iframe.attr('src', url);
+        
+        TableBuilder.hidePreloader();
     }, // end doExport
     
     flushStorage: function()
@@ -1162,5 +1166,64 @@ console.log(num);
         TableBuilder.storage = {};
     }, // end flushStorage
 
+    doImport: function(context, ident)
+    {
+        TableBuilder.showPreloader();
+        
+        var data = new FormData();
+        data.append("image", context.files[0]);
+        data.append('ident', ident);
+        data.append('query_type', 'upload_photo');
+
+        jQuery.SmartMessageBox({
+            title : "Произвести импорт?",
+            content : "Результат импорта нельзя отменить",
+            buttons : '[Нет][Да]'
+        }, function(ButtonPressed) {
+            if (ButtonPressed === "Да") {
+                jQuery.smallBox({
+                    title : "Callback function",
+                    content : "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
+                    color : "#659265",
+                    iconSmall : "fa fa-check fa-2x fadeInRight animated",
+                    timeout : 4000
+                });
+            } else {
+                TableBuilder.hidePreloader();
+            }
+        });
+        return;
+        jQuery.ajax({
+            data: data,
+            type: "POST",
+            url: TableBuilder.options.action_url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status) {
+                } else {
+                }
+            }
+        });
+    }, // end doImport
+    
+    doDownloadImportTemplate: function(type)
+    {
+        TableBuilder.showPreloader();
+        
+        var $iframe = jQuery("#submiter");
+        
+        var values = new Array();
+        values.push('type='+ type);
+        values.push('query_type=get_import_template');
+        
+        var url = document.location.pathname +'?'+ values.join('&');
+        
+        $iframe.attr('src', url);
+        
+        TableBuilder.hidePreloader();
+    }, // end doDownloadImportTemplate
+    
 };
 

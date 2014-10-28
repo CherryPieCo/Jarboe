@@ -21,16 +21,26 @@ class ExportHandler
     public function fetch()
     {
         $def = $this->def;
-        if (!$def) {
+        if (!$def || !$def['check']()) {
             return '';
         }
+        
         $fields = $this->controller->getFields();
 
         return View::make('admin::tb.export_buttons', compact('def', 'fields'));
     } // end fetch
     
+    private function doCheckPermission()
+    {
+        if (!$def['check']()) {
+            throw new \RuntimeException('Export not permitted');
+        }
+    } // end doCheckPermission
+    
     public function doExportCsv($idents)
     {
+        $this->doCheckPermission();
+        
         // FIXME: move default to options
         $delimiter = ',';
         if (isset($this->def['buttons']['csv']['delimiter'])) {
@@ -67,6 +77,8 @@ class ExportHandler
     
     private function getBetweenValues()
     {
+        $this->doCheckPermission();
+        
         $between = array();
         if ($this->getAttribute('date_range_field')) {
             // XXX:

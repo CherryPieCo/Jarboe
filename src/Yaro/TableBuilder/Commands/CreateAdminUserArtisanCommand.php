@@ -36,7 +36,7 @@ class CreateAdminUserArtisanCommand extends Command
                 'activated' => true,
             ));
         
-            $group = \Sentry::createGroup(array(
+            $adminGroup = \Sentry::createGroup(array(
                 'name'        => 'admin',
                 'permissions' => array(),
             ));

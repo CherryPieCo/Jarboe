@@ -3,6 +3,9 @@
 // FIXME: check user permissions
 Route::group(array('prefix' => Config::get('table-builder::admin.uri')), function() {
 
+    // docs page
+    Route::get('/', 'Yaro\TableBuilder\TBController@showDashboard');
+
     // logout
     Route::get('logout', 'Yaro\TableBuilder\TBController@doLogout');
 

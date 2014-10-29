@@ -2,8 +2,10 @@
 
 namespace Yaro\TableBuilder\Handlers;
 
+use Yaro\TableBuilder\Exceptions\TableBuilderValidationException;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 
 
 class ImportHandler 
@@ -28,6 +30,70 @@ class ImportHandler
         return View::make('admin::tb.import_buttons', compact('def'));
     } // end fetch
     
+    public function doImportCsv($file)
+    {
+        $this->doCheckPermission();
+        
+        $definition = $this->controller->getDefinition();
+        $table = $definition['db']['table'];
+        
+        // FIXME: move default to options
+        $delimiter = ',';
+        if (isset($this->def['files']['csv']['delimiter'])) {
+            $delimiter = $this->def['files']['csv']['delimiter'];
+        }
+        
+        reset($this->def['fields']);
+        $primaryKey = $this->getAttribute('pk', key($this->def['fields']));
+        
+        $handle = fopen($file->getRealPath(), 'r');
+        $fields = array();
+        $n = 1;
+        while ($row = fgetcsv($handle, 0, $delimiter)) {
+            if ($n === 1) {
+                foreach ($row as $key => $rowCaption) {
+                    foreach ($this->def['fields'] as $ident => $fieldCaption) {
+                        if ($rowCaption === $fieldCaption) {
+                            $fields[$key] = $ident;
+                        }
+                    }
+                }
+                $n++;
+                continue;
+            }
+            
+            if (count($row) != count($fields)) {
+                if (is_null($row[0])) {
+                    $message = 'Пустые строки недопустимы для csv формата. Строка #'. $n;
+                } else {
+                    $message = 'Не верное количество полей. Строка #'. $n .': '
+                             . count($row) .' из '. count($fields);
+                }
+                throw new TableBuilderValidationException($message);
+            }
+            
+            $updateData = array();
+            $pkValue = '';
+            foreach ($fields as $key => $ident) {
+                if ($ident == $primaryKey) {
+                    $pkValue = $row[$key];
+                    continue;
+                }
+                $updateData[$ident] = $row[$key];
+            }
+            if (!$pkValue) {
+                throw new TableBuilderValidationException('Ключ для обновления не установлен.');
+            }
+            
+            DB::table($table)->where($primaryKey, $pkValue)->update($updateData);
+            
+            $n++;
+        }
+        
+        return true;
+        //$this->doCheckFields();
+    } // end doImportCsv
+    
     public function doCsvTemplateDownload()
     {
         $this->doCheckPermission();
@@ -39,12 +105,7 @@ class ImportHandler
         }
         
         $csv = '';
-        $primaryKey = $this->getAttribute('pk');
         foreach ($this->def['fields'] as $field => $caption) {
-            if (!$primaryKey) {
-                $primaryKey = $field;
-            }
-            
             $csv .= '"'. $caption .'"'. $delimiter;
         }
         // remove extra tailing delimiter
@@ -81,7 +142,7 @@ class ImportHandler
     
     private function doCheckPermission()
     {
-        if (!$def['check']()) {
+        if (!$this->def['check']()) {
             throw new \RuntimeException('Import not permitted');
         }
     } // end doCheckPermission

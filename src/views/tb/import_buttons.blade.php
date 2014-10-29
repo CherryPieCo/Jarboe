@@ -19,8 +19,8 @@
                         <div class="col col-12" style="width: 100%;">
                             <label class="label">{{ $info['caption'] }} (<a onclick="TableBuilder.doDownloadImportTemplate('{{ $type }}');" href="javascript:void(0);">скачать шаблон</a>)</label>
                             <div class="input input-file">
-                                <span class="button">
-                                    <input type="file" name="file" onchange="TableBuilder.doImport(this, '{{ $type }}');">
+                                <span class="button" style="top: 3px; right: 3px;">
+                                    <input type="file" name="file" onclick="this.value = null;" onchange="TableBuilder.doImport(this, '{{ $type }}');">
                                     Выбрать
                                 </span>
                                 <input type="text" placeholder="{{ $info['caption'] }}" readonly="readonly">

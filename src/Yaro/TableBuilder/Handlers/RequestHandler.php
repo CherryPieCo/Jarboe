@@ -24,6 +24,10 @@ class RequestHandler {
             case 'search':
                 return $this->handleSearchAction();
                 break;
+            
+            case 'import':
+                return $this->handleImport();
+                break;
                 
             case 'get_import_template':
                 return $this->handleImportTemplateDownload();
@@ -86,6 +90,21 @@ class RequestHandler {
         
         $this->controller->import->$method();
     } // end handleImportTemplateDownload
+    
+    protected function handleImport()
+    {
+        $file   = Input::file('file');
+        $type   = Input::get('type');
+        $method = 'doImport'. ucfirst($type);
+        $idents = array_keys(Input::get('b', array()));
+        
+        $res = $this->controller->import->$method($file);
+        
+        $response = array(
+            'status' => $res
+        );
+        return Response::json($response);
+    } // end handleImport
     
     protected function handleExport()
     {

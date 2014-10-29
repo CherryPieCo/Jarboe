@@ -1104,6 +1104,17 @@ console.log(num);
             timeout : 4000
         });
     }, // end showErrorNotification
+    
+    showSuccessNotification: function(message)
+    {
+        jQuery.smallBox({
+            title : message,
+            content : "",
+            color : "#659265",
+            iconSmall : "fa fa-check fa-2x fadeInRight animated",
+            timeout : 4000
+        });
+    }, // end showSuccessNotification
 
     doEmbedToText: function($summernote)
     {
@@ -1165,15 +1176,24 @@ console.log(num);
     {
         TableBuilder.storage = {};
     }, // end flushStorage
+    
+    showBigErrorNotification: function(errors)
+    {
+        jQuery.bigBox({
+            content : errors,
+            color   : "#C46A69",
+            icon    : "fa fa-warning shake animated",
+        });
+    }, // end showBigErrorNotification
 
-    doImport: function(context, ident)
+    doImport: function(context, type)
     {
         TableBuilder.showPreloader();
         
         var data = new FormData();
-        data.append("image", context.files[0]);
-        data.append('ident', ident);
-        data.append('query_type', 'upload_photo');
+        data.append("file", context.files[0]);
+        data.append('type', type);
+        data.append('query_type', 'import');
 
         jQuery.SmartMessageBox({
             title : "Произвести импорт?",
@@ -1181,29 +1201,34 @@ console.log(num);
             buttons : '[Нет][Да]'
         }, function(ButtonPressed) {
             if (ButtonPressed === "Да") {
-                jQuery.smallBox({
-                    title : "Callback function",
-                    content : "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
-                    color : "#659265",
-                    iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                    timeout : 4000
+                
+                jQuery.ajax({
+                    data: data,
+                    type: "POST",
+                    url: TableBuilder.options.action_url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status) {
+                            TableBuilder.showSuccessNotification('Импорт прошел успешно');
+                        } else {
+                            if (typeof response.errors === "undefined") {
+                                TableBuilder.showErrorNotification('Что-то пошло не так');
+                            } else {
+                                var errors = '';
+                                jQuery(response.errors).each(function(key, val) {
+                                    errors += val +'<br>';
+                                });
+                                TableBuilder.showBigErrorNotification(errors);
+                            }
+                        }
+                        TableBuilder.hidePreloader();
+                    }
                 });
+                
             } else {
                 TableBuilder.hidePreloader();
-            }
-        });
-        return;
-        jQuery.ajax({
-            data: data,
-            type: "POST",
-            url: TableBuilder.options.action_url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                if (response.status) {
-                } else {
-                }
             }
         });
     }, // end doImport

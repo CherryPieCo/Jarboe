@@ -6,6 +6,11 @@ namespace Yaro\TableBuilder;
 class TBController extends \Controller
 {
 
+    public function showDashboard()
+    {
+        return \View::make('admin::dashboard');
+    } // end showDashboard
+
     public function showLogin()
     {
         if (\Sentry::check()) {

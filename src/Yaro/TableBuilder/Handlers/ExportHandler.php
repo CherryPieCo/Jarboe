@@ -32,7 +32,7 @@ class ExportHandler
     
     private function doCheckPermission()
     {
-        if (!$def['check']()) {
+        if (!$this->def['check']()) {
             throw new \RuntimeException('Export not permitted');
         }
     } // end doCheckPermission

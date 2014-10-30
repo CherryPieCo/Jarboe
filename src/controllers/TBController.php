@@ -17,7 +17,7 @@ class TBController extends \Controller
             return \Redirect::to(\Config::get('table-builder::admin.uri'));
         }
         
-        return \View::make('admin::login');
+        return \View::make('admin::vis-login');
     } // end showLogin
  
     public function postLogin()
@@ -31,13 +31,12 @@ class TBController extends \Controller
                 \Input::has('rememberme')
             );
             
-            $onLogin = \Config::get('table-builder::admin.on_login'); 
+            $onLogin = \Config::get('table-builder::login.on_login'); 
             $onLogin();
             
             return \Redirect::to(\Config::get('table-builder::admin.uri'));
             
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            // FIXME: show errors
             \Session::put('tb_login_not_found', \Lang::get('table-builder::login.not_found'));
             return \Redirect::to(\Config::get('table-builder::admin.uri'));
         }
@@ -46,7 +45,7 @@ class TBController extends \Controller
     public function doLogout()
     {
         \Sentry::logout();
-        $onLogout = \Config::get('table-builder::admin.on_logout');
+        $onLogout = \Config::get('table-builder::login.on_logout');
         
         return $onLogout();
     } // end doLogout

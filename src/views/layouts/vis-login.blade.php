@@ -38,6 +38,9 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
         
         <style>
+            #login #main {
+                background: #667;
+            }
             body#login {
                 padding: 0 !important;
             }

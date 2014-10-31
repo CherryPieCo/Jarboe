@@ -38,7 +38,7 @@
                         <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post">
                             <header>
                                 {{trans('table-builder::login.sign_in')}}
-                                <img class="pull-right" src="<?php $faviconUrl = \Config::get('table-builder::login.favicon_url'); echo $faviconUrl(); ?>" />
+                                <img class="pull-right" style="height:25px;" src="<?php $faviconUrl = \Config::get('table-builder::login.favicon_url'); echo $faviconUrl(); ?>" />
                             </header>
     
                             <fieldset>

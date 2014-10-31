@@ -8,10 +8,11 @@ return array(
         return 'http://lorempixel.com/1360/768/cats/';
     },
     'favicon_url' => function() {
-        return 'http://lorempixel.com/30/30/cats/';
+        return asset('packages/yaro/table-builder/img/Mooning_emoji.gif');
     },
     'top_block' => function() {
-        $html = '<div class="pull-left"><img style="height: 30px;" src="/backend/img/logo.png"></div>'
+        $html = '<div class="pull-left"><img style="height: 30px;" 
+                      src="'. asset('packages/yaro/table-builder/img/logo.png') .'"></div>'
               . '<div class="pull-right" style="text-align: right;">'
               . '<p>Служба поддержки:</p>'
               . '<p><a href="mailto:support@vis-design.com">support@vis-design.com</a></p>'

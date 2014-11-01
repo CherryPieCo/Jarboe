@@ -77,7 +77,7 @@ Route::filter('auth_admin', function()
             if (Request::ajax()) {
                 return Response::make('Unauthorized', 401);
             } else {
-                return Redirect::guest('login');
+                return Redirect::guest('/');
             }
         }
     }

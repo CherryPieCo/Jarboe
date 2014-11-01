@@ -64,7 +64,9 @@ class Settings
         if (!$this->hasSetting($ident)) {
             throw new \RuntimeException("There is no setting for [{$ident}].");
         }
-        return explode($delimiter, $this->settings[$ident]);
+        $result = array_filter(explode($delimiter, $this->settings[$ident]));
+        
+        return array_map('trim', $result);
     } // end getChunks
     
     protected function getFirstChunkStatic($ident, $delimiter = ',')
@@ -72,15 +74,20 @@ class Settings
         if (!$this->hasSetting($ident)) {
             throw new \RuntimeException("There is no setting for [{$ident}].");
         }
+        $chunks = array_filter(explode($delimiter, $this->settings[$ident]));
         
-        $chunks = explode($delimiter, $this->settings[$ident]);
-        return $chunks[0];
+        return trim($chunks[0]);
     } // end getFirstChunk
     
     protected function hasSetting($ident)
     {
         return isset($this->settings[$ident]);
     } // end hasSetting
+    
+    protected function hasStatic($ident)
+    {
+        return array_key_exists($ident, $this->settings);
+    } // end hasStatic
 
     public static function __callStatic($name, $arguments)
     {
@@ -89,6 +96,10 @@ class Settings
         $method = $name.'Static';
         if (!$arguments) {
             return $instance->$method();
+        }
+        
+        if (count($arguments) > 1) {
+            return $instance->$method($arguments[0], $arguments[1]);
         }
         return $instance->$method($arguments[0]);
     } // end __callStatic

@@ -27,7 +27,7 @@ class ManyToManyField extends AbstractField {
         // HACK: in checkbox we have id as key of element, in select - as value
         $isInValueElement = ($this->getAttribute('show_type', 'checkbox') == 'select2');
         foreach ($values as $key => $val) {
-        	$externalID = $isInValueElement ? $val : $key;
+            $externalID = $isInValueElement ? $val : $key;
             $data[] = array(
                 $this->getAttribute('mtm_key_field')          => $id,
                 $this->getAttribute('mtm_external_key_field') => $externalID
@@ -41,7 +41,7 @@ class ManyToManyField extends AbstractField {
 
     public function onSelectValue(&$db)
     {
-    	// HACK: we dont need this method to be called for many2many field
+        // HACK: we dont need this method to be called for many2many field
     } // end onSelectValue
 
     public function getValue($row, $postfix = '')
@@ -68,7 +68,7 @@ class ManyToManyField extends AbstractField {
             }
         }
 
-		$showType = $this->getAttribute('show_type', 'checkbox');
+        $showType = $this->getAttribute('show_type', 'checkbox');
         $input = View::make('admin::tb.input_many2many_'. $showType);
         $input->selected = array();
         if ($row) {

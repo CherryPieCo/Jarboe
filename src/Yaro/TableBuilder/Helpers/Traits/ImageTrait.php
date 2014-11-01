@@ -41,11 +41,11 @@ trait ImageTrait
         return $info['title'];
     } // end getImageTitle
         
-    public function getImageSource($ident, $field = 'image')
+    public function getImageSource($ident, $field = 'image', $default = '')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {
-            return '';
+            return $default;
         }
         
         return $info['sizes'][$ident];

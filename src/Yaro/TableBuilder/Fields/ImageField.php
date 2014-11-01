@@ -43,8 +43,8 @@ class ImageField extends AbstractField {
               . $this->getAttribute('after_link');
               
         // FIXME: move to template
-        $src = $this->getAttribute('is_remote') ? $src : URL::to($src);
-        $html = '<img height="'.$this->getAttribute('img_height').'" src="'
+        $src = $this->getAttribute('is_remote') ? $src : URL::asset($src);
+        $html = '<img height="'.$this->getAttribute('img_height', '50px').'" src="'
               . $src
               . '" />';
         return $html;
@@ -122,7 +122,7 @@ class ImageField extends AbstractField {
         $response = array(
             'data'       => $data,
             'status'     => $status,
-            'link'       => URL::to($destinationPath . $fileName),
+            'link'       => URL::asset($destinationPath . $fileName),
             'short_link' => $destinationPath . $fileName,
             // FIXME: naughty hack
             'delimiter' => ','

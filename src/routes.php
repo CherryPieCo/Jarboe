@@ -1,7 +1,7 @@
 <?php
 
 // FIXME: check user permissions
-Route::group(array('prefix' => Config::get('table-builder::admin.uri')), function() {
+Route::group(array('prefix' => Config::get('table-builder::admin.uri'), 'before' => array('auth_admin', 'check_permissions')), function() {
 
     // docs page
     Route::get('/', 'Yaro\TableBuilder\TBController@showDashboard');

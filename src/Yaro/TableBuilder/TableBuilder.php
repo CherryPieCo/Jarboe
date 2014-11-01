@@ -115,11 +115,11 @@ class TableBuilder {
         if (!$ip) {
             $ip = \Request::getClientIp();
         }
-		
-		if ($ip == '127.0.0.1') {
-			// HACK:
-			$ip = '217.27.152.26';
-		}
+        
+        if ($ip == '127.0.0.1') {
+            // HACK:
+            $ip = '217.27.152.26';
+        }
         
         $info = \DB::table('ip_geo_locations')->where('ip', $ip)->first();
         if ($info) {
@@ -127,19 +127,19 @@ class TableBuilder {
             return $info;
         }
         
-        $url = 'http://geoip.elib.ru/cgi-bin/getdata.pl?ip=';
-        $xmlInfo = file_get_contents($url . $ip);
-        // easy-breezy lol
-        $xml  = simplexml_load_string($xmlInfo);
-        $json = json_encode($xml);
+        $url = 'http://geoip.elib.ru/cgi-bin/getdata.pl?fmt=json&ip=';
+        $json = file_get_contents($url . $ip);
         
         $info = json_decode($json, true);
+        if (!$json || isset($info[$ip]['Error'])) {
+            return false;
+        }
         
         $data = array(
             'ip'        => $ip,
-            'town'      => $info['GeoAddr']['Town'],
-            'latitude'  => $info['GeoAddr']['Lat'],
-            'longitude' => $info['GeoAddr']['Lon'],
+            'town'      => $info[$ip]['Town'],
+            'latitude'  => $info[$ip]['Lat'],
+            'longitude' => $info[$ip]['Lon'],
         );
         \DB::table('ip_geo_locations')->insert($data);
         

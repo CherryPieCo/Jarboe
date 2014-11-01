@@ -2,8 +2,6 @@
 
 return array(
 
-    'title' => 'TB Admin',
-    
     'uri' => '/admin',
     
     'user_name'  => function() {

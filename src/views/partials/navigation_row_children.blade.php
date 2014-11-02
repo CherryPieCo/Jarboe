@@ -6,8 +6,7 @@
     >
     
     @if (isset($item['submenu']))
-        <a href="#" 
-           title="{{$item['title']}}">
+        <a href="#">
             @if (isset($item['icon']))
                 <i class="fa fa-lg fa-fw fa-{{$item['icon']}}"></i> 
             @endif

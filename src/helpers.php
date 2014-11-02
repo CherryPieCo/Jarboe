@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('__'))
+if (!function_exists('__')) 
 {
     function __()
     {

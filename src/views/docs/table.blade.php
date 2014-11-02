@@ -4,7 +4,10 @@
 
 <ul class="nav nav-tabs bordered">
     <li>
-        <a href="#fields" data-toggle="tab">Структура и поля</a>
+        <a href="#structure" data-toggle="tab">Структура</a>
+    </li>
+    <li>
+        <a href="#fields" data-toggle="tab">Поля</a>
     </li>
     <li>
         <a href="#callbacks" data-toggle="tab">Коллбеки</a>
@@ -18,9 +21,17 @@
     <li class="active pull-right">
         <a href="#common" data-toggle="tab">Quick Start</a>
     </li>
+    <li class="pull-right">
+        <a href="#mmmm" data-toggle="tab">Ништяки</a>
+    </li>
 </ul>
 
 <div class="tab-content padding-10">
+    <div class="tab-pane" id="structure">
+        <div class="table-responsive">
+            @include('admin::docs.table.structure')
+        </div>
+    </div>
     <div class="tab-pane" id="fields">
         <div class="table-responsive">
             @include('admin::docs.table.fields')
@@ -43,6 +54,9 @@
     </div>
     <div class="tab-pane active" id="common">
         @include('admin::docs.table.quick_start')
+    </div>
+    <div class="tab-pane active" id="mmmm">
+        @include('admin::docs.faq.common')
     </div>
 </div>
 

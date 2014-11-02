@@ -45,7 +45,7 @@ abstract class CustomHandler
     {
     } // end onSelectField
 
-    public function onPrepareSearchFilters(&$filters)
+    public function onPrepareSearchFilters(array &$filters)
     {
     } // end onPrepareSearchFilters
     
@@ -80,9 +80,20 @@ abstract class CustomHandler
         /*
         return array(
             'id' => $idInsertedRow,
+            'values' => $values
         );
         */
     } // end handleInsertRow
+    
+    public function handleUpdateRow($values)
+    {
+        /*
+        return array(
+            'id' => $idUpdatedRow,
+            'values' => $values
+        );
+        */
+    } // end handleUpdateRow
     
     public function onUpdateFastRowResponse(array &$response)
     {

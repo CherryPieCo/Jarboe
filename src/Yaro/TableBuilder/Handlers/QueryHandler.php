@@ -195,6 +195,13 @@ class QueryHandler {
             throw new \RuntimeException('Update action is not permitted');
         }
         
+        if ($this->controller->hasCustomHandlerMethod('handleUpdateRow')) {
+            $res = $this->controller->getCustomHandler()->handleUpdateRow($values);
+            if ($res) {
+                return $res;
+            }
+        }
+        
         $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
         
@@ -283,7 +290,7 @@ class QueryHandler {
         
         $res = array(
             'id' => $id,
-            //'values' => $insertData
+            'values' => $insertData
         );
         if ($this->controller->hasCustomHandlerMethod('onInsertRowResponse')) {
             $this->controller->getCustomHandler()->onInsertRowResponse($res);

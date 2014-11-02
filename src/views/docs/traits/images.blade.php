@@ -1,6 +1,8 @@
 
+<p><code>use Yaro\TableBuilder\Helpers\Traits\ImageTrait;</code></p>
 <p>
     Трейт для удобного вытягивания изображений.<br>
+    
     Доступные методы:    
 </p>
 

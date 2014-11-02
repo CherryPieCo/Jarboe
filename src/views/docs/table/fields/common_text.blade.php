@@ -1,6 +1,6 @@
 <p>
-                Пример поля с типом <code>text</code>:
-            </p>
+    Пример поля с типом <code>text</code>:
+</p>
 <pre>
 <code class="php">
 'title' => array(
@@ -35,6 +35,7 @@
               <dd>Флаг для скрытия отображения поля в списке. <span class="label bg-color-blueLight pull-right">отображается в списке</span></dd>
               <dt>mask</dt>
               <dd>Маска для поля (пока что используется <a target="_blank" href="http://digitalbush.com/projects/masked-input-plugin/">этот плагин</a>). <span class="label bg-color-blueLight pull-right">без маски</span></dd>
+              <dd>Лучше пока воздержаться от использования маски, т.к. в ближайшем времени она видоизменится.</dd>
               <dt>is_sorting</dt>
               <dd>Сортировка ASC/DESC по нажатию на заголовок поля. <span class="label bg-color-blueLight pull-right">без сортировки</span></dd>
               <dt>placeholder</dt>

@@ -65,9 +65,11 @@
         'icon'  => 'user',
         'submenu' => array(
             array(
-                'title' => 'Пользователи',
-                'link'  => '/tb/users',
-                'check' => function() {
+                'title'   => 'Пользователи',
+                'link'    => '/tb/users',
+                // Паттерн для регулярки. Заменяет сравнивание текущего пути по 'link'
+                'pattern' => '/tb/users/?\d*',
+                'check'   => function() {
                     return true;
                 }
             ),

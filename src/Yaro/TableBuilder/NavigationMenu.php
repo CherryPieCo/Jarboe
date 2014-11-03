@@ -74,20 +74,42 @@ class NavigationMenu
                 $this->onCheckMenuItem($subItem);
             }
         } else {
-            $menuLink = \URL::to(\Config::get('table-builder::admin.uri') . $item['link']);
-            if (\Request::URL() == $menuLink) {
+            // FIXME:
+            $isToCheck = false;
+            if (isset($item['pattern'])) {
+                $menuLink = \Config::get('table-builder::admin.uri') . $item['pattern'];
+                $menuLink = ltrim($menuLink, '/');
+                $pattern = '~^'. $menuLink .'$~';
+                $isToCheck = preg_match($pattern, \Request::path());
+            } else {
+                $menuLink = \URL::to(\Config::get('table-builder::admin.uri') . $item['link']);
+                $isToCheck = \Request::URL() == $menuLink;
+            }
+            
+            if ($isToCheck) {
                 $isAllowed = $item['check'];
                 if (!$isAllowed()) {
                     \App::abort(404);
                 }
             }
+            
         }
     } // end onCheckMenuItem
     
     private function isActiveURL($item)
     {
-        $menuLink = \URL::to(\Config::get('table-builder::admin.uri') . $item['link']);
+        // FIXME:
+        if (isset($item['pattern'])) {
+            $menuLink = \Config::get('table-builder::admin.uri') . $item['pattern'];
+            $menuLink = ltrim($menuLink, '/');
+            $pattern = '~^'. $menuLink .'$~';
+            
+            return preg_match($pattern, \Request::path());
+        }
         
+        // FIXME:
+        $menuLink = \URL::to(\Config::get('table-builder::admin.uri') . $item['link']);
         return \Request::URL() == $menuLink;
     } // end isActiveURL
+    
 }

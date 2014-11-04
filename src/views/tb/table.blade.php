@@ -67,6 +67,8 @@
     <tbody>
         @include('admin::tb.table_tbody')
     </tbody>
+    
+        @include('admin::tb.table_tfoot')
 
 </table> 
 

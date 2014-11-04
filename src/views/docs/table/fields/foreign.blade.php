@@ -10,7 +10,9 @@
     'type'    => 'foreign',
     'filter'  => 'text',
     'is_null' => true,
-    'alias'   => 'c',
+    'null_caption' => 'Без города',
+    'is_readonly'  => false,
+    'alias'        => 'c',
     'foreign_table'       => 'cities',
     'foreign_key_field'   => 'id',
     'foreign_value_field' => 'name',
@@ -21,8 +23,12 @@
 <dl class="dl-horizontal">
   <dt>is_null</dt>
   <dd>Если внешний ключ может быть <code>NULL</code>. Делается не <code>INNER JOIN</code>, а <code>LEFT JOIN</code>. <span class="label bg-color-blueLight pull-right">false</span></dd>
+  <dt>null_caption</dt>
+  <dd>Отображение для поля со значением <code>NULL</code>. <span class="label bg-color-blueLight pull-right">...</span><span style="margin-right:3px;" class="label bg-color-blueLight pull-right">fa-minus</span></dd>
+  <dt>is_readonly</dt>
+  <dd>Редактируем ли внешний ключ. <span class="label bg-color-blueLight pull-right">false</span></dd>
   <dt>alias</dt>
-  <dd>Псевдоним для внешней таблицы при построении запроса. <span class="label bg-color-red pull-right">обязательно</span><br>
+  <dd>Псевдоним для внешней таблицы при построении запроса. <span class="label bg-color-red pull-right">желательно</span><br>
       Особенно важен, если таблица ссылается на саму себя.</dd>
   <dt>foreign_table</dt>
   <dd>Название внешней таблицы. <span class="label bg-color-red pull-right">обязательно</span></dd>

@@ -206,9 +206,17 @@ div.editable-input input.input-editable {
 div.editable-input div.editable-image {
     margin-bottom: 4px;
 }
-div.editable-buttons editable-buttons-bottom {
+div.editable-buttons .editable-buttons-bottom {
     text-align: right;
 }
 div.tb-uploaded-image-container div.editable-container{
     /*width: 235px;*/
+}
+
+
+/* Multi checkbox select */
+.tb-table label.multi-checkbox {
+    padding: 0 !important;
+    min-height: 18px !important;
+    min-width: 5px !important;
 }

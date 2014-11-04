@@ -168,7 +168,7 @@
 <p>Вспомогательные пункты для описания таблицы:</p>
 <br>
 
-<b>Экспорт таблицы</b>
+<b>export</b> - описание правил для экспорта данных по таблице.
 <pre>
 <code class="php">
 'export' => array(
@@ -214,7 +214,7 @@
 
 <hr>
 
-<b>Импорт таблицы</b>
+<b>import</b> - описание правил для импорта (обноления) данных по таблице.
 <pre>
 <code class="php">
 'import' => array(
@@ -258,5 +258,66 @@
   <dd>Разделитель колонок (только для <code>csv</code>). <span class="label bg-color-blueLight pull-right">запятая (,)</span></dd>
   <dt>check</dt>
   <dd>Лямбда для проверки прав на импорт. <span class="label bg-color-blueLight pull-right">запятая (,)</span></dd>
+</dl>
+<hr>
+
+
+<b>multi_actions</b> - групповой выбор полей для действий. Представляет из себя массив ключей (идентификаторов, которые сам придумаешь) и их значений-описаний.
+<pre>
+<code class="php">
+'multi_actions' => array(
+    'oh' => array(
+        'caption' => 'Remove',
+        'check' => function() {
+            return true;
+        },
+        'handle' => function($ids) {
+            $errors = array_map(
+                function($id) {
+                     return 'Поле не редактируемо: #'. $id; 
+                }, 
+                $ids
+            );
+            
+            $data = array(
+                // true|false. в случае успеха/ошибки
+                'status' => false,
+                // массив(!) ошибок для отображения на фронтенде
+                'errors' => $errors
+            );
+            return $data;
+        },
+    ),
+    'hai' => array(
+        'caption' => 'Щито',
+        'class'   => 'bg-color-blueLight txt-color-white',
+        'is_hide_rows' => true,
+        'check' => function() {
+            return true;
+        },
+        'handle' => function($ids) {
+            $data = array(
+                'status'  => true,
+                // строка(!) для оповещения об успешности действия
+                'message' => 'Запрос успешно выполнен'
+            );
+            return $data;
+        },
+    )
+),
+</code>
+</pre> 
+
+<dl class="dl-horizontal">
+  <dt>multi_actions[]caption</dt>
+  <dd>Заголовок для кнопки действия. <span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dt>multi_actions[]class</dt>
+  <dd>Дополнительные классы к кнопке действия. <span class="label bg-color-blueLight pull-right">ничего</span></dd>
+  <dt>multi_actions[]is_hide_rows</dt>
+  <dd>Флаг для скрытия полей, по которым шла обработка. Скрываются после ответа об успехе. <span class="label bg-color-blueLight pull-right">false</span></dd>
+  <dt>multi_actions[]check</dt>
+  <dd>Замыкание для проверки прав на групповое действие. <span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dt>multi_actions[]handle</dt>
+  <dd>Замыкание для обработки по действию. <code>$ids</code> содержит <code>id</code> выбранных полей. <span class="label bg-color-red pull-right">обязательно</span></dd>
 </dl>
 

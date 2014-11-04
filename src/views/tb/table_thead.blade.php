@@ -1,7 +1,9 @@
 
 <tr>
     @if (isset($def['multi_actions']))
-        <th><label class="checkbox"><input type="checkbox" /><i></i></label></th>
+        <th><label class="checkbox multi-checkbox multi-main-checkbox" onclick="TableBuilder.doSelectAllMultiCheckboxes(this);">
+            <input type="checkbox" /><i></i>
+        </label></th>
     @endif
     
     @foreach ($def['fields'] as $ident => $options)

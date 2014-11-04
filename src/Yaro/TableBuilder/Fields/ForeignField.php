@@ -78,7 +78,7 @@ class ForeignField extends AbstractField {
         
         if (!$value && $this->getAttribute('is_null')) {
             // FIXME:
-            $value = '<i class="fa fa-minus"></i>';
+            $value = $this->getAttribute('null_caption', '<i class="fa fa-minus"></i>');
         }
 
         return $value;

@@ -75,5 +75,5 @@
 --}}
 @endforeach
 @else
-    <tr><td colspan=100%>{{ $def['options']['not_found'] or 'No data found' }}</td></tr>
+    <tr><td colspan="100%">{{ $def['options']['not_found'] or 'No data found' }}</td></tr>
 @endif

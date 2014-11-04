@@ -24,6 +24,10 @@ class RequestHandler {
             case 'search':
                 return $this->handleSearchAction();
                 break;
+                
+            case 'multi_action':
+                return $this->handleMultiAction();
+                break;
             
             case 'import':
                 return $this->handleImport();
@@ -82,6 +86,32 @@ class RequestHandler {
                 break;
         }
     } // end handle
+    
+    protected function handleMultiAction()
+    {
+        // FIXME: move to separate class
+        $def = $this->controller->getDefinition();
+        
+        $type = Input::get('type');
+        $action = $def['multi_actions'][$type];
+        
+        $isAllowed = $action['check'];
+        if (!$isAllowed()) {
+            throw new \RuntimeException('Multi action not allowed: '. $type);
+        }
+        
+        $ids = Input::get('multi_ids', array());
+        $handlerClosure = $action['handle'];
+        $data = $handlerClosure($ids);
+        
+        $data['ids'] = $ids;
+        $data['is_hide_rows'] = false;
+        if (isset($action['is_hide_rows'])) {
+            $data['is_hide_rows'] = $action['is_hide_rows'];
+        }
+        
+        return Response::json($data);
+    } // end handleMultiAction
     
     protected function handleImportTemplateDownload()
     {

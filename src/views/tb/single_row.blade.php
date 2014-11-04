@@ -1,4 +1,8 @@
 <tr id-row="{{ $row['id'] }}">
+    @if (isset($def['multi_actions']))
+        <td><label class="checkbox"><input type="checkbox" value="{{$row['id']}}" name="multi_ids[]" /><i></i></label></td>
+    @endif
+    
     @foreach ($def['fields'] as $ident => $field)
     @if (!$controller->getField($ident)->getAttribute('hide_list'))
 

@@ -1,5 +1,9 @@
 
 <tr>
+    @if (isset($def['multi_actions']))
+        <th><label class="checkbox"><input type="checkbox" /><i></i></label></th>
+    @endif
+    
     @foreach ($def['fields'] as $ident => $options)
     <?php 
     $field = $controller->getField($ident); 
@@ -35,6 +39,10 @@
 
 @if ($def['is_searchable'])
 <tr class="filters-row">
+    @if (isset($def['multi_actions']))
+        <th></th>
+    @endif
+    
     @foreach ($def['fields'] as $ident => $options)
     <?php $field = $controller->getField($ident); ?>
     @if (!$field->getAttribute('hide_list'))

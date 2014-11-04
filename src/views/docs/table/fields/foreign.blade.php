@@ -9,6 +9,7 @@
     'caption' => 'Город',
     'type'    => 'foreign',
     'filter'  => 'text',
+    'is_null' => true,
     'alias'   => 'c',
     'foreign_table'       => 'cities',
     'foreign_key_field'   => 'id',
@@ -18,6 +19,8 @@
 </pre>            
     
 <dl class="dl-horizontal">
+  <dt>is_null</dt>
+  <dd>Если внешний ключ может быть <code>NULL</code>. Делается не <code>INNER JOIN</code>, а <code>LEFT JOIN</code>. <span class="label bg-color-blueLight pull-right">false</span></dd>
   <dt>alias</dt>
   <dd>Псевдоним для внешней таблицы при построении запроса. <span class="label bg-color-red pull-right">обязательно</span><br>
       Особенно важен, если таблица ссылается на саму себя.</dd>

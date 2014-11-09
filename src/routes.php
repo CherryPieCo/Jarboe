@@ -13,6 +13,10 @@ Route::group(array('prefix' => Config::get('table-builder::admin.uri'), 'before'
     Route::post('tb/get-html-by-url', 'Yaro\TableBuilder\TBController@fetchByUrl');
     Route::post('tb/embed-to-text', 'Yaro\TableBuilder\TBController@doEmbedToText');
     
+    // elfinder
+    Route::any('tb/elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
+    
+    
     // informer
     Route::post('tb/informer/get-notification', 'Yaro\TableBuilder\TBController@getInformNotification');
     Route::post('tb/informer/get-notification-counts', 'Yaro\TableBuilder\TBController@getInformNotificationCounts');

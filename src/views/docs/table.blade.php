@@ -55,7 +55,7 @@
     <div class="tab-pane active" id="common">
         @include('admin::docs.table.quick_start')
     </div>
-    <div class="tab-pane active" id="mmmm">
+    <div class="tab-pane " id="mmmm">
         @include('admin::docs.faq.common')
     </div>
 </div>

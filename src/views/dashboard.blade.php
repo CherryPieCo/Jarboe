@@ -11,6 +11,7 @@
 
 @include('admin::docs.config')
 @include('admin::docs.table')
+@include('admin::docs.filemanager')
 
 
 @include('admin::docs.dino')

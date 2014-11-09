@@ -15,6 +15,7 @@
         "yandex/translate-api": "~1.0",
         "mpratt/embera": "~1.0",
         "cartalyst/sentry": "2.1.*",
+        "barryvdh/laravel-elfinder": "0.1.x",
         "intervention/image": "2.*"
     },
     "autoload": {

@@ -110,6 +110,15 @@ class TableBuilder {
         return $controller->handle();
     } // end catalog
     
+    public function fileManager($connectorUrl = false)
+    {
+        $ident = str_random(12);
+        $connectorUrl = $connectorUrl ? $connectorUrl : '/tb/elfinder/connector';
+        $connector = \Config::get('table-builder::admin.uri') . $connectorUrl;
+        
+        return \View::make('admin::file_manager.common', compact('ident', 'connector'))->render();
+    } // end fileManager
+    
     public static function geo($ip = false)
     {
         if (!$ip) {

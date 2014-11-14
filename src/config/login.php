@@ -31,6 +31,7 @@ return array(
     'on_login' => function() {
     },
     'on_logout' => function() {
+        return \Redirect::to('/');
     },
     
 );

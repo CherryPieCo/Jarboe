@@ -115,7 +115,8 @@ class ImageField extends AbstractField {
             }
             
             $path = $destinationPath . $rawFileName .'_'. $type .'.'. $extension;
-            $img->save(public_path() .'/'. $path);
+            $quality = $this->getAttribute('quality', 100);
+            $img->save(public_path() .'/'. $path, $quality);
             $data['sizes'][$type] = $path;
         }
         

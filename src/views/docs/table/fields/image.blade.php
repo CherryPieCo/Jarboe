@@ -99,7 +99,8 @@
             'greyscale' => array(),
             'pixelate'  => array(12)
         )
-    )
+    ),
+    'quality' => 90
 ),
 </code>
 </pre>              
@@ -107,6 +108,9 @@
                       <dt>variations</dt>
                       <dd>Список дополнительных вариантов загружаемого изображения.  <span class="label bg-color-blueLight pull-right">будет только original</span><br>
                           Ключем мы задаем идентификатор варианта изображения. В значении перечисляем методы с массивом передаваемых в них значений (<a target="_blank" href="http://image.intervention.io/">список всех методов</a>).
+                      </dd>
+                      <dt>quality</dt>
+                      <dd>Качество сохраненных изображений.  <span class="label bg-color-blueLight pull-right">100</span><br>
                       </dd>
                     </dl>    
 

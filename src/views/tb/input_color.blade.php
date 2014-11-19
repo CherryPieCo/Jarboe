@@ -1,7 +1,7 @@
 
 <input id="{{$name}}"
        name="{{$name}}" 
-       value="{{ $value }}"
+       value="{{ $value ? : $default }}"
         @if ($type == 'rgba')
            data-color-format="rgba"
         @endif

@@ -39,6 +39,7 @@ class ColorField extends AbstractField
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->type  = $this->getAttribute('color_type', 'hex');
+        $input->default = $this->getAttribute('default', '');
 
         return $input->render();
     } // end getEditInput

@@ -69,6 +69,12 @@ abstract class AbstractField {
         }
         
         $fieldName = $this->getFieldName() . $postfix;
+        // postfix used for getting values for form - tabs loop
+        // so there is no need to force appending postfix
+        if ($this->getAttribute('tabs') && !$postfix) {
+            $tabs = $this->getAttribute('tabs');
+            $fieldName = $fieldName . $tabs[0]['postfix'];
+        }
         $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
         
         return $value;

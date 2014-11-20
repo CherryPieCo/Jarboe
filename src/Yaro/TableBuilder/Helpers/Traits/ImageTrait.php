@@ -6,7 +6,7 @@ namespace Yaro\TableBuilder\Helpers\Traits;
 trait ImageTrait 
 {
     
-    public function getImage($ident, $field = 'image')
+    public function getImage($ident = 'original', $field = 'image')
     {
         $res = array();
         $info = json_decode($this->$field, true);
@@ -41,7 +41,7 @@ trait ImageTrait
         return $info['title'];
     } // end getImageTitle
         
-    public function getImageSource($ident, $field = 'image', $default = '')
+    public function getImageSource($ident = 'original', $field = 'image', $default = '')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {
@@ -51,7 +51,7 @@ trait ImageTrait
         return $info['sizes'][$ident];
     } // end getImageSource
     
-    public function getFirstImage($ident, $field = 'images')
+    public function getFirstImage($ident = 'original', $field = 'images')
     {
         $res = array();
         $info = json_decode($this->$field, true);
@@ -88,7 +88,7 @@ trait ImageTrait
         return $info[0]['title'];
     } // end getFirstImageTitle
         
-    public function getFirstImageSource($ident, $field = 'images', $default = '')
+    public function getFirstImageSource($ident = 'original', $field = 'images', $default = '')
     {
         $info = json_decode($this->$field, true);
         if (!$info) {

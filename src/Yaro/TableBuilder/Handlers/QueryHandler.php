@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Yaro\TableBuilder\Handlers;
 
@@ -59,15 +59,15 @@ class QueryHandler {
                 $this->db->orderBy($this->getOptionDB('table') .'.'. $field, $direction);
             }
         }
-        
+
         // FIXME:
         if ($betweenWhere) {
             $betweenField  = $betweenWhere['field'];
             $betweenValues = $betweenWhere['values'];
-            
+
             $this->db->whereBetween($betweenField, $betweenValues);
         }
-        
+
 
         if ($this->hasOptionDB('pagination') && $isPagination) {
             $pagination = $this->getOptionDB('pagination');
@@ -78,13 +78,13 @@ class QueryHandler {
         }
         return $this->db->get();
     } // end getRows
-    
+
     private function getPerPageAmount($info)
     {
         if (!is_array($info)) {
             return $info;
         }
-        
+
         $definitionName = $this->controller->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.per_page';
         $perPage = Session::get($sessionPath);
@@ -92,30 +92,30 @@ class QueryHandler {
             $keys = array_keys($info);
             $perPage = $keys[0];
         }
-        
+
         return $perPage;
     } // end getPerPageAmount
-    
+
     protected function prepareFilterValues()
     {
         $definition = $this->controller->getDefinition();
         $filters = isset($definition['filters']) ? $definition['filters'] : array();
-        
+
         foreach ($filters as $name => $field) {
             $this->db->where($name, $field['sign'], $field['value']);
         }
     } // end prepareFilterValues
-    
+
     protected function doPrependFilterValues(&$values)
     {
         $definition = $this->controller->getDefinition();
         $filters = isset($definition['filters']) ? $definition['filters'] : array();
-        
+
         foreach ($filters as $name => $field) {
             $values[$name] = $field['value'];
         }
     } // end doPrependFilterValues
-    
+
     protected function prepareSelectValues()
     {
         $this->db->select($this->getOptionDB('table') .'.id');
@@ -140,9 +140,9 @@ class QueryHandler {
     public function getTableAllowedIds()
     {
         $this->db = DB::table($this->getOptionDB('table'));
-        
+
         $this->prepareFilterValues();
-        
+
         $ids = $this->db->lists('id');
 
         return $ids;
@@ -194,31 +194,33 @@ class QueryHandler {
         if (!$this->controller->actions->isAllowed('update')) {
             throw new \RuntimeException('Update action is not permitted');
         }
-        
+
         if ($this->controller->hasCustomHandlerMethod('handleUpdateRow')) {
             $res = $this->controller->getCustomHandler()->handleUpdateRow($values);
             if ($res) {
                 return $res;
             }
         }
-        
+
         $updateData = $this->_getRowQueryValues($values);
         $this->_checkFields($updateData);
-        
+
         if ($this->controller->hasCustomHandlerMethod('onUpdateRowData')) {
             $this->controller->getCustomHandler()->onUpdateRowData($updateData);
         }
         $this->doValidate($updateData);
-        
+
         $this->doPrependFilterValues($updateData);
-        
+
         $status = $this->db->where('id', $values['id'])->update($updateData);
-        
+
         // FIXME:
-        if (isset($values['many2many'])) {
-            $this->onManyToManyValues($values, $values['id']);
+        foreach ($values as $key => $val) {
+            if (preg_match('~^many2many~', $key)) {
+                $this->onManyToManyValues($key, $values, $values['id']);
+            }
         }
-    
+
         $res = array(
             'id'     => $values['id'],
             'values' => $updateData
@@ -235,14 +237,14 @@ class QueryHandler {
         if (!$this->controller->actions->isAllowed('delete')) {
             throw new \RuntimeException('Delete action is not permitted');
         }
-        
+
         if ($this->controller->hasCustomHandlerMethod('handleDeleteRow')) {
             $res = $this->controller->getCustomHandler()->handleDeleteRow($id);
             if ($res) {
                 return $res;
             }
         }
-        
+
         $res = $this->db->where('id', $id)->delete();
 
         $res = array(
@@ -261,33 +263,35 @@ class QueryHandler {
         if (!$this->controller->actions->isAllowed('insert')) {
             throw new \RuntimeException('Insert action is not permitted');
         }
-        
+
         if ($this->controller->hasCustomHandlerMethod('handleInsertRow')) {
             $res = $this->controller->getCustomHandler()->handleInsertRow($values);
             if ($res) {
                 return $res;
             }
         }
-        
+
         $insertData = $this->_getRowQueryValues($values);
         $this->_checkFields($insertData);
-        
+
         $id = false;
         if ($this->controller->hasCustomHandlerMethod('onInsertRowData')) {
             $id = $this->controller->getCustomHandler()->onInsertRowData($insertData);
         }
-        
+
         if (!$id) {
             $this->doValidate($insertData);
             $this->doPrependFilterValues($insertData);
             $id = $this->db->insertGetId($insertData);
         }
-        
+
         // FIXME:
-        if (isset($values['many2many'])) {
-            $this->onManyToManyValues($values, $id);
+        foreach ($values as $key => $val) {
+            if (preg_match('~^many2many~', $key)) {
+                $this->onManyToManyValues($key, $values, $values['id']);
+            }
         }
-        
+
         $res = array(
             'id' => $id,
             'values' => $insertData
@@ -298,13 +302,13 @@ class QueryHandler {
 
         return $res;
     } // end insertRow
-    
-    private function onManyToManyValues($values, $id)
+
+    private function onManyToManyValues($ident, $values, $id)
     {
-        $field = $this->controller->getField('many2many');
-        $field->onPrepareRowValues($values['many2many'], $id);
+        $field = $this->controller->getField($ident);
+        $field->onPrepareRowValues($values[$ident], $id);
     } // end onManyToManyValues
-    
+
     private function doValidate($values)
     {
         // FIXME:
@@ -315,7 +319,7 @@ class QueryHandler {
         }
         */
         $errors = array();
-        
+
         $definition = $this->controller->getDefinition();
         $fields = $definition['fields'];
         foreach ($fields as $ident => $options) {
@@ -337,7 +341,7 @@ class QueryHandler {
                 continue;
             }
         }
-        
+
         if ($errors) {
             $errors = implode('|', $errors);
             throw new TableBuilderValidationException($errors);
@@ -351,7 +355,7 @@ class QueryHandler {
         array_walk($values, function(&$value, $ident) {
             $field = $this->controller->getField($ident);
             $value = $field->prepareQueryValue($value);
-        }); 
+        });
         */
         $definition = $this->controller->getDefinition();
         $fields = $definition['fields'];
@@ -377,8 +381,13 @@ class QueryHandler {
     {
         unset($values['id']);
         unset($values['query_type']);
-        unset($values['many2many']);
-        
+
+        foreach ($values as $key => $val) {
+            if (preg_match('~^many2many~', $key)) {
+                unset($values[$key]);
+            }
+        }
+
         return $values;
     } // end _unsetFutileFields
 

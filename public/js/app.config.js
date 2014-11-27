@@ -270,17 +270,17 @@
 jQuery(document).ready(function() {
     $.root_.on("click",'[data-action="minifyMenu"]',function(b){
         if ($.root_.hasClass('minified')) {
-            document.cookie = "admin_body_class=";
+            TBMenu.saveMenuPreference('');
         } else {
-            document.cookie = "admin_body_class=minified";
+            TBMenu.saveMenuPreference('minified');
         }
     });
     
     $.root_.on("click",'[data-action="toggleMenu"]',function(b){
         if ($.root_.hasClass('hidden-menu')) {
-            document.cookie = "admin_body_class=";
+            TBMenu.saveMenuPreference('');
         } else {
-            document.cookie = "admin_body_class=hidden-menu";
+            TBMenu.saveMenuPreference('hidden-menu');
         }
     });
 });

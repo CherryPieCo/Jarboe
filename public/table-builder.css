@@ -229,3 +229,8 @@ div.tb-uploaded-image-container div.editable-container{
     margin-top: -10px;
     margin-right: 0px;
 }
+
+/* Colorpicker */
+.colorpicker {
+    z-index: 111111;
+}

@@ -19,6 +19,7 @@ var TableBuilder = {
 
     onDoEdit: null,
     onDoCreate: null,
+    afterGetEditForm: null,
 
     init: function(options)
     {
@@ -27,8 +28,8 @@ var TableBuilder = {
         TableBuilder.initDoubleClickEditor();
         TableBuilder.initSearchOnEnterPressed();
         //TableBuilder.initImageEditable();
-    }, // end init    
-    
+    }, // end init
+
     initImageEditable: function()
     {TableBuilder.initSeveralImageEditable();return;
         (function (e) {
@@ -93,7 +94,7 @@ var TableBuilder = {
             e.fn.editabletypes.image = t
         })(window.jQuery);
     }, // end initImageEditable
-    
+
     initSeveralImageEditable: function()
     {
         (function (e) {
@@ -161,7 +162,7 @@ var TableBuilder = {
             e.fn.editabletypes.image = t
         })(window.jQuery);
     }, // end initSeveralImageEditable
-    
+
     initSingleImageEditable: function()
     {
         TableBuilder.initImageEditable();
@@ -174,7 +175,7 @@ var TableBuilder = {
                 showbuttons: 'bottom',
                 url: function(params) {
                     var vals = params.value;
-                    
+
                     // single image doesnt have tbnum
                     if (vals.tbnum === "") {
                         console.log('s');
@@ -199,16 +200,16 @@ var TableBuilder = {
                         $(this).empty();
                         return;
                     }
-                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, ' 
-                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, ' 
-                             + jQuery('<div>').text(value.tbident).html() + '</b>, ' 
+                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, '
+                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, '
+                             + jQuery('<div>').text(value.tbident).html() + '</b>, '
                              + jQuery('<div>').text(value.tbnum).html();
                     jQuery(this).html(html);
                 }
             });
         });
     }, // end initSingleImageEditable
-    
+
     initMultipleImageEditable: function()
     {
         TableBuilder.initSeveralImageEditable();
@@ -221,7 +222,7 @@ var TableBuilder = {
                 showbuttons: 'bottom',
                 url: function(params) {
                     var vals = params.value;
-                    
+
                     // single image doesnt have tbnum
                     if (vals.tbnum === "") {
                         console.log('s');
@@ -246,9 +247,9 @@ var TableBuilder = {
                         $(this).empty();
                         return;
                     }
-                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, ' 
-                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, ' 
-                             + jQuery('<div>').text(value.tbident).html() + '</b>, ' 
+                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, '
+                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, '
+                             + jQuery('<div>').text(value.tbident).html() + '</b>, '
                              + jQuery('<div>').text(value.tbnum).html();
                     jQuery(this).html(html);
                 }
@@ -511,6 +512,10 @@ var TableBuilder = {
                     TableBuilder.initSingleImageEditable();
                     TableBuilder.initMultipleImageEditable();
                     TableBuilder.initSummernoteFullscreen();
+
+                    if (TableBuilder.afterGetEditForm) {
+                        TableBuilder.afterGetEditForm();
+                    }
                 } else {
                     jQuery.smallBox({
                         title : "Что-то пошло не так, попробуйте позже",
@@ -707,14 +712,14 @@ var TableBuilder = {
         var values = jQuery(TableBuilder.edit_form).serializeArray();
         values.push({ name: 'id', value: id });
         values.push({ name: 'query_type', value: "save_edit_form" });
-        
+
         // take values from temp storage (for images)
         jQuery.each(values, function(index, val) {
             if (typeof TableBuilder.storage[val.name] !== 'undefined') {
                 var json = JSON.stringify(TableBuilder.storage[val.name]);
-                values[index] = { 
-                    name:  val.name, 
-                    value: json 
+                values[index] = {
+                    name:  val.name,
+                    value: json
                 };
             }
         });
@@ -801,14 +806,14 @@ console.log(values);
 
         var values = jQuery(TableBuilder.create_form).serializeArray();
         values.push({ name: "query_type", value: "save_add_form" });
-        
+
         // take values from temp storage (for images)
         jQuery.each(values, function(index, val) {
             if (typeof TableBuilder.storage[val.name] !== 'undefined') {
                 var json = JSON.stringify(TableBuilder.storage[val.name]);
-                values[index] = { 
-                    name:  val.name, 
-                    value: json 
+                values[index] = {
+                    name:  val.name,
+                    value: json
                 };
             }
         });
@@ -900,7 +905,7 @@ console.log(values);
             success: function(response) {
                 if (response.status) {
                     //jQuery(context).parent().next().val(response.short_link);
-                    
+
                     TableBuilder.storage[ident] = {
                         'alt'  : '',
                         'title': '',
@@ -912,10 +917,10 @@ console.log(values);
                          'data-tbtitle="" '+
                          'data-tbident="'+ ident +'" '+
                          'height="80px" src="'+ response.link +'" />';
-                         
+
                     // FIXME: too ugly to execute
                     jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').html(html);
-                    
+
                     TableBuilder.initSingleImageEditable();
                 } else {
                     jQuery.smallBox({
@@ -928,7 +933,7 @@ console.log(values);
                 }
             }
         });
-    }, // end uploadImage 
+    }, // end uploadImage
 
     uploadMultipleImages: function(context, ident)
     {
@@ -936,7 +941,7 @@ console.log(values);
         data.append("image", context.files[0]);
         data.append('ident', ident);
         data.append('query_type', 'upload_photo');
-        
+
         var num = 0;
         if (typeof TableBuilder.storage[ident] !== 'undefined') {
             num = TableBuilder.storage[ident].length;
@@ -978,10 +983,10 @@ console.log(num);
                     html += '</button>'
                     html += '</div>';
                     html += '</li>';
-                    
+
                     // FIXME: too ugly to execute
                     jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').children().append(html);
-                    
+
                     TableBuilder.initMultipleImageEditable();
                 } else {
                     jQuery.smallBox({
@@ -1092,7 +1097,7 @@ console.log(num);
                 }
             }
         });
-    }, // end uploadFile 
+    }, // end uploadFile
 
     showErrorNotification: function(message)
     {
@@ -1104,7 +1109,7 @@ console.log(num);
             timeout : 4000
         });
     }, // end showErrorNotification
-    
+
     showSuccessNotification: function(message)
     {
         jQuery.smallBox({
@@ -1134,7 +1139,7 @@ console.log(num);
             }
         });
     }, // end doEmbedToText
-    
+
     setPerPageAmount: function(perPage)
     {
         TableBuilder.showProgressBar();
@@ -1149,34 +1154,34 @@ console.log(num);
             window.location.replace(response.url);
         });
     }, // end setPerPageAmount
-    
+
     doExport: function(type)
     {
         TableBuilder.showPreloader();
-        
+
         var $iframe = jQuery("#submiter");
-        
+
         var values = jQuery(TableBuilder.export_form).serializeArray();
         values.push({ name: 'type', value: type });
         values.push({ name: 'query_type', value: "export" });
-        
+
         var out = new Array();
         jQuery.each(values, function(index, val) {
             out.push(val['name'] +'='+ val['value']);
         });
-        
+
         var url = document.location.pathname +'?'+ out.join('&');
-        
+
         $iframe.attr('src', url);
-        
+
         TableBuilder.hidePreloader();
     }, // end doExport
-    
+
     flushStorage: function()
     {
         TableBuilder.storage = {};
     }, // end flushStorage
-    
+
     showBigErrorNotification: function(errors)
     {
         jQuery.bigBox({
@@ -1189,7 +1194,7 @@ console.log(num);
     doImport: function(context, type)
     {
         TableBuilder.showPreloader();
-        
+
         var data = new FormData();
         data.append("file", context.files[0]);
         data.append('type', type);
@@ -1201,7 +1206,7 @@ console.log(num);
             buttons : '[Нет][Да]'
         }, function(ButtonPressed) {
             if (ButtonPressed === "Да") {
-                
+
                 jQuery.ajax({
                     data: data,
                     type: "POST",
@@ -1226,46 +1231,46 @@ console.log(num);
                         TableBuilder.hidePreloader();
                     }
                 });
-                
+
             } else {
                 TableBuilder.hidePreloader();
             }
         });
     }, // end doImport
-    
+
     doDownloadImportTemplate: function(type)
     {
         TableBuilder.showPreloader();
-        
+
         var $iframe = jQuery("#submiter");
-        
+
         var values = new Array();
         values.push('type='+ type);
         values.push('query_type=get_import_template');
-        
+
         var url = document.location.pathname +'?'+ values.join('&');
-        
+
         $iframe.attr('src', url);
-        
+
         TableBuilder.hidePreloader();
     }, // end doDownloadImportTemplate
-    
+
     doSelectAllMultiCheckboxes: function(context)
     {
         var isChecked = jQuery('input', context).is(':checked');
         var $multiActionCheckboxes = jQuery('.multi-checkbox input');
-        
+
         $multiActionCheckboxes.prop('checked', isChecked);
     }, // end doSelectAllMultiCheckboxes
-    
+
     doMultiActionCall: function(type)
     {
         TableBuilder.showPreloader();
-        
+
         var values = jQuery('#'+ TableBuilder.options.table_ident).serializeArray();
         values.push({ name: 'type', value: type });
         values.push({ name: 'query_type', value: 'multi_action' });
-        
+
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.options.action_url,
@@ -1278,7 +1283,7 @@ console.log(num);
                             jQuery('tr[id-row="'+ val +'"]', '#'+ TableBuilder.options.table_ident).remove();
                         });
                     }
-                    
+
                     TableBuilder.showSuccessNotification(response.message);
                 } else {
                     if (typeof response.errors === "undefined") {
@@ -1296,7 +1301,7 @@ console.log(num);
             }
         });
     }, // end doMultiActionCall
-    
-    
+
+
 };
 

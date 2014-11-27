@@ -79,6 +79,7 @@
 --}}
 
 <!-- PAGE RELATED PLUGIN(S) -->
+<script src="{{asset('packages/yaro/table-builder/js/plugin/colorpicker/bootstrap-colorpicker.min.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/jquery.dataTables-cust.min.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/ColReorder.min.js')}}"></script>
 <script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/FixedColumns.min.js')}}"></script>

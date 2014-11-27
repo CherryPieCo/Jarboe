@@ -1,6 +1,7 @@
 <?php 
 namespace Yaro\TableBuilder\Fields;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 
@@ -11,6 +12,26 @@ class ForeignField extends AbstractField {
         return true;
     } // end isEditable
 
+    public function getFilterInput()
+    {
+        if (!$this->getAttribute('filter')) {
+            return '';
+        }
+
+        $definitionName = $this->getOption('def_name');
+        $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
+        $filter = Session::get($sessionPath, '');
+
+        $type = $this->getAttribute('filter');
+
+        $input = View::make('admin::tb.filter_'. $type);
+        $input->name = $this->getFieldName();
+        $input->selected = $filter;
+        $input->options = $this->getForeignKeyOptions();
+
+        return $input->render();
+    } // end getFilterInput
+    
     public function onSearchFilter(&$db, $value)
     {
         

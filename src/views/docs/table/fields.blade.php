@@ -53,6 +53,9 @@
             <a href="#f-many2many" data-toggle="tab"> many2many </a>
         </li>
         <li>
+            <a href="#f-color" data-toggle="tab"> color </a>
+        </li>
+        <li>
             <a href="#f-custom" data-toggle="tab"> custom </a>
         </li>
     </ul>
@@ -104,6 +107,10 @@
         
         <div class="tab-pane" id="f-many2many">
             @include('admin::docs.table.fields.many2many')    
+        </div>   
+        
+        <div class="tab-pane" id="f-color">
+            @include('admin::docs.table.fields.color')    
         </div>   
         
         <div class="tab-pane" id="f-custom">

@@ -2,7 +2,9 @@
     Отображение связи многое-ко-многим.<br>
     Пример:
 </p>
-    
+
+<p class="alert alert-danger">Для <code>many2many</code> вместо идентификатора поля пишется любое значение, начинающееся с <code>many2many</code>, чтобы импользовать несколько <code>many2many</code> в одной форме.</p>
+
 <pre>
 <code class="php">
 // текущая таблица filials
@@ -26,8 +28,8 @@
     )
 ),
 </code>
-</pre>            
-    
+</pre>
+
 <dl class="dl-horizontal">
   <dt>show_type</dt>
   <dd>Тип отображения поля (<code>checkbox|select2</code>). <span class="label bg-color-blueLight pull-right">checkbox</span></dd>

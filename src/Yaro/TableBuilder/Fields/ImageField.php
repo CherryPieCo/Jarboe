@@ -54,9 +54,9 @@ class ImageField extends AbstractField {
     {
         $value = $this->getValue($row);
         
-        $images = explode(',', $value);
+        $images = json_decode($value);
         // FIXME: 
-        return count($images);
+        return $images ? count($images) : 0;
     } // end getListMultiple
 
     public function onSearchFilter(&$db, $value)
@@ -115,7 +115,8 @@ class ImageField extends AbstractField {
             }
             
             $path = $destinationPath . $rawFileName .'_'. $type .'.'. $extension;
-            $img->save(public_path() .'/'. $path);
+            $quality = $this->getAttribute('quality', 100);
+            $img->save(public_path() .'/'. $path, $quality);
             $data['sizes'][$type] = $path;
         }
         

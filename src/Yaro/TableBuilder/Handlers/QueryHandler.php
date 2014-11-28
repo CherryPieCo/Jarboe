@@ -288,7 +288,7 @@ class QueryHandler {
         // FIXME:
         foreach ($values as $key => $val) {
             if (preg_match('~^many2many~', $key)) {
-                $this->onManyToManyValues($key, $values, $values['id']);
+                $this->onManyToManyValues($key, $values, $id);
             }
         }
 

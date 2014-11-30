@@ -8,6 +8,7 @@ use Yaro\TableBuilder\Handlers\QueryHandler;
 use Yaro\TableBuilder\Handlers\ActionsHandler;
 use Yaro\TableBuilder\Handlers\ExportHandler;
 use Yaro\TableBuilder\Handlers\ImportHandler;
+use Yaro\TableBuilder\Handlers\CustomClosureHandler;
 use Illuminate\Support\Facades\Session;
 
 
@@ -17,6 +18,7 @@ class TableBuilderController {
     protected $definition;
 
     protected $handler;
+    protected $callbacks;
     protected $fields;
 
     public $view;
@@ -35,6 +37,9 @@ class TableBuilderController {
         $this->doPrepareDefinition();
 
         $this->handler = $this->createCustomHandlerInstance();
+        if (isset($this->definition['callbacks'])) {
+            $this->callbacks = new CustomClosureHandler($this->definition['callbacks'], $this);
+        }
         $this->fields  = $this->loadFields();
 
         $this->actions = new ActionsHandler($this->definition['actions'], $this);
@@ -94,12 +99,17 @@ class TableBuilderController {
 
     public function hasCustomHandlerMethod($methodName)
     {
-        return $this->getCustomHandler() && method_exists($this->getCustomHandler(), $methodName);
+        return $this->getCustomHandler() && is_callable(array($this->getCustomHandler(), $methodName));
     } // end hasCustomHandlerMethod
-
-    public function &getCustomHandler()
+    
+    public function isSetDefinitionCallback($methodName)
     {
-        return $this->handler;
+        //
+    } // end isSetDefinitionCallback
+
+    public function getCustomHandler()
+    {
+        return $this->handler ? : $this->callbacks;
     } // end getCustomHandler
 
     public function getField($ident)
@@ -160,7 +170,7 @@ class TableBuilderController {
             $info, 
             $this->options, 
             $this->getDefinition(), 
-            $this->handler
+            $this->getCustomHandler()
         );
     } // end createFieldInstance
 

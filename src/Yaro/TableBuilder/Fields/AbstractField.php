@@ -18,7 +18,7 @@ abstract class AbstractField {
     protected $handler;
 
 
-    public function __construct($fieldName, $attributes, $options, $definition, &$handler)
+    public function __construct($fieldName, $attributes, $options, $definition, $handler)
     {
        $this->attributes = $this->_prepareAttributes($attributes);
        $this->options    = $options;
@@ -194,7 +194,7 @@ abstract class AbstractField {
 
     protected function hasCustomHandlerMethod($methodName)
     {
-        return $this->handler && method_exists($this->handler, $methodName);
+        return $this->handler && is_callable(array($this->handler, $methodName));
     } // end hasCustomHandlerMethod
 
     public function prepareQueryValue($value)

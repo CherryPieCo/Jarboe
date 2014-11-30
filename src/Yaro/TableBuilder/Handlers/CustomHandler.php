@@ -3,9 +3,10 @@
 namespace Yaro\TableBuilder\Handlers;
 
 use Yaro\TableBuilder\TableBuilderController;
+use Yaro\TableBuilder\Interfaces\ICustomHandler;
 
 
-abstract class CustomHandler 
+abstract class CustomHandler implements ICustomHandler
 {
 
     protected $controller;

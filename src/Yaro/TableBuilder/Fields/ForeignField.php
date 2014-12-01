@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Yaro\TableBuilder\Fields;
 
 use Illuminate\Support\Facades\Session;
@@ -27,14 +27,15 @@ class ForeignField extends AbstractField {
         $input = View::make('admin::tb.filter_'. $type);
         $input->name = $this->getFieldName();
         $input->selected = $filter;
+        // FIXME:
+        $input->value = $filter;
         $input->options = $this->getForeignKeyOptions();
 
         return $input->render();
     } // end getFilterInput
-    
+
     public function onSearchFilter(&$db, $value)
     {
-        
         $foreignTable = $this->getAttribute('foreign_table');
         $foreignTableName = $foreignTable;
         if ($this->getAttribute('alias')) {
@@ -53,7 +54,7 @@ class ForeignField extends AbstractField {
                 return $res;
             }
         }
-        
+
         $internalSelect = $this->definition['db']['table'] .'.'. $this->getFieldName();
 
         $db->addSelect($internalSelect);
@@ -65,10 +66,10 @@ class ForeignField extends AbstractField {
             $foreignTable = $this->getAttribute('alias');
         }
         $foreignKeyField = $foreignTable .'.'. $this->getAttribute('foreign_key_field');
-        
+
         $join = $this->getAttribute('is_null') ? 'leftJoin' : 'join';
         $db->$join(
-            $foreignTableName, 
+            $foreignTableName,
             $foreignKeyField, '=', $internalSelect
         );
 
@@ -94,9 +95,9 @@ class ForeignField extends AbstractField {
             $foreignTableName = $this->getAttribute('alias');
         }
         $fieldName = $foreignTableName .'_'. $this->getAttribute('foreign_value_field');
-        
+
         $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
-        
+
         if (!$value && $this->getAttribute('is_null')) {
             // FIXME:
             $value = $this->getAttribute('null_caption', '<i class="fa fa-minus"></i>');
@@ -113,7 +114,7 @@ class ForeignField extends AbstractField {
                 return $res;
             }
         }
-        
+
         if ($this->getAttribute('is_readonly')) {
             return $this->getValue($row);
         }

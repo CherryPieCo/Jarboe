@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Yaro\TableBuilder;
 
@@ -24,11 +24,11 @@ class TableBuilderServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->package('yaro/table-builder');
-        
+
         include __DIR__.'/../../helpers.php';
         //include __DIR__.'/../../filters.php';
         include __DIR__.'/../../routes.php';
-        
+
         \View::addNamespace('admin', __DIR__.'/../../views/');
     } // end boot
 
@@ -42,10 +42,10 @@ class TableBuilderServiceProvider extends ServiceProvider {
         $this->app['tablebuilder'] = $this->app->share(function($app) {
             return new TableBuilder();
         });
-        
+
         $this->doCommandsRegister();
     } // end register
-    
+
     private function doCommandsRegister()
     {
         $this->app['command.tablebuilder.prepare'] = $this->app->share(

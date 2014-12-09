@@ -20,6 +20,7 @@ var TableBuilder = {
     onDoEdit: null,
     onDoCreate: null,
     afterGetEditForm: null,
+    onGetCreateForm: null,
 
     init: function(options)
     {
@@ -472,8 +473,18 @@ var TableBuilder = {
 
     getCreateForm: function()
     {
+        // FIXME:
+        if (TableBuilder.onGetCreateForm) {
+            TableBuilder.onGetCreateForm();
+        }
+
         TableBuilder.showPreloader();
         TableBuilder.flushStorage();
+
+        // flush image previews
+        if (jQuery('.tb-uploaded-image-container').length) {
+            jQuery('.tb-uploaded-image-container').html('');
+        }
 
         //jQuery(TableBuilder.form_label).text('Create');
         jQuery(TableBuilder.form).modal('show');

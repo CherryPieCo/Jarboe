@@ -1,5 +1,5 @@
 
-<select multiple style="width:100%" name="{{$name}}[]" id="{{$name}}">
+<select class="select2-enabled" multiple style="width:100%" name="{{$name}}[]" id="{{$name}}">
     @foreach ($options as $option)
         @foreach ($option as $key => $title)
             <option value="{{$key}}" 

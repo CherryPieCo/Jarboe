@@ -28,6 +28,7 @@ var TableBuilder = {
 
         TableBuilder.initDoubleClickEditor();
         TableBuilder.initSearchOnEnterPressed();
+        TableBuilder.initSelect2Hider();
         //TableBuilder.initImageEditable();
     }, // end init
 
@@ -489,10 +490,19 @@ var TableBuilder = {
         //jQuery(TableBuilder.form_label).text('Create');
         jQuery(TableBuilder.form).modal('show');
         TableBuilder.initSummernoteFullscreen();
+        TableBuilder.initSelect2Hider();
 
         TableBuilder.hidePreloader();
     }, // end getCreateForm
-
+    
+    initSelect2Hider: function()
+    {
+        jQuery('.modal-dialog').on('click', function() {
+            jQuery('.select2-enabled[id^="many2many"]').select2("close");
+        });
+        
+    }, // end initSelect2Hider
+    
     getEditForm: function(id, context)
     {
         TableBuilder.showPreloader();
@@ -523,6 +533,7 @@ var TableBuilder = {
                     TableBuilder.initSingleImageEditable();
                     TableBuilder.initMultipleImageEditable();
                     TableBuilder.initSummernoteFullscreen();
+                    TableBuilder.initSelect2Hider();
 
                     if (TableBuilder.afterGetEditForm) {
                         TableBuilder.afterGetEditForm();

@@ -215,9 +215,10 @@ class QueryHandler {
         $status = $this->db->where('id', $values['id'])->update($updateData);
 
         // FIXME:
-        foreach ($values as $key => $val) {
-            if (preg_match('~^many2many~', $key)) {
-                $this->onManyToManyValues($key, $values, $values['id']);
+        $fields = $this->controller->getFields();
+        foreach ($fields as $field) {
+            if (preg_match('~^many2many~', $field->getFieldName())) {
+                $this->onManyToManyValues($field->getFieldName(), $values, $values['id']);
             }
         }
 
@@ -286,9 +287,10 @@ class QueryHandler {
         }
 
         // FIXME:
-        foreach ($values as $key => $val) {
-            if (preg_match('~^many2many~', $key)) {
-                $this->onManyToManyValues($key, $values, $id);
+        $fields = $this->controller->getFields();
+        foreach ($fields as $field) {
+            if (preg_match('~^many2many~', $field->getFieldName())) {
+                $this->onManyToManyValues($field->getFieldName(), $values, $id);
             }
         }
 
@@ -306,7 +308,9 @@ class QueryHandler {
     private function onManyToManyValues($ident, $values, $id)
     {
         $field = $this->controller->getField($ident);
-        $field->onPrepareRowValues($values[$ident], $id);
+        $vals = isset($values[$ident]) ? $values[$ident] : array();
+        
+        $field->onPrepareRowValues($vals, $id);
     } // end onManyToManyValues
 
     private function doValidate($values)

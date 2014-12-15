@@ -15,7 +15,15 @@ class TextField extends AbstractField {
     public function onSearchFilter(&$db, $value)
     {
     	$table = $this->definition['db']['table'];
-        $db->where($table .'.'. $this->getFieldName(), 'LIKE', '%'.$value.'%');
+        $fieldName = $table .'.'. $this->getFieldName();
+        
+        $tabs = $this->getAttribute('tabs');
+        if ($tabs) {
+            // FIXME:
+            $fieldName .= $tabs[0]['postfix'];
+        }
+        
+        $db->where($fieldName, 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
     
     public function getSubActions()

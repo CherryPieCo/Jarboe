@@ -189,7 +189,7 @@ class RequestHandler {
         }
         
         $extension = $file->getClientOriginalExtension();
-        $fileName  = time() .'_'. $file->getClientOriginalName();
+        $fileName  = time() .'_'. \TableBuilder::urlify($file->getClientOriginalName());
         
         $definitionName = $this->controller->getOption('def_name');
         $prefixPath = 'storage/tb-'.$definitionName.'/';

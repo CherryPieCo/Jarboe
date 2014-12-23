@@ -2,7 +2,7 @@
 <?php
 $trColor = '';
 foreach ($def['fields'] as $ident => $field) {
-    if (!$trColor && !$controller->getField($ident)->getAttribute('hide_list')) {
+    if (!$trColor && !$controller->getField($ident)->getAttribute('hide_list') && $controller->getField($ident)->getAttribute('is_tr_color')) {
         $trColor = $controller->getField($ident)->getRowColor($row);
     }
 }
@@ -16,7 +16,7 @@ foreach ($def['fields'] as $ident => $field) {
     @foreach ($def['fields'] as $ident => $field)
     @if (!$controller->getField($ident)->getAttribute('hide_list'))
     <?php $field = $controller->getField($ident) ?>
-    <td @if ($trColor) style="background-color: {{ $trColor }}" @endif width="{{ $field->getAttribute('width') }}" class="{{ $field->getAttribute('class') }} unselectable">
+    <td style="background-color: {{ $trColor }}; background-color: {{ $field->getRowColor($row) }};" width="{{ $field->getAttribute('width') }}" class="{{ $field->getAttribute('class') }} unselectable">
         @if ($field->getAttribute('fast-edit'))
             <span class="dblclick-edit selectable">{{ $field->getListValue($row) }}</span>
             {{ $field->getEditInput($row) }}

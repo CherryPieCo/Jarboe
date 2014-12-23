@@ -67,4 +67,11 @@ class SelectField extends AbstractField {
         return $options[$val];
     } // end getListValue
 
+    public function getRowColor($row)
+    {
+        $colors = $this->getAttribute('colors');
+        if ($colors) {
+            return isset($colors[$this->getValue($row)]) ? $colors[$this->getValue($row)] : '';
+        }
+    }
 }

@@ -306,7 +306,12 @@ abstract class AbstractField {
     {
         return true;
     } // end isEditable
-    
+
+    public function getRowColor($row)
+    {
+        return '';
+    } // end getRowColor
+
     abstract public function onSearchFilter(&$db, $value);
     
 }

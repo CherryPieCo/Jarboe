@@ -1143,18 +1143,19 @@ console.log(num);
         });
     }, // end showSuccessNotification
 
-    doEmbedToText: function($summernote)
+    doEmbedToText: function($summernote, text)
     {
         jQuery.ajax({
             type: "POST",
             // FIXME: move action url to options
             url: TableBuilder.admin_prefix +'/tb/embed-to-text',
-            data: {text: $summernote.code()},
+            data: {text: text},
             dataType: 'json',
             success: function(response) {
                 if (response.status) {
                     console.log(response);
-                    $summernote.code('').html(response.html);
+                    var html = $summernote.code().replace(text, response.html);
+                    $summernote.code('').html(html);
                 } else {
                     TableBuilder.showErrorNotification('Что-то пошло не так');
                 }

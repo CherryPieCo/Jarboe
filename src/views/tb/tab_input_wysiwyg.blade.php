@@ -44,12 +44,13 @@
                               },
                               onpaste: function(e) {
                                   var $note = jQuery(this);
+                                  var pasteText = e.originalEvent.clipboardData.getData('Text');
                                   
                                   setTimeout(function () {
                                       //this kinda sucks, but if you don't do a setTimeout, 
                                       //the function is called before the text is really pasted.
-                                      TableBuilder.doEmbedToText($note);
-                                  }, 1);
+                                      TableBuilder.doEmbedToText($note, pasteText);
+                                  }, 10);
                               }
                           });
                           

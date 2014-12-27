@@ -12,30 +12,32 @@
                 @else
                     <li class="">
                 @endif
-                    <a href="#{{ $name . $tab['postfix']}}" data-toggle="tab">{{$tab['caption']}}</a>
+                
+                    <a href="#{{$pre .  $name . $tab['postfix']}}" data-toggle="tab">{{$tab['caption']}}</a>
                 </li>
             @endforeach
         </ul>
         
         <div class="tab-content padding-5">
             @foreach ($tabs as $tab)
+                
                 @if ($loop->first)
-                    <div class="tab-pane active" id="{{ $name . $tab['postfix']}}">
+                    <div class="tab-pane active" id="{{ $pre . $name . $tab['postfix']}}">
                 @else
-                    <div class="tab-pane" id="{{ $name . $tab['postfix']}}">
+                    <div class="tab-pane" id="{{ $pre . $name . $tab['postfix']}}">
                 @endif
                     
-                    <div id="{{$name . $tab['postfix']}}-wysiwyg">{{ $tab['value'] }}</div>
+                    <div id="{{$pre . $name . $tab['postfix']}}-wysiwyg">{{ $tab['value'] }}</div>
                     
-                    <textarea id="{{$name . $tab['postfix']}}-inner" name="{{ $name . $tab['postfix'] }}" style="display:none;" class="hidden">{{ $tab['value'] }}</textarea>
+                    <textarea id="{{$pre . $name . $tab['postfix']}}-inner" name="{{ $name . $tab['postfix'] }}" style="display:none;" class="hidden">{{ $tab['value'] }}</textarea>
                     <script type="text/javascript">
                         jQuery(document).ready(function() {
-                          jQuery('#{{$name . $tab['postfix']}}-wysiwyg').summernote({
+                          jQuery('#{{$pre . $name . $tab['postfix']}}-wysiwyg').summernote({
                               @foreach ($options as $key => $option)
                                 {{ $key }} : '{{$option}}',
                               @endforeach
                               onblur: function(e) {
-                                  jQuery('#{{$name . $tab['postfix']}}-inner').html(jQuery('#{{$name . $tab['postfix']}}-wysiwyg').code());
+                                  jQuery('#{{$pre . $name . $tab['postfix']}}-inner').html(jQuery('#{{$pre . $name . $tab['postfix']}}-wysiwyg').code());
                               },
                               onImageUpload: function(files, editor, $editable) {
                                   TableBuilder.uploadImageFromWysiwygSummertime(files, editor, $editable);

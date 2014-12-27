@@ -11,7 +11,7 @@
                 @else
                     <li class="">
                 @endif
-                    <a href="#{{ $name . $tab['postfix']}}" data-toggle="tab">{{$tab['caption']}}</a>
+                    <a href="#{{$pre . $name . $tab['postfix']}}" data-toggle="tab">{{$tab['caption']}}</a>
                 </li>
             @endforeach
         </ul>
@@ -19,15 +19,14 @@
         <div class="tab-content padding-5">
             @foreach ($tabs as $tab)
                 @if ($loop->first)
-                    <div class="tab-pane active" id="{{ $name . $tab['postfix']}}">
+                    <div class="tab-pane active" id="{{$pre . $name . $tab['postfix']}}">
                 @else
-                    <div class="tab-pane" id="{{ $name . $tab['postfix']}}">
+                    <div class="tab-pane" id="{{$pre . $name . $tab['postfix']}}">
                 @endif
                     <div style="position: relative;">
                         <label class="textarea">
                         <textarea rows="{{$rows or '3'}}"
                                   class="custom-scroll"
-                                  id="{{ $name . $tab['postfix']}}"
                                   name="{{ $name . $tab['postfix']}}">{{ $tab['value'] }}</textarea>
                         </label>
                     </div>

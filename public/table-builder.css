@@ -156,42 +156,42 @@ div.tb-pagination-info {
     border-radius: 4px;
 }
 
-div.note-link-dialog input[type="checkbox"] {
+.tb-modal div.note-link-dialog input[type="checkbox"] {
     position: inherit;
 }
-div.note-image-dialog,
-div.note-link-dialog,
-div.note-video-dialog {
+.tb-modal div.note-image-dialog,
+.tb-modal div.note-link-dialog,
+.tb-modal div.note-video-dialog {
     position: absolute;
 }
-div.note-image-dialog .modal-content,
-div.note-link-dialog .modal-content,
-div.note-video-dialog .modal-content {
+.tb-modal div.note-image-dialog .modal-content,
+.tb-modal div.note-link-dialog .modal-content,
+.tb-modal div.note-video-dialog .modal-content {
     padding: 12px;
 }
-div.note-image-dialog input.note-image-input,
-div.note-link-dialog input.note-image-input,
-div.note-video-dialog input.note-image-input {
+.tb-modal div.note-image-dialog input.note-image-input,
+.tb-modal div.note-link-dialog input.note-image-input,
+.tb-modal div.note-video-dialog input.note-image-input {
     padding: 4px;
 }
-div.note-image-dialog .modal-header,
-div.note-link-dialog .modal-header,
-div.note-video-dialog .modal-header {
+.tb-modal div.note-image-dialog .modal-header,
+.tb-modal div.note-link-dialog .modal-header,
+.tb-modal div.note-video-dialog .modal-header {
     padding: 6px;
 }
-div.note-image-dialog .modal-footer,
-div.note-link-dialog .modal-footer,
-div.note-video-dialog .modal-footer {
+.tb-modal div.note-image-dialog .modal-footer,
+.tb-modal div.note-link-dialog .modal-footer,
+.tb-modal div.note-video-dialog .modal-footer {
     padding: 8px 0;
 }
-div.note-image-dialog .modal-footer button,
-div.note-link-dialog .modal-footer button,
-div.note-video-dialog .modal-footer button {
+.tb-modal div.note-image-dialog .modal-footer button,
+.tb-modal div.note-link-dialog .modal-footer button,
+.tb-modal div.note-video-dialog .modal-footer button {
     padding: 3px;
 }
-div.note-image-dialog form.note-modal-form,
-div.note-link-dialog form.note-modal-form ,
-div.note-video-dialog form.note-modal-form {
+.tb-modal div.note-image-dialog form.note-modal-form,
+.tb-modal div.note-link-dialog form.note-modal-form ,
+.tb-modal div.note-video-dialog form.note-modal-form {
     padding: 6px;
 }
 

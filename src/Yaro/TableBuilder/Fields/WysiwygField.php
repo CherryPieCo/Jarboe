@@ -68,6 +68,8 @@ class WysiwygField extends AbstractField {
         $input->options = $this->getWysiwygOptions();
         $input->tabs = $this->getPreparedTabs($row);
         $input->caption = $this->getAttribute('caption');
+        // HACK: for tabs right behaviour in edit-create modals
+        $input->pre = $row ? 'e' : 'c';
         
         
         return $input->render();

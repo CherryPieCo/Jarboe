@@ -26,11 +26,14 @@
                 @endif
                     
                     <div id="{{$name . $tab['postfix']}}-wysiwyg">{{ $tab['value'] }}</div>
+                    
                     <textarea id="{{$name . $tab['postfix']}}-inner" name="{{ $name . $tab['postfix'] }}" style="display:none;" class="hidden">{{ $tab['value'] }}</textarea>
                     <script type="text/javascript">
                         jQuery(document).ready(function() {
                           jQuery('#{{$name . $tab['postfix']}}-wysiwyg').summernote({
-                              lang: 'ru-RU',
+                              @foreach ($options as $key => $option)
+                                {{ $key }} : '{{$option}}',
+                              @endforeach
                               onblur: function(e) {
                                   jQuery('#{{$name . $tab['postfix']}}-inner').html(jQuery('#{{$name . $tab['postfix']}}-wysiwyg').code());
                               },
@@ -47,6 +50,7 @@
                                   }, 1);
                               }
                           });
+                          
                         });
                     </script>
                     

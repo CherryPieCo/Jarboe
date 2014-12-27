@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modal_form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal fade tb-modal" id="modal_form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog <?php echo isset($def['options']['is_form_fullscreen']) ? 'tb-modal-fullscreen' : '';?>"
     @if (isset($def['options']['form_width']))
         style="width: {{$def['options']['form_width']}};"

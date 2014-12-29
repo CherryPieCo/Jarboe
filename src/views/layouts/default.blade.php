@@ -19,6 +19,7 @@
         <!-- Basic Styles -->
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/bootstrap.min.css')}}">
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/font-awesome.min.css')}}">
+        
 
         <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
         {{--

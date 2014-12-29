@@ -120,25 +120,78 @@ div.tb-pagination-info {
 }
 
 /* Summernote fix */
-div.note-image-dialog {
+/* fock reset */
+.note-editable h1 {
+    font-size: 26px;
+}
+.note-editable h2 {
+    font-size: 23px;
+}
+.note-editable ul { 
+   list-style-type: disc; 
+   list-style-position: inside; 
+}
+.note-editable ol { 
+   list-style-type: decimal; 
+   list-style-position: inside; 
+}
+.note-editable ul ul, 
+.note-editable ol ul { 
+   list-style-type: circle; 
+   list-style-position: inside; 
+   margin-left: 15px; 
+}
+.note-editable ol ol, 
+.note-editable ul ol { 
+   list-style-type: lower-latin; 
+   list-style-position: inside; 
+   margin-left: 15px; 
+}
+/* // end fock reset */
+
+.tooltip {
+    z-index: 99999;
+}
+.tooltip .tooltip-inner {
+    border-radius: 4px;
+}
+
+.tb-modal div.note-link-dialog input[type="checkbox"] {
+    position: inherit;
+}
+.tb-modal div.note-image-dialog,
+.tb-modal div.note-link-dialog,
+.tb-modal div.note-video-dialog {
     position: absolute;
 }
-div.note-image-dialog .modal-content {
+.tb-modal div.note-image-dialog .modal-content,
+.tb-modal div.note-link-dialog .modal-content,
+.tb-modal div.note-video-dialog .modal-content {
     padding: 12px;
 }
-div.note-image-dialog input.note-image-input {
+.tb-modal div.note-image-dialog input.note-image-input,
+.tb-modal div.note-link-dialog input.note-image-input,
+.tb-modal div.note-video-dialog input.note-image-input {
     padding: 4px;
 }
-div.note-image-dialog .modal-header {
+.tb-modal div.note-image-dialog .modal-header,
+.tb-modal div.note-link-dialog .modal-header,
+.tb-modal div.note-video-dialog .modal-header {
     padding: 6px;
 }
-div.note-image-dialog .modal-footer {
+.tb-modal div.note-image-dialog .modal-footer,
+.tb-modal div.note-link-dialog .modal-footer,
+.tb-modal div.note-video-dialog .modal-footer {
     padding: 8px 0;
 }
-div.note-image-dialog .modal-footer button {
+.tb-modal div.note-image-dialog .modal-footer button,
+.tb-modal div.note-link-dialog .modal-footer button,
+.tb-modal div.note-video-dialog .modal-footer button {
     padding: 3px;
 }
-div.note-image-dialog form.note-modal-form {
+.tb-modal div.note-image-dialog form.note-modal-form,
+.tb-modal div.note-link-dialog form.note-modal-form ,
+.tb-modal div.note-video-dialog form.note-modal-form {
     padding: 6px;
 }
 
@@ -228,9 +281,4 @@ div.tb-uploaded-image-container div.editable-container{
 .elfinder .ui-dialog .ui-dialog-titlebar-close {
     margin-top: -10px;
     margin-right: 0px;
-}
-
-/* Colorpicker */
-.colorpicker {
-    z-index: 111111;
 }

@@ -148,6 +148,8 @@ abstract class AbstractField {
         $input->placeholder = $this->getAttribute('placeholder');
         $input->caption = $this->getAttribute('caption');
         $input->tabs = $this->getPreparedTabs($row);
+        // HACK: for tabs right behaviour in edit-create modals
+        $input->pre = $row ? 'e' : 'c';
         
         
         return $input->render();

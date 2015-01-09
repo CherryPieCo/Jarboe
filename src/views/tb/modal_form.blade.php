@@ -18,61 +18,49 @@
             
             <div class="modal-body">
             <form id="create_form" class="smart-form" method="post" action="{{$def['options']['action_url']}}" novalidate="novalidate">
-                <fieldset style="padding:0">
-                    
-
-                    @foreach ($def['fields'] as $ident => $options)
-                        <?php $field = $controller->getField($ident); ?>
-                        @if ($field->isHidden() || $field->isReadonly())
-                            @continue
-                        @endif
-                        
-                        @if (isset($options['tabs']))
-                            @if ($is_blank)
-                                {{ $field->getTabbedEditInput() }}
-                            @else
-                                {{ $field->getTabbedEditInput($row) }}
-                            @endif
+                
+                @if (!isset($def['position']))
+                    <fieldset style="padding:0">
+                        @foreach ($def['fields'] as $ident => $options)
+                            <?php $field = $controller->getField($ident); ?>
                             
-                            @continue
-                        @endif
+                            @include('admin::tb.modal_form_field')
+                        @endforeach
                         
-                        @if ($options['type'] == 'checkbox')
-                            @if ($is_blank)
-                                {{ $field->getEditInput() }}
-                            @else
-                                {{ $field->getEditInput($row) }}
-                            @endif
-                            
-                            @continue
+                        @if (!$is_blank)
+                            <input type="hidden" name="id" value="{{ $row['id'] }}" />
                         @endif
-                        
-                        <section>
-                        @if ($is_blank)
-                            <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
-                            <div style="position: relative;">
-                                <label class="{{ $field->getLabelClass() }}">
-                                {{ $field->getEditInput() }}
-                                {{ $field->getSubActions() }}
-                                </label>
-                            </div>
-                        @else
-                            <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
-                            <div style="position: relative;">
-                                <label class="{{ $field->getLabelClass() }}">
-                                {{ $field->getEditInput($row) }}
-                                {{ $field->getSubActions() }}
-                                </label>
-                            </div>
-                        @endif
-                        </section>
-                    @endforeach
+                    </fieldset>
                     
-                    @if (!$is_blank)
-                        <input type="hidden" name="id" value="{{ $row['id'] }}" />
-                    @endif
-                    
-                </fieldset>
+                @else
+                    <ul class="nav nav-tabs bordered">
+                        @foreach ($def['position']['tabs'] as $title => $fields)
+                            <li @if ($loop->first) class="active" @endif><a href="#tabform-{{$loop->index1}}" data-toggle="tab">{{ $title }}</a></li>
+                        @endforeach
+                    </ul>
+                    <div class="tab-content padding-10">
+                        @foreach ($def['position']['tabs'] as $title => $fields)
+                            <div class="tab-pane @if ($loop->first) active @endif" id="tabform-{{$loop->index1}}">
+                                <div class="table-responsive">
+                                    <fieldset style="padding:0">
+                                        @foreach ($fields as $ident)
+                                            <?php 
+                                            $options = $def['fields'][$ident];
+                                            $field = $controller->getField($ident); 
+                                            ?>
+                                            @include('admin::tb.modal_form_field')
+                                        @endforeach
+                                        
+                                        @if (!$is_blank)
+                                            <input type="hidden" name="id" value="{{ $row['id'] }}" />
+                                        @endif
+                                    </fieldset>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                
             </form>
             </div>
 

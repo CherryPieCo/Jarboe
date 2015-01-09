@@ -321,3 +321,49 @@
   <dd>Замыкание для обработки по действию. <code>$ids</code> содержит <code>id</code> выбранных полей. <span class="label bg-color-red pull-right">обязательно</span></dd>
 </dl>
 
+
+
+<hr>
+
+
+<b>position</b> - разбиение полей по табам.
+<pre>
+<code class="php">
+'position' => array(
+    'tabs' => array(
+        'таб 1' => array('title', 'datetime'),
+        'таб 2' => array('image', 'description'),
+    )
+),
+</code>
+</pre> 
+
+<dl class="dl-horizontal">
+  <dt>tabs</dt>
+  <dd>Массив опций таба. <span class="label bg-color-red pull-right">обязательно</span>
+     <br> В ключе название таба, в значении - перечень идентификаторов полей, которые в нем должны отображаться.</dd>
+</dl>
+
+
+
+<hr>
+
+
+<b>callbacks</b> - коллбеки для дефинишна. Все то же самое, что и в хендлере.
+<pre>
+<code class="php">
+'callbacks' => array(
+    'onUpdateRowResponse' => function(array &$response) {
+        $def = $this->controller->getDefinition();
+        // ...
+    },
+    'onDeleteRowResponse' => function(array &$response) {
+        // ...
+    },
+),
+</code>
+</pre> 
+
+
+
+

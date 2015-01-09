@@ -21,11 +21,8 @@
                 
                 @if (!isset($def['position']))
                     <fieldset style="padding:0">
-                        @foreach ($def['fields'] as $ident => $options)
-                            <?php $field = $controller->getField($ident); ?>
-                            
-                            @include('admin::tb.modal_form_field')
-                        @endforeach
+                        
+                        @include('admin::tb.modal_form_field_simple')
                         
                         @if (!$is_blank)
                             <input type="hidden" name="id" value="{{ $row['id'] }}" />
@@ -43,13 +40,8 @@
                             <div class="tab-pane @if ($loop->first) active @endif" id="tabform-{{$loop->index1}}">
                                 <div class="table-responsive">
                                     <fieldset style="padding:0">
-                                        @foreach ($fields as $ident)
-                                            <?php 
-                                            $options = $def['fields'][$ident];
-                                            $field = $controller->getField($ident); 
-                                            ?>
-                                            @include('admin::tb.modal_form_field')
-                                        @endforeach
+                                        
+                                        @include('admin::tb.modal_form_field_tabbed')
                                         
                                         @if (!$is_blank)
                                             <input type="hidden" name="id" value="{{ $row['id'] }}" />

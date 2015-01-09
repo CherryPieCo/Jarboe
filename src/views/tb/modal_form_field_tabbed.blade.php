@@ -1,3 +1,10 @@
+@foreach ($fields as $ident)
+<?php 
+$options = $def['fields'][$ident];
+$field = $controller->getField($ident); 
+?>
+                            
+                            
 @if ($field->isHidden() || $field->isReadonly())
     @continue
 @endif
@@ -41,3 +48,4 @@
     </div>
 @endif
 </section>
+@endforeach

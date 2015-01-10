@@ -89,7 +89,8 @@ class ManyToManyField extends AbstractField {
     {
         $dataCount = count($array);
         if ($dataCount === 0) {
-            throw new \Exception('No many2many options? wtf');
+            // HACK: when there is no many2many options 
+            return array(array());
         }
         
         $segmentLimit = ceil($dataCount / $segmentCount);

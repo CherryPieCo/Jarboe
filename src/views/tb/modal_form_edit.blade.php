@@ -33,12 +33,12 @@
                         
                         <ul class="nav nav-tabs bordered">
                             @foreach ($def['position']['tabs'] as $title => $fields)
-                                <li @if ($loop->first) class="active" @endif><a href="#tabform-{{$loop->index1}}" data-toggle="tab">{{ $title }}</a></li>
+                                <li @if ($loop->first) class="active" @endif><a href="#etabform-{{$loop->index1}}" data-toggle="tab">{{ $title }}</a></li>
                             @endforeach
                         </ul>
                         <div class="tab-content padding-10">
                             @foreach ($def['position']['tabs'] as $title => $fields)
-                                <div class="tab-pane @if ($loop->first) active @endif" id="tabform-{{$loop->index1}}">
+                                <div class="tab-pane @if ($loop->first) active @endif" id="etabform-{{$loop->index1}}">
                                     <div class="table-responsive">
                                         <fieldset style="padding:0">
                                             

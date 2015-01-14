@@ -161,7 +161,8 @@ div.tb-pagination-info {
 }
 .tb-modal div.note-image-dialog,
 .tb-modal div.note-link-dialog,
-.tb-modal div.note-video-dialog {
+.tb-modal div.note-video-dialog,
+.tb-modal div.note-help-dialog {
     position: absolute;
 }
 .tb-modal div.note-image-dialog .modal-content,

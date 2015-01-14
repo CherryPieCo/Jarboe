@@ -815,10 +815,13 @@ console.log(values);
         jQuery(':input', context)
             .removeAttr('checked')
             .removeAttr('selected')
-            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+            .not(':button, :submit, :reset, input[type="hidden"], :radio, :checkbox')
             .val('');
         jQuery('textarea', context).text('');
         jQuery('div[id$="-wysiwyg"]', context).code('');
+        
+        jQuery('input, textarea', context).removeClass('valid').removeClass('invalid');
+        jQuery('.state-success, .state-error', context).removeClass('state-success').removeClass('state-error');
     }, // end removeInputValues
 
     doCreate: function()
@@ -876,6 +879,7 @@ console.log(values);
                         timeout : 4000
                     });
                 } else {
+                    /*
                     jQuery.smallBox({
                         title : "Что-то пошло не так, попробуйте позже",
                         content : "",
@@ -883,6 +887,12 @@ console.log(values);
                         iconSmall : "fa fa-times fa-2x fadeInRight animated",
                         timeout : 4000
                     });
+                    */
+                    var errors = '';
+                    jQuery(response.errors).each(function(key, val) {
+                        errors += val +'<br>';
+                    });
+                    TableBuilder.showBigErrorNotification(errors);
                 }
 
                 TableBuilder.hidePreloader();

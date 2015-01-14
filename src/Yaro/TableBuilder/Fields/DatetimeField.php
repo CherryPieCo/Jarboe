@@ -83,9 +83,10 @@ class DatetimeField extends AbstractField
         $value = $value ? date('d/m/Y', $this->getTimestamp($value)) : '';
 
         $input = View::make('admin::tb.input_datetime');
-        $input->value = $value;
-        $input->name  = $this->getFieldName();
+        $input->value  = $value;
+        $input->name   = $this->getFieldName();
         $input->months = $this->getAttribute('months');
+        $input->prefix = $row ? 'e-' : 'c-';
 
         return $input->render();
     } // end getEditInput
@@ -127,5 +128,5 @@ class DatetimeField extends AbstractField
 
         return $input->render();
     } // end getFilterRangeInput
-
+    
 }

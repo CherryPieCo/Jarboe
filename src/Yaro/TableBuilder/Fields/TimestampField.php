@@ -83,9 +83,10 @@ class TimestampField extends AbstractField
         $value = $value ? date('d/m/Y', $this->getTimestamp($value)) : '';
 
         $input = View::make('admin::tb.input_timestamp');
-        $input->value = $value;
-        $input->name  = $this->getFieldName();
+        $input->value  = $value;
+        $input->name   = $this->getFieldName();
         $input->months = $this->getAttribute('months');
+        $input->prefix = $row ? 'e-' : 'c-';
 
         return $input->render();
     } // end getEditInput

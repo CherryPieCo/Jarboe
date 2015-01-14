@@ -19,7 +19,7 @@ return array(
         'table_ident' => 'settings-table',
         'is_form_fullscreen' => true,
         'action_url' => '/admin/handle/settings',
-        //'handler' => 'SettingsTableHandler',
+        'handler' => 'Yaro\TableBuilder\Helpers\TableHandlers\Settings',
         'not_found' => 'NOT FOUND',
     ),
     

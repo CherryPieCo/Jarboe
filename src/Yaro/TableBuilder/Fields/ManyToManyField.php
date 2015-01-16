@@ -47,7 +47,7 @@ class ManyToManyField extends AbstractField {
     public function getValue($row, $postfix = '')
     {
         if ($this->hasCustomHandlerMethod('onGetValue')) {
-            $res = $this->handler->onGetValue($this, $row);
+            $res = $this->handler->onGetValue($this, $row, $postfix);
             if ($res) {
                 return $res;
             }
@@ -58,6 +58,18 @@ class ManyToManyField extends AbstractField {
 
         return $value;
     } // end getValue
+    
+    public function getListValue($row)
+    {
+        if ($this->hasCustomHandlerMethod('onGetListValue')) {
+            $res = $this->handler->onGetListValue($this, $row);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        return implode(', ', $this->getRelatedExternalFieldOptions($row));
+    } // end getListValue
 
     public function getEditInput($row = array())
     {

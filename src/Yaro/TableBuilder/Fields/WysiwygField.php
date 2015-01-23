@@ -48,6 +48,16 @@ class WysiwygField extends AbstractField {
             $options['lang'] = 'ru-RU';
         }
         
+        if (!array_key_exists('height', $options)) {
+            $options['height'] = 200;
+        }
+        if (!array_key_exists('minHeight', $options)) {
+            $options['minHeight'] = null;
+        }
+        if (!array_key_exists('maxHeight', $options)) {
+            $options['maxHeight'] = null;
+        }
+        
         return $options;
     } // end getWysiwygOptions
     

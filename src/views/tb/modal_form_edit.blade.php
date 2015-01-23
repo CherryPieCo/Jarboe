@@ -78,6 +78,9 @@ jQuery(document).ready(function() {
         rules: {
             @foreach ($def['fields'] as $ident => $options)
                 <?php $field = $controller->getField($ident); ?>
+                @if ($field->isPattern())
+                    @continue
+                @endif
                 
                 {{ $field->getClientsideValidatorRules() }}
             @endforeach
@@ -85,6 +88,9 @@ jQuery(document).ready(function() {
         messages: {
             @foreach ($def['fields'] as $ident => $options)
                 <?php $field = $controller->getField($ident); ?>
+                @if ($field->isPattern())
+                    @continue
+                @endif
                 
                 {{ $field->getClientsideValidatorMessages() }}
             @endforeach

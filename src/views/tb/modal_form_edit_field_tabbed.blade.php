@@ -5,6 +5,17 @@ $options = $def['fields'][$ident];
 $field = $controller->getField($ident); 
 ?>
 
+@if ($field->isPattern())
+    @if ($is_blank)
+        {{ $field->render() }}
+    @else
+        {{ $field->render($row) }}
+    @endif
+    
+    @continue
+@endif
+
+
 @if ($field->isHidden())
     @continue
 @endif

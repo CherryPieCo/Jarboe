@@ -9,6 +9,10 @@
     @foreach ($def['fields'] as $ident => $options)
     <?php 
     $field = $controller->getField($ident); 
+    if ($field->isPattern()) {
+        continue;
+    }
+    
     $order = Session::get('table_builder.'.$controller->getOption('def_name').'.order', array());
     ?>
     @if (!$field->getAttribute('hide_list'))
@@ -47,7 +51,7 @@
     
     @foreach ($def['fields'] as $ident => $options)
     <?php $field = $controller->getField($ident); ?>
-    @if (!$field->getAttribute('hide_list'))
+    @if (!$field->isPattern() && !$field->getAttribute('hide_list'))
         <td>{{ $field->getFilterInput() }}</td>
     @endif
     @endforeach

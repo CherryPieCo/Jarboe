@@ -556,7 +556,11 @@ var TableBuilder = {
     initSummernoteFullscreen: function()
     {
         jQuery('[data-event="fullscreen"]').click(function(){
-            jQuery('.modal-dialog').css({width: '100%', margin: '0px'});
+            if ($(this).hasClass('active')) {
+                jQuery('.modal-dialog').css({width: jQuery('.modal-dialog').data('width'), margin: '30px auto'});
+            } else {
+                jQuery('.modal-dialog').css({width: '100%', margin: '0px'});
+            }
         });
     }, // end initSummernoteFullscreen
 

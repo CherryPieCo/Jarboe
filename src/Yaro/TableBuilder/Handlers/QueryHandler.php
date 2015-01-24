@@ -214,6 +214,11 @@ class QueryHandler {
 
         $status = $this->db->where('id', $values['id'])->update($updateData);
 
+        // FIXME: patterns
+        foreach ($this->controller->getPatterns() as $pattern) {
+            $pattern->update($values, $values['id']);
+        }
+        
         // FIXME:
         $fields = $this->controller->getFields();
         foreach ($fields as $field) {
@@ -246,6 +251,9 @@ class QueryHandler {
             }
         }
 
+        foreach ($this->controller->getPatterns() as $pattern) {
+            $pattern->delete($id);
+        }
         $res = $this->db->where('id', $id)->delete();
 
         $res = array(
@@ -284,6 +292,11 @@ class QueryHandler {
             $this->doValidate($insertData);
             $this->doPrependFilterValues($insertData);
             $id = $this->db->insertGetId($insertData);
+        }
+        
+        // FIXME: patterns
+        foreach ($this->controller->getPatterns() as $pattern) {
+            $pattern->insert($values, $id);
         }
 
         // FIXME:
@@ -329,6 +342,10 @@ class QueryHandler {
         foreach ($fields as $ident => $options) {
             try {
                 $field = $this->controller->getField($ident);
+                if ($field->isPattern()) {
+                    continue;
+                }
+                
                 $tabs = $field->getAttribute('tabs');
                 if ($tabs) {
                     foreach ($tabs as $tab) {
@@ -365,6 +382,10 @@ class QueryHandler {
         $fields = $definition['fields'];
         foreach ($fields as $ident => $options) {
             $field = $this->controller->getField($ident);
+            if ($field->isPattern()) {
+                continue;
+            }
+            
             $tabs = $field->getAttribute('tabs');
             if ($tabs) {
                 foreach ($tabs as $tab) {
@@ -391,6 +412,9 @@ class QueryHandler {
                 unset($values[$key]);
             }
         }
+        
+        // patterns
+        unset($values['pattern']);
 
         return $values;
     } // end _unsetFutileFields
@@ -401,6 +425,10 @@ class QueryHandler {
         $fields = $definition['fields'];
         foreach ($fields as $ident => $options) {
             $field = $this->controller->getField($ident);
+            if ($field->isPattern()) {
+                continue;
+            }
+            
             $tabs = $field->getAttribute('tabs');
             if ($tabs) {
                 foreach ($tabs as $tab) {

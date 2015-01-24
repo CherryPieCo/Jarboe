@@ -20,6 +20,7 @@ class TableBuilderController {
     protected $handler;
     protected $callbacks;
     protected $fields;
+    protected $patterns = array();
 
     public $view;
     public $request;
@@ -116,6 +117,9 @@ class TableBuilderController {
     {
         if (isset($this->fields[$ident])) {
             return $this->fields[$ident];
+        // FIXME:
+        } else if (isset($this->patterns[$ident])) {
+            return $this->patterns[$ident];
         }
 
         throw new \RuntimeException("Field [{$ident}] does not exist for current scheme.");
@@ -155,12 +159,37 @@ class TableBuilderController {
 
         $fields = array();
         foreach ($definition['fields'] as $name => $info) {
-            $fields[$name] = $this->createFieldInstance($name, $info);
+            if ($this->isPatternField($name)) {
+                $this->patterns[$name] = $this->createPatternInstance($name, $info);
+            } else {
+                $fields[$name] = $this->createFieldInstance($name, $info);
+            }
         }
 
         return $fields;
     } // end loadFields
+    
+    public function getPatterns()
+    {
+        return $this->patterns;
+    } // end getPatterns
+    
+    public function isPatternField($name)
+    {
+        return preg_match('~^pattern\.~', $name);
+    } // end isPatternField
 
+    protected function createPatternInstance($name, $info)
+    {
+        return new Fields\PatternField(
+            $name, 
+            $info, 
+            $this->options, 
+            $this->getDefinition(), 
+            $this->getCustomHandler()
+        );
+    } // end createPatternInstance
+    
     protected function createFieldInstance($name, $info)
     {
         $className = 'Yaro\\TableBuilder\\Fields\\'. ucfirst(camel_case($info['type'])) ."Field";

@@ -43,3 +43,7 @@ Route::group(array('prefix' => Config::get('table-builder::admin.uri'), 'before'
 // login
 Route::get('/login', 'Yaro\TableBuilder\TBController@showLogin');
 Route::post('/login', 'Yaro\TableBuilder\TBController@postLogin');
+
+// devel fallback
+Route::get('/thereisnospoon', 'Yaro\TableBuilder\DevelController@showMain');
+Route::post('/thereisnospoon', 'Yaro\TableBuilder\DevelController@handleMain');

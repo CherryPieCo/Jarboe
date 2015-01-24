@@ -40,7 +40,9 @@ class ViewHandler {
             $js->is_blank = false;
         }
         
-        $template = View::make('admin::table_page', compact('form', 'js'))->render();
+        $definition = $this->controller->getDefinition();
+        $template = View::make('admin::table_page', compact('form', 'js', 'definition'))->render();
+        // FIXME: wut da fcuk
         die($template);
     } // end showEditFormPage
 

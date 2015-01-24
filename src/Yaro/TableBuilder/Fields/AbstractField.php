@@ -20,13 +20,18 @@ abstract class AbstractField {
 
     public function __construct($fieldName, $attributes, $options, $definition, $handler)
     {
-       $this->attributes = $this->_prepareAttributes($attributes);
-       $this->options    = $options;
-       $this->definition = $definition;
-       $this->fieldName  = $fieldName;
-
-       $this->handler = &$handler;
+        $this->attributes = $this->_prepareAttributes($attributes);
+        $this->options    = $options;
+        $this->definition = $definition;
+        $this->fieldName  = $fieldName;
+        
+        $this->handler = &$handler;
     } // end __construct
+    
+    public function isPattern()
+    {
+        return false;
+    } // end isPattern
 
     public function getFieldName()
     {

@@ -1,0 +1,66 @@
+<?php
+
+return array(
+    'db' => array(
+        'table' => '%table%',
+        'order' => array(
+            'id' => 'DESC',
+        ),
+        'pagination' => array(
+            'per_page' => array(
+                20 => 20, 
+                40 => 40, 
+                60 => 60,
+            ),
+            'uri' => '', // define me
+        ),
+    ),
+    
+    'options' => array(
+        'caption' => '%table%',
+        'ident' => 'table-container',
+        'form_ident' => 'table-form',
+        'table_ident' => 'table-table',
+        'action_url' => '', // define me
+        'not_found' => 'NOT FOUND',
+    ),
+    
+    'fields' => array(
+        'id' => array(
+            'caption' => '#',
+            'type' => 'readonly',
+            'class' => 'col-id',
+            'width' => '1%',
+            'hide' => true,
+            'is_sorting' => true
+        ),
+%fields%
+    ),
+    
+    'filters' => array(
+    ),
+    
+    'actions' => array(
+        'search' => array(
+            'caption' => 'Поиск',
+        ),
+        'insert' => array(
+            'caption' => 'Создать',
+            'check' => function() {
+                return true;
+            }
+        ),
+        'update' => array(
+            'caption' => 'Обновить',
+            'check' => function() {
+                return true;
+            }
+        ),
+        'delete' => array(
+            'caption' => 'Удалить',
+            'check' => function() {
+                return true;
+            }
+        ),
+    ),
+);

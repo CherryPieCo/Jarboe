@@ -4,6 +4,7 @@ namespace Yaro\TableBuilder;
 
 use Yaro\TableBuilder\Helpers\URLify;
 use Yaro\TableBuilder\NavigationMenu;
+use Yaro\TableBuilder\DefinitionMaker;
 use Yaro\TableBuilder\CatalogController;
 use Yaro\TableBuilder\Exceptions\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
@@ -65,6 +66,13 @@ class TableBuilder {
 
         return $menu->fetch();
     } // end fetchNavigation
+    
+    public function createDefinition($table)
+    {
+        $maker = new DefinitionMaker($table);
+
+        return $maker->create();
+    } // end createDefinition
 
     public function fetchInformer()
     {

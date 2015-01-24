@@ -58,6 +58,9 @@
         <li>
             <a href="#f-custom" data-toggle="tab"> custom </a>
         </li>
+        <li>
+            <a href="#f-pattern" data-toggle="tab"> паттерн </a>
+        </li>
     </ul>
     <div class="tab-content min-500">
         
@@ -115,6 +118,10 @@
         
         <div class="tab-pane" id="f-custom">
             @include('admin::docs.table.fields.custom')    
+        </div>  
+        
+        <div class="tab-pane" id="f-pattern">
+            @include('admin::docs.table.fields.pattern')    
         </div>    
         
     </div>

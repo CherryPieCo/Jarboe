@@ -43,6 +43,7 @@ class ActionsHandler
         $action = \View::make('admin::tb.action_custom');
         $action->row = $row;
         $action->def = $button;
+        $action->definition = $this->controller->getDefinition();
         
         return $action;
     } // end onCustomButton    
@@ -62,6 +63,7 @@ class ActionsHandler
         
         $action = \View::make('admin::tb.action_insert');
         $action->def = $this->def['insert'];
+        $action->definition = $this->controller->getDefinition();
         
         return $action;
     } // end onInsertButton
@@ -82,6 +84,7 @@ class ActionsHandler
         $action = \View::make('admin::tb.action_update');
         $action->row = $row;
         $action->def = $this->def['update'];
+        $action->definition = $this->controller->getDefinition();
         
         return $action;
     } // end onUpdateButton
@@ -102,6 +105,7 @@ class ActionsHandler
         $action = \View::make('admin::tb.action_delete');
         $action->row = $row;
         $action->def = $this->def['delete'];
+        $action->definition = $this->controller->getDefinition();
         
         return $action;
     } // end onDeleteButton

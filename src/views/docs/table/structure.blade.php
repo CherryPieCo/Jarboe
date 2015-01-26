@@ -143,6 +143,7 @@
     ),
     'insert' => array(
         'caption' => 'Добавить',
+        'mode' => 'new',
         'check' => function() {
             return true;
         }
@@ -159,6 +160,8 @@
 <dl class="dl-horizontal">
   <dt>actions[]caption</dt>
   <dd>Заголовок для кнопки действия. <span class="label bg-color-blueLight pull-right">дефолтный</span></dd>
+  <dt>actions[]mode</dt>
+  <dd>Тип открытия формы (<code>new</code> - в всей странице). <span class="label bg-color-blueLight pull-right">в модалке</span></dd>
   <dt>filters[]check</dt>
   <dd>Лямбда для проверки прав на исполнение и показ действия. <span class="label bg-color-blueLight pull-right">true</span></dd>
 </dl>

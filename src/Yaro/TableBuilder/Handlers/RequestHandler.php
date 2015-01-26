@@ -20,6 +20,13 @@ class RequestHandler {
 
     public function handle()
     {
+        if (Input::get('edit')) {
+            return $this->handleShowEditFormPageAction(Input::get('edit'));
+        } elseif (Input::has('create')) {
+            return $this->handleShowEditFormPageAction();
+        }
+        
+        
         switch (Input::get('query_type')) {
             case 'search':
                 return $this->handleSearchAction();
@@ -332,6 +339,11 @@ class RequestHandler {
             $this->controller->view->showEditForm()
         );    
     } // end handleShowList
+    
+    protected function handleShowEditFormPageAction($id = false)
+    {
+        return $this->controller->view->showEditFormPage($id);
+    } // end handleShowAddFormPageAction
 
     protected function handleFastSaveAction()
     {

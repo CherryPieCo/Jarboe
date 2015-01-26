@@ -16,6 +16,7 @@ var TableBuilder = {
     create_form: '#create_form',
     edit_form: '#edit_form',
     filter: '#filters-row :input',
+    is_page_form: false,
 
     onDoEdit: null,
     onDoCreate: null,
@@ -278,6 +279,8 @@ var TableBuilder = {
             table_ident: null,
             form_ident: null,
             action_url: null,
+            list_url: null,
+            is_page_form: false,
             onSearchResponse: null,
             onFastEditResponse: null,
             onShowEditFormResponse: null,
@@ -773,10 +776,6 @@ console.log(values);
                 TableBuilder.hideFormPreloader(TableBuilder.form_edit);
 
                 if (response.id) {
-                    jQuery(TableBuilder.form_edit).modal('hide');
-
-                    jQuery('#wid-id-1').find('tr[data-editing="true"]').replaceWith(response.html);
-
                     jQuery.smallBox({
                         title : "Поле обновлено успешно",
                         content : "",
@@ -784,6 +783,15 @@ console.log(values);
                         iconSmall : "fa fa-check fa-2x fadeInRight animated",
                         timeout : 4000
                     });
+                    if (TableBuilder.options.is_page_form) {
+                        window.location.href = TableBuilder.options.list_url;
+                        return;
+                    }
+                    
+                    jQuery(TableBuilder.form_edit).modal('hide');
+
+                    jQuery('#wid-id-1').find('tr[data-editing="true"]').replaceWith(response.html);
+
                 } else {
                     /*
                      jQuery.smallBox({
@@ -870,11 +878,6 @@ console.log(values);
                 TableBuilder.hideFormPreloader(TableBuilder.form);
 
                 if (response.id) {
-                    jQuery('#wid-id-1').find('tbody').prepend(response.html);
-
-                    TableBuilder.removeInputValues(TableBuilder.form);
-                    jQuery(TableBuilder.form).modal('hide');
-
                     jQuery.smallBox({
                         title : "Новое поле создано успешно",
                         content : "",
@@ -882,6 +885,16 @@ console.log(values);
                         iconSmall : "fa fa-check fa-2x fadeInRight animated",
                         timeout : 4000
                     });
+                    if (TableBuilder.options.is_page_form) {
+                        window.location.href = TableBuilder.options.list_url;
+                        return;
+                    }
+                    
+                    jQuery('#wid-id-1').find('tbody').prepend(response.html);
+
+                    TableBuilder.removeInputValues(TableBuilder.form);
+                    jQuery(TableBuilder.form).modal('hide');
+
                 } else {
                     /*
                     jQuery.smallBox({

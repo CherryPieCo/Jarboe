@@ -14,6 +14,37 @@ class ViewHandler {
     {
         $this->controller = $controller;
     } // end __construct
+    
+    public function showEditFormPage($id)
+    {
+        $form = View::make('admin::tb.form_create');
+        $js = View::make('admin::tb.form_create_validation');
+        if ($id) {
+            $form = View::make('admin::tb.form_edit');
+            $js = View::make('admin::tb.form_edit_validation');
+        }
+        
+        $form->def = $this->controller->getDefinition();
+        $form->controller = $this->controller;
+        $js->def = $this->controller->getDefinition();
+        $js->controller = $this->controller;
+
+        $form->is_blank = true;
+        $js->is_blank = true;
+        if ($id) {
+            $row = $this->controller->query->getRow($id);
+            
+            $form->row = $row;
+            $form->is_blank = false;
+            $js->row = $row;
+            $js->is_blank = false;
+        }
+        
+        $definition = $this->controller->getDefinition();
+        $template = View::make('admin::table_page', compact('form', 'js', 'definition'))->render();
+        // FIXME: wut da fcuk
+        die($template);
+    } // end showEditFormPage
 
     public function showList()
     {

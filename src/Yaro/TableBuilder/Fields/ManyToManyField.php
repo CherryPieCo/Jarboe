@@ -21,17 +21,33 @@ class ManyToManyField extends AbstractField {
         DB::table($this->getAttribute('mtm_table'))
           ->where($this->getAttribute('mtm_key_field'), $id)
           ->delete();
-          
+        
         $data = array();
-        $values = array_filter($values);
-        // HACK: in checkbox we have id as key of element, in select - as value
-        $isInValueElement = ($this->getAttribute('show_type', 'checkbox') == 'select2');
-        foreach ($values as $key => $val) {
-            $externalID = $isInValueElement ? $val : $key;
-            $data[] = array(
-                $this->getAttribute('mtm_key_field')          => $id,
-                $this->getAttribute('mtm_external_key_field') => $externalID
-            );
+        if ($this->getAttribute('show_type') == 'extra') {
+            foreach ($values as $info) {
+                $temp = array(
+                    $this->getAttribute('mtm_key_field')          => $id,
+                    $this->getAttribute('mtm_external_key_field') => $info['id'],
+                );
+                
+                $extraFields = $this->getAttribute('extra_fields', array());
+                foreach ($extraFields as $fieldName => $fieldInfo) {
+                    $temp[$fieldName] = $info[$fieldName];
+                }
+                
+                $data[] = $temp;
+            }
+        } else {
+            $values = array_filter($values);
+            // HACK: in checkbox we have id as key of element, in select - as value
+            $isInValueElement = ($this->getAttribute('show_type', 'checkbox') == 'select2');
+            foreach ($values as $key => $val) {
+                $externalID = $isInValueElement ? $val : $key;
+                $data[] = array(
+                    $this->getAttribute('mtm_key_field')          => $id,
+                    $this->getAttribute('mtm_external_key_field') => $externalID
+                );
+            }
         }
         
         if ($data) {
@@ -79,8 +95,13 @@ class ManyToManyField extends AbstractField {
                 return $res;
             }
         }
-
+        
         $showType = $this->getAttribute('show_type', 'checkbox');
+        // FIXME:
+        if ($showType == 'extra') {
+            return $this->getEditInputWithExtra($row);
+        }
+
         $input = View::make('admin::tb.input_many2many_'. $showType);
         $input->selected = array();
         if ($row) {
@@ -97,6 +118,22 @@ class ManyToManyField extends AbstractField {
         return $input->render();
     } // end getEditInput
     
+    private function getEditInputWithExtra($row)
+    {
+        $input = View::make('admin::tb.input_many2many_extra');
+        
+        $input->selected = array();
+        if ($row) {
+            $input->selected = $this->getRelatedExternalFieldOptions($row, true);
+        }
+        
+        $input->name    = $this->getFieldName();
+        $input->options = $this->getAllExternalFieldOptions(true);
+        $input->extra   = $this->getAttribute('extra_fields');
+
+        return $input->render();
+    } // end getEditInputWithExtra
+    
     private function doDivideOnParts($array, $segmentCount)
     {
         $dataCount = count($array);
@@ -111,16 +148,20 @@ class ManyToManyField extends AbstractField {
         return $outputArray;
     } // end doDivideOnParts
 
-    protected function getRelatedExternalFieldOptions($row)
+    protected function getRelatedExternalFieldOptions($row, $isGetAll = false)
     {
         $keyField = $this->getAttribute('mtm_table') .'.'. $this->getAttribute('mtm_external_key_field');
         $valueField = $this->getAttribute('mtm_external_table') .'.'. $this->getAttribute('mtm_external_value_field');
         $externalTable = $this->getAttribute('mtm_external_table');
         $externalForeignKey = $externalTable .'.'. $this->getAttribute('mtm_external_foreign_key_field');
         
-        $options = DB::table($this->getAttribute('mtm_table'))
-                     ->select($keyField, $valueField)
-                     ->join($externalTable, $keyField, '=', $externalForeignKey);
+        $options = DB::table($this->getAttribute('mtm_table'));
+        $options->select($keyField, $valueField);
+        if ($isGetAll) {
+            $options->addSelect($this->getAttribute('mtm_table') .'.*');
+        }
+
+        $options->join($externalTable, $keyField, '=', $externalForeignKey);
         
         $additionalWheres = $this->getAttribute('additional_where');
         if ($additionalWheres) {
@@ -137,19 +178,29 @@ class ManyToManyField extends AbstractField {
             $id = $opt[$this->getAttribute('mtm_external_key_field')];
             $value = $opt[$this->getAttribute('mtm_external_value_field')];
             
-            $options[$id] = $value;
+            if ($isGetAll) {
+                $options[$id] = array(
+                    'value' => $value,
+                    'info'  => $opt
+                );
+            } else {
+                $options[$id] = $value;
+            }
         }
 
         return $options;
     } // end getRelatedExternalFieldOptions
     
-    protected function getAllExternalFieldOptions()
+    protected function getAllExternalFieldOptions($isGetAll = false)
     {
         $valueField = $this->getAttribute('mtm_external_table') .'.'. $this->getAttribute('mtm_external_value_field');
         $externalTable = $this->getAttribute('mtm_external_table');
         $externalForeignKey = $externalTable .'.'. $this->getAttribute('mtm_external_foreign_key_field');
         
-        $options = DB::table($externalTable)->select($externalForeignKey, $valueField);
+        $options = DB::table($externalTable);
+        if (!$isGetAll) {
+            $options->select($externalForeignKey, $valueField);
+        }
         
         $additionalWheres = $this->getAttribute('additional_where');
         if ($additionalWheres) {
@@ -164,7 +215,14 @@ class ManyToManyField extends AbstractField {
             $id = $opt[$this->getAttribute('mtm_external_foreign_key_field')];
             $value = $opt[$this->getAttribute('mtm_external_value_field')];
             
-            $options[$id] = $value;
+            if ($isGetAll) {
+                $options[$id] = array(
+                    'value' => $value,
+                    'info'  => $opt
+                );
+            } else {
+                $options[$id] = $value;
+            }
         }
 
         return $options;

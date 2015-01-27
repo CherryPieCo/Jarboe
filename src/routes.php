@@ -37,6 +37,10 @@ Route::group(array('prefix' => Config::get('table-builder::admin.uri'), 'before'
     Route::get('tb/groups/create', 'Yaro\TableBuilder\TBUsersController@showCreateGroup');
     Route::post('tb/groups/do-create', 'Yaro\TableBuilder\TBUsersController@doCreateGroup');
     Route::post('tb/users/upload-image', 'Yaro\TableBuilder\TBUsersController@doUploadImage');
+    
+    // tree
+    Route::get('tb/tree', 'Yaro\TableBuilder\TBTreeController@showTree');
+    Route::post('tb/tree/change-pos', 'Yaro\TableBuilder\TBTreeController@changePosition');
         
 });
 

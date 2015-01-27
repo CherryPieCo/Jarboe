@@ -25,14 +25,20 @@
             'sign'  => '=',
             'value' => '1'
         )
-    )
+    ),
+    'extra_fields' => array(
+        'price' => array(  // filials2services.price
+            'caption' => 'Вариант',
+            'type'    => 'text',
+        )
+    ),
 ),
 </code>
 </pre>
 
 <dl class="dl-horizontal">
   <dt>show_type</dt>
-  <dd>Тип отображения поля (<code>checkbox|select2</code>). <span class="label bg-color-blueLight pull-right">checkbox</span></dd>
+  <dd>Тип отображения поля (<code>checkbox|select2|extra</code>). <span class="label bg-color-blueLight pull-right">checkbox</span></dd>
   <dt>divide_columns</dt>
   <dd>Количество колонок для внешних ключей (применимо для <code>show_type = checkbox</code>). <span class="label bg-color-blueLight pull-right">2</span></dd>
   <dt>additional_where</dt>
@@ -49,6 +55,8 @@
   <dd>Значение, которое подтянется на фронтенд из таблицы <code>mtm_external_table</code> по полю <code>mtm_external_foreign_key_field</code>. <span class="label bg-color-red pull-right">обязательно</span></dd>
   <dt>mtm_external_table</dt>
   <dd>Название таблицы, на которую ссылается внешний ключ таблицы связей, который не является текущей таблицей.<span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dt>extra_fields</dt>
+  <dd>Используется только при <code>show_type => extra</code>. В ключе название поля, которое находится в таблице связей. В значении его два параметра (пока <code>type</code> только <code>text</code>). <span class="label bg-color-red pull-right">обязательно при extra</span></dd>
 </dl>
 
 <p>Слегка мутно. Строения таблиц из примера:</p>

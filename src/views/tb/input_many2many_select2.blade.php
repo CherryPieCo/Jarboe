@@ -7,7 +7,7 @@
                         selected="selected"
                     @endif
                     >
-            	{{ trim($title) }}
+                {{ trim($title) }}
             </option>
         @endforeach
     @endforeach

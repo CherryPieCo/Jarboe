@@ -486,8 +486,14 @@ var TableBuilder = {
         TableBuilder.flushStorage();
 
         // flush image previews
-        if (jQuery('.tb-uploaded-image-container').length) {
-            jQuery('.tb-uploaded-image-container').html('');
+        if (jQuery('.tb-uploaded-image-container', TableBuilder.create_form).length) {
+            jQuery.each(jQuery('.tb-uploaded-image-container', TableBuilder.create_form), function (i) {
+                if (jQuery(this).find('ul').length) {
+                    jQuery(this).find('ul').html('');
+                } else {    
+                    jQuery(this).html('');
+                }
+            });
         }
 
         //jQuery(TableBuilder.form_label).text('Create');
@@ -943,8 +949,37 @@ console.log(values);
         data.append("image", context.files[0]);
         data.append('ident', ident);
         data.append('query_type', 'upload_photo');
-
+        
+        var $progress = jQuery(context).parent().parent().parent().parent().parent().find('.progress-bar');
+        //console.log($progress);
+        
         jQuery.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    console.log(evt); 
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = percentComplete * 100;
+                        console.log('upl :'+ percentComplete); 
+                        
+                        percentComplete = percentComplete +'%';
+                        //Do something with upload progress here
+                        
+                        $progress.width(percentComplete);
+                    }
+               }, false);
+        
+               xhr.addEventListener("progress", function(evt) {
+                   if (evt.lengthComputable) {
+                       var percentComplete = evt.loaded / evt.total;
+                        console.log('dwl :'+ percentComplete);
+                       //Do something with download progress
+                   }
+               }, false);
+        
+               return xhr;
+            },
             data: data,
             type: "POST",
             url: TableBuilder.options.action_url,
@@ -954,7 +989,9 @@ console.log(values);
             success: function(response) {
                 if (response.status) {
                     //jQuery(context).parent().next().val(response.short_link);
-
+                    $progress.width('0%');
+                    
+                    
                     TableBuilder.storage[ident] = {
                         'alt'  : '',
                         'title': '',
@@ -990,6 +1027,9 @@ console.log(values);
         data.append("image", context.files[0]);
         data.append('ident', ident);
         data.append('query_type', 'upload_photo');
+        
+        var $progress = jQuery(context).parent().parent().parent().parent().parent().find('.progress-bar');
+        
 
         var num = 0;
         if (typeof TableBuilder.storage[ident] !== 'undefined') {
@@ -1000,6 +1040,32 @@ console.log(values);
         data.append('num', num);
 
         jQuery.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    console.log(evt); 
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = percentComplete * 100;
+                        console.log('upl :'+ percentComplete); 
+                        
+                        percentComplete = percentComplete +'%';
+                        //Do something with upload progress here
+                        
+                        $progress.width(percentComplete);
+                    }
+               }, false);
+        
+               xhr.addEventListener("progress", function(evt) {
+                   if (evt.lengthComputable) {
+                       var percentComplete = evt.loaded / evt.total;
+                        console.log('dwl :'+ percentComplete);
+                       //Do something with download progress
+                   }
+               }, false);
+        
+               return xhr;
+            },
             data: data,
             type: "POST",
             url: TableBuilder.options.action_url,
@@ -1008,6 +1074,9 @@ console.log(values);
             processData: false,
             success: function(response) {
                 if (response.status) {
+                
+                    $progress.width('0%');
+                    
                     if (!num) {
                         TableBuilder.storage[ident] = [];
                     }

@@ -5,7 +5,7 @@ namespace Yaro\TableBuilder;
 use Yaro\TableBuilder\Helpers\URLify;
 use Yaro\TableBuilder\NavigationMenu;
 use Yaro\TableBuilder\DefinitionMaker;
-use Yaro\TableBuilder\CatalogController;
+use Yaro\TableBuilder\TreeController;
 use Yaro\TableBuilder\Exceptions\TableBuilderValidationException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
@@ -106,17 +106,12 @@ class TableBuilder {
         return $translation->__toString();
     } // end translate
 
-    public function catalog($name, $options = array())
+    public function tree()
     {
-        $model = ucfirst(camel_case($name));
-        if (!class_exists($model)) {
-            throw new \RuntimeException('Model "'. $model .'" is not defined');
-        }
-
-        $controller = new CatalogController($model, $options);
+        $controller = new TreeController();
 
         return $controller->handle();
-    } // end catalog
+    } // end tree
 
     public function fileManager($connectorUrl = false)
     {

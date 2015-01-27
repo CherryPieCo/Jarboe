@@ -34,8 +34,13 @@ class PrepareArtisanCommand extends Command
                 __DIR__ . '/../../../tb-definitions/settings.php', 
                 app_path() . '/tb-definitions/settings.php'
             );
+            mkdir(app_path() . '/tb-definitions/patterns');
+            copy(
+                __DIR__ . '/../../../tb-definitions/patterns/example.php', 
+                app_path() . '/tb-definitions/patterns/example.php'
+            );
         }
-        
+        /*
         if ($this->confirm('Create `ip_geo_locations` table? [yes|no]')) {
             \Schema::create('ip_geo_locations', function($table) {
                 $table->increments('id')->unsigned();
@@ -45,7 +50,7 @@ class PrepareArtisanCommand extends Command
                 $table->decimal('latitude', 10, 7);
             });
         }
-
+        */
         if ($this->confirm('Replace filters.php? [yes|no]')) {
             $res = unlink(app_path() . '/filters.php');
             if ($res) {
@@ -64,7 +69,9 @@ class PrepareArtisanCommand extends Command
             }
         }
 
-        
+        $this->info('ok');
+
+        /*
         if ($this->confirm('Prepare Sentry package? [yes|no]')) {
             $this->doPrepareSentry();
         }
@@ -72,8 +79,8 @@ class PrepareArtisanCommand extends Command
         if ($this->confirm('Prepare Intervention package? [yes|no]')) {
             $this->doPrepareIntervention();
         }
-        
-        $this->doPrepareMisc();
+        */
+        //$this->doPrepareMisc();
     } // end fire
     
     private function doPrepareMisc()

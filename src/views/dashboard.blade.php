@@ -9,6 +9,7 @@
 @section('main')
 <div id="content">
 
+@include('admin::docs.install')
 @include('admin::docs.config')
 @include('admin::docs.table')
 @include('admin::docs.filemanager')

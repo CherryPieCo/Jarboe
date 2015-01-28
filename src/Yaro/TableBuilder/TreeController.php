@@ -5,7 +5,7 @@ namespace Yaro\TableBuilder;
 use Illuminate\Support\Facades\Input;
 
 
-class CatalogController 
+class TreeController 
 {
     protected $name;
     protected $options;

@@ -11,13 +11,41 @@
         <td colspan="100%">
             <div class="btn-group">
                 @foreach ($def['multi_actions'] as $type => $action)
+                @if (!isset($action['options']))
                 <button type="button" class="btn btn-default btn-sm {{ $action['class'] or '' }}" 
                         onclick="TableBuilder.doMultiActionCall('{{$type}}');">
                     {{ $action['caption'] }}
                 </button>
+                @endif
                 @endforeach
             </div>
+            
+            @foreach ($def['multi_actions'] as $type => $action)
+            @if (isset($action['options']))
+                <div class="btn-group dropup">
+                    <button class="btn btn-default btn-sm dropdown-toggle {{ $action['class'] or '' }}" data-toggle="dropdown">
+                        {{ $action['caption'] }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <?php $actionOptions = $action['options'](); ?>
+                        @foreach ($actionOptions as $subActionID => $subActionTitle)
+                        <li>
+                            <a onclick="TableBuilder.doMultiActionCallWithOption(this, '{{$type}}', '{{$subActionID}}');" href="javascript:void(0);">{{ $subActionTitle }}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @endforeach
+            
         </td>
     </tr>
 </tfoot>
+
+<script>
+jQuery(document).ready(function() {
+    jQuery('.dropdown-toggle').dropdown();
+});
+</script>
+
 @endif

@@ -35,6 +35,10 @@ class RequestHandler {
             case 'multi_action':
                 return $this->handleMultiAction();
                 break;
+                
+            case 'multi_action_with_option':
+                return $this->handleMultiActionWithOption();
+                break;
             
             case 'import':
                 return $this->handleImport();
@@ -119,6 +123,33 @@ class RequestHandler {
         
         return Response::json($data);
     } // end handleMultiAction
+    
+    protected function handleMultiActionWithOption()
+    {
+        // FIXME: move to separate class
+        $def = $this->controller->getDefinition();
+        
+        $type = Input::get('type');
+        $option = Input::get('option');
+        $action = $def['multi_actions'][$type];
+        
+        $isAllowed = $action['check'];
+        if (!$isAllowed()) {
+            throw new \RuntimeException('Multi action not allowed: '. $type);
+        }
+        
+        $ids = Input::get('multi_ids', array());
+        $handlerClosure = $action['handle'];
+        $data = $handlerClosure($ids, $option);
+        
+        $data['ids'] = $ids;
+        $data['is_hide_rows'] = false;
+        if (isset($action['is_hide_rows'])) {
+            $data['is_hide_rows'] = $action['is_hide_rows'];
+        }
+        
+        return Response::json($data);
+    } // end handleMultiActionWithOption
     
     protected function handleImportTemplateDownload()
     {

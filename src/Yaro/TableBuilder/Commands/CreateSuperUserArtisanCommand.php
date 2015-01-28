@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputArgument;
 class CreateAdminUserArtisanCommand extends Command 
 {
 
-    protected $name = 'tb:create-admin-user';
+    protected $name = 'tb:create-superuser';
 
-    protected $description = "TB: create user in 'admin' group.";
+    protected $description = "TB: create superuser in 'admin' group.";
 
     public function fire()
     {
@@ -24,6 +24,7 @@ class CreateAdminUserArtisanCommand extends Command
                 'email'     => $this->argument('email'),
                 'password'  => $password,
                 'activated' => true,
+                'permissions' => array('superuser' => '1'),
             ));
         
             $user->addGroup($adminGroup);
@@ -35,6 +36,7 @@ class CreateAdminUserArtisanCommand extends Command
                 'email'     => $this->argument('email'),
                 'password'  => $password,
                 'activated' => true,
+                'permissions' => array('superuser' => '1'),
             ));
         
             $adminGroup = \Sentry::createGroup(array(

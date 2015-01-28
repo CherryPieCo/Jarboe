@@ -34,7 +34,7 @@ class TBController extends \Controller
             $onLogin = \Config::get('table-builder::login.on_login'); 
             $onLogin();
             
-            return \Redirect::to(\Config::get('table-builder::admin.uri'));
+            return \Redirect::intended(\Config::get('table-builder::admin.uri'));
             
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
             \Session::put('tb_login_not_found', \Lang::get('table-builder::login.not_found'));

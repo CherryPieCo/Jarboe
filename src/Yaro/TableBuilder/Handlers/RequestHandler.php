@@ -86,6 +86,9 @@ class RequestHandler {
             case 'upload_photo_wysiwyg':
                 return $this->handlePhotoUploadFromWysiwyg();
                 
+            case 'redactor_image_upload':
+                return $this->handlePhotoUploadFromWysiwygRedactor();
+                
             case 'change_direction':
                 return $this->handleChangeDirection();
                 
@@ -297,6 +300,34 @@ class RequestHandler {
         );
         return Response::json($data);
     } // end handlePhotoUploadFromWysiwyg
+    
+    protected function handlePhotoUploadFromWysiwygRedactor()
+    {
+        // FIXME:
+        $file = Input::file('file');
+        
+        if ($this->controller->hasCustomHandlerMethod('onPhotoUploadFromWysiwyg')) {
+            $res = $this->controller->getCustomHandler()->onPhotoUploadFromWysiwyg($file);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $extension = $file->guessExtension();
+        $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        $status = $file->move($destinationPath, $fileName);
+        
+        $data = array(
+            'filelink'   => URL::to($destinationPath . $fileName)
+        );
+        return Response::json($data);
+    } // end handlePhotoUploadFromWysiwygRedactor
     
     protected function handleDeleteAction()
     {

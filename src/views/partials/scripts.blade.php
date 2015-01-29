@@ -44,6 +44,10 @@
 <script src="{{asset('packages/yaro/table-builder/js/plugin/summernote/lang/summernote-ru-RU.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/table-builder/css/summernote.css')}}">
 
+
+<script src="{{asset('packages/yaro/table-builder/js/plugin/redactor/redactor.min.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/table-builder/js/plugin/redactor/redactor.css')}}">
+
 <!-- JQUERY MASKED INPUT -->
 <script src="{{asset('packages/yaro/table-builder/js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
 

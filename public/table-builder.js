@@ -1462,6 +1462,28 @@ console.log(num);
             }
         });
     }, // end doMultiActionCallWithOption
+    
+    saveOrder: function(order) 
+    {
+        console.log(order);
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.options.action_url,
+            data: {order: order, query_type: 'change_order'},
+            dataType: 'json',
+            success: function(response) {
+                jQuery(context).parent().parent().parent().removeClass('open');
+                
+                if (response.status) {
+
+                    TableBuilder.showSuccessNotification('Порядок следования изменен');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end saveOrder
 
 };
 

@@ -1,5 +1,24 @@
 
 <tr>
+    @if (isset($def['options']['is_sortable']) && $def['options']['is_sortable'])
+        <th style="width: 1%; padding: 0;">
+            <i style="margin-left: -10px;" class="fa fa-reorder"></i>
+        </th>
+        
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('#datatable_fixed_column tbody').sortable({
+                    axis: "y",
+                    handle: ".tb-sort-me-gently",
+                    update: function () {
+                        var order = $('#datatable_fixed_column tbody').sortable( "serialize" );
+                        TableBuilder.saveOrder(order);
+                    }
+                });
+            });
+        </script>
+    @endif
+    
     @if (isset($def['multi_actions']))
         <th><label class="checkbox multi-checkbox multi-main-checkbox" onclick="TableBuilder.doSelectAllMultiCheckboxes(this);">
             <input type="checkbox" /><i></i>
@@ -45,6 +64,10 @@
 
 @if ($def['is_searchable'])
 <tr class="filters-row">
+    @if (isset($def['options']['is_sortable']) && $def['options']['is_sortable'])
+        <th></th>
+    @endif
+    
     @if (isset($def['multi_actions']))
         <th></th>
     @endif

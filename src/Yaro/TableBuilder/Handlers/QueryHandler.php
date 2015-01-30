@@ -119,6 +119,11 @@ class QueryHandler {
     protected function prepareSelectValues()
     {
         $this->db->select($this->getOptionDB('table') .'.id');
+        $def = $this->controller->getDefinition();
+        if (isset($def['options']['is_sortable']) && $def['options']['is_sortable']) {
+            // FIXME: changeable field name
+            $this->db->addSelect($this->getOptionDB('table') .'.priority');
+        }
 
         $fields = $this->controller->getFields();
         foreach ($fields as $name => $field) {

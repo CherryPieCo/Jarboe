@@ -32,6 +32,10 @@ class RequestHandler {
                 return $this->handleSearchAction();
                 break;
                 
+            case 'change_order':
+                return $this->handleChangeOrderAction();
+                break;
+                
             case 'multi_action':
                 return $this->handleMultiAction();
                 break;
@@ -100,6 +104,41 @@ class RequestHandler {
                 break;
         }
     } // end handle
+    
+    protected function handleChangeOrderAction()
+    {
+        parse_str(Input::get('order'), $order);
+        $order = $order['sort'];
+        
+        $definition = $this->controller->getDefinition();
+        
+        $info = $definition['db']['pagination']['per_page'];
+        if (is_array($info)) {
+            $definitionName = $this->controller->getOption('def_name');
+            $sessionPath = 'table_builder.'.$definitionName.'.per_page';
+            $perPage = Session::get($sessionPath);
+            if (!$perPage) {
+                $keys = array_keys($info);
+                $perPage = $keys[0];
+            }
+        } else {
+            $perPage = $info;
+        }
+        
+        // FIXME: make page param available
+        $lowest = (Input::get('page', 1) * $perPage) - $perPage;
+        
+        foreach ($order as $id) {
+            ++$lowest;
+            \DB::table($definition['db']['table'])->where('id', $id)->update(array(
+                'priority' => $lowest
+            ));
+        }
+        
+        return Response::json(array(
+            'status' => true
+        ));
+    } // end handleChangeOrderAction
     
     protected function handleMultiAction()
     {

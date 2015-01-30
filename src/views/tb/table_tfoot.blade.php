@@ -1,6 +1,12 @@
 @if (isset($def['multi_actions']))
 <tfoot>
     <tr>
+        @if (isset($def['options']['is_sortable']) && $def['options']['is_sortable'])
+            <td style="width: 1%; padding: 14px 0 0 0;">
+                <i style="padding-left: 8px;" class="fa fa-reorder"></i>
+            </td>
+        @endif
+        
         <td style="vertical-align: middle;">
         <label class="checkbox multi-checkbox multi-main-checkbox" 
                onclick="TableBuilder.doSelectAllMultiCheckboxes(this);">

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 
-class CreateAdminUserArtisanCommand extends Command 
+class CreateSuperUserArtisanCommand extends Command 
 {
 
     protected $name = 'tb:create-superuser';

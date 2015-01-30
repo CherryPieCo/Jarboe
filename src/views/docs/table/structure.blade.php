@@ -61,6 +61,7 @@
     'handler'     => 'ProductsTableHandler',
     'form_width'  => '920px',
     //'is_form_fullscreen' => true,
+    'is_sortable' => true,
 ),
 </code>
 </pre> 
@@ -83,6 +84,8 @@
   <dd>Ширина для формы редактирования и создания. <span class="label bg-color-blueLight pull-right">какая-то дефолтная</span></dd>
   <dt>is_form_fullscreen</dt>
   <dd>Флаг для развертывания формы во весь экран. <span class="label bg-color-blueLight pull-right">false</span></dd>
+  <dt>is_sortable</dt>
+  <dd>Флаг для отображения сортировки таблицы. Для коректной сортировки необходимо вывести все поля таблицы отсортированные по <code>priority</code>. Необходимо наличие поля <code>priority</code>. <span class="label bg-color-blueLight pull-right">false</span></dd>
 </dl>
 
 <hr>

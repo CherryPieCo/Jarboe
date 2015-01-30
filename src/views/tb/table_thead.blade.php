@@ -7,11 +7,24 @@
         
         <script>
             jQuery(document).ready(function() {
-                jQuery('#datatable_fixed_column tbody').sortable({
+                jQuery('.tb-sort-me-gently', '.tb-table').on('mousedown', function() {
+                    jQuery('.widget-body', '.table-builder').css('overflow-x', 'visible');
+                });
+                jQuery('.tb-sort-me-gently', '.tb-table').on('mouseup', function() {
+                    jQuery('.widget-body', '.table-builder').css('overflow-x', 'scroll');
+                });
+                jQuery('tbody', '#datatable_fixed_column').sortable({
+                    //start: function(event, ui) {
+                    //    jQuery('.widget-body', '.table-builder').css('overflow-x', 'visible');
+                    //}, // end start
+                    //stop: function(event, ui) {
+                    //    jQuery('.widget-body', '.table-builder').css('overflow-x', 'scroll');
+                    //}, // end stop
+                    scroll: true,
                     axis: "y",
                     handle: ".tb-sort-me-gently",
                     update: function () {
-                        var order = $('#datatable_fixed_column tbody').sortable( "serialize" );
+                        var order = jQuery('tbody', '#datatable_fixed_column').sortable("serialize");
                         TableBuilder.saveOrder(order);
                     }
                 });

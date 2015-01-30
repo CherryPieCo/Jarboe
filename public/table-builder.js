@@ -1473,10 +1473,7 @@ console.log(num);
             data: {order: order, query_type: 'change_order'},
             dataType: 'json',
             success: function(response) {
-                jQuery(context).parent().parent().parent().removeClass('open');
-                
                 if (response.status) {
-
                     TableBuilder.showSuccessNotification('Порядок следования изменен');
                 } else {
                     TableBuilder.showErrorNotification('Что-то пошло не так');

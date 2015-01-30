@@ -1,8 +1,8 @@
 <input type="text" 
        id="{{$name}}"
-       value="{{ $value }}" 
+       value="{{{ $value }}}" 
        name="{{ $name }}" 
-       placeholder="{{ $placeholder }}"
+       placeholder="{{{ $placeholder }}}"
        @if ($mask)
          data-mask="{{$mask}}"
        @endif

@@ -83,3 +83,15 @@ if (!function_exists('cartesianRecurseIt'))
         return $result;
     } // end cartesianRecurseIt
 }
+
+if (!function_exists('remove_bom'))
+{
+    function remove_bom($val)
+    {
+        if (substr($val, 0, 3) == pack('CCC', 0xef, 0xbb, 0xbf)) {
+            $val = substr($val, 3);
+        }
+        return $val;
+    } // end remove_bom
+}
+

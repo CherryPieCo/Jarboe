@@ -60,12 +60,13 @@ class ViewHandler {
         return $table;
     } // end showList
 
-    public function showEditForm($id = false)
+    public function showEditForm($id = false, $isTree = false)
     {
         $table = View::make('admin::tb.modal_form');
         if ($id) {
             $table = View::make('admin::tb.modal_form_edit');
         }
+        $table->is_tree = $isTree;
         
         $table->def = $this->controller->getDefinition();
         $table->controller = $this->controller;

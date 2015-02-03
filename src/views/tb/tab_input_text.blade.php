@@ -25,9 +25,9 @@
                     <div style="position: relative;">
                         <label class="input">
                         <input type="text" 
-                               value="{{ $tab['value'] }}" 
+                               value="{{{ $tab['value'] }}}" 
                                name="{{ $name . $tab['postfix']}}" 
-                               placeholder="{{$tab['placeholder']}}" 
+                               placeholder="{{{$tab['placeholder']}}}" 
                                class="dblclick-edit-input form-control input-sm unselectable">
                         </label>
                     </div>

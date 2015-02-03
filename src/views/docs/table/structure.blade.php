@@ -61,6 +61,7 @@
     'handler'     => 'ProductsTableHandler',
     'form_width'  => '920px',
     //'is_form_fullscreen' => true,
+    'is_sortable' => true,
 ),
 </code>
 </pre> 
@@ -83,6 +84,8 @@
   <dd>Ширина для формы редактирования и создания. <span class="label bg-color-blueLight pull-right">какая-то дефолтная</span></dd>
   <dt>is_form_fullscreen</dt>
   <dd>Флаг для развертывания формы во весь экран. <span class="label bg-color-blueLight pull-right">false</span></dd>
+  <dt>is_sortable</dt>
+  <dd>Флаг для отображения сортировки таблицы. Для коректной сортировки необходимо вывести все поля таблицы отсортированные по <code>priority</code>. Необходимо наличие поля <code>priority</code>. <span class="label bg-color-blueLight pull-right">false</span></dd>
 </dl>
 
 <hr>
@@ -306,7 +309,33 @@
             );
             return $data;
         },
-    )
+    ),
+    'move' => array(
+        'caption' => 'Move to gallery',
+        'check' => function() {
+            return true;
+        },
+        'options' => function() {
+            $galleries = DB::table('galleries')->select('id', 'name')->get();
+            $data = array();
+            foreach ($galleries as $gallery) {
+                $data[$gallery['id']] = $gallery['name'];
+            }
+            
+            return $data;
+        },
+        'handle' => function($ids, $idOption) {
+            DB::table('images')->whereIn('id', $ids)->update(array(
+                'id_gallery' => $idOption,
+            ));
+            
+            return array(
+                'status'  => true,
+                'message' => 'Successfully moved'
+            );
+        },
+    ),
+     
 ),
 </code>
 </pre> 
@@ -320,8 +349,10 @@
   <dd>Флаг для скрытия полей, по которым шла обработка. Скрываются после ответа об успехе. <span class="label bg-color-blueLight pull-right">false</span></dd>
   <dt>multi_actions[]check</dt>
   <dd>Замыкание для проверки прав на групповое действие. <span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dt>multi_actions[]options</dt>
+  <dd>Для выборки вариантов к экшну. В ключе значение, которое поопадет в <code>handle::$idOption</code>, в значении - название на фронтенд. <span class="label bg-color-blueLight pull-right">обычный экшн</span></dd>
   <dt>multi_actions[]handle</dt>
-  <dd>Замыкание для обработки по действию. <code>$ids</code> содержит <code>id</code> выбранных полей. <span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dd>Замыкание для обработки по действию. <code>$ids</code> содержит <code>id</code> выбранных полей. <code>$idOption</code> присутствует толкьо если есть опции экшна. <span class="label bg-color-red pull-right">обязательно</span></dd>
 </dl>
 
 

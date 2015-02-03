@@ -86,7 +86,7 @@ class Translate
     {
         $isAutotranslate = \Config::get('table-builder::translate.is_auto_translate');
 
-        return $isAutotranslate && (\Config::get('table-builder::translate.auto_translate_from') != $locale);
+        return $isAutotranslate; //  && (\Config::get('table-builder::translate.auto_translate_from') != $locale)
     } // end
 
     protected function hasTranslate($ident, $locale, $namespace)

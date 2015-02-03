@@ -1421,6 +1421,66 @@ console.log(num);
         });
     }, // end doMultiActionCall
 
+    doMultiActionCallWithOption: function(context, type, option)
+    {
+        TableBuilder.showPreloader();
+
+        var values = jQuery('#'+ TableBuilder.options.table_ident).serializeArray();
+        values.push({ name: 'type', value: type });
+        values.push({ name: 'option', value: option });
+        values.push({ name: 'query_type', value: 'multi_action_with_option' });
+
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.options.action_url,
+            data: values,
+            dataType: 'json',
+            success: function(response) {
+                jQuery(context).parent().parent().parent().removeClass('open');
+                
+                if (response.status) {
+                    if (response.is_hide_rows) {
+                        jQuery(response.ids).each(function(key, val) {
+                            jQuery('tr[id-row="'+ val +'"]', '#'+ TableBuilder.options.table_ident).remove();
+                        });
+                    }
+
+                    TableBuilder.showSuccessNotification(response.message);
+                } else {
+                    if (typeof response.errors === "undefined") {
+                        TableBuilder.showErrorNotification('Что-то пошло не так');
+                    } else {
+                        var errors = '';
+                        jQuery(response.errors).each(function(key, val) {
+                            errors += val +'<br>';
+                        });
+                        TableBuilder.showBigErrorNotification(errors);
+                    }
+                }
+
+                TableBuilder.hidePreloader();
+            }
+        });
+    }, // end doMultiActionCallWithOption
+    
+    saveOrder: function(order) 
+    {
+        console.log(order);
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.options.action_url,
+            data: {order: order, query_type: 'change_order'},
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    TableBuilder.showSuccessNotification('Порядок следования изменен');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end saveOrder
 
 };
 

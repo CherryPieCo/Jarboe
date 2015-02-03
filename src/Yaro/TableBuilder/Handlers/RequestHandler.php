@@ -32,8 +32,16 @@ class RequestHandler {
                 return $this->handleSearchAction();
                 break;
                 
+            case 'change_order':
+                return $this->handleChangeOrderAction();
+                break;
+                
             case 'multi_action':
                 return $this->handleMultiAction();
+                break;
+                
+            case 'multi_action_with_option':
+                return $this->handleMultiActionWithOption();
                 break;
             
             case 'import':
@@ -82,6 +90,9 @@ class RequestHandler {
             case 'upload_photo_wysiwyg':
                 return $this->handlePhotoUploadFromWysiwyg();
                 
+            case 'redactor_image_upload':
+                return $this->handlePhotoUploadFromWysiwygRedactor();
+                
             case 'change_direction':
                 return $this->handleChangeDirection();
                 
@@ -93,6 +104,41 @@ class RequestHandler {
                 break;
         }
     } // end handle
+    
+    protected function handleChangeOrderAction()
+    {
+        parse_str(Input::get('order'), $order);
+        $order = $order['sort'];
+        
+        $definition = $this->controller->getDefinition();
+        
+        $info = $definition['db']['pagination']['per_page'];
+        if (is_array($info)) {
+            $definitionName = $this->controller->getOption('def_name');
+            $sessionPath = 'table_builder.'.$definitionName.'.per_page';
+            $perPage = Session::get($sessionPath);
+            if (!$perPage) {
+                $keys = array_keys($info);
+                $perPage = $keys[0];
+            }
+        } else {
+            $perPage = $info;
+        }
+        
+        // FIXME: make page param available
+        $lowest = (Input::get('page', 1) * $perPage) - $perPage;
+        
+        foreach ($order as $id) {
+            ++$lowest;
+            \DB::table($definition['db']['table'])->where('id', $id)->update(array(
+                'priority' => $lowest
+            ));
+        }
+        
+        return Response::json(array(
+            'status' => true
+        ));
+    } // end handleChangeOrderAction
     
     protected function handleMultiAction()
     {
@@ -119,6 +165,33 @@ class RequestHandler {
         
         return Response::json($data);
     } // end handleMultiAction
+    
+    protected function handleMultiActionWithOption()
+    {
+        // FIXME: move to separate class
+        $def = $this->controller->getDefinition();
+        
+        $type = Input::get('type');
+        $option = Input::get('option');
+        $action = $def['multi_actions'][$type];
+        
+        $isAllowed = $action['check'];
+        if (!$isAllowed()) {
+            throw new \RuntimeException('Multi action not allowed: '. $type);
+        }
+        
+        $ids = Input::get('multi_ids', array());
+        $handlerClosure = $action['handle'];
+        $data = $handlerClosure($ids, $option);
+        
+        $data['ids'] = $ids;
+        $data['is_hide_rows'] = false;
+        if (isset($action['is_hide_rows'])) {
+            $data['is_hide_rows'] = $action['is_hide_rows'];
+        }
+        
+        return Response::json($data);
+    } // end handleMultiActionWithOption
     
     protected function handleImportTemplateDownload()
     {
@@ -266,6 +339,34 @@ class RequestHandler {
         );
         return Response::json($data);
     } // end handlePhotoUploadFromWysiwyg
+    
+    protected function handlePhotoUploadFromWysiwygRedactor()
+    {
+        // FIXME:
+        $file = Input::file('file');
+        
+        if ($this->controller->hasCustomHandlerMethod('onPhotoUploadFromWysiwyg')) {
+            $res = $this->controller->getCustomHandler()->onPhotoUploadFromWysiwyg($file);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $extension = $file->guessExtension();
+        $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
+        
+        $definitionName = $this->controller->getOption('def_name');
+        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        $status = $file->move($destinationPath, $fileName);
+        
+        $data = array(
+            'filelink'   => URL::to($destinationPath . $fileName)
+        );
+        return Response::json($data);
+    } // end handlePhotoUploadFromWysiwygRedactor
     
     protected function handleDeleteAction()
     {

@@ -8,7 +8,7 @@
     </div>
     <div class="col-sm-8 text-right">
         <div class="dataTables_paginate paging_bootstrap_full">
-            {{$rows->links()}}
+            {{$rows->appends(Input::all())->links()}}
             
             @if (is_array($def['db']['pagination']['per_page']))
                 @include('admin::tb.pagination_show_amount')

@@ -416,6 +416,9 @@ class QueryHandler {
         // patterns
         unset($values['pattern']);
 
+        // for tree
+        unset($values['node']);
+
         return $values;
     } // end _unsetFutileFields
 

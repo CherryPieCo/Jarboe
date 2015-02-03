@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
         },
         submitHandler: function(form) {   
             console.log('ok?edit');                     
-            TableBuilder.doEdit({{$row['id']}});
+            {{ $is_tree ? 'Tree' : 'TableBuilder' }}.doEdit({{$row['id']}});
         }
     });
 });   

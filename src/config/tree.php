@@ -2,7 +2,7 @@
 
 return array(
     
-    'is_active' => true,
+    'is_active' => false,
 
     'templates' => array(
         'default template' => array(

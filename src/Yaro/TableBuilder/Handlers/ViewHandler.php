@@ -24,6 +24,9 @@ class ViewHandler {
             $js = View::make('admin::tb.form_edit_validation');
         }
         
+        $form->is_tree = false;
+        $js->is_tree = false;
+        
         $form->def = $this->controller->getDefinition();
         $form->controller = $this->controller;
         $js->def = $this->controller->getDefinition();

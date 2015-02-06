@@ -5,10 +5,10 @@ return array(
     'is_active_remember_me' => true,
 
     'background_url' => function() {
-        return 'http://lorempixel.com/1360/768/cats/';
+        return asset('packages/yaro/table-builder/img/login-bg.jpg');
     },
     'favicon_url' => function() {
-        return asset('packages/yaro/table-builder/img/Mooning_emoji.gif');
+        return asset('packages/yaro/table-builder/img/c-c-cat.gif');
     },
     'top_block' => function() {
         $html = '<div class="pull-left"><img style="height: 30px;" 

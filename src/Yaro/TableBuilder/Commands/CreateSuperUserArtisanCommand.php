@@ -30,7 +30,7 @@ class CreateSuperUserArtisanCommand extends Command
             $user->addGroup($adminGroup);
             
             $this->info('pass: '. $password);
-        } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             $password = $this->option('pass') ? : str_random(12);
             $user = \Sentry::createUser(array(
                 'email'     => $this->argument('email'),

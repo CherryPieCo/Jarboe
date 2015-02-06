@@ -3,28 +3,18 @@
 
 @section('main')
 
-{{--
-            <div class="row show-grid">
-                <div id="t" class="bg-color-blueDark  col-xs-4 col-sm-4 col-md-4">
-                    @include('admin::tree.tree')
-                </div>
-                
-                <div id="c" class="bg-color-blueLight col-xs-8 col-sm-8 col-md-8">
-                    dd
-                </div>
-            </div>
---}}
-          
-            <table id="tb-tree-table" class="table table-bordered" data-resizable-columns-id="tb-tree">
+    <div id="table-preloader" class="smoke_lol"><i class="fa fa-gear fa-4x fa-spin"></i></div>
+              
+            <table id="tb-tree-table" class="table table-bordered">
                 <thead>
                   <tr>
-                    <th data-resizable-column-id="tb-tree-controls">@include('admin::tree.tree_controls')</th>
-                    <th data-resizable-column-id="editor-controls">sa</th>
+                    <th style="width: 1%;">@include('admin::tree.tree_header')</th>
+                    <th class="text-left">@include('admin::tree.content_header')</th>
                   </tr>
                 </thead>
                 <tbody>
                  <tr>
-                    <td class="tree-td tree-dark" style="vertical-align: top;text-align: left;">@include('admin::tree.tree')</td>
+                    <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">@include('admin::tree.tree')</td>
                     <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">
                         {{ $content }}
                     </td>
@@ -57,6 +47,9 @@ Tree.parent_id = '{{ $current->id }}';
     display: none;
 }
 
+.jstree-contextmenu {
+    z-index: 99999;
+}
 
 #tb-ree {
     max-width: 100%;

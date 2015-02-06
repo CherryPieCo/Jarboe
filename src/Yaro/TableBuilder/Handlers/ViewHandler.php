@@ -24,6 +24,9 @@ class ViewHandler {
             $js = View::make('admin::tb.form_edit_validation');
         }
         
+        $form->is_tree = false;
+        $js->is_tree = false;
+        
         $form->def = $this->controller->getDefinition();
         $form->controller = $this->controller;
         $js->def = $this->controller->getDefinition();
@@ -60,12 +63,13 @@ class ViewHandler {
         return $table;
     } // end showList
 
-    public function showEditForm($id = false)
+    public function showEditForm($id = false, $isTree = false)
     {
         $table = View::make('admin::tb.modal_form');
         if ($id) {
             $table = View::make('admin::tb.modal_form_edit');
         }
+        $table->is_tree = $isTree;
         
         $table->def = $this->controller->getDefinition();
         $table->controller = $this->controller;

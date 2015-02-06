@@ -1184,7 +1184,7 @@ console.log(num);
             dataType: "json",
             success: function(response) {
                 // FIXME:
-                window.location.replace(response.url);
+                window.location.reload();
             }
         });
     }, // end doChangeSortingDirection

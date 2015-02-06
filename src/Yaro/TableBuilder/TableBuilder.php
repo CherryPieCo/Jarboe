@@ -106,11 +106,11 @@ class TableBuilder {
         return $translation->__toString();
     } // end translate
 
-    public function tree()
+    public function tree($model = 'Yaro\TableBuilder\Tree', $options = array())
     {
-        $controller = new TreeController();
+        $controller = new TreeCatalogController($model, $options);
 
-        return $controller->handle();
+        return $controller;
     } // end tree
 
     public function fileManager($connectorUrl = false)

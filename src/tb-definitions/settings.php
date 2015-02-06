@@ -17,7 +17,6 @@ return array(
         'ident' => 'settings-container',
         'form_ident' => 'settings-form',
         'table_ident' => 'settings-table',
-        'is_form_fullscreen' => true,
         'action_url' => '/admin/handle/settings',
         'handler' => 'Yaro\TableBuilder\Helpers\TableHandlers\Settings',
         'not_found' => 'NOT FOUND',

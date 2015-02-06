@@ -18,7 +18,7 @@ class CreateAdminUserArtisanCommand extends Command
     {
         try {
             $adminGroup = \Sentry::findGroupByName('admin');
-            
+
             $password = $this->option('pass') ? : str_random(12);
             $user = \Sentry::createUser(array(
                 'email'     => $this->argument('email'),
@@ -29,7 +29,7 @@ class CreateAdminUserArtisanCommand extends Command
             $user->addGroup($adminGroup);
             
             $this->info('pass: '. $password);
-        } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             $password = $this->option('pass') ? : str_random(12);
             $user = \Sentry::createUser(array(
                 'email'     => $this->argument('email'),

@@ -205,6 +205,7 @@ class TableBuilderController {
 
     protected function getTableDefinition($table)
     {
+        $table = preg_replace('~\.~', '/', $table);
         $path = app_path() .'/tb-definitions/'. $table .'.php';
 
         if (!file_exists($path)) {

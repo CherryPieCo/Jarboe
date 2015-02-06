@@ -20,6 +20,14 @@ return array(
                 return true;
             }
         ),
+        array(
+            'title' => 'Настройки',
+            'icon'  => 'cog',
+            'link'  => '/settings',
+            'check' => function() {
+                return true;
+            }
+        ),
     ),
 
 );

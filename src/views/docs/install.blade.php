@@ -25,12 +25,16 @@
     'Cartalyst\Sentry\SentryServiceProvider',
     'Intervention\Image\ImageServiceProvider',
     'Radic\BladeExtensions\BladeExtensionsServiceProvider',
+    'Spatie\Glide\GlideServiceProvider',
+    'Yaro\Mecha\MechaServiceProvider',
     // ...
 ),
 'aliases' => array(
     // ...
     'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
     'Image' => 'Intervention\Image\Facades\Image',
+    'GlideImage' => 'Spatie\Glide\GlideImageFacade',
+    'Mecha' => 'Yaro\Mecha\Facades\Mecha',
     // ...
 ),
 //
@@ -46,11 +50,33 @@
 php artisan migrate --package=cartalyst/sentry
 php artisan config:publish cartalyst/sentry
 php artisan config:publish intervention/image
+php artisan config:publish spatie/laravel-glide
+php artisan asset:publish yaro/mecha
 // или если сабмодуль
 php artisan migrate --path="workbench/yaro/table-builder/vendor/cartalyst/sentry/src/migrations"  --package=cartalyst/sentry
 php artisan config:publish --path="workbench/yaro/table-builder/vendor/cartalyst/sentry/src/config" cartalyst/sentry
 php artisan config:publish --path="workbench/yaro/table-builder/vendor/intervention/image/src/config" intervention/image
+php artisan config:publish --path="workbench/yaro/table-builder/vendor/spatie/laravel-glide/src/config" spatie/laravel-glide
+php artisan asset:publish --path="workbench/yaro/table-builder/vendor/yaro/mecha/public" yaro/mecha
 </code>
+</pre>
+</li>
+
+<li>
+    Правим конфиг <code>app/config/packages/spatie/laravel-glide/config.php</code><br>
+<pre>
+<code class="php">
+//...
+'source' => [
+    'path' => public_path(),
+],
+//...
+'cache' => [
+    'path' => public_path() .'/glidecache',
+],
+//...
+</code>
+</pre>
 </li>
 
 <li>

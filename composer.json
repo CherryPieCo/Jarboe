@@ -16,8 +16,16 @@
         "mpratt/embera": "1.8.*",
         "cartalyst/sentry": "2.1.*",
         "barryvdh/laravel-elfinder": "0.1.x",
-        "intervention/image": "2.*"
+        "intervention/image": "2.*",
+        "yaro/mecha": "dev-master",
+        "spatie/laravel-glide": "~0.3"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/Cherry-Pie/Mecha.git"
+        }
+    ],
     "autoload": {
         "classmap": [
             "src/controllers",

@@ -95,3 +95,12 @@ if (!function_exists('remove_bom'))
     } // end remove_bom
 }
 
+if (!function_exists('img'))
+{
+    function img($source, $options = array())
+    {
+        return GlideImage::setImagePath($source)->setConversionParameters($options);
+    } // end img
+}
+
+

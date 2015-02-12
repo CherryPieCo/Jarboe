@@ -99,7 +99,7 @@ if (!function_exists('img'))
 {
     function img($source, $options = array())
     {
-        return GlideImage::setImagePath($source)->setConversionParameters($options);
+        return GlideImage::load($source)->modify($options);
     } // end img
 }
 

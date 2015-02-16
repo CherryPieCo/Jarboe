@@ -127,6 +127,16 @@
 ),
 </code>
 </pre> 
+
+<p>Также может быть анонимкой (в таком случае значения автоматически не записываются при создании новой записи):</p>
+<pre>
+<code class="php">
+'filters' => function(&$db) use($options) {
+    $db->whereIn('products.id', $options['ids']);
+},
+</code>
+</pre> 
+
 <dl class="dl-horizontal">
   <dt>filters[]sign</dt>
   <dd>Признак сравнения. <span class="label bg-color-red pull-right">обязательно</span></dd>

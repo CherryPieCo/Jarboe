@@ -37,11 +37,15 @@ class QueryHandler {
         return isset($this->dbOptions[$ident]);
     } // end hasOptionDB
 
-    public function getRows($isPagination = true, $isUserFilters = true, $betweenWhere = array())
+    public function getRows($isPagination = true, $isUserFilters = true, $betweenWhere = array(), $isSelectAll = false)
     {
         $this->db = DB::table($this->dbOptions['table']);
 
         $this->prepareSelectValues();
+        if ($isSelectAll) {
+            $this->db->addSelect($this->getOptionDB('table') .'.*');
+        }
+        
         $this->prepareFilterValues();
 
         if ($isUserFilters) {

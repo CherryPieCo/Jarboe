@@ -191,6 +191,23 @@
             'delimiter' => ';'
         ),
     ),
+    'handle' => array(
+        'list' => function(&$fields) {
+            $fields['url'] = 'URL';
+        },
+        'export' => array (
+            'caption' => function(&$idents) {
+                $newFields = array();
+                $newFields['url'] = 'URL';
+                return $newFields;
+            },
+            'rows' => function($id, $row, $ident, &$value) {
+                if ($ident == 'url') {
+                    $value = URL::to('/product/'. TableBuilder::urlify($row['name']) .'-'. $id);
+                }
+            },
+        ),
+    ),
     'check' => function() {
         return true;
     }

@@ -28,11 +28,11 @@
                 <section>
                     <div class="row">
                         <div class="col col-12">
-                            @foreach ($fields as $field)
+                            @foreach ($fields as $name => $caption)
                             <label class="checkbox">
-                                <input type="checkbox" name="b[{{ $field->getFieldName() }}]">
+                                <input type="checkbox" name="b[{{ $name }}]">
                                 <i></i>
-                                {{ $field->getAttribute('caption') }}
+                                {{ $caption }}
                             </label>
                             @endforeach
                         </div>

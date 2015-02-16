@@ -12,6 +12,21 @@ class ForeignField extends AbstractField {
         return true;
     } // end isEditable
 
+        
+    public function getExportValue($type, $row, $postfix = '')
+    {
+        $value = $this->getValue($row, $postfix);
+        // FIXME:
+        if ($value == '<i class="fa fa-minus"></i>') {
+            $value = '';
+        }
+        
+        // cuz double quotes is escaping by more double quotes in csv
+        $escapedValue = preg_replace('~"~', '""', $value);
+        
+        return $escapedValue;
+    } // end getExportValue
+    
     public function getFilterInput()
     {
         if (!$this->getAttribute('filter')) {

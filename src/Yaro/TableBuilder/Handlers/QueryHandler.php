@@ -104,6 +104,10 @@ class QueryHandler {
     {
         $definition = $this->controller->getDefinition();
         $filters = isset($definition['filters']) ? $definition['filters'] : array();
+        if (is_callable($filters)) {
+            $filters($this->db);
+            return;
+        }
 
         foreach ($filters as $name => $field) {
             $this->db->where($name, $field['sign'], $field['value']);
@@ -114,6 +118,9 @@ class QueryHandler {
     {
         $definition = $this->controller->getDefinition();
         $filters = isset($definition['filters']) ? $definition['filters'] : array();
+        if (is_callable($filters)) {
+            return;
+        }
 
         foreach ($filters as $name => $field) {
             $values[$name] = $field['value'];

@@ -18,12 +18,17 @@
         "barryvdh/laravel-elfinder": "0.1.x",
         "intervention/image": "2.*",
         "yaro/mecha": "dev-master",
-        "spatie/laravel-glide": "1.0.0"
+        "spatie/laravel-glide": "1.0.0",
+        "yaro/laravel-glide": "1.0.1"
     },
     "repositories": [
         {
             "type": "vcs",
             "url":  "https://github.com/Cherry-Pie/Mecha.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/Cherry-Pie/laravel-glide.git"
         }
     ],
     "autoload": {

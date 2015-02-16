@@ -25,7 +25,15 @@ class ExportHandler
             return '';
         }
         
-        $fields = $this->controller->getFields();
+        $fields = array();
+        foreach ($this->controller->getFields() as $field) {
+            $fields[$field->getFieldName()] = $field->getAttribute('caption');
+        }
+        
+        if (isset($this->def['handle']['list'])) {
+            $listHandler = $this->def['handle']['list'];
+            $listHandler($fields);
+        }
 
         return View::make('admin::tb.export_buttons', compact('def', 'fields'));
     } // end fetch
@@ -47,10 +55,31 @@ class ExportHandler
             $delimiter = $this->def['buttons']['csv']['delimiter'];
         }
         
+        
+        $additional = array();
+        if (isset($this->def['handle']['export']['caption'])) {
+            $captionHandler = $this->def['handle']['export']['caption'];
+            $additional = $captionHandler($idents);
+        }
+        foreach ($additional as $additionalIdent => $additionalCaption) {
+            $index = array_search($additionalIdent, $idents);
+            if ($index !== false) {
+                unset($idents[$index]);
+            }
+        }
+        
+        $rowsHandler = false;
+        if (isset($this->def['handle']['export']['rows'])) {
+            $rowsHandler = $this->def['handle']['export']['rows'];
+        }
+        
         $csvRow = '';
         foreach ($idents as $ident) {
             $field = $this->controller->getField($ident);
             $csvRow .= '"'. $field->getAttribute('caption') .'"'. $delimiter;
+        }
+        foreach ($additional as $ident => $identCaption) {
+            $csvRow .= '"'. $identCaption .'"'. $delimiter;
         }
         $csvRow = rtrim($csvRow, $delimiter);
         $csv = $csvRow;
@@ -58,12 +87,23 @@ class ExportHandler
         
         $between = $this->getBetweenValues();
         // FIXME: move to separate method, maybe
-        $rows = $this->controller->query->getRows(false, false, $between); // without pagination & user filters
+        $rows = $this->controller->query->getRows(false, true, $between, true); // without pagination & with user filters & with all fields
         foreach ($rows as $row) {
             $csvRow = "\n";
             foreach ($idents as $ident) {
                 $field = $this->controller->getField($ident);
-                $csvRow .= '"'. $field->getExportValue('csv', $row) .'"'. $delimiter;
+                $value = $field->getExportValue('csv', $row);
+                if ($rowsHandler) {
+                    $rowsHandler($row['id'], $row, $ident, $value);
+                }
+                $csvRow .= '"'. $value .'"'. $delimiter;
+            }
+            foreach ($additional as $ident => $identCaption) {
+                $value = '';
+                if ($rowsHandler) {
+                    $rowsHandler($row['id'], $row, $ident, $value);
+                }
+                $csvRow .= '"'. $value .'"'. $delimiter;
             }
             $csvRow = rtrim($csvRow, $delimiter);
             $csv .= $csvRow;

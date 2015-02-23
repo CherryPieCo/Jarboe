@@ -44,7 +44,7 @@ trait ImageTrait
     public function getImageSource($ident = 'original', $field = 'image', $default = '')
     {
         $info = json_decode($this->$field, true);
-        if (!$info) {
+        if (!$info || !isset($info['sizes'][$ident]) || empty($info['sizes'][$ident])) {
             return $default;
         }
 
@@ -91,7 +91,7 @@ trait ImageTrait
     public function getFirstImageSource($ident = 'original', $field = 'images', $default = '')
     {
         $info = json_decode($this->$field, true);
-        if (!$info) {
+        if (!$info || !isset($info[0]['sizes'][$ident]) || empty($info[0]['sizes'][$ident])) {
             return $default;
         }
 

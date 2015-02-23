@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Session;
 
 class TableBuilderController {
 
+    protected $currentID = false;
+
     protected $options;
     protected $definition;
 
@@ -50,7 +52,15 @@ class TableBuilderController {
         $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
+        
+        // HACK:
+        $this->currentID = \Input::get('id');
     } // end __construct
+    
+    public function getCurrentID()
+    {
+        return $this->currentID;
+    } // end getCurrentID
     
     private function doPrepareDefinition()
     {

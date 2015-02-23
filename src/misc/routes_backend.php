@@ -11,8 +11,8 @@ Route::group(array(
     Route::get('/settings', 'TableAdminController@showSettings');
     Route::post('/handle/settings', 'TableAdminController@handleSettings');
     
-    Route::get('/tree', 'TableAdminController@showTree');
-    Route::post('/handle/tree', 'TableAdminController@handleTree');
+    Route::any('/tree', 'TableAdminController@showTree');
+    Route::any('/handle/tree', 'TableAdminController@handleTree');
 
 });
 

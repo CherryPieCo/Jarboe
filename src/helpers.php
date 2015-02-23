@@ -108,7 +108,9 @@ if (!function_exists('glide'))
 {
     function glide($source, $options = array())
     {
-        return GlideImage::load($source)->modify($options);
+        if (!$source) return;
+        
+        return asset(GlideImage::load($source)->modify($options));
     } // end glide
 }
 

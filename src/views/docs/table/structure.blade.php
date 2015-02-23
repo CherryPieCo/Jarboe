@@ -216,6 +216,15 @@
                     $value = URL::to('/product/'. TableBuilder::urlify($row['name']) .'-'. $id);
                 }
             },
+            'filter' => function($rows) use($options) {
+                $new = array();
+                foreach ($rows as $row) {
+                    if (in_array($row['id'], $options['ids'])) {
+                        $new[] = $row;
+                    }
+                }
+                return $new;
+            }, // end filter
         ),
     ),
     'check' => function() {

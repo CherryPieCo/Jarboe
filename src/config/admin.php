@@ -21,6 +21,14 @@ return array(
             }
         ),
         array(
+            'title' => 'Структура сайта',
+            'icon'  => 'navicon',
+            'link'  => '/tree',
+            'check' => function() {
+                return true;
+            }
+        ),
+        array(
             'title' => 'Настройки',
             'icon'  => 'cog',
             'link'  => '/settings',

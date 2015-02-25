@@ -50,13 +50,13 @@
 php artisan migrate --package=cartalyst/sentry
 php artisan config:publish cartalyst/sentry
 php artisan config:publish intervention/image
-php artisan config:publish spatie/laravel-glide
+php artisan config:publish yaro/laravel-glide
 php artisan asset:publish yaro/mecha
 // или если сабмодуль
 php artisan migrate --path="workbench/yaro/table-builder/vendor/cartalyst/sentry/src/migrations"  --package=cartalyst/sentry
 php artisan config:publish --path="workbench/yaro/table-builder/vendor/cartalyst/sentry/src/config" cartalyst/sentry
 php artisan config:publish --path="workbench/yaro/table-builder/vendor/intervention/image/src/config" intervention/image
-php artisan config:publish --path="workbench/yaro/table-builder/vendor/spatie/laravel-glide/src/config" spatie/laravel-glide
+php artisan config:publish --path="workbench/yaro/table-builder/vendor/yaro/laravel-glide/src/config" spatie/laravel-glide
 php artisan asset:publish --path="workbench/yaro/table-builder/vendor/yaro/mecha/public" yaro/mecha
 </code>
 </pre>

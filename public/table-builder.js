@@ -28,7 +28,7 @@ var TableBuilder = {
         TableBuilder.options = TableBuilder.getOptions(options);
 
         TableBuilder.initDoubleClickEditor();
-        //TableBuilder.initSearchOnEnterPressed();
+        TableBuilder.initSearchOnEnterPressed();
         TableBuilder.initSelect2Hider();
         //TableBuilder.initImageEditable();
     }, // end init
@@ -268,6 +268,7 @@ var TableBuilder = {
 
             if (keyCode == enterCode) {
                 TableBuilder.search();
+                event.preventDefault();
             }
         });
     }, // end initSearchOnEnterPressed

@@ -2,10 +2,10 @@
 
 return array(
     
-    'is_active' => false,
+    'is_active' => true,
 
     'templates' => array(
-        'default template' => array(
+        'default mainpage template' => array(
             'type' => 'node', // table | node
             'action' => 'Yaro\TableBuilder\TreeController@showThemeMain',
             'definition' => '',

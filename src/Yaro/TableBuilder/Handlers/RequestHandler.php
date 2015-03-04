@@ -461,7 +461,7 @@ class RequestHandler {
         $this->_prepareSearchFilters();
 
         $response = array(
-            'url' => $this->controller->getOption('url') .'?catalog='. Input::get('catalog', 99999) // HACK: FIXME:
+            'url' => $this->controller->getOption('url') .'?catalog='. Input::get('catalog') // HACK: FIXME:
         );
         return Response::json($response);
     } // end handleSearchAction

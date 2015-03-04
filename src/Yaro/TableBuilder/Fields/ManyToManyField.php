@@ -108,6 +108,7 @@ class ManyToManyField extends AbstractField {
             $input->selected = $this->getRelatedExternalFieldOptions($row);
         }
         
+        $input->link    = $this->getAttribute('with_link');
         $input->name    = $this->getFieldName();
         $input->divide  = $this->getAttribute('divide_columns', 2);
         $input->options = $this->doDivideOnParts(

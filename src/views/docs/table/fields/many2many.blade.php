@@ -19,7 +19,8 @@
     'mtm_external_key_field'         => 'id_service', // filials2services.id_service
     'mtm_external_value_field'       => 'name',       // services.name
     'mtm_external_table'             => 'services',
-    'divide_columns'   => 3,
+    'divide_columns' => 3,
+    'with_link' => '/admin/services',
     'additional_where' => array(
         'services.is_active' => array(
             'sign'  => '=',
@@ -57,6 +58,8 @@
   <dd>Название таблицы, на которую ссылается внешний ключ таблицы связей, который не является текущей таблицей.<span class="label bg-color-red pull-right">обязательно</span></dd>
   <dt>extra_fields</dt>
   <dd>Используется только при <code>show_type => extra</code>. В ключе название поля, которое находится в таблице связей. В значении его два параметра (пока <code>type</code> только <code>text</code>). <span class="label bg-color-red pull-right">обязательно при extra</span></dd>
+  <dt>with_link</dt>
+  <dd>Используется только при <code>show_type => checkbox</code>. Указывается ури на связанную таблицу. Название чекбокса станет ссылкой на свою запись. <span class="label bg-color-blueLight pull-right">без ссылки</span></dd>
 </dl>
 
 <p>Слегка мутно. Строения таблиц из примера:</p>

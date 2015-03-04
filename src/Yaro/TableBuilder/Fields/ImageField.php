@@ -52,11 +52,29 @@ class ImageField extends AbstractField {
     
     private function getListMultiple($row)
     {
-        $value = $this->getValue($row);
+        if (!$this->getValue($row)) {
+            return '';
+        }
         
-        $images = json_decode($value);
-        // FIXME: 
-        return $images ? count($images) : 0;
+        $images = json_decode($this->getValue($row), true);
+        
+        // FIXME: fix fixfix
+        $html = '<div style="cursor:pointer;height: 50px;overflow: hidden;" onclick="$(this).css(\'height\', \'auto\').css(\'overflow\', \'auto\');">';
+        foreach ($images as $source) {
+            $src = $this->getAttribute('before_link')
+                  . $source['sizes']['original']
+                  . $this->getAttribute('after_link');
+                  
+            // FIXME: move to template
+            $src = $this->getAttribute('is_remote') ? $src : URL::asset($src);
+            $html .= '<img height="'. $this->getAttribute('img_height', '50px') .'" src="'
+                  . $src
+                  . '" /><br>';
+        }
+
+        $html .= '</div>';
+
+        return $html;
     } // end getListMultiple
 
     public function onSearchFilter(&$db, $value)

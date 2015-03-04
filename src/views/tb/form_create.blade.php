@@ -2,7 +2,7 @@
 <form id="create_form" class="smart-form" method="post" action="{{$def['options']['action_url']}}" novalidate="novalidate">
     
     @if (!isset($def['position']))
-        <fieldset style="padding:0">
+        <fieldset style="{{ Input::get('edit') ? '' : 'padding:0;' }}">
             
             @include('admin::tb.modal_form_field_simple')
             

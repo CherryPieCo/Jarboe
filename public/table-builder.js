@@ -837,7 +837,10 @@ console.log(values);
             .not(':button, :submit, :reset, input[type="hidden"], :radio, :checkbox')
             .val('');
         jQuery('textarea', context).text('');
-        jQuery('div[id$="-wysiwyg"]', context).code('');
+        
+        if (jQuery('div[id$="-wysiwyg"]', context).length) {
+            jQuery('div[id$="-wysiwyg"]', context).code('');
+        }
         
         jQuery('input, textarea', context).removeClass('valid').removeClass('invalid');
         jQuery('.state-success, .state-error', context).removeClass('state-success').removeClass('state-error');

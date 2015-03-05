@@ -13,7 +13,7 @@ class PrepareArtisanCommand extends Command
 
     protected $name = 'tb:prepare';
 
-    protected $description = 'TB: prepare package.';
+    protected $description = 'Prepare package.';
 
     public function fire()
     {

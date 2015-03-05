@@ -12,7 +12,7 @@ class CreateAdminUserArtisanCommand extends Command
 
     protected $name = 'tb:create-admin-user';
 
-    protected $description = "TB: create user in 'admin' group.";
+    protected $description = "Create user in 'admin' group.";
 
     public function fire()
     {

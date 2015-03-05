@@ -5,6 +5,7 @@ namespace Yaro\TableBuilder;
 use Yaro\TableBuilder\Commands\PrepareArtisanCommand;
 use Yaro\TableBuilder\Commands\CreateAdminUserArtisanCommand;
 use Yaro\TableBuilder\Commands\CreateSuperUserArtisanCommand;
+use Yaro\TableBuilder\Commands\CreateDefinitionArtisanCommand;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -64,11 +65,18 @@ class TableBuilderServiceProvider extends ServiceProvider {
                 return new CreateSuperUserArtisanCommand();
             }
         );
+        $this->app['command.tablebuilder.create_definition'] = $this->app->share(
+            function ($app) {
+                return new CreateDefinitionArtisanCommand();
+            }
+        );
+        
 
         $this->commands(array(
             'command.tablebuilder.prepare',
             'command.tablebuilder.create_admin_user',
             'command.tablebuilder.create_superuser',
+            'command.tablebuilder.create_definition',
         ));
     } // end doCommandsRegister
 

@@ -12,7 +12,7 @@ return array(
                 40 => 40, 
                 60 => 60,
             ),
-            'uri' => '', // define me
+            'uri' => '%geturi%',
         ),
     ),
     
@@ -21,7 +21,7 @@ return array(
         'ident' => 'table-container',
         'form_ident' => 'table-form',
         'table_ident' => 'table-table',
-        'action_url' => '', // define me
+        'action_url' => '%posturi%',
         'not_found' => 'NOT FOUND',
     ),
     

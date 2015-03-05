@@ -12,7 +12,7 @@ class CreateSuperUserArtisanCommand extends Command
 
     protected $name = 'tb:create-superuser';
 
-    protected $description = "TB: create superuser in 'admin' group.";
+    protected $description = "Create superuser in 'admin' group.";
 
     public function fire()
     {

@@ -16,8 +16,11 @@ class ManyToManyField extends AbstractField {
         $externalTable = $this->getAttribute('mtm_external_table');
     } // end onSearchFilter
     
-    public function onPrepareRowValues(array $values, $id)
+    public function onPrepareRowValues($values, $id)
     {
+        // we get comma separated values in string if select2 ajax search
+        $values = is_array($values) ? $values : explode(',', $values);
+        
         DB::table($this->getAttribute('mtm_table'))
           ->where($this->getAttribute('mtm_key_field'), $id)
           ->delete();
@@ -101,6 +104,9 @@ class ManyToManyField extends AbstractField {
         if ($showType == 'extra') {
             return $this->getEditInputWithExtra($row);
         }
+        if ($showType == 'select2' && $this->getAttribute('select2_search')) {
+            return $this->getEditInputSelectWithAjaxSearch($row);
+        }
 
         $input = View::make('admin::tb.input_many2many_'. $showType);
         $input->selected = array();
@@ -118,6 +124,30 @@ class ManyToManyField extends AbstractField {
 
         return $input->render();
     } // end getEditInput
+    
+    private function getEditInputSelectWithAjaxSearch($row)
+    {
+        $input = View::make('admin::tb.input_many2many_select2_search');
+        
+        $data = array();
+        if ($row) {
+            $selected = $this->getRelatedExternalFieldOptions($row);
+            foreach ($selected as $id => $title) {
+                $data[] = array(
+                    'id'   => $id,
+                    'name' => $title,
+                );
+            }
+        }
+        $input->selected = json_encode($data);
+        
+        $input->postfix  = $row ? '_e' : '_c';
+        $input->link    = $this->getAttribute('with_link');
+        $input->name    = $this->getFieldName();
+        $input->search  = $this->getAttribute('select2_search');
+        
+        return $input->render();
+    } // end getEditInputSelectWithAjaxSearch
     
     private function getEditInputWithExtra($row)
     {
@@ -228,5 +258,30 @@ class ManyToManyField extends AbstractField {
 
         return $options;
     } // end getAllExternalFieldOptions
+    
+    public function getAjaxSearchResult($query, $limit, $page)
+    {
+        // TODO: create handler callback & lambda callback
+        $results = DB::table($this->getAttribute('mtm_external_table'))
+                    ->select('id', $this->getAttribute('mtm_external_value_field'))
+                    ->where($this->getAttribute('mtm_external_value_field'), 'LIKE', '%'. $query .'%')
+                    ->take($limit)
+                    ->skip($limit * $page)
+                    ->get();
+        $results = $results ? : array();
+        
+        $res = array();
+        foreach ($results as $result) {
+            $res[] = array(
+                'id'   => $result['id'],
+                'name' => $result[$this->getAttribute('mtm_external_value_field')],
+            );
+        }
+        
+        return array(
+            'results' => $res,
+            'more'    => $res && !empty($res),
+        );
+    } // end getAjaxSearchResult
 
 }

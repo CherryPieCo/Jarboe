@@ -509,6 +509,7 @@ var TableBuilder = {
     {
         jQuery('.modal-dialog').on('click', function() {
             jQuery('.select2-enabled[id^="many2many"]').select2("close");
+            jQuery('.select2-hidden-accessible').hide();
         });
         
     }, // end initSelect2Hider

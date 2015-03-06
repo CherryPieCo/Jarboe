@@ -99,11 +99,28 @@ class RequestHandler {
             case 'upload_file':
                 return $this->handleFileUpload();
                 
+            case 'many_to_many_ajax_search':
+                return $this->handleManyToManyAjaxSearch();   
+                
             default:
                 return $this->handleShowList();
                 break;
         }
     } // end handle
+    
+    protected function handleManyToManyAjaxSearch()
+    {
+        $query = Input::get('q');
+        $limit = Input::get('limit');
+        $page  = Input::get('page');
+        $ident = Input::get('ident');
+        
+        $field = $this->controller->getField($ident);
+        
+        $data = $field->getAjaxSearchResult($query, $limit, $page);
+        
+        return Response::json($data);
+    } // end handleManyToManyAjaxSearch
     
     protected function handleChangeOrderAction()
     {

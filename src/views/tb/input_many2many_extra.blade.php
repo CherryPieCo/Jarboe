@@ -6,12 +6,12 @@
     <thead>
         <tr>
             <th>
-                <a href="javascript:void()" onclick="m2m4{{$name}}.addRow(this);" type="button" class="btn btn-info btn-sm">Добавить</a>
+                <a href="javascript:void(0);" onclick="m2m4{{$name}}{{$postfix}}.addRow(this);" type="button" class="btn btn-info btn-sm">Добавить</a>
                 
                 <textarea style="display: none;">
                     <tr>
                         <td style="min-width: 180px; padding-right: 10px;">
-                            <select style="width: 100%;" class="select2-enabled {{$name}}-select2" name="{{$name}}[#{i}][id]" id="many2many-{{$name}}-#{i}">
+                            <select style="width: 100%;" class="select2-enabled {{$name}}{{$postfix}}-select2" name="{{$name}}[#{i}][id]" id="many2many-{{$name}}{{$postfix}}-#{i}">
                                 @foreach ($options as $idOption => $option)
                                     <option value="{{$idOption}}">
                                         {{ trim($option['value']) }}
@@ -29,7 +29,7 @@
                         </td>
                         @endforeach
                         <td>
-                            <a href="javascript:void()" onclick="m2m4{{$name}}.delRow(this);" type="button" class="btn btn-default btn-sm"><i class="fa fa-times"></i></a>
+                            <a href="javascript:void(0);" onclick="m2m4{{$name}}{{$postfix}}.delRow(this);" type="button" class="btn btn-default btn-sm"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 </textarea>
@@ -49,7 +49,7 @@
         @foreach ($selected as $idSelected => $info)
         <tr>
             <td style="min-width: 180px; padding-right: 10px;">
-                <select style="width: 100%;" class="select2-enabled {{$name}}-select2" name="{{$name}}[{{$i}}][id]" id="many2many-{{$name}}-{{$i}}">
+                <select style="width: 100%;" class="select2-enabled {{$name}}{{$postfix}}-select2" name="{{$name}}[{{$i}}][id]" id="many2many-{{$name}}{{$postfix}}-{{$i}}">
                     @foreach ($options as $idOption => $option)
                         <option value="{{$idOption}}" 
                                 @if ($idSelected == $idOption)
@@ -74,7 +74,7 @@
             @endforeach
             
             <td>
-                <a href="javascript:void()" onclick="m2m4{{$name}}.delRow(this);" type="button" class="btn btn-default btn-sm"><i class="fa fa-times"></i></a>
+                <a href="javascript:void(0);" onclick="m2m4{{$name}}{{$postfix}}.delRow(this);" type="button" class="btn btn-default btn-sm"><i class="fa fa-times"></i></a>
             </td>
             
         </tr>
@@ -90,7 +90,7 @@
 
 <script>
 
-var m2m4{{$name}} = 
+var m2m4{{$name}}{{$postfix}} = 
 {
     i: 0,
     name: '{{$name}}',
@@ -102,7 +102,7 @@ var m2m4{{$name}} =
     
         
         this.i = this.i + 1;
-        jQuery(".{{$name}}-select2").select2(); 
+        jQuery("select.{{$name}}{{$postfix}}-select2").select2(); 
         TableBuilder.initSelect2Hider();
     }, // end addRow
     
@@ -113,9 +113,9 @@ var m2m4{{$name}} =
     
 }; // auto-generated
 
-m2m4{{$name}}.i = {{$i}};
+m2m4{{$name}}{{$postfix}}.i = {{$i}};
 
 jQuery(document).ready(function() {
-    jQuery(".{{$name}}-select2").select2(); 
+    jQuery("select.{{$name}}{{$postfix}}-select2").select2(); 
 });
 </script>

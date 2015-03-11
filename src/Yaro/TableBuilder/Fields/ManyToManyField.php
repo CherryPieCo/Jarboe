@@ -158,6 +158,7 @@ class ManyToManyField extends AbstractField {
             $input->selected = $this->getRelatedExternalFieldOptions($row, true);
         }
         
+        $input->postfix = $row ? '_e' : '_c';
         $input->name    = $this->getFieldName();
         $input->options = $this->getAllExternalFieldOptions(true);
         $input->extra   = $this->getAttribute('extra_fields');

@@ -22,9 +22,20 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    
+    <style>
+    .tabs-left>.nav-pills, .tabs-left>.nav-tabs {
+        float: left;
+        margin-right: 19px;
+        border-right: 1px solid #ddd;
+    }
+    ul.nav.p-abs {
+        position: absolute;
+    }
+    </style>
   </head>
   <body>
-    <div class="wrapper">
+    <div class="wrapper" style="width: 100%;padding: 60px;">
       <header>
         <h1 class="header">jarboe</h1>
         <p class="header"></p>
@@ -39,7 +50,6 @@
 
 
       </header>
-      <section>
       
       <div id="content">
 
@@ -2417,10 +2427,6 @@ Route::group(<span class="hljs-keyword">array</span>(<span class="hljs-string">'
 </div>
       
       
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 

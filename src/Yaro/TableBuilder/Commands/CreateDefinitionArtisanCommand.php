@@ -236,12 +236,14 @@ class CreateDefinitionArtisanCommand extends Command
         } elseif ($field['Type'] == 'text') {
             if ($this->confirm('WYSIWYG field? [y|n]')) {
                 $type = 'wysiwyg';
+                $wysiwygEditor = $this->askWithCompletion('Wysiwyg editor? (summernote|redactor)', array(
+                    'summernote',
+                    'redactor',
+                ), 'redactor');
+                $additional .= sprintf("            'wysiwyg' => '%s',\n", $wysiwygEditor);
+            } elseif ($this->confirm('Textarea field? [y|n]')) {
+                $type = 'textarea';
             }
-            $wysiwygEditor = $this->askWithCompletion('Wysiwyg editor? (summernote|redactor)', array(
-                'summernote',
-                'redactor',
-            ), 'redactor');
-            $additional .= sprintf("            'wysiwyg' => '%s',\n", $wysiwygEditor);
         }
         
         $typeTemplate = sprintf("            'type' => '%s',\n", $type);
@@ -250,9 +252,9 @@ class CreateDefinitionArtisanCommand extends Command
         if ($this->confirm('Hide in list? [y|n]')) {
             $typeTemplate .= "            'hide_list' => true,\n";
         }
-        if ($this->confirm('Hide in form? [y|n]')) {
-            $typeTemplate .= "            'hide_form' => true,\n";
-        }
+        //if ($this->confirm('Hide in form? [y|n]')) {
+        //    $typeTemplate .= "            'hide_form' => true,\n";
+        //}
         
         return $typeTemplate;
     } // end 
@@ -266,7 +268,7 @@ class CreateDefinitionArtisanCommand extends Command
         
         $this->definition = $this->table . $postfix;
         
-        $path = app_path() .'/tb-definitions/'. $this->definiton .'.php';
+        $path = app_path() .'/tb-definitions/'. $this->definition .'.php';
         file_put_contents($path, $this->stub);
     } // end doSaveStub
     

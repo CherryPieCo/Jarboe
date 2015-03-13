@@ -26,7 +26,7 @@ var_dump(Settings::getFirstChunk('pagination_variants', $delimiter));
 // int(5)
 
 // Settings::hasChunk($needle, $ident[, $delimiter = ',', $isCaseSensitive = true])
-var_dump(Settings::hasChunk('hai', '123', '|', false));
+var_dump(Settings::hasChunk('hai', 'say_hai_setting', '|', false));
 </code>
 </pre>            
 

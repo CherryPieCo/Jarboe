@@ -69,6 +69,17 @@ class Settings
         return array_map('trim', $result);
     } // end getChunks
     
+    protected function hasChunkStatic($needle, $ident, $delimiter = ',', $isCaseSensitive = true)
+    {
+        $haystack = $this->getChunksStatic($ident, $delimiter);
+        if (!$isCaseSensitive) {
+            $needle = mb_strtolower($needle);
+            $haystack = array_map('mb_strtolower', $haystack);
+        }
+        
+        return in_array($needle, $haystack);
+    } // end hasChunk
+    
     protected function getFirstChunkStatic($ident, $delimiter = ',')
     {
         if (!$this->hasSetting($ident)) {
@@ -92,15 +103,9 @@ class Settings
     public static function __callStatic($name, $arguments)
     {
         $instance = self::getInstance();
-        
         $method = $name.'Static';
-        if (!$arguments) {
-            return $instance->$method();
-        }
         
-        if (count($arguments) > 1) {
-            return $instance->$method($arguments[0], $arguments[1]);
-        }
-        return $instance->$method($arguments[0]);
+        return call_user_func_array(array($instance, $method), $arguments);
     } // end __callStatic
+    
 }

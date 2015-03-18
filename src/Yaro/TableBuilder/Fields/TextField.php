@@ -14,16 +14,18 @@ class TextField extends AbstractField {
 
     public function onSearchFilter(&$db, $value)
     {
-    	$table = $this->definition['db']['table'];
-        $fieldName = $table .'.'. $this->getFieldName();
-        
+        $table = $this->definition['db']['table'];
         $tabs = $this->getAttribute('tabs');
         if ($tabs) {
-            // FIXME:
-            $fieldName .= $tabs[0]['postfix'];
+            $field = $table .'.'. $this->getFieldName();
+            $db->where(function($query) use($field, $value, $tabs) {
+                foreach ($tabs as $tab) {
+                    $query->orWhere($field . $tab['postfix'], 'LIKE', '%'.$value.'%');
+                }
+            });
+        } else {
+            $db->where($table .'.'. $this->getFieldName(), 'LIKE', '%'.$value.'%');
         }
-        
-        $db->where($fieldName, 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
     
     public function getSubActions()

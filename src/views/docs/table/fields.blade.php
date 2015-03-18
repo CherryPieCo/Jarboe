@@ -1,7 +1,7 @@
 
 <style>
     div.tab-content.min-500 {
-        min-height: 525px;
+        min-height: 625px;
     }
     div.tabs-left>.tab-content {
         margin-left: 139px;

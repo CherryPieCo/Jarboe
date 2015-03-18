@@ -288,3 +288,9 @@ div.tb-uploaded-image-container div.editable-container{
 div.redactor-dropdown {
     z-index: 110031 !important;
 }
+
+/* form tabs anchor colors */
+div.table-page #edit_form .nav-tabs li a,
+div.table-page #create_form .nav-tabs li a {
+    color: #333 !important;
+}

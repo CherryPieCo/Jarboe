@@ -1,5 +1,5 @@
 @if (isset($def['mode']) && $def['mode'] == 'new')
-<a class="btn btn-default btn-sm" href="?create=1">
+<a class="btn btn-default btn-sm" href="?make=mimimi">
     {{ $def['caption'] or 'Add' }}
 </a>
 @else

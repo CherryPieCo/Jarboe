@@ -45,7 +45,7 @@
     <button onclick="jQuery('#edit_form').submit();" type="button" class="btn btn-success btn-sm">
         <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
     </button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">
+    <button @if (isset($is_page)) onclick="window.history.back();" @endif type="button" class="btn btn-default" data-dismiss="modal">
         Отмена
     </button>
 </div>

@@ -1296,7 +1296,11 @@ console.log(num);
             out.push(val['name'] +'='+ val['value']);
         });
 
-        var url = document.location.pathname +'?'+ out.join('&');
+        if (document.location.search) {
+            var url = document.location.pathname + document.location.search + '&' + out.join('&');
+        } else {
+            var url = document.location.pathname +'?'+ out.join('&');
+        }
 
         $iframe.attr('src', url);
 

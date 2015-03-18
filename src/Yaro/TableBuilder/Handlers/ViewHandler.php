@@ -1,4 +1,6 @@
-<?php namespace Yaro\TableBuilder\Handlers;
+<?php 
+
+namespace Yaro\TableBuilder\Handlers;
 
 use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\View;
@@ -17,6 +19,10 @@ class ViewHandler {
     
     public function showEditFormPage($id)
     {
+        if (!$this->controller->isAllowedID($id)) {
+            throw new \RuntimeException('Not allowed to edit row #'. $id);
+        }
+        
         $form = View::make('admin::tb.form_create');
         $js = View::make('admin::tb.form_create_validation');
         if ($id) {
@@ -44,7 +50,7 @@ class ViewHandler {
         }
         
         $definition = $this->controller->getDefinition();
-        $template = View::make('admin::table_page', compact('form', 'js', 'definition'))->render();
+        $template = View::make('admin::table_page', compact('form', 'js', 'definition', 'id'))->render();
         // FIXME: wut da fcuk
         die($template);
     } // end showEditFormPage

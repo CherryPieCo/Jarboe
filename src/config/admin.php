@@ -2,13 +2,17 @@
 
 return array(
 
+    'caption'  => 'Admin caption',
+    'logo_url' => asset('packages/yaro/table-builder/img/logo.png'),
+    'favicon_url' => asset('packages/yaro/table-builder/img/favicon/favicon.ico'),
+    
     'uri' => '/admin',
 
     'user_name'  => function() {
-        return 'Default Username';
+        return Sentry::getUser()->email;
     },
     'user_image' => function() {
-        return 'http://www.cmakers.org/Img/kitty_artwork_04.gif';
+        return 'http://www.gravatar.com/avatar/'. md5(Sentry::getUser()->email);
     },
 
     'menu' => array(

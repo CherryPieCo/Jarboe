@@ -3,7 +3,7 @@
             <div id="logo-group">
 
                 <!-- PLACE YOUR LOGO HERE -->
-                <span id="logo" style="margin-top: 10px;"> <img src="{{asset('packages/yaro/table-builder/img/logo.png')}}" alt="VIS-A-VIS"> </span>
+                <span id="logo" style="margin-top: 10px;"> <img src="{{\Config::get('table-builder::admin.logo_url')}}" alt="{{{ \Config::get('table-builder::admin.caption') }}}"> </span>
                 <!-- END LOGO PLACEHOLDER -->
                 
                 {{ TableBuilder::fetchInformer() }}

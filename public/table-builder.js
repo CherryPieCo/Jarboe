@@ -792,7 +792,8 @@ console.log(values);
                         timeout : 4000
                     });
                     if (TableBuilder.options.is_page_form) {
-                        window.location.href = TableBuilder.options.list_url;
+                        //window.location.href = TableBuilder.options.list_url;
+                        window.history.back();
                         return;
                     }
                     
@@ -897,7 +898,8 @@ console.log(values);
                         timeout : 4000
                     });
                     if (TableBuilder.options.is_page_form) {
-                        window.location.href = TableBuilder.options.list_url;
+                        //window.location.href = TableBuilder.options.list_url;
+                        window.history.back();
                         return;
                     }
                     

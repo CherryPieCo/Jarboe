@@ -91,7 +91,17 @@ class WysiwygField extends AbstractField {
     public function onSearchFilter(&$db, $value)
     {
         $table = $this->definition['db']['table'];
-        $db->where($table .'.'. $this->getFieldName(), 'LIKE', '%'.$value.'%');
+        $tabs = $this->getAttribute('tabs');
+        if ($tabs) {
+            $field = $table .'.'. $this->getFieldName();
+            $db->where(function($query) use($field, $value, $tabs) {
+                foreach ($tabs as $tab) {
+                    $query->orWhere($field . $tab['postfix'], 'LIKE', '%'.$value.'%');
+                }
+            });
+        } else {
+            $db->where($table .'.'. $this->getFieldName(), 'LIKE', '%'.$value.'%');
+        }
     } // end onSearchFilter
 
 }

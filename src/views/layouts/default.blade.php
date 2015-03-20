@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-        <title></title>
+        <title>{{{ \Config::get('table-builder::admin.caption') }}}</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -39,8 +39,8 @@
         --}}
         
         <!-- FAVICONS -->
-        <link rel="shortcut icon" href="{{asset('packages/yaro/table-builder/img/favicon/favicon.ico')}}" type="image/x-icon">
-        <link rel="icon" href="{{asset('packages/yaro/table-builder/img/favicon/favicon.ico')}}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ \Config::get('table-builder::admin.favicon_url') }}" type="image/x-icon">
+        <link rel="icon" href="{{ \Config::get('table-builder::admin.favicon_url') }}" type="image/x-icon">
 
         <!-- GOOGLE FONT -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">

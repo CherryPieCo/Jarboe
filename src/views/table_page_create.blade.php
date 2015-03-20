@@ -22,7 +22,7 @@
         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-x22" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" role="widget" style="">
             <header role="heading">
                 <span class="widget-icon"> <i class="fa fa-align-justify"></i> </span>
-                <h2>Редактирование #{{{$id}}} </h2>
+                <h2>Создание </h2>
             <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
             <!-- widget div-->
             <div role="content">
@@ -51,9 +51,6 @@
 <style>
 .table-page {
     margin: -25px;
-}
-.table-page .modal-footer {
-
 }
 </style>
 
@@ -85,10 +82,6 @@ jQuery(document).ready(function() {
     TableBuilder.initMultipleImageEditable();
     TableBuilder.initSummernoteFullscreen();
     TableBuilder.initSelect2Hider();
-    
-    if (TableBuilder.afterGetEditForm) {
-        TableBuilder.afterGetEditForm();
-    }
 });
 </script>
 @stop

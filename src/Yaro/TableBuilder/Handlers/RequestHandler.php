@@ -22,7 +22,7 @@ class RequestHandler {
     {
         if (Input::get('edit')) {
             return $this->handleShowEditFormPageAction(Input::get('edit'));
-        } elseif (Input::has('create')) {
+        } elseif (Input::has('make')) {
             return $this->handleShowEditFormPageAction();
         }
         

@@ -792,7 +792,8 @@ console.log(values);
                         timeout : 4000
                     });
                     if (TableBuilder.options.is_page_form) {
-                        window.location.href = TableBuilder.options.list_url;
+                        //window.location.href = TableBuilder.options.list_url;
+                        window.history.back();
                         return;
                     }
                     
@@ -897,7 +898,8 @@ console.log(values);
                         timeout : 4000
                     });
                     if (TableBuilder.options.is_page_form) {
-                        window.location.href = TableBuilder.options.list_url;
+                        //window.location.href = TableBuilder.options.list_url;
+                        window.history.back();
                         return;
                     }
                     
@@ -1003,11 +1005,20 @@ console.log(values);
                         'sizes': response.data.sizes
                     };
 
-                    var html = '<img class="image-attr-editable" '+
-                         'data-tbalt="" '+
-                         'data-tbtitle="" '+
-                         'data-tbident="'+ ident +'" '+
-                         'height="80px" src="'+ response.link +'" />';
+                    var html = '<div style="position: relative; display: inline-block;">';
+                    html += '<img class="image-attr-editable" ';
+                    html +=      'data-tbalt="" ';
+                    html +=      'data-tbtitle="" ';
+                    html +=      'data-tbident="'+ ident +'" ';
+                    html +=      'height="80px" src="'+ response.link +'" />';
+                    html += ' <div class="tb-btn-delete-wrap">';
+                    html += '    <button class="btn btn-default btn-sm tb-btn-image-delete" ';
+                    html += '            type="button" ';
+                    html += '            onclick="TableBuilder.deleteSingleImage(\''+ ident +'\', this);">';
+                    html += '        <i class="fa fa-times"></i>';
+                    html += '    </button>';
+                    html += ' </div>';
+                    html += '</div>';
 
                     // FIXME: too ugly to execute
                     jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').html(html);
@@ -1132,6 +1143,15 @@ console.log(num);
         // remove deleted image from storage
         TableBuilder.storage[ident][num].remove = true;
     }, // end deleteImage
+    
+    deleteSingleImage: function(ident, context)
+    {
+        var $imageWrapper = jQuery(context).parent().parent();
+        $imageWrapper.hide();
+
+        // remove deleted image from storage
+        TableBuilder.storage[ident].remove = true;
+    }, // end deleteSingleImage
 
     uploadImageFromWysiwygSummertime: function(files, editor, $editable)
     {
@@ -1294,7 +1314,11 @@ console.log(num);
             out.push(val['name'] +'='+ val['value']);
         });
 
-        var url = document.location.pathname +'?'+ out.join('&');
+        if (document.location.search) {
+            var url = document.location.pathname + document.location.search + '&' + out.join('&');
+        } else {
+            var url = document.location.pathname +'?'+ out.join('&');
+        }
 
         $iframe.attr('src', url);
 

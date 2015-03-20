@@ -1,4 +1,6 @@
-<?php namespace Yaro\TableBuilder\Handlers;
+<?php 
+
+namespace Yaro\TableBuilder\Handlers;
 
 use Yaro\TableBuilder\TableBuilderController;
 use Illuminate\Support\Facades\View;
@@ -17,13 +19,27 @@ class ViewHandler {
     
     public function showEditFormPage($id)
     {
+        if ($id === false) {
+            if (!$this->controller->actions->isAllowed('insert')) {
+                throw new \RuntimeException('Insert action is not permitted');
+            }
+        } else {
+            if (!$this->controller->actions->isAllowed('update')) {
+                throw new \RuntimeException('Update action is not permitted');
+            }
+            if (!$this->controller->isAllowedID($id)) {
+                throw new \RuntimeException('Not allowed to edit row #'. $id);
+            }
+        }
+        
         $form = View::make('admin::tb.form_create');
-        $js = View::make('admin::tb.form_create_validation');
+        $js   = View::make('admin::tb.form_create_validation');
         if ($id) {
             $form = View::make('admin::tb.form_edit');
             $js = View::make('admin::tb.form_edit_validation');
         }
         
+        $form->is_page = true;
         $form->is_tree = false;
         $js->is_tree = false;
         
@@ -44,7 +60,10 @@ class ViewHandler {
         }
         
         $definition = $this->controller->getDefinition();
-        $template = View::make('admin::table_page', compact('form', 'js', 'definition'))->render();
+        $data = compact('form', 'js', 'definition', 'id');
+        $templatePostfix = $id ? 'edit' : 'create';
+        
+        $template = View::make('admin::table_page_'. $templatePostfix, $data)->render();
         // FIXME: wut da fcuk
         die($template);
     } // end showEditFormPage

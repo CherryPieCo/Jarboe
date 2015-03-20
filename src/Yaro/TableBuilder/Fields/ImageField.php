@@ -160,6 +160,10 @@ class ImageField extends AbstractField {
             }
             // HACK: cuz we have object instead of array
             $value = json_encode(array_values($vals));
+        } elseif ($vals) {
+            if (isset($vals['remove']) && $vals['remove']) {
+                $value = '';
+            }
         }
         
         return $value;

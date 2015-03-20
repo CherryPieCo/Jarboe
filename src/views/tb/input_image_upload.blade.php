@@ -78,12 +78,21 @@
 
 <div class="tb-uploaded-image-container">
     @if (isset($source['sizes']['original']))
-    <img class="image-attr-editable" 
-         data-tbalt="{{$source['alt']}}" 
-         data-tbtitle="{{$source['title']}}"
-         data-tbident="{{$name}}" 
-         height="80px" 
-         src="{{ asset($source['sizes']['original']) }}" />
+    <div style="position: relative; display: inline-block;">
+        <img class="image-attr-editable" 
+             data-tbalt="{{$source['alt']}}" 
+             data-tbtitle="{{$source['title']}}"
+             data-tbident="{{$name}}" 
+             height="80px" 
+             src="{{ asset($source['sizes']['original']) }}" />
+        <div class="tb-btn-delete-wrap">
+            <button class="btn btn-default btn-sm tb-btn-image-delete" 
+                    type="button" 
+                    onclick="TableBuilder.deleteSingleImage('{{$name}}', this);">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
     @endif
 </div>
 

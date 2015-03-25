@@ -19,7 +19,7 @@ class WysiwygField extends AbstractField {
             }
         }
         
-        return substr(strip_tags($this->getValue($row)), 0, 300) . '...';
+        return mb_substr(strip_tags($this->getValue($row)), 0, 300) . '...';
     } // end getListValue
     
     public function getEditInput($row = array())

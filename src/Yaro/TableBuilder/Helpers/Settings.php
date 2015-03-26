@@ -51,9 +51,12 @@ class Settings
         return $settings;
     } // end getAll
     
-    protected function getStatic($ident)
+    protected function getStatic($ident, $default = 'DEFAULT_VALUE_FOR_FALSE_AND_NULL_ETC_FALLBACK')
     {
         if (!$this->hasSetting($ident)) {
+            if ($default != 'DEFAULT_VALUE_FOR_FALSE_AND_NULL_ETC_FALLBACK') {
+                return $default;
+            }
             throw new \RuntimeException("There is no setting for [{$ident}].");
         }
         return $this->settings[$ident];

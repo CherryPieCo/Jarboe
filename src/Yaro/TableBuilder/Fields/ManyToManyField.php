@@ -267,7 +267,7 @@ class ManyToManyField extends AbstractField {
                     ->select('id', $this->getAttribute('mtm_external_value_field'))
                     ->where($this->getAttribute('mtm_external_value_field'), 'LIKE', '%'. $query .'%')
                     ->take($limit)
-                    ->skip($limit * $page)
+                    ->skip(($limit * $page) - $limit)
                     ->get();
         $results = $results ? : array();
         

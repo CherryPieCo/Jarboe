@@ -100,13 +100,22 @@ trait ImageTrait
 
     public function getImages($field = 'images')
     {
-        $res = array();
         $info = json_decode($this->$field, true);
         if (!$info) {
-            return $res;
+            return array();
         }
 
         return $info;
     } // end getImages
+    
+    public function getImagesCount($field = 'images')
+    {
+        $info = json_decode($this->$field, true);
+        if (!$info) {
+            return 0;
+        }
+
+        return count($info);
+    } // end getImagesCount
 
 }

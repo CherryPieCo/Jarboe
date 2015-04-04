@@ -52,8 +52,8 @@ Suggestion: You may want to set a flag when this happens to tick off all checked
 </div>
 <!-- END AJAX-DROPDOWN -->
 
-<script src="{{ asset('/packages/yaro/table-builder/tb-informer.js') }}"></script>
+<script src="{{ asset('/packages/yaro/jarboe/tb-informer.js') }}"></script>
 <script>
-    TBInformer.admin_prefix = '{{ \Config::get('table-builder::admin.uri') }}';
-    TBInformer.period = '{{ \Config::get('table-builder::informer.period') }}';
+    TBInformer.admin_prefix = '{{ \Config::get('jarboe::admin.uri') }}';
+    TBInformer.period = '{{ \Config::get('jarboe::informer.period') }}';
 </script>

@@ -1,6 +1,6 @@
 <?php 
 
-namespace Yaro\TableBuilder;
+namespace Yaro\Jarboe;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
@@ -24,8 +24,8 @@ class TBTreeController extends \Controller
             $parentIDs[] = $anc->id;
         }
 
-        $templates = Config::get('table-builder::tree.templates');
-        $template = Config::get('table-builder::tree.default');
+        $templates = Config::get('jarboe::tree.templates');
+        $template = Config::get('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -38,7 +38,7 @@ class TBTreeController extends \Controller
                     'node' => $idNode
                 )
             );
-            list($table, $form) = \TableBuilder::create($options);
+            list($table, $form) = \Jarboe::table($options);
             $content = View::make('admin::tree.content', compact('current', 'table', 'form', 'template'));
         } elseif (false && $current->isLeaf()) {
             $content = 'ama leaf';
@@ -53,8 +53,8 @@ class TBTreeController extends \Controller
     {
         $idNode = Input::get('id');
         $current = Tree::find($idNode);
-        $templates = Config::get('table-builder::tree.templates');
-        $template = Config::get('table-builder::tree.default');
+        $templates = Config::get('jarboe::tree.templates');
+        $template = Config::get('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -66,7 +66,7 @@ class TBTreeController extends \Controller
                 'node' => $idNode
             )
         );
-        $controller = new TableBuilderController($options);
+        $controller = new JarboeController($options);
         
         $html = $controller->view->showEditForm($idNode, true);
         
@@ -80,8 +80,8 @@ class TBTreeController extends \Controller
     {
         $idNode = Input::get('id');
         $current = Tree::find($idNode);
-        $templates = Config::get('table-builder::tree.templates');
-        $template = Config::get('table-builder::tree.default');
+        $templates = Config::get('jarboe::tree.templates');
+        $template = Config::get('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -93,7 +93,7 @@ class TBTreeController extends \Controller
                 'node' => $idNode
             )
         );
-        $controller = new TableBuilderController($options);
+        $controller = new JarboeController($options);
         
         
         $result = $controller->query->updateRow(Input::all());
@@ -118,8 +118,8 @@ class TBTreeController extends \Controller
         $idNode  = Input::get('node', 1);
         $current = Tree::find($idNode);
 
-        $templates = Config::get('table-builder::tree.templates');
-        $template = Config::get('table-builder::tree.default');
+        $templates = Config::get('jarboe::tree.templates');
+        $template = Config::get('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -132,7 +132,7 @@ class TBTreeController extends \Controller
                     'node' => $idNode
                 )
             );
-            return \TableBuilder::create($options);
+            return \Jarboe::table($options);
         }
 
         //
@@ -187,9 +187,9 @@ class TBTreeController extends \Controller
         
         $node = new Tree();
         $node->parent_id = Input::get('node', 1);
-        $node->title = Input::get('title');
-        $node->slug  = Input::get('slug') ? : Input::get('title');
-        $node->template = Input::get('template');
+        $node->title     = Input::get('title');
+        $node->slug      = Input::get('slug') ? : Input::get('title');
+        $node->template  = Input::get('template');
         $node->is_active = '0';
         $node->save();
         

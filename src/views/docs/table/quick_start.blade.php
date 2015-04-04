@@ -28,7 +28,7 @@ public function showProducts()
         // в этом варианте подтянется описание по пути app/tb-definitions/products.php
         'def_name' => 'products',        
     );
-    list($table, $form) = TableBuilder::create($options);
+    list($table, $form) = Jarboe::table($options);
 
     $view = View::make('admin::table', compact('table', 'form'));
 
@@ -42,7 +42,7 @@ public function handleProducts()
         'def_name' => 'products',
     );
     
-    return TableBuilder::create($options);
+    return Jarboe::table($options);
 } // end handleProducts  
 </code>
 </pre>                

@@ -25,10 +25,10 @@
                     
                         
                     <div class="b-top">
-                        <?php $topBlock = \Config::get('table-builder::login.top_block'); echo $topBlock(); ?>
+                        <?php $topBlock = \Config::get('jarboe::login.top_block'); echo $topBlock(); ?>
                     </div>
                     <div class="b-bottom">
-                        <?php $bottomBlock = \Config::get('table-builder::login.bottom_block'); echo $bottomBlock(); ?>
+                        <?php $bottomBlock = \Config::get('jarboe::login.bottom_block'); echo $bottomBlock(); ?>
                     </div>
                     
                     <div class="well no-padding">
@@ -44,24 +44,24 @@
                         
                         <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post">
                             <header>
-                                {{trans('table-builder::login.sign_in')}}
-                                <img class="tbfavicon pull-right" style="height:25px;" src="<?php $faviconUrl = \Config::get('table-builder::login.favicon_url'); echo $faviconUrl(); ?>" />
+                                {{trans('jarboe::login.sign_in')}}
+                                <img class="tbfavicon pull-right" style="height:25px;" src="<?php $faviconUrl = \Config::get('jarboe::login.favicon_url'); echo $faviconUrl(); ?>" />
                             </header>
     
                             <fieldset>
                                 
                                 <section>
-                                    <label class="label">{{trans('table-builder::login.email')}}</label>
+                                    <label class="label">{{trans('jarboe::login.email')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="email" name="email">
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{trans('table-builder::login.email_tooltip')}}</b></label>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{trans('jarboe::login.email_tooltip')}}</b></label>
                                 </section>
     
                                 <section>
-                                    <label class="label">{{trans('table-builder::login.password')}}</label>
+                                    <label class="label">{{trans('jarboe::login.password')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
                                         <input type="password" name="password">
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{trans('table-builder::login.password_tooltip')}}</b> </label>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{trans('jarboe::login.password_tooltip')}}</b> </label>
                                     
                                     {{--
                                     <div class="note">
@@ -70,17 +70,17 @@
                                     --}}
                                 </section>
                                 
-                                @if (\Config::get('table-builder::login.is_active_remember_me'))
+                                @if (\Config::get('jarboe::login.is_active_remember_me'))
                                 <section>
                                     <label class="checkbox">
                                         <input type="checkbox" name="remember">
-                                        <i></i>{{trans('table-builder::login.remember_me')}}</label>
+                                        <i></i>{{trans('jarboe::login.remember_me')}}</label>
                                 </section>
                                 @endif
                             </fieldset>
                             <footer>
                                 <button type="submit" class="btn btn-primary submit_button">
-                                    {{trans('table-builder::login.sign_in')}}
+                                    {{trans('jarboe::login.sign_in')}}
                                 </button>
                             </footer>
                         </form>

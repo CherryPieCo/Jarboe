@@ -1,6 +1,6 @@
 <?php
 
-namespace Yaro\TableBuilder;
+namespace Yaro\Jarboe;
 
 
 class Tree extends \Baum\Node 
@@ -13,7 +13,7 @@ class Tree extends \Baum\Node
     
     public function setSlugAttribute($value)
     {
-        $slug = \TableBuilder::urlify($value);
+        $slug = \Jarboe::urlify($value);
         
         $slugCount = $this->where('parent_id', $this->parent_id)
                           ->whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")->count();
@@ -24,8 +24,8 @@ class Tree extends \Baum\Node
 
     public function hasTableDefinition()
     {
-        $templates = \Config::get('table-builder::tree.templates');
-        $template = \Config::get('table-builder::tree.default');
+        $templates = \Config::get('jarboe::tree.templates');
+        $template = \Config::get('jarboe::tree.default');
         if (isset($templates[$this->template])) {
             $template = $templates[$this->template];
         }

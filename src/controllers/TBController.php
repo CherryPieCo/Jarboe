@@ -1,6 +1,6 @@
 <?php 
 
-namespace Yaro\TableBuilder;
+namespace Yaro\Jarboe;
 
 
 class TBController extends \Controller
@@ -14,7 +14,7 @@ class TBController extends \Controller
     public function showLogin()
     {
         if (\Sentry::check()) {
-            return \Redirect::to(\Config::get('table-builder::admin.uri'));
+            return \Redirect::to(\Config::get('jarboe::admin.uri'));
         }
         
         return \View::make('admin::vis-login');
@@ -31,20 +31,20 @@ class TBController extends \Controller
                 \Input::has('rememberme')
             );
             
-            $onLogin = \Config::get('table-builder::login.on_login'); 
+            $onLogin = \Config::get('jarboe::login.on_login'); 
             $onLogin();
             
-            return \Redirect::intended(\Config::get('table-builder::admin.uri'));
+            return \Redirect::intended(\Config::get('jarboe::admin.uri'));
             
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            \Session::put('tb_login_not_found', \Lang::get('table-builder::login.not_found'));
-            return \Redirect::to(\Config::get('table-builder::admin.uri'));
+            \Session::put('tb_login_not_found', \Lang::get('jarboe::login.not_found'));
+            return \Redirect::to(\Config::get('jarboe::admin.uri'));
         }
     } // end 
  
     public function doLogout()
     {
-        $onLogout = \Config::get('table-builder::login.on_logout');
+        $onLogout = \Config::get('jarboe::login.on_logout');
         \Sentry::logout();
         
         return $onLogout();

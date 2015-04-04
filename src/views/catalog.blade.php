@@ -118,7 +118,7 @@
 @stop
 
 @section('scripts')
-<script src="{{asset('packages/yaro/table-builder/catalog-builder.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/catalog-builder.js')}}"></script>
 
 <script>
     //CatalogBuilder.segment = '';

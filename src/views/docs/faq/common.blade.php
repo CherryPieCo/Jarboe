@@ -10,7 +10,7 @@ $options = array(
         'var' => 'some'
     )
 );
-list($table, $form) = TableBuilder::create($options);
+list($table, $form) = Jarboe::table($options);
 </code>
 </pre>  
   </dd>

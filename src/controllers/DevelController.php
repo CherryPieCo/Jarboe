@@ -1,6 +1,6 @@
 <?php 
 
-namespace Yaro\TableBuilder;
+namespace Yaro\Jarboe;
 
 
 class DevelController extends \Controller

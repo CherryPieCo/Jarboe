@@ -6,7 +6,7 @@
 
 <pre>
 <code class="php">
-$content = TableBuilder::fileManager($connectorUrl);
+$content = Jarboe::fileManager($connectorUrl);
 
 return View::make('admin::file_manager', compact('content'));
 </code>

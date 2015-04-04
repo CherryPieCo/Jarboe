@@ -9,7 +9,7 @@ class TableAdminController extends BaseController
             'url'      => '/admin/settings',
             'def_name' => 'settings',
         );
-        list($table, $form) = TableBuilder::create($options);
+        list($table, $form) = Jarboe::table($options);
 
         $view = View::make('admin::table', compact('table', 'form'));
 
@@ -22,19 +22,19 @@ class TableAdminController extends BaseController
             'url'      => '/admin/settings',
             'def_name' => 'settings',
         );
-        return TableBuilder::create($options);
+        return Jarboe::table($options);
     } // end handleSettings  
     
     public function showTree()
     {
-        $controller = TableBuilder::tree();
+        $controller = Jarboe::tree();
         
         return $controller->handle();
     } // end showTree
     
     public function handleTree()
     {
-        $controller = TableBuilder::tree();
+        $controller = Jarboe::tree();
         
         return $controller->process();
     } // end handleTree    

@@ -5,14 +5,14 @@ return array(
     'is_active_remember_me' => true,
 
     'background_url' => function() {
-        return asset('packages/yaro/table-builder/img/login-bg.jpg');
+        return asset('packages/yaro/jarboe/img/login-bg.jpg');
     },
     'favicon_url' => function() {
-        return asset('packages/yaro/table-builder/img/c-c-cat.gif');
+        return asset('packages/yaro/jarboe/img/c-c-cat.gif');
     },
     'top_block' => function() {
         $html = '<div class="pull-left"><img style="height: 30px;" 
-                      src="'. asset('packages/yaro/table-builder/img/logo.png') .'"></div>'
+                      src="'. asset('packages/yaro/jarboe/img/logo.png') .'"></div>'
               . '<div class="pull-right" style="text-align: right;">'
               . '<p>Служба поддержки:</p>'
               . '<p><a href="mailto:support@vis-design.com">support@vis-design.com</a></p>'

@@ -18,7 +18,7 @@ return array(
         'form_ident' => 'settings-form',
         'table_ident' => 'settings-table',
         'action_url' => '/admin/handle/settings',
-        'handler' => 'Yaro\TableBuilder\Helpers\TableHandlers\Settings',
+        'handler' => 'Yaro\Jarboe\Helpers\TableHandlers\Settings',
         'not_found' => 'NOT FOUND',
     ),
     

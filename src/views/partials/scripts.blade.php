@@ -2,71 +2,71 @@
 
 
 <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
-<script data-pace-options='{ "restartOnRequestAfter": true }' src="{{asset('packages/yaro/table-builder/js/plugin/pace/pace.min.js')}}"></script>
+<script data-pace-options='{ "restartOnRequestAfter": true }' src="{{asset('packages/yaro/jarboe/js/plugin/pace/pace.min.js')}}"></script>
 
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script>
     if (!window.jQuery.ui) {
-        document.write('<script src="{{asset('packages/yaro/table-builder/js/libs/jquery-ui-1.10.3.min.js')}}"><\/script>');
+        document.write('<script src="{{asset('packages/yaro/jarboe/js/libs/jquery-ui-1.10.3.min.js')}}"><\/script>');
     }
 </script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datepicker/jquery.ui.datepicker-ru.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datepicker/jquery.ui.datepicker-ru.js')}}"></script>
 
-<script src="{{asset('packages/yaro/table-builder/js/app.config.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/app.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/app.config.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/app.min.js')}}"></script>
 
 
 <!-- JS TOUCH : include this plugin for mobile drag / drop touch events
-<script src="{{asset('packages/yaro/table-builder/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js')}}"></script> -->
+<script src="{{asset('packages/yaro/jarboe/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js')}}"></script> -->
 
 <!-- BOOTSTRAP JS -->
-<script src="{{asset('packages/yaro/table-builder/js/bootstrap/bootstrap.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/bootstrap/bootstrap.min.js')}}"></script>
 
 <!-- CUSTOM NOTIFICATION -->
-<script src="{{asset('packages/yaro/table-builder/js/notification/SmartNotification.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/notification/SmartNotification.min.js')}}"></script>
 
 <!-- JARVIS WIDGETS -->
-<script src="{{asset('packages/yaro/table-builder/js/smartwidgets/jarvis.widget.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/smartwidgets/jarvis.widget.min.js')}}"></script>
 {{--
 <!-- EASY PIE CHARTS -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js')}}"></script>
 
 <!-- SPARKLINES -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/sparkline/jquery.sparkline.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/sparkline/jquery.sparkline.min.js')}}"></script>
 --}}
 <!-- JQUERY VALIDATE -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
 
 
-<script src="{{asset('packages/yaro/table-builder/js/plugin/summernote/summernote.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/summernote/lang/summernote-ru-RU.js')}}"></script>
-<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/table-builder/css/summernote.css')}}">
+<script src="{{asset('packages/yaro/jarboe/js/plugin/summernote/summernote.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/summernote/lang/summernote-ru-RU.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/jarboe/css/summernote.css')}}">
 
 
-<script src="{{asset('packages/yaro/table-builder/js/plugin/redactor/redactor.min.js')}}"></script>
-<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/table-builder/js/plugin/redactor/redactor.css')}}">
+<script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.min.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.css')}}">
 
 <!-- JQUERY MASKED INPUT -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
 
 {{--
-<script src="{{asset('packages/yaro/table-builder/js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
 --}}
 
 <!-- JQUERY SELECT2 INPUT -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/select2/select2.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/select2/select2.min.js')}}"></script>
 
 {{--
 <!-- JQUERY UI + Bootstrap Slider -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/bootstrap-slider/bootstrap-slider.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/bootstrap-slider/bootstrap-slider.min.js')}}"></script>
 
 <!-- browser msie issue fix -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/msie-fix/jquery.mb.browser.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/msie-fix/jquery.mb.browser.min.js')}}"></script>
 --}}
 <!-- FastClick: For mobile devices -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/fastclick/fastclick.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/fastclick/fastclick.js')}}"></script>
 
 <!--[if IE 7]>
 
@@ -76,26 +76,26 @@
 
 <!-- Demo purpose only -->
 {{--
-<script src="{{asset('packages/yaro/table-builder/js/demo.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/demo.js')}}"></script>
 
 <!-- MAIN APP JS FILE -->
-<script src="{{asset('packages/yaro/table-builder/js/app.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/app.js')}}"></script>
 --}}
 
 <!-- PAGE RELATED PLUGIN(S) -->
-<script src="{{asset('packages/yaro/table-builder/js/plugin/colorpicker/bootstrap-colorpicker.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/jquery.dataTables-cust.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/ColReorder.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/FixedColumns.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/ColVis.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/ZeroClipboard.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/media/js/TableTools.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/datatables/DT_bootstrap.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/jquery-nestable/jquery.nestable.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/x-editable/moment.min.js')}}"></script>
-<script src="{{asset('packages/yaro/table-builder/js/plugin/x-editable/x-editable.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/jquery.dataTables-cust.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/ColReorder.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/FixedColumns.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/ColVis.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/ZeroClipboard.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/media/js/TableTools.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/DT_bootstrap.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/jquery-nestable/jquery.nestable.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/x-editable/moment.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/x-editable/x-editable.min.js')}}"></script>
 {{--
-<script src="{{asset('packages/yaro/table-builder/js/table.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/table.js')}}"></script>
 --}}
 <script type="text/javascript">
 
@@ -193,5 +193,5 @@ $(document).ready(function() {
 </style>
 
 <script type="text/javascript">
-    TBMenu.admin_uri = '{{\Config::get('table-builder::admin.uri')}}';
+    TBMenu.admin_uri = '{{\Config::get('jarboe::admin.uri')}}';
 </script>

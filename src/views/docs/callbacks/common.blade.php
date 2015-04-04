@@ -7,7 +7,7 @@
 <p>Установка хендлера с коллебками за пару шагов:</p>
 <ol>
     <li>Прописать в описании таблицы <code>'handler' => 'MyCustomTableHandler'</code>.</li>
-    <li>Создать сам класс хендлера и унаследовать его от <code>Yaro\TableBuilder\Handlers\CustomHandler</code>.</li>
+    <li>Создать сам класс хендлера и унаследовать его от <code>Yaro\Jarboe\Handlers\CustomHandler</code>.</li>
     <li>Радоваться.</li>
 </ol>
 <hr>

@@ -1,5 +1,5 @@
 {
-    "name": "yaro/table-builder",
+    "name": "yaro/jarboe",
     "description": "",
     "authors": [
         {
@@ -36,7 +36,7 @@
             "src/models"
         ],
         "psr-0": {
-            "Yaro\\TableBuilder\\": "src/"
+            "Yaro\\Jarboe\\": "src/"
         }
     },
     "minimum-stability": "dev"

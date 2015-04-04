@@ -10,7 +10,7 @@
 
 @section('main')
     <header id="header">
-        <span id="logo">{{ Config::get('table-builder::admin.title') }}</span>
+        <span id="logo">{{ Config::get('jarboe::admin.title') }}</span>
 
         <!--<div id="logo-group">
 
@@ -39,23 +39,23 @@
                     <div class="well no-padding">
                         <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post">
                             <header>
-                                {{trans('table-builder::login.sign_in')}}
+                                {{trans('jarboe::login.sign_in')}}
                             </header>
 
                             <fieldset>
                                 
                                 <section>
-                                    <label class="label">{{trans('table-builder::login.email')}}</label>
+                                    <label class="label">{{trans('jarboe::login.email')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
                                         <input type="email" name="email">
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{trans('table-builder::login.email_tooltip')}}</b></label>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{trans('jarboe::login.email_tooltip')}}</b></label>
                                 </section>
 
                                 <section>
-                                    <label class="label">{{trans('table-builder::login.password')}}</label>
+                                    <label class="label">{{trans('jarboe::login.password')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
                                         <input type="password" name="password">
-                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{trans('table-builder::login.password_tooltip')}}</b> </label>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{trans('jarboe::login.password_tooltip')}}</b> </label>
                                     
                                     {{--
                                     <div class="note">
@@ -67,12 +67,12 @@
                                 <section>
                                     <label class="checkbox">
                                         <input type="checkbox" name="remember">
-                                        <i></i>{{trans('table-builder::login.remember_me')}}</label>
+                                        <i></i>{{trans('jarboe::login.remember_me')}}</label>
                                 </section>
                             </fieldset>
                             <footer>
                                 <button type="submit" class="btn btn-primary">
-                                    {{trans('table-builder::login.sign_in')}}
+                                    {{trans('jarboe::login.sign_in')}}
                                 </button>
                             </footer>
                         </form>

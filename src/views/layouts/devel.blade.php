@@ -17,14 +17,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- Basic Styles -->
-        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/font-awesome.min.css')}}">
         
 
         <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
         {{--
-        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/smartadmin-production.css')}}">
-        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/smartadmin-skins.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/smartadmin-production.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/smartadmin-skins.css')}}">
         --}}
         <!-- SmartAdmin RTL Support is under construction
         <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.css"> -->
@@ -35,12 +35,12 @@
 
         <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
         {{--
-        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/demo.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/demo.css')}}">
         --}}
         
         <!-- FAVICONS -->
-        <link rel="shortcut icon" href="{{asset('packages/yaro/table-builder/img/favicon/favicon.ico')}}" type="image/x-icon">
-        <link rel="icon" href="{{asset('packages/yaro/table-builder/img/favicon/favicon.ico')}}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{asset('packages/yaro/jarboe/img/favicon/favicon.ico')}}" type="image/x-icon">
+        <link rel="icon" href="{{asset('packages/yaro/jarboe/img/favicon/favicon.ico')}}" type="image/x-icon">
 
         <!-- GOOGLE FONT -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
@@ -49,18 +49,18 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script>
             if (!window.jQuery) {
-                document.write('<script src="{{asset('packages/yaro/table-builder/js/libs/jquery-2.0.2.min.js')}}"><\/script>');
+                document.write('<script src="{{asset('packages/yaro/jarboe/js/libs/jquery-2.0.2.min.js')}}"><\/script>');
             }
         </script>
         
         
-        <script src="{{asset('packages/yaro/table-builder/table-builder.js')}}"></script>
-        <link rel="stylesheet" href="{{asset('packages/yaro/table-builder/table-builder.css')}}">
+        <script src="{{asset('packages/yaro/jarboe/table-builder.js')}}"></script>
+        <link rel="stylesheet" href="{{asset('packages/yaro/jarboe/table-builder.css')}}">
         
-        <script src="{{asset('packages/yaro/table-builder/tb-menu.js')}}"></script>
+        <script src="{{asset('packages/yaro/jarboe/tb-menu.js')}}"></script>
 
-        <link rel="stylesheet" href="{{asset('packages/yaro/table-builder/css/smartadmin-production.min.css')}}">
-        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/table-builder/css/your_style.css')}}">
+        <link rel="stylesheet" href="{{asset('packages/yaro/jarboe/css/smartadmin-production.min.css')}}">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/your_style.css')}}">
     
         @yield('styles')
         

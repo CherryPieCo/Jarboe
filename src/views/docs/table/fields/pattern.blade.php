@@ -1,5 +1,5 @@
 {{--
-<p><img src="{{ asset('/packages/yaro/table-builder/img/coming-soon.jpg') }}" style="width: 100%;"/></p>
+<p><img src="{{ asset('/packages/yaro/jarboe/img/coming-soon.jpg') }}" style="width: 100%;"/></p>
 --}}
 
 <p>Внедряемые шаблончики:</p>

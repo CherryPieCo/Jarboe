@@ -8,10 +8,10 @@
                     
                     {{--<a href="javascript:void(0);" id="show-shortcut">--}}
                     <a href="javascript:void(0);">
-                        <?php $imgClosure = \Config::get('table-builder::admin.user_image'); ?>
+                        <?php $imgClosure = \Config::get('jarboe::admin.user_image'); ?>
                         <img src="{{ $imgClosure() }}" alt="me" class="online" /> 
                         <span>
-                            <?php $nameClosure = \Config::get('table-builder::admin.user_name'); ?>
+                            <?php $nameClosure = \Config::get('jarboe::admin.user_name'); ?>
                             {{ $nameClosure() }}
                         </span>
                         {{--<i class="fa fa-angle-down"></i>--}}
@@ -34,7 +34,7 @@
                 -->
 
                 <ul>
-                    {{ TableBuilder::fetchNavigation() }}
+                    {{ \Yaro\Jarboe\Facades\Jarboe::fetchNavigation() }}
                     
                     
                     {{--

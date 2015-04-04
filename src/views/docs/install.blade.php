@@ -53,11 +53,11 @@ php artisan config:publish intervention/image
 php artisan config:publish yaro/laravel-glide
 php artisan asset:publish yaro/mecha
 // или если сабмодуль
-php artisan migrate --path="workbench/yaro/table-builder/vendor/cartalyst/sentry/src/migrations"  --package=cartalyst/sentry
-php artisan config:publish --path="workbench/yaro/table-builder/vendor/cartalyst/sentry/src/config" cartalyst/sentry
-php artisan config:publish --path="workbench/yaro/table-builder/vendor/intervention/image/src/config" intervention/image
-php artisan config:publish --path="workbench/yaro/table-builder/vendor/yaro/laravel-glide/src/config" spatie/laravel-glide
-php artisan asset:publish --path="workbench/yaro/table-builder/vendor/yaro/mecha/public" yaro/mecha
+php artisan migrate --path="workbench/yaro/jarboe/vendor/cartalyst/sentry/src/migrations"  --package=cartalyst/sentry
+php artisan config:publish --path="workbench/yaro/jarboe/vendor/cartalyst/sentry/src/config" cartalyst/sentry
+php artisan config:publish --path="workbench/yaro/jarboe/vendor/intervention/image/src/config" intervention/image
+php artisan config:publish --path="workbench/yaro/jarboe/vendor/yaro/laravel-glide/src/config" spatie/laravel-glide
+php artisan asset:publish --path="workbench/yaro/jarboe/vendor/yaro/mecha/public" yaro/mecha
 </code>
 </pre>
 </li>
@@ -118,7 +118,7 @@ include app_path() .'/routes_backend.php';
 <code class="php">
 &lt;?php
 
-class HomeController extends Yaro\TableBuilder\TreeController 
+class HomeController extends Yaro\Jarboe\TreeController 
 {
     public function showPage()
     {

@@ -24,8 +24,8 @@ if (!function_exists('__'))
         if (!isset($args[0])) {
             return false;
         }
-
-        $word = Yaro\TableBuilder\Helpers\Translate::get($args[0], \App::getlocale());
+ 
+        $word = Yaro\Jarboe\Helpers\Translate::get($args[0], \App::getlocale());
         if (!$word) {
             $word = $args[0];
         }

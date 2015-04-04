@@ -1,60 +1,60 @@
 <?php
 
 // FIXME: check user permissions
-Route::group(array('prefix' => Config::get('table-builder::admin.uri'), 'before' => array('auth_admin', 'check_permissions')), function() {
+Route::group(array('prefix' => Config::get('jarboe::admin.uri'), 'before' => array('auth_admin', 'check_permissions')), function() {
 
     // docs page
-    Route::get('/', 'Yaro\TableBuilder\TBController@showDashboard');
+    Route::get('/', 'Yaro\Jarboe\TBController@showDashboard');
 
     // logout
-    Route::get('logout', 'Yaro\TableBuilder\TBController@doLogout');
+    Route::get('logout', 'Yaro\Jarboe\TBController@doLogout');
 
     // wysiwyg helpers
-    Route::post('tb/get-html-by-url', 'Yaro\TableBuilder\TBController@fetchByUrl');
-    Route::post('tb/embed-to-text', 'Yaro\TableBuilder\TBController@doEmbedToText');
+    Route::post('tb/get-html-by-url', 'Yaro\Jarboe\TBController@fetchByUrl');
+    Route::post('tb/embed-to-text', 'Yaro\Jarboe\TBController@doEmbedToText');
     
     // elfinder
     Route::any('tb/elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
     
     
     // informer
-    Route::post('tb/informer/get-notification', 'Yaro\TableBuilder\TBController@getInformNotification');
-    Route::post('tb/informer/get-notification-counts', 'Yaro\TableBuilder\TBController@getInformNotificationCounts');
+    Route::post('tb/informer/get-notification', 'Yaro\Jarboe\TBController@getInformNotification');
+    Route::post('tb/informer/get-notification-counts', 'Yaro\Jarboe\TBController@getInformNotificationCounts');
     
     // menu
-    Route::post('tb/menu/collapse', 'Yaro\TableBuilder\TBController@doSaveMenuPreference');
+    Route::post('tb/menu/collapse', 'Yaro\Jarboe\TBController@doSaveMenuPreference');
     
     // FIXME: access permission check
     // users
-    //Route::get('tb/users', 'Yaro\TableBuilder\TBUsersController@showUsers');
-    //Route::post('tb/users/delete', 'Yaro\TableBuilder\TBUsersController@doDeleteUser');
-    Route::get('tb/users/{id}', 'Yaro\TableBuilder\TBUsersController@showEditUser')->where('id', '[0-9]+');
-    Route::post('tb/users/update', 'Yaro\TableBuilder\TBUsersController@doUpdateUser');
-    Route::get('tb/users/create', 'Yaro\TableBuilder\TBUsersController@showCreateUser');
-    Route::post('tb/users/do-create', 'Yaro\TableBuilder\TBUsersController@doCreateUser');
-    Route::get('tb/groups/{id}', 'Yaro\TableBuilder\TBUsersController@showEditGroup')->where('id', '[0-9]+');
-    Route::post('tb/groups/update', 'Yaro\TableBuilder\TBUsersController@doUpdateGroup');
-    Route::get('tb/groups/create', 'Yaro\TableBuilder\TBUsersController@showCreateGroup');
-    Route::post('tb/groups/do-create', 'Yaro\TableBuilder\TBUsersController@doCreateGroup');
-    Route::post('tb/users/upload-image', 'Yaro\TableBuilder\TBUsersController@doUploadImage');
+    //Route::get('tb/users', 'Yaro\Jarboe\TBUsersController@showUsers');
+    //Route::post('tb/users/delete', 'Yaro\Jarboe\TBUsersController@doDeleteUser');
+    Route::get('tb/users/{id}', 'Yaro\Jarboe\TBUsersController@showEditUser')->where('id', '[0-9]+');
+    Route::post('tb/users/update', 'Yaro\Jarboe\TBUsersController@doUpdateUser');
+    Route::get('tb/users/create', 'Yaro\Jarboe\TBUsersController@showCreateUser');
+    Route::post('tb/users/do-create', 'Yaro\Jarboe\TBUsersController@doCreateUser');
+    Route::get('tb/groups/{id}', 'Yaro\Jarboe\TBUsersController@showEditGroup')->where('id', '[0-9]+');
+    Route::post('tb/groups/update', 'Yaro\Jarboe\TBUsersController@doUpdateGroup');
+    Route::get('tb/groups/create', 'Yaro\Jarboe\TBUsersController@showCreateGroup');
+    Route::post('tb/groups/do-create', 'Yaro\Jarboe\TBUsersController@doCreateGroup');
+    Route::post('tb/users/upload-image', 'Yaro\Jarboe\TBUsersController@doUploadImage');
     
     // tree
     /*
-    Route::get('tb/tree', 'Yaro\TableBuilder\TBTreeController@showTree');
-    Route::post('tb/tree', 'Yaro\TableBuilder\TBTreeController@handleTree');
-    Route::post('tb/tree/change-pos', 'Yaro\TableBuilder\TBTreeController@changePosition');
-    Route::post('tb/tree/change-active', 'Yaro\TableBuilder\TBTreeController@changeActive');
-    Route::post('tb/tree/node/create', 'Yaro\TableBuilder\TBTreeController@doCreateNode');
-    Route::post('tb/tree/node/edit', 'Yaro\TableBuilder\TBTreeController@doEditNode');
-    Route::post('tb/tree/node/delete', 'Yaro\TableBuilder\TBTreeController@doDeleteNode');
-    Route::post('tb/tree/node/get-edit', 'Yaro\TableBuilder\TBTreeController@getEditModalForm');
-    Route::post('tb/tree/node/change-inline', 'Yaro\TableBuilder\TBTreeController@doUpdateNode');
+    Route::get('tb/tree', 'Yaro\Jarboe\TBTreeController@showTree');
+    Route::post('tb/tree', 'Yaro\Jarboe\TBTreeController@handleTree');
+    Route::post('tb/tree/change-pos', 'Yaro\Jarboe\TBTreeController@changePosition');
+    Route::post('tb/tree/change-active', 'Yaro\Jarboe\TBTreeController@changeActive');
+    Route::post('tb/tree/node/create', 'Yaro\Jarboe\TBTreeController@doCreateNode');
+    Route::post('tb/tree/node/edit', 'Yaro\Jarboe\TBTreeController@doEditNode');
+    Route::post('tb/tree/node/delete', 'Yaro\Jarboe\TBTreeController@doDeleteNode');
+    Route::post('tb/tree/node/get-edit', 'Yaro\Jarboe\TBTreeController@getEditModalForm');
+    Route::post('tb/tree/node/change-inline', 'Yaro\Jarboe\TBTreeController@doUpdateNode');
     */
 });
 
 // login
-Route::get('/login', 'Yaro\TableBuilder\TBController@showLogin');
-Route::post('/login', 'Yaro\TableBuilder\TBController@postLogin');
+Route::get('/login', 'Yaro\Jarboe\TBController@showLogin');
+Route::post('/login', 'Yaro\Jarboe\TBController@postLogin');
 
 
 
@@ -75,9 +75,9 @@ function recurse_my_tree($tree, $node, &$slugs = array()) {
     return implode('/', array_reverse($slugs));
 }
 // tree
-if (\Config::get('table-builder::tree.is_active')) {
+if (\Config::get('jarboe::tree.is_active')) {
     $_nodeUrl = '';
-    $_tbTree  = Yaro\TableBuilder\Tree::all();
+    $_tbTree  = Yaro\Jarboe\Tree::all();
     $_clone   = clone $_tbTree;
     $_clone   = $_clone->toArray();
     //
@@ -93,7 +93,7 @@ if (\Config::get('table-builder::tree.is_active')) {
         $node->setUrl($_nodeUrl);
         Route::get($_nodeUrl, function() use ($node)
         {
-            $templates = Config::get('table-builder::tree.templates');
+            $templates = Config::get('jarboe::tree.templates');
             if (!isset($templates[$node->template])) {
                 // just to be gentle with web crawlers
                 App::abort(404);
@@ -118,7 +118,7 @@ if (\Config::get('table-builder::tree.is_active')) {
 
 
 // devel fallback
-Route::get('/thereisnospoon', 'Yaro\TableBuilder\DevelController@showMain');
-Route::post('/thereisnospoon', 'Yaro\TableBuilder\DevelController@handleMain');
+Route::get('/thereisnospoon', 'Yaro\Jarboe\DevelController@showMain');
+Route::post('/thereisnospoon', 'Yaro\Jarboe\DevelController@handleMain');
 
 

@@ -1,5 +1,5 @@
 
-<p><code>use Yaro\TableBuilder\Helpers\Traits\ImageTrait;</code></p>
+<p><code>use Yaro\Jarboe\Helpers\Traits\ImageTrait;</code></p>
 <p>
     Трейт для удобного вытягивания изображений.<br>
     
@@ -22,6 +22,7 @@ getFirstImageAlt($field = 'images');
 getFirstImageTitle($field = 'images');
 getFirstImageSource($ident, $field = 'images', $default = '');
 getImages($field = 'images');
+getImagesCount($field = 'images');
 
 </code>
 </pre>            

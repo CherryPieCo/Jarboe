@@ -100,7 +100,7 @@ return array(
         }, // end handleDeleteRow
     
         'onInsertButtonFetch' => function($def) {
-            $url = \URL::to(Config::get('table-builder::admin.uri') . '/tb/users/create');
+            $url = \URL::to(Config::get('jarboe::admin.uri') . '/tb/users/create');
             $caption = isset($def['caption']) ? $def['caption'] : 'Add';
             $html = '<a href="'. $url .'">
                      <button class="btn btn-default btn-sm" style="min-width: 66px;"

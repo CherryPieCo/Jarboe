@@ -7,7 +7,7 @@ return array(
     'templates' => array(
         'default mainpage template' => array(
             'type' => 'node', // table | node
-            'action' => 'Yaro\TableBuilder\TreeController@showThemeMain',
+            'action' => 'Yaro\Jarboe\TreeController@showThemeMain',
             'definition' => '',
             'node_definition' => 'node',
             'check' => function() {

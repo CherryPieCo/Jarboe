@@ -3,8 +3,8 @@
 return array(
 
     'caption'  => 'Admin caption',
-    'logo_url' => asset('packages/yaro/table-builder/img/logo.png'),
-    'favicon_url' => asset('packages/yaro/table-builder/img/favicon/favicon.ico'),
+    'logo_url' => asset('packages/yaro/jarboe/img/logo.png'),
+    'favicon_url' => asset('packages/yaro/jarboe/img/favicon/favicon.ico'),
     
     'uri' => '/admin',
 

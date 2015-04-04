@@ -3,10 +3,10 @@
             <div id="logo-group">
 
                 <!-- PLACE YOUR LOGO HERE -->
-                <span id="logo" style="margin-top: 10px;"> <img src="{{\Config::get('table-builder::admin.logo_url')}}" alt="{{{ \Config::get('table-builder::admin.caption') }}}"> </span>
+                <span id="logo" style="margin-top: 10px;"> <img src="{{\Config::get('jarboe::admin.logo_url')}}" alt="{{{ \Config::get('jarboe::admin.caption') }}}"> </span>
                 <!-- END LOGO PLACEHOLDER -->
                 
-                {{ TableBuilder::fetchInformer() }}
+                {{ \Yaro\Jarboe\Facades\Jarboe::fetchInformer() }}
                 
                 {{--
                 <!-- Note: The activity badge color changes when clicked and resets the number to 0
@@ -120,16 +120,16 @@
                 {{--
                 <ul class="header-dropdown-list hidden-xs">
                     <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img alt="" src="/packages/yaro/table-builder/img/flags/us.png"> <span> US </span> <i class="fa fa-angle-down"></i> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img alt="" src="/packages/yaro/jarboe/img/flags/us.png"> <span> US </span> <i class="fa fa-angle-down"></i> </a>
                         <ul class="dropdown-menu pull-right">
                             <li class="active">
-                                <a href="javascript:void(0);"><img alt="" src="/packages/yaro/table-builder/img/flags/us.png"> US</a>
+                                <a href="javascript:void(0);"><img alt="" src="/packages/yaro/jarboe/img/flags/us.png"> US</a>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><img alt="" src="/packages/yaro/table-builder/img/flags/es.png"> Spanish</a>
+                                <a href="javascript:void(0);"><img alt="" src="/packages/yaro/jarboe/img/flags/es.png"> Spanish</a>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><img alt="" src="/packages/yaro/table-builder/img/flags/de.png"> German</a>
+                                <a href="javascript:void(0);"><img alt="" src="/packages/yaro/jarboe/img/flags/de.png"> German</a>
                             </li>
                         </ul>
                     </li>

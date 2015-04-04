@@ -25,17 +25,17 @@
                       
 
 
-<link rel="stylesheet" href="/packages/yaro/table-builder/js/plugin/jstree/themes/default/style.min.css" />
-<script src="/packages/yaro/table-builder/js/plugin/jstree/jstree.min.js"></script>
+<link rel="stylesheet" href="/packages/yaro/jarboe/js/plugin/jstree/themes/default/style.min.css" />
+<script src="/packages/yaro/jarboe/js/plugin/jstree/jstree.min.js"></script>
 
 
-<script src="{{ asset('packages/yaro/table-builder/js/plugin/resizableColumns/jquery.resizableColumns.js') }}"></script>
-<script src="{{ asset('packages/yaro/table-builder/js/plugin/resizableColumns/store.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('packages/yaro/table-builder/js/plugin/resizableColumns/jquery.resizableColumns.css') }}" type="text/css" media="screen" title="no title" charset="utf-8"/>
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/jquery.resizableColumns.js') }}"></script>
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/store.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/jquery.resizableColumns.css') }}" type="text/css" media="screen" title="no title" charset="utf-8"/>
 
-<script src="{{ asset('packages/yaro/table-builder/tb-tree.js') }}"></script>
+<script src="{{ asset('packages/yaro/jarboe/tb-tree.js') }}"></script>
 <script>
-Tree.admin_prefix = '{{ \Config::get('table-builder::admin.uri') }}';
+Tree.admin_prefix = '{{ \Config::get('jarboe::admin.uri') }}';
 Tree.parent_id = '{{ $current->id }}';
 </script>
 

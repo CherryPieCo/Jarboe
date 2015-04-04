@@ -1,6 +1,6 @@
 <?php 
 
-namespace Yaro\TableBuilder;
+namespace Yaro\Jarboe;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
@@ -13,6 +13,7 @@ class TreeController extends \Controller
 
     public function init($node, $method)
     {
+        // FIXME: move paramter to config
         if (!$node->isActive() && !Input::has('show')) {
             \App::abort(404);
         }

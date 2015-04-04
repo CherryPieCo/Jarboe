@@ -2,7 +2,7 @@
 <h3 class="text-primary">Конфиги:</h3>
                     
 <div class="bs-example">
-На текущий момент мы располагаем четырьмя конфигами, которые находятся в <code>app/config/packages/yaro/table-builder</code>.
+На текущий момент мы располагаем четырьмя конфигами, которые находятся в <code>app/config/packages/yaro/jarboe</code>.
 </div>          
 <br>
 <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-10" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" role="widget" style="">
@@ -33,7 +33,7 @@
                               <dt>user_image</dt>
                               <dd>Аватарка аккаунта для отображения в админке.</dd>
                               <dt>yandex_api_translation_key</dt>
-                              <dd>API ключ от Yandex Translate (необходим для использования <code>TableBuilder::translate()</code>).</dd>
+                              <dd>API ключ от Yandex Translate (необходим для использования <code>Jarboe::translate()</code>).</dd>
                               <dt>menu</dt>
                               <dd>Содержит массив, по которому строится навигационное меню админ-панели.</dd>
                             </dl>

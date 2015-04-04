@@ -5,7 +5,7 @@
 Route::filter('check_permissions', function()
 {
     if (Request::isMethod('get')) {
-        TableBuilder::checkNavigationPermissions();
+        Jarboe::checkNavigationPermissions();
     }
 });
 

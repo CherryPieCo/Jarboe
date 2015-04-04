@@ -213,7 +213,7 @@
             },
             'rows' => function($id, $row, $ident, &$value) {
                 if ($ident == 'url') {
-                    $value = URL::to('/product/'. TableBuilder::urlify($row['name']) .'-'. $id);
+                    $value = URL::to('/product/'. Jarboe::urlify($row['name']) .'-'. $id);
                 }
             },
             'filter' => function($rows) use($options) {

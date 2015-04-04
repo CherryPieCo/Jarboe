@@ -4,15 +4,15 @@
 @stop
 
 @section('scripts')
-<script src="{{asset('packages/yaro/table-builder/tb-user.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/tb-user.js')}}"></script>
 <script>
-    TBUser.admin_uri = '{{\Config::get('table-builder::admin.uri')}}';
+    TBUser.admin_uri = '{{\Config::get('jarboe::admin.uri')}}';
 </script>
 @stop
 
 @section('main')
 <div id="content">
-	<div class="row">
+    <div class="row">
         <!-- widget grid -->
 <section id="widget-grid" class="">
     <!-- row -->
@@ -50,50 +50,50 @@
 
 <table id="datatable_fixed_column" class="table table-bordered table-striped table-hover smart-form dataTable">
 
-	
+    
     <thead>
-	    <tr>
-	    @foreach ($fields as $ident => $field)
-        	<th>{{ $field['caption'] }}</th>
-	    @endforeach
-	    	<th class="e-insert_button-cell">
-	    	    <a href="{{ url(\Config::get('table-builder::admin.uri') .'/tb/users/create') }}">
+        <tr>
+        @foreach ($fields as $ident => $field)
+            <th>{{ $field['caption'] }}</th>
+        @endforeach
+            <th class="e-insert_button-cell">
+                <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/create') }}">
                 <button class="btn btn-default btn-sm" style="min-width: 66px;" 
                         type="button" onclick="TableBuilder.getCreateForm();">
                     Добавить
                 </button>
                 </a>
             </th>
-	    </tr>
+        </tr>
     </thead>
 
     <tbody>
-    	
+        
         @foreach ($users as $user)
         <tr>
-	        @foreach ($fields as $ident => $field)
-	        	@if ($ident == 'password')
+            @foreach ($fields as $ident => $field)
+                @if ($ident == 'password')
                     <td>********</td>
                 @elseif ($ident == 'id')
                     <td style="width: 1%;">{{ $user->$ident }}</td>
                 @else
-	        		<td>{{ $user->$ident }}</td>
-	        	@endif
-		    @endforeach
-		    
-		    <td style="width: 1%;">
-			    <a href="{{ url(\Config::get('table-builder::admin.uri') .'/tb/users/'. $user->id) }}">
-				    <button type="button" class="btn btn-default btn-sm" rel="tooltip" title="" data-placement="bottom" data-original-title="Update">
-			            <i class="fa fa-pencil"></i>
-					</button>
-				</a>
-			    <button onclick="TBUser.doRemoveUser(this, '{{$user->id}}');" type="button" class="btn btn-default btn-sm" rel="tooltip" title="" data-placement="bottom" data-original-title="Remove">
-		            <i class="fa fa-remove"></i>
-				</button>
-			</td>
-			
-		</tr>
-		@endforeach
+                    <td>{{ $user->$ident }}</td>
+                @endif
+            @endforeach
+            
+            <td style="width: 1%;">
+                <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/'. $user->id) }}">
+                    <button type="button" class="btn btn-default btn-sm" rel="tooltip" title="" data-placement="bottom" data-original-title="Update">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                </a>
+                <button onclick="TBUser.doRemoveUser(this, '{{$user->id}}');" type="button" class="btn btn-default btn-sm" rel="tooltip" title="" data-placement="bottom" data-original-title="Remove">
+                    <i class="fa fa-remove"></i>
+                </button>
+            </td>
+            
+        </tr>
+        @endforeach
     </tbody>
 
 </table> 

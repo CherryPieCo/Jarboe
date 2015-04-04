@@ -7,17 +7,17 @@
 
 <pre>
 <code class="php">
-$text = TableBuilder::translate('Hello world', 'en-ru');
+$text = Jarboe::translate('Hello world', 'en-ru');
 echo $text;
 // Привет мир
 
 $isHtml = true;
 $text = '&lt;p&gt;'. $text .'&lt;/p&gt;';
-echo TableBuilder::translate($text, 'en-uk', $isHtml);
+echo Jarboe::translate($text, 'en-uk', $isHtml);
 // &lt;p&gt;Привіт світ&lt;/p&gt;
 
 $isAutoDetect = 1;
-echo  TableBuilder::translate('Привет мир', 'en', false, $isAutoDetect);
+echo  Jarboe::translate('Привет мир', 'en', false, $isAutoDetect);
 // Hello world
 </code>
 </pre>            

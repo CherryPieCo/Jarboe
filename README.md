@@ -1,16 +1,15 @@
 ````
-php artisan config:publish --path="/workbench/yaro/table-builder/src/config" yaro/table-builder
-
-// php artisan asset:publish --bench="yaro/table-builder"
+php artisan config:publish --path="/workbench/yaro/jarboe/src/config" yaro/jarboe
+php artisan asset:publish --bench="yaro/jarboe"
 ````
 
 To app/config/app.php
 ```php
 // ...
-'Yaro\TableBuilder\TableBuilderServiceProvider',
+'Yaro\Jarboe\JarboeServiceProvider',
 // ...
-'TableBuilder'  => 'Yaro\TableBuilder\Facades\TableBuilder',
-'Settings'      => 'Yaro\TableBuilder\Helpers\Settings',
+'Jarboe'   => 'Yaro\Jarboe\Facades\jarboe',
+'Settings' => 'Yaro\Jarboe\Helpers\Settings',
 // ...
 ```
 

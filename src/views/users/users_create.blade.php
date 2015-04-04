@@ -8,9 +8,9 @@
 
 
 @section('scripts')
-<script src="{{asset('packages/yaro/table-builder/tb-user.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/tb-user.js')}}"></script>
 <script>
-    TBUser.admin_uri = '{{\Config::get('table-builder::admin.uri')}}';
+    TBUser.admin_uri = '{{\Config::get('jarboe::admin.uri')}}';
 </script>
 @stop
 
@@ -19,7 +19,7 @@
         
 
 <div class="widget-body no-padding">
-    <form id="user-create-form" method="post" class="smart-form" autocomplete="off" action="{{ url(\Config::get('table-builder::admin.uri') .'/tb/users/do-create') }}">    
+    <form id="user-create-form" method="post" class="smart-form" autocomplete="off" action="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/do-create') }}">    
     <ul class="nav nav-tabs tabs-pull-right bordered">
         <li class="pull-right">
             <a href="#l3" data-toggle="tab">Группы</a>
@@ -36,7 +36,7 @@
         <div class="tab-pane" id="l1">
             <div class="widget-body no-padding" style="margin: -10px;">
                 
-            <?php $permissions = \Config::get('table-builder::users.permissions', array()); ?>
+            <?php $permissions = \Config::get('jarboe::users.permissions', array()); ?>
             @foreach ($permissions as $ident => $info)
             <header style="margin:0; padding-left: 10px;">{{$info['caption']}}</header>
             
@@ -84,7 +84,7 @@
                     <fieldset>
                         <div class="row">
                             <section class="col col-2">
-                                <img id="tbu-avatar" src="{{ asset('/packages/yaro/table-builder/img/blank_avatar.gif') }}" style="height:150px;">
+                                <img id="tbu-avatar" src="{{ asset('/packages/yaro/jarboe/img/blank_avatar.gif') }}" style="height:150px;">
                                 <br>
                                 <div class="input input-file" style="width:150px;">
                                     <span class="button" style="width: 114px;top: 5px;line-height: 21px;text-align: center;">
@@ -169,7 +169,7 @@
         </div>    
         
         <footer>
-            <a href="{{ url(\Config::get('table-builder::admin.uri') .'/tb/users') }}">
+            <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users') }}">
             <button type="button" class="btn btn-default">
                 Назад
             </button>

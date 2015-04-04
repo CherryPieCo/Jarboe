@@ -5,10 +5,10 @@
 
 <pre>
 <code class="php">
-echo TableBuilder::urlify(" J'étudie le français ");
+echo Jarboe::urlify(" J'étudie le français ");
 // jetudie-le-francais
 
-echo TableBuilder::urlify('Lo siento, no hablo español.');
+echo Jarboe::urlify('Lo siento, no hablo español.');
 // lo-siento-no-hablo-espanol
 </code>
 </pre>            

@@ -38,7 +38,7 @@ class Jarboe
         Config::set('database.fetch', $this->default['fetch']);
     } // end onFinish
 
-    public function table()
+    public function table($options)
     {
         $this->onInit($options);
         DB::beginTransaction();

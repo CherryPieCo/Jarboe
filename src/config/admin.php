@@ -9,10 +9,10 @@ return array(
     'uri' => '/admin',
 
     'user_name'  => function() {
-        return Sentry::getUser()->email;
+        return Sentry::getUser()->first_name .' '. Sentry::getUser()->last_name;
     },
     'user_image' => function() {
-        return 'http://www.gravatar.com/avatar/'. md5(Sentry::getUser()->email);
+        return 'https://www.gravatar.com/avatar/'. md5(Sentry::getUser()->email);
     },
 
     'menu' => array(

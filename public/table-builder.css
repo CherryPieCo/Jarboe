@@ -64,14 +64,14 @@ div.tb-uploaded-image-container {
     cursor: pointer;
 }
 div.tb-uploaded-image-container ul {
-    height: 80px;
+    min-height: 80px;
     list-style-type: none;
 }
 div.tb-uploaded-image-container ul:empty {
     height: 0px;
 }
 div.tb-uploaded-image-container ul li {
-    float: left;
+    display: inline-block;
     position: relative;
 }
 div.tb-uploaded-image-container ul li img {

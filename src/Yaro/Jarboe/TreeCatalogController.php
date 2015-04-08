@@ -256,17 +256,22 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $idNode = Input::get('id');
-        $current = $model::find($idNode);
+        $idNode    = Input::get('id');
+        $current   = $model::find($idNode);
         $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $template  = Config::get('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
         
+        $templateType = 'definition';
+        if ($template['type'] == 'node') {
+            $templateType = 'node_definition';
+        }
+
         $options = array(
-            'url'      => URL::current(),
-            'def_name' => 'tree.'. $template['definition'],
+            'url'        => URL::current(),
+            'def_name'   => 'tree.'. $template[$templateType],
             'additional' => array(
                 'node' => $idNode
             )

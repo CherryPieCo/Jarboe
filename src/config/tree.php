@@ -2,7 +2,7 @@
 
 return array(
     
-    'is_active' => true,
+    'is_active' => false,
 
     'templates' => array(
         'default mainpage template' => array(
@@ -18,6 +18,7 @@ return array(
             'type' => 'node', 
             'action' => 'HomeController@showPage',
             'definition' => '',
+            'node_definition' => 'node',
             'check' => function() {
                 return true;
             },

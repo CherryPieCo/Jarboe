@@ -1,6 +1,6 @@
 // Smart Notification (bootstraphunter.com)
 
-$.sound_path = "/packages/yaro/table-builder/sound/";
+$.sound_path = "/packages/yaro/jarboe/sound/";
 
 $(document).ready(function () {
 

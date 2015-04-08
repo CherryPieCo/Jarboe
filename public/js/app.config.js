@@ -35,7 +35,7 @@
 /*
  * GLOBAL: Sound Config
  */
-    $.sound_path = "/packages/yaro/table-builder/sound/";
+    $.sound_path = "/packages/yaro/jarboe/sound/";
     $.sound_on = true; 
 /*
  * Impacts the responce rate of some of the responsive elements (lower 

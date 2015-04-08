@@ -24,7 +24,7 @@ class PrepareArtisanCommand extends Command
             $this->info('Folder /app/tb-definitions successfully created. Place there your table definitions.');
         }
         
-        if ($this->confirm('Create `settings` table with definition? [yes|no]')) {
+        if ($this->confirm('Create `settings` table with definition? [y|n]')) {
             \Schema::create('settings', function($table) {
                 $table->increments('id')->unsigned();
                 $table->char('name', 255)->unique();
@@ -42,7 +42,7 @@ class PrepareArtisanCommand extends Command
             );
         }
 
-        if ($this->confirm('Copy tree definitions? [yes|no]')) {
+        if ($this->confirm('Copy tree definitions? [y|n]')) {
             mkdir(app_path() . '/tb-definitions/tree');
             $res = copy(
                 __DIR__ . '/../../../tb-definitions/tree/node.php', 
@@ -55,7 +55,7 @@ class PrepareArtisanCommand extends Command
             }
         }
 
-        if ($this->confirm('Create `tb_tree` table to handle site structure? [yes|no]')) {
+        if ($this->confirm('Create `tb_tree` table to handle site structure? [y|n]')) {
             \Schema::create('tb_tree', function(Blueprint $table) {
                 $table->increments('id');
                 $table->integer('parent_id')->nullable()->index();
@@ -86,8 +86,21 @@ class PrepareArtisanCommand extends Command
             \Yaro\Jarboe\Tree::buildTree($tree);
         }
 
+        if ($this->confirm('Create `translations` table to handle templates localization? [y|n]')) {
+            \Schema::create('translations', function(Blueprint $table) {
+                $table->increments('id');
+
+                $table->string('namespace', 255)->default('messages');;
+                $table->string('key', 255);
+                
+                foreach (\Config::get('jarboe::translate.locales') as $locale) {
+                    $table->string('value_'. $locale, 255);
+                }
+            });
+        }
+
         /*
-        if ($this->confirm('Create `ip_geo_locations` table? [yes|no]')) {
+        if ($this->confirm('Create `ip_geo_locations` table? [y|n]')) {
             \Schema::create('ip_geo_locations', function($table) {
                 $table->increments('id')->unsigned();
                 $table->char('ip', 32)->unique();
@@ -97,7 +110,7 @@ class PrepareArtisanCommand extends Command
             });
         }
         */
-        if ($this->confirm('Replace global.php? [yes|no]')) {
+        if ($this->confirm('Replace global.php? [y|n]')) {
             $res = unlink(app_path() . '/start/global.php');
             if ($res) {
                 $this->info('successfully unlinked old app/start/global.php');
@@ -115,7 +128,7 @@ class PrepareArtisanCommand extends Command
             }
         }
         
-        if ($this->confirm('Copy base admin controller? [yes|no]')) {
+        if ($this->confirm('Copy base admin controller? [y|n]')) {
             $res = copy(
                 __DIR__ . '/../../../misc/TableAdminController.php', 
                 app_path() . '/controllers/TableAdminController.php'
@@ -127,7 +140,7 @@ class PrepareArtisanCommand extends Command
             }
         }
 
-        if ($this->confirm('Copy routes for backend? [yes|no]')) {
+        if ($this->confirm('Copy routes for backend? [y|n]')) {
             $res = copy(
                 __DIR__ . '/../../../misc/routes_backend.php', 
                 app_path() . '/routes_backend.php'
@@ -139,7 +152,7 @@ class PrepareArtisanCommand extends Command
             }
         }
         
-        if ($this->confirm('Copy error views? [yes|no]')) {
+        if ($this->confirm('Copy error views? [y|n]')) {
             // XXX:
             mkdir(app_path() . '/views/errors', 0755);
             $res = copy(
@@ -156,11 +169,11 @@ class PrepareArtisanCommand extends Command
         $this->info('ok');
 
         /*
-        if ($this->confirm('Prepare Sentry package? [yes|no]')) {
+        if ($this->confirm('Prepare Sentry package? [y|n]')) {
             $this->doPrepareSentry();
         }
         
-        if ($this->confirm('Prepare Intervention package? [yes|no]')) {
+        if ($this->confirm('Prepare Intervention package? [y|n]')) {
             $this->doPrepareIntervention();
         }
         */
@@ -187,7 +200,7 @@ class PrepareArtisanCommand extends Command
         $this->info('Add following in app/config/app.php');
         $this->comment("providers: 'Intervention\Image\ImageServiceProvider',\naliases: 'Image' => 'Intervention\Image\Facades\Image',");
         
-        if ($this->confirm('Done? [yes|no]')) {
+        if ($this->confirm('Done? [y|n]')) {
             $this->info('publising config...');
             $this->call('config:publish', array('package' => 'intervention/image'));
             $this->info('ok');
@@ -201,7 +214,7 @@ class PrepareArtisanCommand extends Command
         $this->info('Add following in app/config/app.php');
         $this->comment("providers: 'Cartalyst\Sentry\SentryServiceProvider',\naliases: 'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',");
         
-        if ($this->confirm('Done? [yes|no]')) {
+        if ($this->confirm('Done? [y|n]')) {
             $this->info('migrating...');
             $this->call('migrate', array('--package' => 'cartalyst/sentry'));
             $this->info('ok');

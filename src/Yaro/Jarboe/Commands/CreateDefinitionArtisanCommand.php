@@ -148,7 +148,7 @@ class CreateDefinitionArtisanCommand extends Command
         $template .= "        ),\n";
         
         if ($this->confirm('Is there another one many2many relation? [y|n]')) {
-            return $this->onManyToMany($template);
+            return $this->onManyToMany($template, $field);
         }
         
         return $template;

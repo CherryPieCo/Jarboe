@@ -127,12 +127,15 @@ class CreateDefinitionArtisanCommand extends Command
             $template .= "        ),\n";
         }
         
-        $template .= $this->onManyToMany();
+        // FIXME:
+        $temp = '';
+        $template .= $this->onManyToMany($temp, $field);
+
         
         return $template;
     } // end getFieldsElements
     
-    private function onManyToMany(&$template = '')
+    private function onManyToMany(&$template = '', $field)
     {
         if (!$template && !$this->confirm('Is there many2many relation? [y|n]')) {
             return $template;
@@ -140,17 +143,18 @@ class CreateDefinitionArtisanCommand extends Command
         
         $template .= sprintf("        '%s' => array(\n", 'many2many_'. str_random(6));
         $template .= sprintf("            'caption' => '%s',\n", 'Связи');
+        $template .= "            'type' => 'many_to_many',\n";
         $template .= $this->getManyToManyFieldType($field);
         $template .= "        ),\n";
         
-        if (!$this->confirm('Is there another one many2many relation? [y|n]')) {
+        if ($this->confirm('Is there another one many2many relation? [y|n]')) {
             return $this->onManyToMany($template);
         }
         
         return $template;
     } // end onManyToMany
     
-    private function getManyToManyFieldType()
+    private function getManyToManyFieldType($field)
     {
         $additional = '';
         

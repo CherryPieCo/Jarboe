@@ -1,37 +1,37 @@
 /*
-	Aerial 1.0 by HTML5 UP
-	html5up.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+    Aerial 1.0 by HTML5 UP
+    html5up.net | @n33co
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
 // Skel.
-	skel.init({
-		reset: 'full',
-		breakpoints: {
-			'global': { range: '*', href: '/packages/yaro/table-builder/theme/css/style.css', lockViewport: true, viewport: 'minimal-ui' },
-			'wide': { range: '-1680', href: '/packages/yaro/table-builder/theme/css/style-wide.css' },
-			'normal': { range: '-1280', href: '/packages/yaro/table-builder/theme/css/style-normal.css' },
-			'mobile': { range: '-640', href: '/packages/yaro/table-builder/theme/css/style-mobile.css' },
-			'mobilep': { range: '-360', href: '/packages/yaro/table-builder/theme/css/style-mobilep.css' }
-		}
-	});
+    skel.init({
+        reset: 'full',
+        breakpoints: {
+            'global': { range: '*', href: '/packages/yaro/jarboe/theme/css/style.css', lockViewport: true, viewport: 'minimal-ui' },
+            'wide': { range: '-1680', href: '/packages/yaro/jarboe/theme/css/style-wide.css' },
+            'normal': { range: '-1280', href: '/packages/yaro/jarboe/theme/css/style-normal.css' },
+            'mobile': { range: '-640', href: '/packages/yaro/jarboe/theme/css/style-mobile.css' },
+            'mobilep': { range: '-360', href: '/packages/yaro/jarboe/theme/css/style-mobilep.css' }
+        }
+    });
 
 // Events (JS).
-	
-	// Remove "loading" class once the page has fully loaded.
-		window.onload = function() {
-			document.body.className = '';
-		}
+    
+    // Remove "loading" class once the page has fully loaded.
+        window.onload = function() {
+            document.body.className = '';
+        }
 
-	// Prevent scrolling on touch.
-		window.ontouchmove = function() {
-			return false;
-		}
+    // Prevent scrolling on touch.
+        window.ontouchmove = function() {
+            return false;
+        }
 
-	// Fix scroll position on orientation change.
-		window.onorientationchange = function() {
-			document.body.scrollTop = 0;
-		}
+    // Fix scroll position on orientation change.
+        window.onorientationchange = function() {
+            document.body.scrollTop = 0;
+        }
 
 /*
 
@@ -39,21 +39,21 @@
 // Aerial doesn't need jQuery, but if you're going to use it anyway remove the
 // block of JS events above and use the jQuery-based ones below instead.
 
-	$(window)
+    $(window)
 
-		// Remove "loading" class once the page has fully loaded.
-			.on('load', function() {
-				$('body').removeClass('loading');
-			})
+        // Remove "loading" class once the page has fully loaded.
+            .on('load', function() {
+                $('body').removeClass('loading');
+            })
 
-		// Prevent scrolling on touch.
-			.on('touchmove', function() {
-				return false;
-			})
+        // Prevent scrolling on touch.
+            .on('touchmove', function() {
+                return false;
+            })
 
-		// Fix scroll position on orientation change.
-			.on('orientationchange', function() {
-				$('body').scrollTop(0);
-			});
+        // Fix scroll position on orientation change.
+            .on('orientationchange', function() {
+                $('body').scrollTop(0);
+            });
 
 */

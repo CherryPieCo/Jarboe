@@ -333,7 +333,7 @@ var TableBuilder = {
                     return {"name": this.name, "value": 0};
                 }).get()
         );
-
+        
         var $posting = jQuery.post(TableBuilder.options.action_url, data);
 
         $posting.done(function(response) {
@@ -773,6 +773,17 @@ var TableBuilder = {
                     return {"name": this.name, "value": 0};
                 }).get()
         );
+        
+        var selectMultiple = [];
+        jQuery(TableBuilder.edit_form).find('select[multiple="multiple"]').each(function(i, value) {
+            if (!$(this).val()) {
+                selectMultiple.push({"name": this.name, "value": ''});
+            }
+        })
+        console.table(selectMultiple);
+        values = values.concat(selectMultiple);
+        console.table(values);
+        
 console.log(values);
         jQuery.ajax({
             type: "POST",
@@ -866,6 +877,16 @@ console.log(values);
                 };
             }
         });
+        
+        var selectMultiple = [];
+        jQuery(TableBuilder.create_form).find('select[multiple="multiple"]').each(function(i, value) {
+            if (!$(this).val()) {
+                selectMultiple.push({"name": this.name, "value": ''});
+            }
+        })
+        console.table(selectMultiple);
+        values = values.concat(selectMultiple);
+        console.table(values);
 
         // FIXME:
         if (TableBuilder.onDoCreate) {

@@ -76,35 +76,59 @@ function recurse_my_tree($tree, $node, &$slugs = array()) {
 }
 // tree
 if (\Config::get('jarboe::tree.is_active')) {
-    $_nodeUrl = '';
-    $_tbTree  = Yaro\Jarboe\Tree::all();
-    $_clone   = clone $_tbTree;
-    $_clone   = $_clone->toArray();
-    //
-    $_ids = array();
-    foreach ($_clone as $cl) {
-        $_ids[] = $cl['id'];
+    
+    // FIXME: too ugly to execute
+    $_tbTree = \Cache::tags(array('jarboe', 'j_tree'))->get('j_tree');
+    if ($_tbTree) {
+        foreach ($_tbTree as $node) {
+            Route::get($node->getUrl(), function() use($node)
+            {
+                $templates = Config::get('jarboe::tree.templates');
+                if (!isset($templates[$node->template])) {
+                    // just to be gentle with web crawlers
+                    App::abort(404);
+                }
+                list($controller, $method) = explode('@', $templates[$node->template]['action']);
+    
+                $app = app();
+                $controller = $app->make($controller);
+                return $controller->callAction('init', array($node, $method));
+            });
+        }
+    } else {
+        $_nodeUrl = '';
+        $_tbTree  = Yaro\Jarboe\Tree::all();
+        $_clone   = clone $_tbTree;
+        $_clone   = $_clone->toArray();
+        //
+        $_ids = array();
+        foreach ($_clone as $cl) {
+            $_ids[] = $cl['id'];
+        }
+        $_clone = array_combine($_ids, $_clone);
+        //$clone = array_combine(array_column($_clone, 'id'), $_clone);
+    
+        foreach ($_tbTree as $node) {
+            $_nodeUrl = recurse_my_tree($_clone, $node);
+            $node->setUrl($_nodeUrl);
+            Route::get($_nodeUrl, function() use($node)
+            {
+                $templates = Config::get('jarboe::tree.templates');
+                if (!isset($templates[$node->template])) {
+                    // just to be gentle with web crawlers
+                    App::abort(404);
+                }
+                list($controller, $method) = explode('@', $templates[$node->template]['action']);
+    
+                $app = app();
+                $controller = $app->make($controller);
+                return $controller->callAction('init', array($node, $method));
+            });
+        }
+    
+        \Cache::tags(array('jarboe', 'j_tree'))->put('j_tree', $_tbTree, 1440);
     }
-    $_clone = array_combine($_ids, $_clone);
-    //$clone = array_combine(array_column($_clone, 'id'), $_clone);
 
-    foreach ($_tbTree as $node) {
-        $_nodeUrl = recurse_my_tree($_clone, $node);
-        $node->setUrl($_nodeUrl);
-        Route::get($_nodeUrl, function() use ($node)
-        {
-            $templates = Config::get('jarboe::tree.templates');
-            if (!isset($templates[$node->template])) {
-                // just to be gentle with web crawlers
-                App::abort(404);
-            }
-            list($controller, $method) = explode('@', $templates[$node->template]['action']);
-
-            $app = app();
-            $controller = $app->make($controller);
-            return $controller->callAction('init', array($node, $method));
-        });
-    }
 
     unset($_ids);
     unset($_clone);

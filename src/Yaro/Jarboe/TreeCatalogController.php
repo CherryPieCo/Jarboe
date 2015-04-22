@@ -207,7 +207,7 @@ class TreeCatalogController
         if ($template['type'] == 'table') {
             $options = array(
                 'url'      => URL::current(),
-                'def_name' => 'tree.'. $template['definition'],
+                'def_name' => /*'tree.'. */ $template['definition'],
                 'additional' => array(
                     'node' => $idNode
                 )

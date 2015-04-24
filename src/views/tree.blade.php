@@ -1,6 +1,10 @@
 @extends('admin::layouts.default')
 
 
+@section('headline')
+@stop
+
+
 @section('main')
 
     <div id="table-preloader" class="smoke_lol"><i class="fa fa-gear fa-4x fa-spin"></i></div>
@@ -97,9 +101,5 @@ Tree.parent_id = '{{ $current->id }}';
 </style>
 
 
-
-@stop
-
-@section('headline')
 
 @stop

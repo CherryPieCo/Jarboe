@@ -157,10 +157,18 @@ class ForeignField extends AbstractField
 
     protected function getForeignKeyOptions()
     {
-        $res = DB::table($this->getAttribute('foreign_table'))
+        $db = DB::table($this->getAttribute('foreign_table'))
                      ->select($this->getAttribute('foreign_value_field'))
-                     ->addSelect($this->getAttribute('foreign_key_field'))
-                     ->get();
+                     ->addSelect($this->getAttribute('foreign_key_field'));
+                     
+                     
+        $additionalWheres = $this->getAttribute('additional_where');
+        if ($additionalWheres) {
+            foreach ($additionalWheres as $key => $opt) {
+                $db->where($key, $opt['sign'], $opt['value']);
+            }
+        }
+        $res = $db->get();
 
         $options = array();
         $foreignKey = $this->getAttribute('foreign_key_field');
@@ -168,6 +176,8 @@ class ForeignField extends AbstractField
         foreach ($res as $val) {
             $options[$val[$foreignKey]] = $val[$foreignValue];
         }
+        
+        
 
         return $options;
     } // end getForeignKeyOptions

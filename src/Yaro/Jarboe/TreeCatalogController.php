@@ -150,7 +150,7 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $idNode  = Input::get('node', 1);
+        $idNode  = Input::get('__node', 1);
         $current = $model::find($idNode);
 
         $templates = Config::get('jarboe::tree.templates');
@@ -164,10 +164,11 @@ class TreeCatalogController
                 'url'      => URL::current(),
                 'def_name' => 'tree.'. $template['definition'],
                 'additional' => array(
-                    'node' => $idNode
+                    'node'    => $idNode,
+                    'current' => $current,
                 )
             );
-            return \Jarboe::create($options);
+            return \Jarboe::table($options);
         }
 
         //
@@ -207,12 +208,13 @@ class TreeCatalogController
         if ($template['type'] == 'table') {
             $options = array(
                 'url'      => URL::current(),
-                'def_name' => /*'tree.'. */ $template['definition'],
+                'def_name' => 'tree.'. $template['definition'],
                 'additional' => array(
-                    'node' => $idNode
+                    'node'    => $idNode,
+                    'current' => $current,
                 )
             );
-            list($table, $form) = \Jarboe::create($options);
+            list($table, $form) = \Jarboe::table($options);
             $content = View::make('admin::tree.content', compact('current', 'table', 'form', 'template'));
         } elseif (false && $current->isLeaf()) {
             $content = 'ama leaf';
@@ -239,7 +241,8 @@ class TreeCatalogController
             'url'      => URL::current(),
             'def_name' => 'tree.'. $template['node_definition'],
             'additional' => array(
-                'node' => $idNode
+                'node'    => $idNode,
+                'current' => $current,
             )
         );
         $controller = new JarboeController($options);

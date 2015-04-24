@@ -10,6 +10,7 @@ use Yaro\Jarboe\Handlers\ActionsHandler;
 use Yaro\Jarboe\Handlers\ExportHandler;
 use Yaro\Jarboe\Handlers\ImportHandler;
 use Yaro\Jarboe\Handlers\CustomClosureHandler;
+use Yaro\Jarboe\ImageStorage\Storage;
 
 
 class JarboeController 
@@ -31,6 +32,7 @@ class JarboeController
     public $actions;
     public $export;
     public $import;
+    public $imageStorage;
 
     protected $allowedIds;
 
@@ -53,6 +55,7 @@ class JarboeController
         $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
+        $this->imageStorage = new Storage($this);
         
         // HACK:
         $this->currentID = \Input::get('id');
@@ -71,6 +74,13 @@ class JarboeController
         if (!isset($this->definition['import'])) {
             $this->definition['import'] = array();
         }
+        
+        if (!isset($this->definition['db']['pagination']['uri'])) {
+            $this->definition['db']['pagination']['uri'] = $this->options['url'];
+        }
+        //if (!isset($this->definition['options']['action_url'])) {
+        //    $this->definition['options']['action_url'] = $this->options['url'];
+        //}
     } // end doPrepareDefinition
 
     public function handle()

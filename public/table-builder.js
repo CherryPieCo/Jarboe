@@ -13,6 +13,7 @@ var TableBuilder = {
     export_form: '#tb-export-form',
     form_label: '#modal_form_edit_label',
     form_wrapper: '#modal_wrapper',
+    image_storage_wrapper: '#modal_image_storage_wrapper',
     create_form: '#create_form',
     edit_form: '#edit_form',
     filter: '#filters-row :input',
@@ -32,9 +33,16 @@ var TableBuilder = {
         TableBuilder.initSelect2Hider();
         //TableBuilder.initImageEditable();
     }, // end init
+    
+    getActionUrl: function()
+    {
+        return TableBuilder.options.action_url;
+    }, // end getActionUrl
 
     initImageEditable: function()
-    {TableBuilder.initSeveralImageEditable();return;
+    {
+        TableBuilder.initSeveralImageEditable();
+        return;
         (function (e) {
             "use strict";
             var t = function (e) {
@@ -334,7 +342,7 @@ var TableBuilder = {
                 }).get()
         );
         
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             window.location.replace(response.url);
@@ -434,7 +442,7 @@ var TableBuilder = {
         ];
 
 
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             TableBuilder.hideProgressBar();
@@ -446,15 +454,31 @@ var TableBuilder = {
         });
     }, // end saveFastEdit
 
+    getUrlParameter: function(sParam) 
+    {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) 
+        {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) 
+            {
+                return sParameterName[1];
+            }
+        }
+    }, // end getUrlParameter
+
     showEditForm: function(idRow)
     {
+        // FIXME: not used?
         TableBuilder.showProgressBar();
 
         var data = [
             {name: "query_type", value: "show_edit_form"},
-            {name: "id", value: idRow}
-        ];
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+            {name: "id", value: idRow},
+            {name: "__node", value: TableBuilder.getUrlParameter('node')}
+        ];console.table(data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             if (jQuery.isFunction(TableBuilder.options.onShowEditFormResponse)) {
@@ -520,10 +544,16 @@ var TableBuilder = {
         TableBuilder.flushStorage();
         jQuery('#wid-id-1').find('tr[data-editing="true"]').removeAttr('data-editing');
 
+        var data = [
+            {name: "query_type", value: "show_edit_form"},
+            {name: "id", value: id},
+            {name: "__node", value: TableBuilder.getUrlParameter('node')}
+        ];
+        console.table(data);
         jQuery.ajax({
             type: "POST",
-            url: TableBuilder.options.action_url,
-            data: { id: id, query_type: "show_edit_form" },
+            url: TableBuilder.getActionUrl(),
+            data: data,
             dataType: 'json',
             success: function(response) {
                 console.log('edit form');
@@ -608,7 +638,7 @@ var TableBuilder = {
                 }).get()
         );
 
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             location.reload();
@@ -622,7 +652,7 @@ var TableBuilder = {
         var data = [
             {name: "query_type", value: "show_add_form"}
         ];
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             if (jQuery.isFunction(TableBuilder.options.onShowEditFormResponse)) {
@@ -661,7 +691,7 @@ var TableBuilder = {
                 }).get()
         );
 
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             location.reload();
@@ -681,7 +711,7 @@ var TableBuilder = {
             {name: "query_type", value: "delete_row"},
             {name: "id", value: id}
         ];
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
             jQuery('#'+TableBuilder.options.table_ident)
@@ -706,7 +736,7 @@ var TableBuilder = {
 
                 jQuery.ajax({
                     type: "POST",
-                    url: TableBuilder.options.action_url,
+                    url: TableBuilder.getActionUrl(),
                     data: { id: id, query_type: "delete_row"},
                     dataType: 'json',
                     success: function(response) {
@@ -784,10 +814,10 @@ var TableBuilder = {
         values = values.concat(selectMultiple);
         console.table(values);
         
-console.log(values);
+        console.log(values);
         jQuery.ajax({
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             data: values,
             dataType: 'json',
             success: function(response) {
@@ -904,7 +934,7 @@ console.log(values);
         console.log(values);
         jQuery.ajax({
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             data: values,
             dataType: 'json',
             success: function(response) {
@@ -1010,7 +1040,7 @@ console.log(values);
             },
             data: data,
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             cache: false,
             contentType: false,
             processData: false,
@@ -1105,7 +1135,7 @@ console.log(values);
             },
             data: data,
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             cache: false,
             contentType: false,
             processData: false,
@@ -1187,7 +1217,7 @@ console.log(num);
         jQuery.ajax({
             data: data,
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             cache: false,
             contentType: false,
             processData: false,
@@ -1225,7 +1255,7 @@ console.log(num);
         jQuery.ajax({
             data: vals,
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             cache: false,
             dataType: "json",
             success: function(response) {
@@ -1246,7 +1276,7 @@ console.log(num);
         jQuery.ajax({
             data: data,
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             cache: false,
             contentType: false,
             processData: false,
@@ -1314,7 +1344,7 @@ console.log(num);
             per_page: perPage
         };
 
-        var $posting = jQuery.post(TableBuilder.options.action_url, data);
+        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
         $posting.done(function(response) {
             window.location.replace(response.url);
         });
@@ -1379,7 +1409,7 @@ console.log(num);
                 jQuery.ajax({
                     data: data,
                     type: "POST",
-                    url: TableBuilder.options.action_url,
+                    url: TableBuilder.getActionUrl(),
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -1442,7 +1472,7 @@ console.log(num);
 
         jQuery.ajax({
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             data: values,
             dataType: 'json',
             success: function(response) {
@@ -1482,7 +1512,7 @@ console.log(num);
 
         jQuery.ajax({
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             data: values,
             dataType: 'json',
             success: function(response) {
@@ -1519,7 +1549,7 @@ console.log(num);
         
         jQuery.ajax({
             type: "POST",
-            url: TableBuilder.options.action_url,
+            url: TableBuilder.getActionUrl(),
             data: {order: order, query_type: 'change_order'},
             dataType: 'json',
             success: function(response) {
@@ -1531,6 +1561,31 @@ console.log(num);
             }
         });
     }, // end saveOrder
+    
+    openImageStorageModal: function(context)
+    {
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: {query_type: 'image_storage', storage_type: 'show_modal'},
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    $(TableBuilder.image_storage_wrapper).html(response.html);
+                    $('.image_storage_wrapper').show();
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end openImageStorageModal
+    
+    closeImageStorageModal: function()
+    {
+        $('.image_storage_wrapper').hide();
+    }, // end closeImageStorageModal
+    
+    
 
 };
 

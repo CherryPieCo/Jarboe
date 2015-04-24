@@ -31,6 +31,9 @@ class RequestHandler
         
         
         switch (Input::get('query_type')) {
+            case 'image_storage':
+                return $this->controller->imageStorage->handle();
+                
             case 'search':
                 return $this->handleSearchAction();
                 break;
@@ -103,7 +106,7 @@ class RequestHandler
                 return $this->handleFileUpload();
                 
             case 'many_to_many_ajax_search':
-                return $this->handleManyToManyAjaxSearch();   
+                return $this->handleManyToManyAjaxSearch();
                 
             default:
                 return $this->handleShowList();

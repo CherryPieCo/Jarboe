@@ -66,6 +66,18 @@
         
     </head>
     <body class="{{ \Cookie::get('tb-misc-body_class', '') }}">
+    
+    
+        <div id="modal_wrapper"></div>
+        
+        <div class="image_storage_wrapper" style="display:none;">
+            <div class="close_image_storage">
+                <a href="javascript:void(0);" onclick="TableBuilder.closeImageStorageModal();" class="btn btn-info btn-xs"><i class="fa fa-times"></i></a>
+            </div>
+            <div id="modal_image_storage_wrapper" style="padding: 25px 35px;"></div>
+        </div>
+        
+        
         
         @include('admin::partials.header')
         @include('admin::partials.navigation')
@@ -83,6 +95,8 @@
             </div>
         </div>
         <!-- END MAIN PANEL -->
+        
+        
         
         
         @include('admin::partials.shortcut')

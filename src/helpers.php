@@ -151,7 +151,7 @@ if (!function_exists('xml2array'))
         foreach ($namespaces as $prefix => $namespace) {
             foreach ($xml->children($namespace) as $childXml) {
                 //recurse into child nodes
-                $childArray = $this->doConvertXmlToArray($childXml, $options);
+                $childArray = xml2array($childXml, $options);
                 list($childTagName, $childProperties) = each($childArray);
      
                 //replace characters in tag name

@@ -211,7 +211,6 @@ class RequestHandler
         $file   = Input::file('file');
         $type   = Input::get('type');
         $method = 'doImport'. ucfirst($type);
-        $idents = array_keys(Input::get('b', array()));
         
         $res = $this->controller->import->$method($file);
         
@@ -365,7 +364,7 @@ class RequestHandler
         $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
         $destinationPath = $prefixPath . $postfixPath;
         
-        $status = $file->move($destinationPath, $fileName);
+        $file->move($destinationPath, $fileName);
         
         $data = array(
             'filelink'   => URL::to($destinationPath . $fileName)

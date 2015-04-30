@@ -16,7 +16,7 @@ class ManyToManyField extends AbstractField
 
     public function onSearchFilter(&$db, $value)
     {
-        $externalTable = $this->getAttribute('mtm_external_table');
+        // TODO:
     } // end onSearchFilter
     
     public function onPrepareRowValues($values, $id)

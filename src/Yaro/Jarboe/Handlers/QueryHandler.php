@@ -206,7 +206,7 @@ class QueryHandler
 
         $this->doPrependFilterValues($updateData);
 
-        $status = $this->db->where('id', $values['id'])->update($updateData);
+        $this->db->where('id', $values['id'])->update($updateData);
 
         // FIXME: patterns
         foreach ($this->controller->getPatterns() as $pattern) {

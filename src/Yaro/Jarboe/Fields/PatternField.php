@@ -12,6 +12,7 @@ class PatternField
     protected $attributes;
     protected $options;
     protected $definition;
+    protected $calls;
 
     protected $handler;
 

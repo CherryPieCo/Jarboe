@@ -183,29 +183,6 @@ class QueryHandler
         }
     } // end onSearchFilterQuery
 
-    public function updateFastRow($values)
-    {
-        $this->_checkFastSaveValues($values);
-        $this->_checkField($values, $values['name']);
-
-        $value = $this->controller->getField($values['name'])->prepareQueryValue($values['value']);
-        $updateData = array(
-            $values['name'] => $value
-        );
-        $updateResult = $this->db->where('id', $values['id'])->update($updateData);
-
-        $res = array(
-            'status' => $updateResult,
-            'id'     => $values['id'],
-            'value'  => $values['value']
-        );
-        if ($this->controller->hasCustomHandlerMethod('onUpdateFastRowResponse')) {
-            $this->controller->getCustomHandler()->onUpdateFastRowResponse($res);
-        }
-
-        return $res;
-    } // end updateFastRow
-
     public function updateRow($values)
     {
         if (!$this->controller->actions->isAllowed('update')) {
@@ -468,18 +445,5 @@ class QueryHandler
             throw new \RuntimeException("Field [{$ident}] is not editable");
         }
     } // end _checkField
-
-    private function _checkFastSaveValues($values)
-    {
-        $required = array(
-            'id', 'name', 'value'
-        );
-
-        foreach ($required as $ident) {
-            if (!isset($values[$ident])) {
-                throw new \RuntimeException("FastSave ident [{$ident}] does not pass.");
-            }
-        }
-    } // end _checkFastSaveValues
 
 }

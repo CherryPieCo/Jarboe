@@ -1,21 +1,66 @@
-<form id="edit_form" class="smart-form" novalidate="novalidate">
 
-    <fieldset style="padding:0;">
+<div class="j-images-storage">
 
-        <section>
-            <label class="label" for="id_product">Товар</label>
-            <div style="position: relative;">
-                <label class="input"> Аккумулятор 6CT-140 Аз (3) Expert, левый +, 900A </label>
-            </div>
-        </section>
+<div class="b-j-catalog-buttons">
+    @include('admin::tb.storage.action_buttons')
+</div>
 
-        <section>
-            <label class="label" for="id_user">Пользователь</label>
-            <div style="position: relative;">
-                <label class="input"> Turovsky Max (max@turovsky.com) </label>
-            </div>
-        </section>
 
-    </fieldset>
+<div class="b-j-images">
+    <div class="b-j-catalog well">
+        @for ($i = 0; $i < 12; $i++)
+        <a href="javascript:void(0);" class="btn btn-default btn-sm">button ({{$i}})</a>
+        @endfor
+    </div>
+    @include('admin::tb.storage.images')
+</div>
+<div style="display: none;" class="b-j-tags">
+    <div class="row well">
+        @include('admin::tb.storage.tags')
+    </div>
+</div>
+<div style="display: none;" class="b-j-galleries">
+    <div class="row well">
+        galleries
+    </div>
+</div>
 
-</form>
+</div>
+
+
+
+<style>
+div#divSmallBoxes {
+    z-index: 999909;
+}
+img.superbox-current-img {
+    width: 60%;
+}
+div.superbox-imageinfo {
+    width: 40%;
+}
+.j-images-storage .b-j-catalog-buttons {
+    background-color: rgb(241, 240, 255);
+}
+.j-images-storage .b-j-catalog {
+    background-color: aliceblue;
+    text-align: left;
+}
+.j-images-storage .b-j-images {
+    text-align: center;
+}
+.j-images-storage .b-j-tags {
+
+}
+.j-images-storage .b-j-galleries {
+
+}
+</style>
+
+
+<script>
+    Superbox.fields.image = {{ json_encode(\Config::get('jarboe::images.image.fields') ? : array()) }};
+    Superbox.init();
+</script>
+
+

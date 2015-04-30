@@ -1550,7 +1550,7 @@ console.log(num);
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: {order: order, query_type: 'change_order'},
+            data: { order: order, query_type: 'change_order' },
             dataType: 'json',
             success: function(response) {
                 if (response.status) {
@@ -1567,12 +1567,16 @@ console.log(num);
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: {query_type: 'image_storage', storage_type: 'show_modal'},
+            data: { query_type: 'image_storage', storage_type: 'show_modal' },
             dataType: 'json',
             success: function(response) {
+            console.log(response);
                 if (response.status) {
                     $(TableBuilder.image_storage_wrapper).html(response.html);
                     $('.image_storage_wrapper').show();
+                    $('.tb-modal:visible').addClass('superbox-modal-hide').hide();
+                    
+                    Superbox.input = $(context).parent().parent().find('input');
                 } else {
                     TableBuilder.showErrorNotification('Что-то пошло не так');
                 }
@@ -1583,9 +1587,9 @@ console.log(num);
     closeImageStorageModal: function()
     {
         $('.image_storage_wrapper').hide();
+        $('.superbox-modal-hide').removeClass('superbox-modal-hide').show();
     }, // end closeImageStorageModal
     
     
-
 };
 

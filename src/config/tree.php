@@ -3,6 +3,8 @@
 return array(
     
     'is_active' => false,
+    
+    'model' => 'Yaro\Jarboe\Tree',
 
     'templates' => array(
         'default mainpage template' => array(

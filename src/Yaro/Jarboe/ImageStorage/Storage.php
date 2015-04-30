@@ -77,7 +77,7 @@ class Storage
         }
         $destinationPath = $prefixPath . $postfixPath;
         
-        $status = $file->move(public_path() . $destinationPath, $fileName);
+        $file->move(public_path() . $destinationPath, $fileName);
         
         $entity->source = $destinationPath . $fileName;
         $entity->save();

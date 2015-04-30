@@ -42,8 +42,6 @@ class NavigationMenu
             
             unset($item['submenu']);
             if ($submenu) {
-                $menuItem = array();
-                
                 $menuItem = $item;
                 $menuItem['submenu'] = $submenu;
                 $menuItem['is_active'] = $isActiveParent;

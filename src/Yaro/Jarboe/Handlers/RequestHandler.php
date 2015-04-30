@@ -36,55 +36,42 @@ class RequestHandler
                 
             case 'search':
                 return $this->handleSearchAction();
-                break;
                 
             case 'change_order':
                 return $this->handleChangeOrderAction();
-                break;
                 
             case 'multi_action':
                 return $this->handleMultiAction();
-                break;
                 
             case 'multi_action_with_option':
                 return $this->handleMultiActionWithOption();
-                break;
             
             case 'import':
                 return $this->handleImport();
-                break;
                 
             case 'get_import_template':
                 return $this->handleImportTemplateDownload();
-                break;
                 
             case 'export':
                 return $this->handleExport();
-                break;
                 
             case 'set_per_page':
                 return $this->handleSetPerPageAmountAction();
-                break;
 
             case 'show_edit_form':
                 return $this->handleShowEditFormAction();
-                break;
 
             case 'save_edit_form':
                 return $this->handleSaveEditFormAction();
-                break;
 
             case 'show_add_form':
                 return $this->handleShowAddFormAction();
-                break;
 
             case 'save_add_form':
                 return $this->handleSaveAddFormAction();
-                break;
 
             case 'delete_row':
                 return $this->handleDeleteAction();
-                break;   
                 
             case 'upload_photo':
                 return $this->handlePhotoUpload();
@@ -106,7 +93,6 @@ class RequestHandler
                 
             default:
                 return $this->handleShowList();
-                break;
         }
     } // end handle
     

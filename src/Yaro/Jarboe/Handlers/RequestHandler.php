@@ -66,10 +66,6 @@ class RequestHandler
                 return $this->handleSetPerPageAmountAction();
                 break;
 
-            case 'fast_save':
-                return $this->handleFastSaveAction();
-                break;
-
             case 'show_edit_form':
                 return $this->handleShowEditFormAction();
                 break;
@@ -468,16 +464,6 @@ class RequestHandler
     {
         return $this->controller->view->showEditFormPage($id);
     } // end handleShowAddFormPageAction
-
-    protected function handleFastSaveAction()
-    {
-        $idRow = $this->_getRowID();
-        $this->checkEditPermission($idRow);
-
-        $result = $this->controller->query->updateFastRow(Input::all());
-
-        return Response::json($result);
-    } // end handleFastSaveAction
 
     protected function handleSearchAction()
     {

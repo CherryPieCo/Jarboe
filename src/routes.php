@@ -96,8 +96,9 @@ if (\Config::get('jarboe::tree.is_active')) {
             });
         }
     } else {
+        $_model = \Config::get('jarboe::tree.model');
         $_nodeUrl = '';
-        $_tbTree  = Yaro\Jarboe\Tree::all();
+        $_tbTree  = $_model::all();
         $_clone   = clone $_tbTree;
         $_clone   = $_clone->toArray();
         //
@@ -134,6 +135,7 @@ if (\Config::get('jarboe::tree.is_active')) {
     unset($_clone);
     unset($_nodeUrl);
     unset($_tbTree);
+    unset($_model);
 }
 
 

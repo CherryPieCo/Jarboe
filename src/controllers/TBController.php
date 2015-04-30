@@ -34,9 +34,21 @@ class TBController extends \Controller
             $onLogin = \Config::get('jarboe::login.on_login'); 
             $onLogin();
             
+            if (\Input::has('is_from_locked_screen')) {
+                return \Response::json(array(
+                    'status' => true
+                ));
+            }
             return \Redirect::intended(\Config::get('jarboe::admin.uri'));
             
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            if (\Input::has('is_from_locked_screen')) {
+                return \Response::json(array(
+                    'status' => false,
+                    'error'  => \Lang::get('jarboe::login.not_found')
+                ));
+            }
+            
             \Session::put('tb_login_not_found', \Lang::get('jarboe::login.not_found'));
             return \Redirect::to(\Config::get('jarboe::admin.uri'));
         }

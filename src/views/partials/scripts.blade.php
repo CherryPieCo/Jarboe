@@ -11,8 +11,74 @@
     if (!window.jQuery.ui) {
         document.write('<script src="{{asset('packages/yaro/jarboe/js/libs/jquery-ui-1.10.3.min.js')}}"><\/script>');
     }
+</script>   
+<!-- JQUERY VALIDATE -->
+<script src="{{asset('packages/yaro/jarboe/js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
+
+<script>
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        if (xhr.status == 401) {
+            $('#locked-screen').show();
+            $('.tb-modal:visible').addClass('superbox-modal-hide').hide();
+        }
+    });
+    
+    $('#locked-screen-form').submit(function(event) {
+        jQuery.ajax({
+            type: "POST",
+            url: $('#locked-screen-form').attr('action') +'?is_from_locked_screen=12',
+            data: $('#locked-screen-form').serializeArray(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    $('#locked-screen').hide();
+                    $('#locked-screen-form')[0].reset();
+                    
+                    TableBuilder.hidePreloader();
+                    TableBuilder.hideFormPreloader(TableBuilder.form_edit);
+                    TableBuilder.hideFormPreloader(TableBuilder.form);
+                    $('.superbox-modal-hide').removeClass('superbox-modal-hide').show();
+                } else {
+                    TableBuilder.showErrorNotification(response.error);
+                }
+            }
+        });
+        event.preventDefault();
+    });
+    jQuery("#locked-screen-form").validate({
+        // Rules for form validation
+        rules : {
+            email : {
+                required : true,
+                email : true
+            },
+            password : {
+                required : true,
+                minlength : 3,
+                maxlength : 20
+            }
+        },
+        // Messages for form validation
+        messages : {
+            email : {
+                required : '{{trans('jarboe::login.email_required')}}',
+                email : '{{trans('jarboe::login.email_valid')}}'
+            },
+            password : {
+                required : '{{trans('jarboe::login.password_required')}}'
+            }
+        },
+        // Do not change code below
+        errorPlacement : function(error, element) {
+            error.insertAfter(element.parent());
+        }
+    });
 </script>
+
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datepicker/jquery.ui.datepicker-ru.js')}}"></script>
+
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/superbox/superbox.js') }}"></script>
+<script src="{{ asset('packages/yaro/jarboe/superbox.js') }}"></script>
 
 <script src="{{asset('packages/yaro/jarboe/js/app.config.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/app.min.js')}}"></script>
@@ -36,8 +102,6 @@
 <!-- SPARKLINES -->
 <script src="{{asset('packages/yaro/jarboe/js/plugin/sparkline/jquery.sparkline.min.js')}}"></script>
 --}}
-<!-- JQUERY VALIDATE -->
-<script src="{{asset('packages/yaro/jarboe/js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
 
 
 <script src="{{asset('packages/yaro/jarboe/js/plugin/summernote/summernote.min.js')}}"></script>
@@ -46,6 +110,7 @@
 
 
 <script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.min.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/imagemanager.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.css')}}">
 
 <!-- JQUERY MASKED INPUT -->

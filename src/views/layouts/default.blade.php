@@ -67,15 +67,38 @@
     </head>
     <body class="{{ \Cookie::get('tb-misc-body_class', '') }}">
     
-    
+        <style>
+        .image_storage_wrapper {
+          width: 100%;
+          height: 100%;
+          z-index: 999901;
+          position: fixed;
+          top: 0;
+          left: 0;
+          overflow: auto;
+          background: #fff;
+        }
+        .image_storage_wrapper .close_image_storage {
+          position: absolute;
+          top: 3px;
+          right: 3px;
+          z-index: 9;
+        }
+        .divMessageBox {
+            z-index: 999981;
+        }
+        </style>
+        
         <div id="modal_wrapper"></div>
         
         <div class="image_storage_wrapper" style="display:none;">
             <div class="close_image_storage">
                 <a href="javascript:void(0);" onclick="TableBuilder.closeImageStorageModal();" class="btn btn-info btn-xs"><i class="fa fa-times"></i></a>
             </div>
-            <div id="modal_image_storage_wrapper" style="padding: 25px 35px;"></div>
+            <div id="modal_image_storage_wrapper" style="padding: 30px 40px;"></div>
         </div>
+        
+        
         
         
         
@@ -85,13 +108,24 @@
         <!-- MAIN PANEL -->
         <div id="main" role="main">
         
-            <div id="ribbon">
-                @yield('ribbon')
+            <div id="main-content">
+                <div id="ribbon">
+                    @yield('ribbon')
+                </div>
+                
+                <div id="content">
+                    @yield('headline')
+                    @yield('main')
+                </div>
             </div>
             
-            <div id="content">
-                @yield('headline')
-                @yield('main')
+            <div id="locked-screen" style="display: none;  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999999;
+  height: 100%;
+  background-color: #fff;width: 100%;">
+                @include('admin::partials.locked_screen')
             </div>
         </div>
         <!-- END MAIN PANEL -->

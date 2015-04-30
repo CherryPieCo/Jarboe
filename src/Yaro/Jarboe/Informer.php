@@ -18,7 +18,7 @@ class Informer
     
     public function getContentByIndex($index)
     {
-        list($total, $tabs) = $this->getPreparedTabs();
+        list(, $tabs) = $this->getPreparedTabs();
         
         return $tabs[$index]['info']['content']();
     } // end getContentByIndex

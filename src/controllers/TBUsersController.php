@@ -105,7 +105,7 @@ class TBUsersController extends \Controller
                 'status' => true,
                 'id'     => $group->id,
             );
-        } catch (Cartalyst\Sentry\Groups\GroupExistsException $e) {
+        } catch (\Cartalyst\Sentry\Groups\GroupExistsException $e) {
             $data = array(
                 'status' => false,
                 'errors' => array(
@@ -181,10 +181,10 @@ class TBUsersController extends \Controller
                 'permissions'   => $permissions,
             ));
             
-			if (\Input::file('image', false)) {
-				$data = $this->onUploadImage($user, \Input::file('image'));
-            	$user->image = $data['short_link'];
-			}
+            if (\Input::file('image', false)) {
+                $data = $this->onUploadImage($user, \Input::file('image'));
+                $user->image = $data['short_link'];
+            }
             $user->save();
             
             $groupIDs = array_keys(\Input::get('groups', array()));

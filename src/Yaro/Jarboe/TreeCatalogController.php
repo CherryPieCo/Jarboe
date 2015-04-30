@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\URL;
 
 class TreeCatalogController 
 {
-    protected $name;
+    protected $model;
     protected $options;
     
     

@@ -30,7 +30,7 @@ class Storage
                 return $this->getRedactorImagesList();
                 
             default:
-                throw new \RuntimeException('Tadada');
+                throw new \RuntimeException('What are you looking for?');
         }
     } // end handle
     
@@ -113,6 +113,7 @@ class Storage
                 'id'    => $image->id,
                 'thumb' => glide($image->source, ['w' => 100, 'h' => 75, 'fit' => 'crop']),
                 'title' => $image->title,
+                'info'  => $image->getInfo(),
             );
         }
         

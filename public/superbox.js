@@ -21,12 +21,6 @@ var Superbox =
     {
     }, // end openCatalog
     
-    deleteTag: function(id, context)
-    {
-        // TODO:
-        $(context).hide();
-    }, // end deleteTag
-    
     deleteImage: function(context)
     {
         jQuery.SmartMessageBox({
@@ -101,7 +95,7 @@ var Superbox =
             data: data,
             dataType: 'json',
             success: function(response) {
-            console.log(response);
+                console.log(response);
                 if (response.status) {
                     $('.superbox .superbox-list.active .superbox-img', '.b-j-images').data('info', JSON.stringify(response.info).replace(/"/g, '~'));
                     TableBuilder.showSuccessNotification('Сохранено');
@@ -116,7 +110,7 @@ var Superbox =
     
     selectImage: function(context)
     {
-        var value = '[|image::'+ $('.superbox .superbox-list.active .superbox-img', '.b-j-images').data('id') +'|]';
+        var value = $('.superbox .superbox-list.active .superbox-img', '.b-j-images').data('id');
         
         Superbox.input.val(value);
         TableBuilder.closeImageStorageModal();
@@ -166,6 +160,100 @@ var Superbox =
         $context.parent().find('.active').removeClass('active');
         $context.addClass('active');
     }, // end showTags
+    
+    addTag: function(context)
+    {
+        var $input = $(context).parent().parent().find('input');
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'image_storage', storage_type: 'add_tag', title: $input.val() },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.status) {
+                    $('tbody', '.j-tags-table').prepend(response.html);
+                    $input.val('');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end addTag
+    
+    deleteTag: function(id, context)
+    {
+        jQuery.SmartMessageBox({
+            title : "Удалить тег?",
+            content : "Эту операцию нельзя будет отменить.",
+            buttons : '[Нет][Да]'
+        }, function(ButtonPressed) {
+            if (ButtonPressed === "Да") {
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: { query_type: 'image_storage', storage_type: 'delete_tag', id: id },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status) {
+                            $(context).parent().parent().remove();
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
+            }
+        });
+    }, // end deleteTag
+    
+    addGallery: function(context)
+    {
+        var $input = $(context).parent().parent().find('input');
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'image_storage', storage_type: 'add_gallery', title: $input.val() },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.status) {
+                    $('tbody', '.j-galleries-table').prepend(response.html);
+                    $input.val('');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end addGallery
+    
+    deleteGallery: function(id, context)
+    {
+        jQuery.SmartMessageBox({
+            title : "Удалить галерею?",
+            content : "Эту операцию нельзя будет отменить.",
+            buttons : '[Нет][Да]'
+        }, function(ButtonPressed) {
+            if (ButtonPressed === "Да") {
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: { query_type: 'image_storage', storage_type: 'delete_gallery', id: id },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status) {
+                            $(context).parent().parent().remove();
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
+            }
+        });
+    }, // end deleteGallery
     
 };
 

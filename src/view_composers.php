@@ -6,6 +6,12 @@ View::composer('admin::tb.storage.tags', function($view) {
     $view->with('tags', $tags);
 });
 
+View::composer('admin::tb.storage.galleries', function($view) {
+    $model = Config::get('jarboe::images.models.gallery');
+    $galleries = $model::orderBy('id', 'desc')->get();
+    $view->with('galleries', $galleries);
+});
+
 View::composer('admin::tb.storage.images', function($view) {
     // FIXME:
     $fields = Config::get('jarboe::images.image.fields');

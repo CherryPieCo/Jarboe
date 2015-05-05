@@ -33,12 +33,11 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                     {
                         $.each(data, $.proxy(function(key, val)
                         {
-                            var img = $('<img src="'+ val.thumb +'" data-id="'+ val.id +'" title="'+ val.title +'" style="padding: 2px; width: 100px; height: 75px; cursor: pointer;" />');
+                            var img = $('<img src="'+ val.thumb +'" data-source="'+ val.source +'" data-info="'+ val.info +'" data-id="'+ val.id +'" title="'+ val.title +'" style="padding: 2px; width: 100px; height: 75px; cursor: pointer;" />');
                             $('#redactor-image-manager-box').append(img);
                             
                             $(img).click($.proxy(this.imagemanager.insert, this));
                         }, this));
-
 
                     }, this)
                 });
@@ -47,8 +46,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
             },
             insert: function(e)
             {
-                // <div> for jquery
-                var code = '<div>[|image::' + $(e.target).data('id') + '|]</div>';
+                var code = '<img class="j-image" src="' + $(e.target).data('source') + '" data-info="' + $(e.target).data('info') + '">';
                 this.image.insert(code);
             }
         };

@@ -21,7 +21,7 @@
 </div>
 <div style="display: none;" class="b-j-galleries">
     <div class="row well">
-        galleries
+        @include('admin::tb.storage.galleries')
     </div>
 </div>
 
@@ -30,6 +30,9 @@
 
 
 <style>
+div.select2-drop {
+    z-index: 8888881;
+}
 div#divSmallBoxes {
     z-index: 999909;
 }

@@ -16,7 +16,7 @@
     $.fn.SuperBox = function(options) {
         
         var superbox      = $('<div class="superbox-show"></div>');
-        var superboximg   = $('<img src="" class="superbox-current-img"><div id="imgInfoBox" class="superbox-imageinfo inline-block"> <h1>Image Title</h1><span style="display:inline;margin:0;"><form class="smart-form"></form><p class="well" style="  overflow: auto;padding: 20px 8px 8px;margin: 0px;"><a href="javascript:void(0);" onclick="Superbox.saveImageInfo(this);" class="btn btn-success btn-sm pull-right j-btn-save">Сохранить</a> <a href="javascript:void(0);" onclick="Superbox.selectImage(this);" class="btn btn-primary btn-sm pull-right j-btn-save"style="margin-right: 6px;">Выбрать</a> <a href="javascript:void(0);" onclick="Superbox.deleteImage(this);" class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a></p></span> </div>');
+        var superboximg   = $('<img src="" class="superbox-current-img"><div id="imgInfoBox" class="superbox-imageinfo inline-block"> <h1>Image Title</h1><span style="display:inline;margin:0;"><form class="smart-form"><div class="j-image-storage-progress progress progress-sm progress-striped active" style="margin: 0;"><div class="progress-bar bg-color-darken" role="progressbar" style="width: 100%"></div></div></form><p class="well" style="overflow: auto;padding: 20px 8px 8px;margin: 0px;"><a href="javascript:void(0);" onclick="Superbox.saveImageInfo(this);" class="btn btn-success btn-sm pull-right j-btn-save">Сохранить</a> <a href="javascript:void(0);" onclick="Superbox.selectImage(this);" class="btn btn-primary btn-sm pull-right j-btn-save"style="margin-right: 6px;">Выбрать</a> <a href="javascript:void(0);" onclick="Superbox.deleteImage(this);" class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a></p></span> </div>');
         var superboxclose = $('<div class="superbox-close txt-color-white"><i class="fa fa-times fa-lg"></i></div>');
         
         superbox.append(superboximg).append(superboxclose);
@@ -60,7 +60,7 @@
                 });
                 formContent += '</fieldset>';
                 
-                superboximg.find('.smart-form').html(formContent);
+                superboximg.find('.smart-form').prepend(formContent);
                 //superboximg.find('.superbox-img-description').text(imgDescription);
                 
                 //console.log("fierd")
@@ -81,6 +81,27 @@
                     scrollTop:superbox.position().top - currentimg.width()
                 }, 'medium');
             
+                console.log('oh hai');
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: { query_type: 'image_storage', storage_type: 'get_image_tags_and_galleries', id: currentimg.data('id') },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status) {
+                            $('.j-image-storage-progress').replaceWith(response.html);
+                            $('.select22').select2();
+                            jQuery('.j-images-storage').on('click', function() {
+                                jQuery('.select22').select2("close");
+                                jQuery('.select2-hidden-accessible').hide();
+                            });
+
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
             });
                         
             $('.superbox').on('click', '.superbox-close', function() {

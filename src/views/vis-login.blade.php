@@ -73,7 +73,7 @@
                                 @if (\Config::get('jarboe::login.is_active_remember_me'))
                                 <section>
                                     <label class="checkbox">
-                                        <input type="checkbox" name="remember">
+                                        <input type="checkbox" name="remember" checked="checked">
                                         <i></i>{{trans('jarboe::login.remember_me')}}</label>
                                 </section>
                                 @endif

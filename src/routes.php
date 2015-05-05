@@ -144,7 +144,7 @@ if (\Config::get('jarboe::tree.is_active')) {
 
 
 // devel fallback
-Route::get('/thereisnospoon', 'Yaro\Jarboe\DevelController@showMain');
-Route::post('/thereisnospoon', 'Yaro\Jarboe\DevelController@handleMain');
+//Route::get('/thereisnospoon', 'Yaro\Jarboe\DevelController@showMain');
+//Route::post('/thereisnospoon', 'Yaro\Jarboe\DevelController@handleMain');
 
 

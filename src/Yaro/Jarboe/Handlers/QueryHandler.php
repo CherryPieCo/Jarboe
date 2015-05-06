@@ -412,6 +412,7 @@ class QueryHandler
 
         // for tree
         unset($values['node']);
+        unset($values['__node']);
 
         return $values;
     } // end _unsetFutileFields

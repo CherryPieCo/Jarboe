@@ -3,12 +3,13 @@
     
 
 @if ($current->hasTableDefinition())
-        
+
+    @section('table_form')
+        {{ $form }}
+    @stop
+    
     {{ $table }}
-    <div id="modal_wrapper"></div>
-    {{ $form }}
-
-
+    
 @else
 
 

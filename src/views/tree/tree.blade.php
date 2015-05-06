@@ -80,7 +80,6 @@
 
 @include('admin::tree.create_modal')
 
-<div id="modal_wrapper"></div>
 
 
 

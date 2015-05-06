@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\DB;
 
 
 class Storage 
@@ -52,17 +53,11 @@ class Storage
     
     private function getImageTagsAndGalleries()
     {
+        $idImage = Input::get('id');
+        
         $html = '<fieldset>';
-        
-        $html .= '<section><label>Теги</label>';
-        $html .= '<select id="j-storage-tags" name="tags" multiple style="width:100%" class="select22"><option value="AK">Alaska</option><option value="HI">Hawaii</option>';
-        $html .= '</select></section>';
-        
-        $html .= '<section><label>Галереи</label>';
-        $html .= '<select id="j-storage-galleries" name="galleries" multiple style="width:100%" class="select22"><option value="AK">Alaska</option><option value="HI">Hawaii</option>';
-        $html .= '</select></section>';
-        
-        
+        $html .= $this->fetchTagsSelect($idImage);
+        $html .= $this->fetchGalleriesSelect($idImage);
         $html .= '</fieldset>';
         
         return Response::json(array(
@@ -70,6 +65,38 @@ class Storage
             'html'   => $html
         ));
     } // end getImageTagsAndGalleries
+    
+    private function fetchTagsSelect($idImage)
+    {
+        $html = '<section><label>Теги</label>';
+        $html .= '<select id="j-storage-tags" name="j-tags[]" multiple style="width:100%" class="select22">';
+        
+        $model = '\\' . Config::get('jarboe::images.models.tag');
+        $tags = $model::all();
+        foreach ($tags as $tag) {
+            $html .= '<option value="'. $tag->id .'">'. $tag->title .'</option>';
+        }
+        
+        $html .= '</select></section>';
+        
+        return $html;
+    } // end fetchTagsSelect
+    
+    private function fetchGalleriesSelect($idImage)
+    {
+        $html = '<section><label>Галереи</label>';
+        $html .= '<select id="j-storage-galleries" name="j-galleries[]" multiple style="width:100%" class="select22">';
+        
+        $model = '\\' . Config::get('jarboe::images.models.gallery'); 
+        $galleries = $model::all();
+        foreach ($galleries as $gallery) {
+            $html .= '<option value="'. $gallery->id .'">'. $gallery->title .'</option>';
+        }
+        
+        $html .= '</select></section>';
+        
+        return $html;
+    } // end fetchGalleriesSelect
     
     private function doDeleteGallery()
     {
@@ -223,6 +250,9 @@ class Storage
         $model = '\\' . Config::get('jarboe::images.models.image');
         $image = $model::find(Input::get('id'));
         
+        $this->onImageTags();
+        $this->onImageGalleries();
+        
         $values = $this->getSanitizedValues(Input::all());
         $image->info = json_encode($values);
         $image->save();
@@ -233,6 +263,42 @@ class Storage
         ));
     } // end doSaveImageInfo
     
+    private function onImageTags()
+    {
+        $idImage = Input::get('id');
+        
+        $data = array();
+        foreach (Input::get('j-tags', array()) as $idTag) {
+            $data[] = array(
+                'id_image' => $idImage,
+                'id_tag'   => $idTag
+            );
+        }
+        
+        DB::table('j_images2tags')->where('id_image', $idImage)->delete();
+        if ($data) {
+            DB::table('j_images2tags')->insert($data);
+        }
+    } // end onImageTags
+    
+    private function onImageGalleries()
+    {
+        $idImage = Input::get('id');
+        
+        $data = array();
+        foreach (Input::get('j-galleries', array()) as $idGallery) {
+            $data[] = array(
+                'id_image'   => $idImage,
+                'id_gallery' => $idGallery
+            );
+        }
+        
+        DB::table('j_galleries2images')->where('id_image', $idImage)->delete();
+        if ($data) {
+            DB::table('j_galleries2images')->insert($data);
+        }
+    } // end onImageGalleries
+    
     private function getSanitizedValues($values)
     {
         $sanitized = $values;
@@ -240,6 +306,8 @@ class Storage
         unset($sanitized['id']);
         unset($sanitized['storage_type']);
         unset($sanitized['query_type']);
+        unset($sanitized['j-tags']);
+        unset($sanitized['j-galleries']);
         
         return $sanitized;
     } // end getSanitizedValues

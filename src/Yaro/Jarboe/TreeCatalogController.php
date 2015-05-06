@@ -276,7 +276,8 @@ class TreeCatalogController
             'url'        => URL::current(),
             'def_name'   => 'tree.'. $template[$templateType],
             'additional' => array(
-                'node' => $idNode
+                'node'    => $idNode,
+                'current' => $current,
             )
         );
         $controller = new JarboeController($options);

@@ -9,11 +9,13 @@
         
             {{ $table }}
 
-            {{ $form }}
-        
         </div>
     </div>
     <!-- END MAIN CONTENT -->
 
 
+@stop
+
+@section('table_form')
+    {{ $form }}
 @stop

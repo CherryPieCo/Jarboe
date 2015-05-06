@@ -170,7 +170,8 @@ class TreeCatalogController
             );
             return \Jarboe::table($options);
         }
-
+    
+        throw new \RuntimeException('oh hai');
         //
     } // end process
     
@@ -266,15 +267,10 @@ class TreeCatalogController
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
-        
-        $templateType = 'definition';
-        if ($template['type'] == 'node') {
-            $templateType = 'node_definition';
-        }
 
         $options = array(
             'url'        => URL::current(),
-            'def_name'   => 'tree.'. $template[$templateType],
+            'def_name'   => 'tree.'. $template['node_definition'],
             'additional' => array(
                 'node'    => $idNode,
                 'current' => $current,

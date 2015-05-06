@@ -779,6 +779,7 @@ var TableBuilder = {
         var values = jQuery(TableBuilder.edit_form).serializeArray();
         values.push({ name: 'id', value: id });
         values.push({ name: 'query_type', value: "save_edit_form" });
+        values.push({ name: "__node", value: TableBuilder.getUrlParameter('node') });
 
         // take values from temp storage (for images)
         jQuery.each(values, function(index, val) {

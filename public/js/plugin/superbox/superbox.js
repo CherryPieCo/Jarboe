@@ -86,7 +86,7 @@
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
-                    data: { query_type: 'image_storage', storage_type: 'get_image_tags_and_galleries', id: currentimg.data('id') },
+                    data: { query_type: 'image_storage', storage_type: 'get_image_tags_and_galleries', id: currentimg.data('id'), '__node': TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);

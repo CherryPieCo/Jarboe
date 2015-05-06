@@ -1471,6 +1471,7 @@ console.log(num);
         var values = jQuery('#'+ TableBuilder.options.table_ident).serializeArray();
         values.push({ name: 'type', value: type });
         values.push({ name: 'query_type', value: 'multi_action' });
+        values.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
 
         jQuery.ajax({
             type: "POST",
@@ -1511,6 +1512,7 @@ console.log(num);
         values.push({ name: 'type', value: type });
         values.push({ name: 'option', value: option });
         values.push({ name: 'query_type', value: 'multi_action_with_option' });
+        values.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
 
         jQuery.ajax({
             type: "POST",
@@ -1569,7 +1571,7 @@ console.log(num);
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: { query_type: 'image_storage', storage_type: 'show_modal' },
+            data: { query_type: 'image_storage', storage_type: 'show_modal', "__node": TableBuilder.getUrlParameter('node') },
             dataType: 'json',
             success: function(response) {
             console.log(response);

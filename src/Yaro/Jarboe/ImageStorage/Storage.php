@@ -73,8 +73,11 @@ class Storage
         
         $model = '\\' . Config::get('jarboe::images.models.tag');
         $tags = $model::all();
+        
+        $selectedIds = DB::table('j_images2tags')->where('id_image', $idImage)->lists('id_tag') ? : array();
         foreach ($tags as $tag) {
-            $html .= '<option value="'. $tag->id .'">'. $tag->title .'</option>';
+            $selected = in_array($tag->id, $selectedIds) ? 'selected="selected"' : '';
+            $html .= '<option '. $selected .' value="'. $tag->id .'">'. $tag->title .'</option>';
         }
         
         $html .= '</select></section>';
@@ -89,8 +92,11 @@ class Storage
         
         $model = '\\' . Config::get('jarboe::images.models.gallery'); 
         $galleries = $model::all();
+        
+        $selectedIds = DB::table('j_galleries2images')->where('id_image', $idImage)->lists('id_gallery') ? : array();
         foreach ($galleries as $gallery) {
-            $html .= '<option value="'. $gallery->id .'">'. $gallery->title .'</option>';
+            $selected = in_array($gallery->id, $selectedIds) ? 'selected="selected"' : '';
+            $html .= '<option '. $selected .' value="'. $gallery->id .'">'. $gallery->title .'</option>';
         }
         
         $html .= '</select></section>';

@@ -32,7 +32,7 @@ var Superbox =
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
-                    data: { query_type: 'image_storage', storage_type: 'delete_image', id: $(context).data('id') },
+                    data: { query_type: 'image_storage', storage_type: 'delete_image', id: $(context).data('id'), '__node': TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
                         if (response.status) {
@@ -58,6 +58,7 @@ var Superbox =
         data.append('query_type', 'image_storage');
         data.append('storage_type', 'upload_image');
         data.append('title', $titleInput.val());
+        data.append('__node', TableBuilder.getUrlParameter('node'));
         // FIXME: catalog
         data.append('id_catalog', 1);
 
@@ -88,6 +89,7 @@ var Superbox =
         data.push({ name: 'id', value: $context.data('id') });
         data.push({ name: 'query_type', value: 'image_storage' });
         data.push({ name: 'storage_type', value: 'save_image_info' });
+        data.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
         
         jQuery.ajax({
             type: "POST",
@@ -168,7 +170,7 @@ var Superbox =
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: { query_type: 'image_storage', storage_type: 'add_tag', title: $input.val() },
+            data: { query_type: 'image_storage', storage_type: 'add_tag', title: $input.val(), '__node': TableBuilder.getUrlParameter('node') },
             dataType: 'json',
             success: function(response) {
                 console.log(response);
@@ -193,7 +195,7 @@ var Superbox =
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
-                    data: { query_type: 'image_storage', storage_type: 'delete_tag', id: id },
+                    data: { query_type: 'image_storage', storage_type: 'delete_tag', id: id, '__node': TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);
@@ -215,7 +217,7 @@ var Superbox =
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: { query_type: 'image_storage', storage_type: 'add_gallery', title: $input.val() },
+            data: { query_type: 'image_storage', storage_type: 'add_gallery', title: $input.val(), '__node': TableBuilder.getUrlParameter('node') },
             dataType: 'json',
             success: function(response) {
                 console.log(response);
@@ -240,7 +242,7 @@ var Superbox =
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
-                    data: { query_type: 'image_storage', storage_type: 'delete_gallery', id: id },
+                    data: { query_type: 'image_storage', storage_type: 'delete_gallery', id: id, '__node': TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);

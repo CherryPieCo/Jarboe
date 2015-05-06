@@ -737,7 +737,7 @@ var TableBuilder = {
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
-                    data: { id: id, query_type: "delete_row"},
+                    data: { id: id, query_type: "delete_row", "__node": TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
 
@@ -897,6 +897,7 @@ var TableBuilder = {
 
         var values = jQuery(TableBuilder.create_form).serializeArray();
         values.push({ name: "query_type", value: "save_add_form" });
+        values.push({ name: "__node", value: TableBuilder.getUrlParameter('node') });
 
         // take values from temp storage (for images)
         jQuery.each(values, function(index, val) {

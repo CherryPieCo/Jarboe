@@ -81,18 +81,21 @@ if (\Config::get('jarboe::tree.is_active')) {
     $_tbTree = \Cache::tags(array('jarboe', 'j_tree'))->get('j_tree');
     if ($_tbTree) {
         foreach ($_tbTree as $node) {
-            Route::get($node->getUrl(), function() use($node)
+            Route::group(array('prefix' => LaravelLocalization::setLocale()), function() use($node, $_nodeUrl)
             {
-                $templates = Config::get('jarboe::tree.templates');
-                if (!isset($templates[$node->template])) {
-                    // just to be gentle with web crawlers
-                    App::abort(404);
-                }
-                list($controller, $method) = explode('@', $templates[$node->template]['action']);
-    
-                $app = app();
-                $controller = $app->make($controller);
-                return $controller->callAction('init', array($node, $method));
+                Route::get($node->getUrl(), function() use($node)
+                {
+                    $templates = Config::get('jarboe::tree.templates');
+                    if (!isset($templates[$node->template])) {
+                        // just to be gentle with web crawlers
+                        App::abort(404);
+                    }
+                    list($controller, $method) = explode('@', $templates[$node->template]['action']);
+        
+                    $app = app();
+                    $controller = $app->make($controller);
+                    return $controller->callAction('init', array($node, $method));
+                });
             });
         }
     } else {
@@ -112,18 +115,22 @@ if (\Config::get('jarboe::tree.is_active')) {
         foreach ($_tbTree as $node) {
             $_nodeUrl = recurse_my_tree($_clone, $node);
             $node->setUrl($_nodeUrl);
-            Route::get($_nodeUrl, function() use($node)
+            
+            Route::group(array('prefix' => LaravelLocalization::setLocale()), function() use($node, $_nodeUrl)
             {
-                $templates = Config::get('jarboe::tree.templates');
-                if (!isset($templates[$node->template])) {
-                    // just to be gentle with web crawlers
-                    App::abort(404);
-                }
-                list($controller, $method) = explode('@', $templates[$node->template]['action']);
-    
-                $app = app();
-                $controller = $app->make($controller);
-                return $controller->callAction('init', array($node, $method));
+                Route::get($_nodeUrl, function() use($node)
+                {
+                    $templates = Config::get('jarboe::tree.templates');
+                    if (!isset($templates[$node->template])) {
+                        // just to be gentle with web crawlers
+                        App::abort(404);
+                    }
+                    list($controller, $method) = explode('@', $templates[$node->template]['action']);
+        
+                    $app = app();
+                    $controller = $app->make($controller);
+                    return $controller->callAction('init', array($node, $method));
+                });
             });
         }
     

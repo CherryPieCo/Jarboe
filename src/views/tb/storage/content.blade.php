@@ -8,12 +8,15 @@
 
 <div class="b-j-images">
     <div class="b-j-catalog well">
+        <?php /*
         @for ($i = 0; $i < 12; $i++)
         <a href="javascript:void(0);" class="btn btn-default btn-sm">button ({{$i}})</a>
         @endfor
+        */ ?>
     </div>
     @include('admin::tb.storage.images')
 </div>
+
 <div style="display: none;" class="b-j-tags">
     <div class="row well">
         @include('admin::tb.storage.tags')

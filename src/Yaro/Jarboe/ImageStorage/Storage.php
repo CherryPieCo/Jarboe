@@ -243,7 +243,7 @@ class Storage
     
     private function handleModalContent()
     {
-        $html = View::make('admin::tb.storage.content')->render();
+        $html = View::make('admin::tb.storage.content')->with('type', Input::get('storage_type_select'))->render();
         
         return Response::json(array(
             'status' => true,

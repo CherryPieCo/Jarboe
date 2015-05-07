@@ -44,6 +44,9 @@
             <a href="#f-image" data-toggle="tab"> image </a>
         </li>
         <li>
+            <a href="#f-image-storage" data-toggle="tab"> image storage </a>
+        </li>
+        <li>
             <a href="#f-file" data-toggle="tab"> file </a>
         </li>
         <li>
@@ -98,6 +101,10 @@
         
         <div class="tab-pane" id="f-image">
             @include('admin::docs.table.fields.image')    
+        </div>       
+        
+        <div class="tab-pane" id="f-image-storage">
+            @include('admin::docs.table.fields.image_storage')    
         </div>  
             
         <div class="tab-pane" id="f-file">

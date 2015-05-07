@@ -90,6 +90,44 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseThree-1" class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> images.php </a></h4>
+                    </div>
+                    <div id="collapseThree-1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                              <dt>models</dt>
+                              <dd>Модели, которые пакет будет использовать при манипуляциях с сущностями хранилища.</dd>
+                              <dt>image[]fields</dt>
+                              <dd>Перечень полей для вкидывания в поле <code>info</code> таблицы изображений.</dd>
+                            </dl>
+                            
+<pre>
+<code class="php">
+'models' => array(
+    'image'   => 'Yaro\Jarboe\Image',
+    'gallery' => 'Yaro\Jarboe\Gallery',
+    'tag'     => 'Yaro\Jarboe\Tag',
+    'storage' => 'Yaro\Jarboe\ImageCatalog',
+),
+
+'image' => array(
+    'fields' => array(
+        'title' => array( // идентификатор поля
+            'caption' => 'Caption', // заголовок поля
+        ),
+    )
+),
+</code>
+</pre>
+
+                        </div>
+                    </div>
+                </div>
+                
+                
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseTwo-1" class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> login.php </a></h4>

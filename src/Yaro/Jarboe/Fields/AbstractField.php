@@ -60,6 +60,15 @@ abstract class AbstractField
         return isset($this->attributes[$ident]) ? $this->attributes[$ident] : $default;
     } // end getAttribute
     
+    public function getRequiredAttribute($ident)
+    {
+        if (!array_key_exists($ident, $this->attributes)) {
+            throw new \RuntimeException('Image storage field requires ['. $ident .'] attribute');
+        }
+        
+        return $this->attributes[$ident];
+    } // end getAttribute
+    
     public function isHidden()
     {
         return $this->getAttribute('hide');

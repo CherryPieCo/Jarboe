@@ -16,7 +16,7 @@
     $.fn.SuperBox = function(options) {
         
         var superbox      = $('<div class="superbox-show"></div>');
-        var superboximg   = $('<img src="" class="superbox-current-img"><div id="imgInfoBox" class="superbox-imageinfo inline-block"> <h1>Image Title</h1><span style="display:inline;margin:0;"><form class="smart-form"></form><p class="well" style="overflow: auto;padding: 20px 8px 8px;margin: 0px;"><a href="javascript:void(0);" onclick="Superbox.saveImageInfo(this);" class="btn btn-success btn-sm pull-right j-btn-save">Сохранить</a> <a href="javascript:void(0);" onclick="Superbox.selectImage(this);" class="btn btn-primary btn-sm pull-right j-btn-save"style="margin-right: 6px;">Выбрать</a> <a href="javascript:void(0);" onclick="Superbox.deleteImage(this);" class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a></p></span> </div>');
+        var superboximg   = $('<img src="" class="superbox-current-img"><div id="imgInfoBox" class="superbox-imageinfo inline-block"> <h1>Image Title</h1><span style="display:inline;margin:0;"><form class="smart-form"></form><p class="well" style="overflow: auto;padding: 20px 8px 8px;margin: 0px;"><a href="javascript:void(0);" onclick="Superbox.saveImageInfo(this);" class="btn btn-success btn-sm pull-right j-btn-save">Сохранить</a> <a href="javascript:void(0);" onclick="Superbox.selectImage(this);" class="j-image-storage-select-image-btn btn btn-primary btn-sm pull-right j-btn-save"style="margin-right: 6px;">Выбрать</a> <a href="javascript:void(0);" onclick="Superbox.deleteImage(this);" class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a></p></span> </div>');
         var superboxclose = $('<div class="superbox-close txt-color-white"><i class="fa fa-times fa-lg"></i></div>');
         
         superbox.append(superboximg).append(superboxclose);
@@ -35,6 +35,9 @@
                 console.table(info);
                 var imgTitle = '#'+ currentimg.data('id') +': '+ currentimg.attr('title');
                     
+                if (Superbox.type_select != 'image') {
+                    superboximg.find('.j-image-storage-select-image-btn').remove();
+                }
                 superboximg.find('.j-btn-del').data('id', currentimg.data('id'));
                 superboximg.find('.j-btn-save').data('id', currentimg.data('id'));
                 //console.log(imgData, imgDescription, imgLink, imgTitle)

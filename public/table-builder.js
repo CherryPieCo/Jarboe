@@ -1566,12 +1566,12 @@ console.log(num);
         });
     }, // end saveOrder
     
-    openImageStorageModal: function(context)
+    openImageStorageModal: function(context, storageTypeSelect)
     {
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: { query_type: 'image_storage', storage_type: 'show_modal', "__node": TableBuilder.getUrlParameter('node') },
+            data: { query_type: 'image_storage', storage_type: 'show_modal', "__node": TableBuilder.getUrlParameter('node'), storage_type_select: storageTypeSelect },
             dataType: 'json',
             success: function(response) {
             console.log(response);
@@ -1581,6 +1581,7 @@ console.log(num);
                     $('.tb-modal:visible').addClass('superbox-modal-hide').hide();
                     
                     Superbox.input = $(context).parent().parent().find('input');
+                    Superbox.type_select = storageTypeSelect;
                 } else {
                     TableBuilder.showErrorNotification('Что-то пошло не так');
                 }

@@ -41,6 +41,7 @@ class ImageStorageField extends AbstractField
         $input->name  = $this->getFieldName();
         $input->caption = $this->getAttribute('caption');
         $input->placeholder = $this->getAttribute('placeholder');
+        $input->type = $this->getRequiredAttribute('storage_type');
 
         return $input->render();
     } // end getEditInput

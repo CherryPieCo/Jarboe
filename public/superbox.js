@@ -4,6 +4,7 @@ var Superbox =
 {
 
     input: null,
+    type_select: null,
 
     fields: {
         image: {},
@@ -49,6 +50,18 @@ var Superbox =
             }
         });
     }, // end deleteImage
+    
+    selectTag: function(context, idTag)
+    {
+        Superbox.input.val(idTag);
+        TableBuilder.closeImageStorageModal();
+    }, // end selectTag
+    
+    selectGallery: function(context, idGallery)
+    {
+        Superbox.input.val(idGallery);
+        TableBuilder.closeImageStorageModal();
+    }, // end selectTag
     
     uploadImage: function(context)
     {

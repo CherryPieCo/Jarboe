@@ -2,7 +2,7 @@
     <form class="smart-form pull-left">
     <div class="input input-file" style="width: 350px;">
         <span class="button">
-            <input type="file" name="image" onchange="Superbox.uploadImage(this);">
+            <input type="file" name="images[]" multiple="multiple" accept="image/*" onchange="Superbox.uploadImage(this);">
             Выбрать
         </span>
         <input type="text" class="j-image-title" placeholder="Название изображения">

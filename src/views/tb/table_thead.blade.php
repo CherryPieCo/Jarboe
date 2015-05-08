@@ -67,7 +67,7 @@
     @endforeach
 
     @if (isset($def['actions']['insert']))
-    <th class="e-insert_button-cell">
+    <th class="e-insert_button-cell" style="min-width: 69px;">
         {{ $controller->actions->fetch('insert') }}
     </th>
     @else

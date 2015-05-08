@@ -168,44 +168,49 @@ class Storage
     {
         $model = '\\' . Config::get('jarboe::images.models.image');
         
-        $entity = new $model;
-        $entity->title = Input::get('title');
-        $entity->id_catalog = Input::get('id_catalog');
-        $entity->save();
         
-        $file = Input::file('image');
+        $html = '';
+        $files = Input::file('images');
         
-        $extension = $file->guessExtension();
-        $rawFileName = md5_file($file->getRealPath()) .'_'. time();
-        $fileName = $rawFileName .'.'. $extension;
-        
-        $prefixPath = '/storage/j-image-storage/';
-        
-        //
-        list($chunks, $postfixPath) = $this->getPathByID($entity->id);
-        $tempPath = public_path() . $prefixPath;
-        
-        foreach ($chunks as $chunk) {
-            $tempPath = $tempPath . $chunk;
+        foreach ($files as $file) {
+            $entity = new $model;
+            $entity->title = Input::get('title');
+            $entity->id_catalog = Input::get('id_catalog');
+            $entity->save();
             
-            if (!file_exists($tempPath)) {
-                if (!mkdir($tempPath, 0755, true)) {
-                    throw new \RuntimeException('Unable to create the directory ['. $tempPath .']');
+            $extension = $file->guessExtension();
+            $rawFileName = md5_file($file->getRealPath()) .'_'. time();
+            $fileName = $rawFileName .'.'. $extension;
+            
+            $prefixPath = '/storage/j-image-storage/';
+            
+            //
+            list($chunks, $postfixPath) = $this->getPathByID($entity->id);
+            $tempPath = public_path() . $prefixPath;
+            
+            foreach ($chunks as $chunk) {
+                $tempPath = $tempPath . $chunk;
+                
+                if (!file_exists($tempPath)) {
+                    if (!mkdir($tempPath, 0755, true)) {
+                        throw new \RuntimeException('Unable to create the directory ['. $tempPath .']');
+                    }
                 }
+                $tempPath = $tempPath .'/';
             }
-            $tempPath = $tempPath .'/';
+            $destinationPath = $prefixPath . $postfixPath;
+            
+            $file->move(public_path() . $destinationPath, $fileName);
+            
+            $entity->source = $destinationPath . $fileName;
+            $entity->save();
+            
+            $html .= View::make('admin::tb.storage.single_image')->with('image', $entity)->render();
         }
-        $destinationPath = $prefixPath . $postfixPath;
-        
-        $file->move(public_path() . $destinationPath, $fileName);
-        
-        $entity->source = $destinationPath . $fileName;
-        $entity->save();
-        
         
         $data = array(
             'status' => true,
-            'html'   => View::make('admin::tb.storage.single_image')->with('image', $entity)->render(),
+            'html'   => $html,
         );
         
         return Response::json($data);

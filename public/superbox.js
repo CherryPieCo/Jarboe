@@ -66,8 +66,11 @@ var Superbox =
     uploadImage: function(context)
     {
         var $titleInput = $(context).parent().parent().find('.j-image-title');
+        
         var data = new FormData();
-        data.append("image", context.files[0]);
+        for (var x = 0; x < context.files.length; x++) {
+            data.append("images[]", context.files[x]);
+        }
         data.append('query_type', 'image_storage');
         data.append('storage_type', 'upload_image');
         data.append('title', $titleInput.val());

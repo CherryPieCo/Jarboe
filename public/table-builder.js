@@ -1346,12 +1346,14 @@ console.log(num);
 
         var data = {
             query_type: "set_per_page",
-            per_page: perPage
+            per_page: perPage,
+            "__node": TableBuilder.getUrlParameter('node')
         };
 
         var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
         $posting.done(function(response) {
-            window.location.replace(response.url);
+            window.location.replace(window.location.origin + window.location.pathname + window.location.search);
+            //window.location.replace(response.url);
         });
     }, // end setPerPageAmount
 

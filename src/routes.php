@@ -81,7 +81,7 @@ if (\Config::get('jarboe::tree.is_active')) {
     $_tbTree = \Cache::tags(array('jarboe', 'j_tree'))->get('j_tree');
     if ($_tbTree) {
         foreach ($_tbTree as $node) {
-            Route::group(array('prefix' => LaravelLocalization::setLocale()), function() use($node, $_nodeUrl)
+            Route::group(array('prefix' => LaravelLocalization::setLocale()), function() use($node)
             {
                 Route::get($node->getUrl(), function() use($node)
                 {

@@ -25,7 +25,12 @@ if (!function_exists('__'))
             return false;
         }
  
-        $word = Yaro\Jarboe\Helpers\Translate::get($args[0], \App::getLocale());
+        $namespace = 'messages';
+        if (Request::is(ltrim(Config::get('jarboe::admin.uri') .'/*', '/'))) {
+            $namespace = 'admin';
+        }
+        
+        $word = Yaro\Jarboe\Helpers\Translate::get($args[0], \App::getLocale(), $namespace);
         if (!$word) {
             $word = $args[0];
         }

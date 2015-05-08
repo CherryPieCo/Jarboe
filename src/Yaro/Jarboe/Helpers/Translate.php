@@ -58,46 +58,57 @@ class Translate
 
     protected function getStatic($ident, $locale, $namespace)
     {
-        if (!$this->hasTranslate($ident, $locale, $namespace)) {
-            $translateFrom = \Config::get('jarboe::translate.auto_translate_from');
-            
-            if ($this->isAutoTranslate($locale)) {
-                // HACK: us to uk for yandex translate api
-                $yandexTranslateFrom = $translateFrom == 'ua' ? 'uk' : $translateFrom;
-                $language = $yandexTranslateFrom .'-'. $locale;
-                $res = \Jarboe::translate($ident, $language);
-
-                $id = \DB::table('translations')->where('key', $ident)->where('namespace', $namespace)->pluck('id');
-                if ($id) {
-                    \DB::table('translations')->where('id', $id)->update(array(
-                        'value_'. $translateFrom => $ident,
-                        'value_'. $locale        => $res,
-                    ));
-                } else {
-                    \DB::table('translations')->insert(array(
-                        'namespace' => $namespace,
-                        'key'       => $ident,
-                        'value_'. $translateFrom => $ident,
-                        'value_'. $locale        => $res,
-                    ));
-                }
-                
-                \Cache::forget('translations');
-
-                return $res;
-            }
-
-            \DB::table('translations')->insert(array(
-                'namespace' => $namespace,
-                'key'       => $ident,
-                'value_'. $translateFrom => $ident
-            ));
-            \Cache::forget('translations');
-            
-            return false;
+        if ($this->hasTranslate($ident, $locale, $namespace)) {
+            return $this->translates[$locale][$namespace][$ident];
         }
         
-        return $this->translates[$locale][$namespace][$ident];
+        $translateFrom = \Config::get('jarboe::translate.auto_translate_from');
+        $adminUriTemplate = ltrim(\Config::get('jarboe::admin.uri') .'/*', '/');
+        if (\Request::is($adminUriTemplate)) {
+            $translateFrom = 'ru';
+        }
+        
+        if ($this->isAutoTranslate($locale)) {
+            // HACK: ua to uk for yandex translate api
+            $yandexTranslateFrom = $translateFrom == 'ua' ? 'uk' : $translateFrom;
+            $yandexTranslateTo = $locale;
+            if (\Request::is($adminUriTemplate)) {
+                $yandexTranslateTo = $yandexTranslateTo == 'ua' ? 'uk' : $yandexTranslateTo;
+            }
+            // HACK: for admin-panel translates
+            $language = $yandexTranslateFrom .'-'. $yandexTranslateTo;
+            
+            $res = \Jarboe::translate($ident, $language);
+
+            $id = \DB::table('translations')->where('key', $ident)->where('namespace', $namespace)->pluck('id');
+            if ($id) {
+                \DB::table('translations')->where('id', $id)->update(array(
+                    'value_'. $translateFrom => $ident,
+                    'value_'. $locale        => $res,
+                ));
+            } else {
+                \DB::table('translations')->insert(array(
+                    'namespace' => $namespace,
+                    'key'       => $ident,
+                    'value_'. $translateFrom => $ident,
+                    'value_'. $locale        => $res,
+                ));
+            }
+            
+            \Cache::forget('translations');
+
+            return $res;
+        }
+
+        // FIXME: possible bad logic
+        \DB::table('translations')->insert(array(
+            'namespace' => $namespace,
+            'key'       => $ident,
+            'value_'. $translateFrom => $ident
+        ));
+        \Cache::forget('translations');
+        
+        return false;
     } // end get
 
     private function isAutotranslate($locale)
@@ -109,7 +120,7 @@ class Translate
 
     protected function hasTranslate($ident, $locale, $namespace)
     {
-        return isset($this->translates[$locale][$namespace][$ident]) && $this->translates[$locale][$namespace][$ident];
+        return isset($this->translates[$locale][$namespace][$ident]) && !empty($this->translates[$locale][$namespace][$ident]);
     } // end hasTranslate
 
     public static function __callStatic($name, $arguments)
@@ -121,7 +132,7 @@ class Translate
             return $instance->$method();
         }
 
-        $locale    = isset($arguments[1]) ? $arguments[1] : Lang::getlocale();
+        $locale    = isset($arguments[1]) ? $arguments[1] : \App::getLocale();
         $namespace = isset($arguments[2]) ? $arguments[2] : 'messages';
         return $instance->$method($arguments[0], $locale, $namespace);
     } // end __callStatic

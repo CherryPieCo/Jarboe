@@ -10,7 +10,7 @@ use Yaro\Jarboe\Handlers\ActionsHandler;
 use Yaro\Jarboe\Handlers\ExportHandler;
 use Yaro\Jarboe\Handlers\ImportHandler;
 use Yaro\Jarboe\Handlers\CustomClosureHandler;
-use Yaro\Jarboe\ImageStorage\Storage;
+use Yaro\Jarboe\Storage\Image as ImageStorage;
 
 
 class JarboeController 
@@ -55,7 +55,7 @@ class JarboeController
         $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
-        $this->imageStorage = new Storage($this);
+        $this->imageStorage = new ImageStorage($this);
         
         // HACK:
         $this->currentID = \Input::get('id');

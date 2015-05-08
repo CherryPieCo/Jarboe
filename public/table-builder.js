@@ -333,6 +333,7 @@ var TableBuilder = {
 
         var data = $form.serializeArray();
         data.push({ name: "query_type", value: "search" });
+        data.push({ name: "__node", value: TableBuilder.getUrlParameter('node') });
 
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         data = data.concat(
@@ -345,7 +346,8 @@ var TableBuilder = {
         var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
 
         $posting.done(function(response) {
-            window.location.replace(response.url);
+            window.location.replace(window.location.origin + window.location.pathname + window.location.search);
+            //window.location.replace(response.url);
             /*
              TableBuilder.hideProgressBar();
 
@@ -1251,7 +1253,8 @@ console.log(num);
         var vals = [
             {name: "query_type", value: "change_direction"},
             {name: "direction", value: direction},
-            {name: "field", value: ident}
+            {name: "field", value: ident},
+            {name: "__node", value: TableBuilder.getUrlParameter('node')}
         ];
 
         jQuery.ajax({
@@ -1261,7 +1264,7 @@ console.log(num);
             cache: false,
             dataType: "json",
             success: function(response) {
-                // FIXME:
+                // FIXME: or not
                 window.location.reload();
             }
         });

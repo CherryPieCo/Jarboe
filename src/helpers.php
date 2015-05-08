@@ -25,7 +25,7 @@ if (!function_exists('__'))
             return false;
         }
  
-        $word = Yaro\Jarboe\Helpers\Translate::get($args[0], \App::getlocale());
+        $word = Yaro\Jarboe\Helpers\Translate::get($args[0], \App::getLocale());
         if (!$word) {
             $word = $args[0];
         }

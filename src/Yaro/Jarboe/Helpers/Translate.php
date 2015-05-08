@@ -59,26 +59,44 @@ class Translate
     protected function getStatic($ident, $locale, $namespace)
     {
         if (!$this->hasTranslate($ident, $locale, $namespace)) {
+            $translateFrom = \Config::get('jarboe::translate.auto_translate_from');
+            
             if ($this->isAutoTranslate($locale)) {
-                $translateFrom = \Config::get('jarboe::translate.auto_translate_from');
-
-                $language = $translateFrom .'-'. $locale;
+                // HACK: us to uk for yandex translate api
+                $yandexTranslateFrom = $translateFrom == 'ua' ? 'uk' : $translateFrom;
+                $language = $yandexTranslateFrom .'-'. $locale;
                 $res = \Jarboe::translate($ident, $language);
 
-                \DB::table('translations')->insert(array(
-                    'namespace' => $namespace,
-                    'key'       => $ident,
-                    'value_'. $translateFrom => $ident,
-                    'value_'. $locale        => $res,
-                ));
+                $id = \DB::table('translations')->where('key', $ident)->where('namespace', $namespace)->pluck('id');
+                if ($id) {
+                    \DB::table('translations')->where('id', $id)->update(array(
+                        'value_'. $translateFrom => $ident,
+                        'value_'. $locale        => $res,
+                    ));
+                } else {
+                    \DB::table('translations')->insert(array(
+                        'namespace' => $namespace,
+                        'key'       => $ident,
+                        'value_'. $translateFrom => $ident,
+                        'value_'. $locale        => $res,
+                    ));
+                }
+                
                 \Cache::forget('translations');
 
                 return $res;
             }
 
+            \DB::table('translations')->insert(array(
+                'namespace' => $namespace,
+                'key'       => $ident,
+                'value_'. $translateFrom => $ident
+            ));
+            \Cache::forget('translations');
+            
             return false;
         }
-
+        
         return $this->translates[$locale][$namespace][$ident];
     } // end get
 
@@ -91,7 +109,7 @@ class Translate
 
     protected function hasTranslate($ident, $locale, $namespace)
     {
-        return isset($this->translates[$locale][$namespace][$ident]);
+        return isset($this->translates[$locale][$namespace][$ident]) && $this->translates[$locale][$namespace][$ident];
     } // end hasTranslate
 
     public static function __callStatic($name, $arguments)

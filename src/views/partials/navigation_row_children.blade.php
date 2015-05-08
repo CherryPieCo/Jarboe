@@ -10,7 +10,7 @@
             @if (isset($item['icon']))
                 <i class="fa fa-lg fa-fw fa-{{$item['icon']}}"></i> 
             @endif
-            <span class="menu-item-parent">{{$item['title']}}</span>
+            <span class="menu-item-parent">{{ is_callable($item['title']) ? $item['title']() : $item['title'] }}</span>
         </a>
         <ul>
         @foreach ($item['submenu'] as $submenu)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yaro\Jarboe\ImageStorage;
+namespace Yaro\Jarboe\Storage;
 
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Input;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
 
 
-class Storage 
+class Image 
 {
 
     public function handle()
@@ -87,7 +87,7 @@ class Storage
     
     private function fetchGalleriesSelect($idImage)
     {
-        $html = '<section><label>Галереи</label>';
+        $html = '<section><label>'. __('Галереи') .'</label>';
         $html .= '<select id="j-storage-galleries" name="j-galleries[]" multiple style="width:100%" class="select22">';
         
         $model = '\\' . Config::get('jarboe::images.models.gallery'); 

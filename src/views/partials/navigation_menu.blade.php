@@ -1,4 +1,4 @@
-{{--
+<?php /*
 @foreach ($menu as $item)
     <li
         @if ($item['is_active'])
@@ -39,7 +39,7 @@
         @endif
     </li>
 @endforeach
---}}
+*/ ?>
 
 @foreach ($menu as $item)
     <li
@@ -52,9 +52,9 @@
         ">
         @if (isset($item['submenu']))
             <a href="#" 
-               title="{{$item['title']}}">
+               title="{{ is_callable($item['title']) ? $item['title']() : $item['title'] }}">
                 <i class="fa fa-lg fa-fw fa-{{$item['icon']}}"></i> 
-                <span class="menu-item-parent">{{$item['title']}}</span>
+                <span class="menu-item-parent">{{ is_callable($item['title']) ? $item['title']() : $item['title'] }}</span>
             </a>
             <ul>
             @foreach ($item['submenu'] as $submenu)

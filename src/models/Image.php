@@ -20,5 +20,17 @@ class Image extends \Eloquent
         
         return $this->belongsToMany($model, 'j_images2tags', 'id_image', 'id_tag');
     } // end tags
+    
+    public function info($ident, $postfix = '')
+    {
+        $ident = $ident . $postfix;
+        $info  = json_decode($this->info, true);
+        
+        if (!array_key_exists($ident, $info)) {
+            return false;
+        }
+        
+        return $info[$ident];
+    } // end info
 
 }

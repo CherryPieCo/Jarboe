@@ -101,12 +101,15 @@ class Translate
         }
 
         // FIXME: possible bad logic
-        \DB::table('translations')->insert(array(
-            'namespace' => $namespace,
-            'key'       => $ident,
-            'value_'. $translateFrom => $ident
-        ));
-        \Cache::forget('translations');
+        $id = \DB::table('translations')->where('key', $ident)->where('namespace', $namespace)->pluck('id');
+        if (!$id) {
+            \DB::table('translations')->insert(array(
+                'namespace' => $namespace,
+                'key'       => $ident,
+                'value_'. $translateFrom => $ident
+            ));
+            \Cache::forget('translations');
+        }
         
         return false;
     } // end get

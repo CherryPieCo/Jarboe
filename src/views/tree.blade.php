@@ -9,22 +9,22 @@
 
     <div id="table-preloader" class="smoke_lol"><i class="fa fa-gear fa-4x fa-spin"></i></div>
               
-            <table id="tb-tree-table" class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th style="width: 1%;">@include('admin::tree.tree_header')</th>
-                    <th class="text-left">@include('admin::tree.content_header')</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 <tr>
-                    <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">@include('admin::tree.tree')</td>
-                    <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">
-                        {{ $content }}
-                    </td>
-                 </tr>
-                </tbody>
-            </table>
+    <table id="tb-tree-table" class="table table-bordered">
+        <thead>
+          <tr>
+            <th style="width: 1%;">@include('admin::tree.tree_header')</th>
+            <th class="text-left">@include('admin::tree.content_header')</th>
+          </tr>
+        </thead>
+        <tbody>
+         <tr>
+            <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">@include('admin::tree.tree')</td>
+            <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">
+                {{ $content }}
+            </td>
+         </tr>
+        </tbody>
+    </table>
                       
                       
 

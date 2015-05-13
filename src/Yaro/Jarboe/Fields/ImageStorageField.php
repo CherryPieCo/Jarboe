@@ -44,6 +44,11 @@ class ImageStorageField extends AbstractField
         $input->placeholder = $this->getAttribute('placeholder');
         $input->type = $this->getRequiredAttribute('storage_type');
 
+        if ($row) {
+            $model = '\\' . \Config::get('jarboe::images.models.image');
+            $input->entity = $model::find($this->getValue($row));
+        }
+        
         return $input->render();
     } // end getEditInput
     

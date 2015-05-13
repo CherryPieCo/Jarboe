@@ -2,7 +2,7 @@
 <div class="j-images-storage">
 
 <div class="b-j-catalog-buttons">
-    @include('admin::tb.storage.action_buttons')
+    @include('admin::tb.storage.file.action_buttons')
 </div>
 
 
@@ -14,19 +14,23 @@
         @endfor
         */ ?>
     </div>
-    @include('admin::tb.storage.images')
+    @include('admin::tb.storage.file.files')
 </div>
 
+
+<?php /*
 <div style="display: none;" class="b-j-tags">
     <div class="row well">
-        @include('admin::tb.storage.tags')
+        @include('admin::tb.storage.file.tags')
     </div>
 </div>
 <div style="display: none;" class="b-j-galleries">
     <div class="row well">
-        @include('admin::tb.storage.galleries')
+        @include('admin::tb.storage.file.galleries')
     </div>
 </div>
+*/ ?>
+
 
 </div>
 

@@ -11,6 +11,7 @@ use Yaro\Jarboe\Handlers\ExportHandler;
 use Yaro\Jarboe\Handlers\ImportHandler;
 use Yaro\Jarboe\Handlers\CustomClosureHandler;
 use Yaro\Jarboe\Storage\Image as ImageStorage;
+use Yaro\Jarboe\Storage\File  as FileStorage;
 
 
 class JarboeController 
@@ -33,6 +34,7 @@ class JarboeController
     public $export;
     public $import;
     public $imageStorage;
+    public $fileStorage;
 
     protected $allowedIds;
 
@@ -56,6 +58,7 @@ class JarboeController
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
         $this->imageStorage = new ImageStorage($this);
+        $this->fileStorage  = new FileStorage($this);
         
         // HACK:
         $this->currentID = \Input::get('id');

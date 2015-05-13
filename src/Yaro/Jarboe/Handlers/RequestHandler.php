@@ -34,6 +34,9 @@ class RequestHandler
             case 'image_storage':
                 return $this->controller->imageStorage->handle();
                 
+            case 'file_storage':
+                return $this->controller->fileStorage->handle();
+                
             case 'search':
                 return $this->handleSearchAction();
                 

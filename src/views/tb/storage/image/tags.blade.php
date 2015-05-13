@@ -20,7 +20,7 @@
     </thead>
     <tbody>
         @foreach ($tags as $tag)
-            @include('admin::tb.storage.tag_row')
+            @include('admin::tb.storage.image.tag_row')
         @endforeach
     </tbody>
 </table>

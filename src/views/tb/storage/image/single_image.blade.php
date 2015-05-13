@@ -6,5 +6,6 @@
          data-info="{{ $image->getInfo() }}" 
          data-id="{{ $image->id }}" 
          data-source="{{ asset($image->source) }}" 
+         data-createdat="{{ $image->created_at }}"
          title="{{ $image->title }}">
 </div>

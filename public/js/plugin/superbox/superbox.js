@@ -33,7 +33,7 @@
                 var imgData = currentimg.data('img');
                 var info = currentimg.data('info') ? JSON.parse(currentimg.data('info').replace(/~/g, '"')) : {};
                 console.table(info);
-                var imgTitle = '#'+ currentimg.data('id') +': '+ currentimg.attr('title');
+                var imgTitle = '#'+ currentimg.data('id') +': '+ currentimg.attr('title') +' ('+ currentimg.data('createdat') +')';
                     
                 if (Superbox.type_select != 'image') {
                     superboximg.find('.j-image-storage-select-image-btn').remove();

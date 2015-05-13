@@ -21,7 +21,7 @@ class Image extends \Eloquent
         return $this->belongsToMany($model, 'j_images2tags', 'id_image', 'id_tag');
     } // end tags
     
-    public function info($ident, $postfix = '')
+    public function get($ident, $postfix = '')
     {
         $ident = $ident . $postfix;
         $info  = json_decode($this->info, true);
@@ -31,6 +31,6 @@ class Image extends \Eloquent
         }
         
         return $info[$ident];
-    } // end info
+    } // end get
 
 }

@@ -26,7 +26,7 @@ if (!function_exists('__'))
         }
  
         $namespace = 'messages';
-        if (Request::is(ltrim(Config::get('jarboe::admin.uri') .'/*', '/'))) {
+        if (Request::is(ltrim(Config::get('jarboe::admin.uri') .'/*', '/')) || Request::is(ltrim(Config::get('jarboe::admin.uri'), '/'))) {
             $namespace = 'admin';
         }
         

@@ -5,5 +5,6 @@
          data-img="{{ glide($image->source, ['w' => 666, 'h' => 420]) }}" 
          data-info="{{ $image->getInfo() }}" 
          data-id="{{ $image->id }}" 
+         data-source="{{ asset($image->source) }}" 
          title="{{ $image->title }}">
 </div>

@@ -186,7 +186,7 @@ var Superbox =
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: { query_type: 'image_storage', storage_type: 'add_tag', title: $input.val(), '__node': TableBuilder.getUrlParameter('node') },
+            data: { query_type: 'image_storage', storage_type: 'add_tag', type: Superbox.type_select, title: $input.val(), '__node': TableBuilder.getUrlParameter('node') },
             dataType: 'json',
             success: function(response) {
                 console.log(response);
@@ -233,7 +233,7 @@ var Superbox =
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            data: { query_type: 'image_storage', storage_type: 'add_gallery', title: $input.val(), '__node': TableBuilder.getUrlParameter('node') },
+            data: { query_type: 'image_storage', storage_type: 'add_gallery', type: Superbox.type_select, title: $input.val(), '__node': TableBuilder.getUrlParameter('node') },
             dataType: 'json',
             success: function(response) {
                 console.log(response);

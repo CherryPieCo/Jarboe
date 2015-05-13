@@ -118,6 +118,7 @@ class Image
     private function doAddGallery()
     {
         $model = '\\' . Config::get('jarboe::images.models.gallery');
+        $type  = Input::get('type');
         
         $gallery = new $model();
         $gallery->title = Input::get('title');
@@ -125,7 +126,7 @@ class Image
         
         return Response::json(array(
             'status' => true,
-            'html'   => View::make('admin::tb.storage.image.gallery_row', compact('gallery'))->render(),
+            'html'   => View::make('admin::tb.storage.image.gallery_row', compact('gallery', 'type'))->render(),
         ));
     } // end doAddGallery
     
@@ -143,6 +144,7 @@ class Image
     private function doAddTag()
     {
         $model = '\\' . Config::get('jarboe::images.models.tag');
+        $type  = Input::get('type');
         
         $tag = new $model();
         $tag->title = Input::get('title');
@@ -150,7 +152,7 @@ class Image
         
         return Response::json(array(
             'status' => true,
-            'html'   => View::make('admin::tb.storage.image.tag_row', compact('tag'))->render(),
+            'html'   => View::make('admin::tb.storage.image.tag_row', compact('tag', 'type'))->render(),
         ));
     } // end doAddTag
     

@@ -64,7 +64,8 @@ class Translate
         
         $translateFrom = \Config::get('jarboe::translate.auto_translate_from');
         $adminUriTemplate = ltrim(\Config::get('jarboe::admin.uri') .'/*', '/');
-        if (\Request::is($adminUriTemplate)) {
+        $adminDashboardUriTemplate = ltrim(\Config::get('jarboe::admin.uri'), '/');
+        if (\Request::is($adminUriTemplate) || \Request::is($adminDashboardUriTemplate)) {
             $translateFrom = 'ru';
         }
         
@@ -72,7 +73,7 @@ class Translate
             // HACK: ua to uk for yandex translate api
             $yandexTranslateFrom = $translateFrom == 'ua' ? 'uk' : $translateFrom;
             $yandexTranslateTo = $locale;
-            if (\Request::is($adminUriTemplate)) {
+            if (\Request::is($adminUriTemplate) || \Request::is($adminDashboardUriTemplate)) {
                 $yandexTranslateTo = $yandexTranslateTo == 'ua' ? 'uk' : $yandexTranslateTo;
             }
             // HACK: for admin-panel translates

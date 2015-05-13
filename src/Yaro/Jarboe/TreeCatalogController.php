@@ -159,20 +159,19 @@ class TreeCatalogController
             $template = $templates[$current->template];
         }
         
+        $options = array(
+            'url'      => URL::current(),
+            'def_name' => 'tree.'. $template['node_definition'],
+            'additional' => array(
+                'node'    => $idNode,
+                'current' => $current,
+            )
+        );
         if ($template['type'] == 'table') {
-            $options = array(
-                'url'      => URL::current(),
-                'def_name' => 'tree.'. $template['definition'],
-                'additional' => array(
-                    'node'    => $idNode,
-                    'current' => $current,
-                )
-            );
-            return \Jarboe::table($options);
+            $options['def_name'] = 'tree.'. $template['definition'];
         }
-    
-        throw new \RuntimeException('oh hai');
-        //
+        
+        return \Jarboe::table($options);
     } // end process
     
     public function doDeleteNode()

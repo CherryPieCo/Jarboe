@@ -35,8 +35,9 @@ var TableBuilder = {
     }, // end init
     
     getActionUrl: function()
-    {
-        return TableBuilder.options.action_url;
+    { 
+        // FIXME:
+        return !!TableBuilder.options ? TableBuilder.options.action_url : '/admin/handle/tree';
     }, // end getActionUrl
 
     initImageEditable: function()

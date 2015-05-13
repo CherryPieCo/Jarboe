@@ -20,7 +20,7 @@
     </thead>
     <tbody>
         @foreach ($galleries as $gallery)
-            @include('admin::tb.storage.gallery_row')
+            @include('admin::tb.storage.image.gallery_row')
         @endforeach
     </tbody>
 </table>

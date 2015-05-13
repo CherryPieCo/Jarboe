@@ -4,7 +4,7 @@
     <!-- SuperBox -->
     <div class="superbox col-sm-12">
         @foreach ($images as $image)
-            @include('admin::tb.storage.single_image')
+            @include('admin::tb.storage.image.single_image')
         @endforeach
         
         <div class="superbox-float"></div>

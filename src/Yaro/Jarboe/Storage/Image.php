@@ -125,7 +125,7 @@ class Image
         
         return Response::json(array(
             'status' => true,
-            'html'   => View::make('admin::tb.storage.gallery_row', compact('gallery'))->render(),
+            'html'   => View::make('admin::tb.storage.image.gallery_row', compact('gallery'))->render(),
         ));
     } // end doAddGallery
     
@@ -150,7 +150,7 @@ class Image
         
         return Response::json(array(
             'status' => true,
-            'html'   => View::make('admin::tb.storage.tag_row', compact('tag'))->render(),
+            'html'   => View::make('admin::tb.storage.image.tag_row', compact('tag'))->render(),
         ));
     } // end doAddTag
     
@@ -205,7 +205,7 @@ class Image
             $entity->source = $destinationPath . $fileName;
             $entity->save();
             
-            $html .= View::make('admin::tb.storage.single_image')->with('image', $entity)->render();
+            $html .= View::make('admin::tb.storage.image.single_image')->with('image', $entity)->render();
         }
         
         $data = array(
@@ -248,7 +248,7 @@ class Image
     
     private function handleModalContent()
     {
-        $html = View::make('admin::tb.storage.content')->with('type', Input::get('storage_type_select'))->render();
+        $html = View::make('admin::tb.storage.image.content')->with('type', Input::get('storage_type_select'))->render();
         
         return Response::json(array(
             'status' => true,

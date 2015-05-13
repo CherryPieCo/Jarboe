@@ -80,6 +80,8 @@
 <script src="{{ asset('packages/yaro/jarboe/js/plugin/superbox/superbox.js') }}"></script>
 <script src="{{ asset('packages/yaro/jarboe/superbox.js') }}"></script>
 
+<script src="{{ asset('packages/yaro/jarboe/file_storage.js') }}"></script>
+
 <script src="{{asset('packages/yaro/jarboe/js/app.config.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/app.min.js')}}"></script>
 

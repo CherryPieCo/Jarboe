@@ -1600,6 +1600,28 @@ console.log(num);
         $('.superbox-modal-hide').removeClass('superbox-modal-hide').show();
     }, // end closeImageStorageModal
     
+    openFileStorageModal: function(context)
+    {
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'file_storage', storage_type: 'show_modal', "__node": TableBuilder.getUrlParameter('node') },
+            dataType: 'json',
+            success: function(response) {
+            console.log(response);
+                if (response.status) {
+                    $(TableBuilder.image_storage_wrapper).html(response.html);
+                    $('.image_storage_wrapper').show();
+                    $('.tb-modal:visible').addClass('superbox-modal-hide').hide();
+                    
+                    FileStorage.input = $(context).parent().parent().find('input');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end openFileStorageModal
+    
     
 };
 

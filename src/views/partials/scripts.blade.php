@@ -17,9 +17,18 @@
 
 <script>
     $(document).ajaxComplete(function(event, xhr, settings) {
+        var response = $.parseJSON(xhr.responseText);
+        console.log(response);
         if (xhr.status == 401) {
             $('#locked-screen').show();
             $('.tb-modal:visible').addClass('superbox-modal-hide').hide();
+        } else if (xhr.status == 500) {
+            $.bigBox({
+                title : response.error.type,
+                content : '<p style="overflow-y: auto; word-break: break-all; height: 100px;">'+ response.error.message +"<br>@"+ response.error.line +"<br>"+ response.error.file +'</p>',
+                color : "#C79121",
+                icon : ""
+            });
         }
     });
     

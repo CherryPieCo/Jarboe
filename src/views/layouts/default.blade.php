@@ -69,6 +69,9 @@
     <body class="{{ \Cookie::get('tb-misc-body_class', '') }}">
     
         <style>
+        .bigBox {
+            z-index: 9100001;
+        }
         .image_storage_wrapper {
           width: 100%;
           height: 100%;

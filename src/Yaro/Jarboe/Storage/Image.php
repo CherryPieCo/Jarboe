@@ -19,8 +19,14 @@ class Image
             case 'show_modal':
                 return $this->handleModalContent();
                 
+            case 'get_image_form':
+                return $this->getImageForm();
+                
             case 'upload_image':
                 return $this->doUploadImage();
+                
+            case 'upload_single_image':
+                return $this->doUploadSingleImage();
                 
             case 'delete_image':
                 return $this->doDeleteImage();
@@ -37,11 +43,17 @@ class Image
             case 'delete_tag':
                 return $this->doDeleteTag();
                 
+            case 'rename_tag':
+                return $this->doRenameTag();
+                
             case 'add_gallery':
                 return $this->doAddGallery();
                 
             case 'delete_gallery':
                 return $this->doDeleteGallery();
+                
+            case 'rename_gallery':
+                return $this->doRenameGallery();
                 
             case 'get_image_tags_and_galleries':
                 return $this->getImageTagsAndGalleries();
@@ -50,6 +62,108 @@ class Image
                 throw new \RuntimeException('What are you looking for?');
         }
     } // end handle
+    
+    private function doUploadSingleImage()
+    {
+        $model = '\\' . Config::get('jarboe::images.models.image');
+        
+        $entity = $model::find(Input::get('id'));
+        
+        $file = Input::file('image');
+        
+        $extension = $file->guessExtension();
+        $rawFileName = md5_file($file->getRealPath()) .'_'. time();
+        $fileName = $rawFileName .'.'. $extension;
+        $ident = Input::get('type') ? 'source_'. Input::get('type') : 'source';
+        
+        $prefixPath = '/storage/j-image-storage/';
+        //
+        list(, $postfixPath) = $this->getPathByID($entity->id);
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        //$file->move(public_path() . $destinationPath, $fileName);
+        
+        if (Input::get('type')) {
+            $img = \Image::make($file->getRealPath());
+            $sizes = Config::get('jarboe::images.image.sizes', array());
+            
+            foreach ($sizes[Input::get('type')]['modify'] as $method => $args) {
+                call_user_func_array(array($img, $method), $args);
+            }
+                    
+            $path = $destinationPath . $rawFileName .'_'. Input::get('type') .'.'. $extension;
+            $img->save(public_path() .'/'. $path, 90);
+            
+            $entity->$ident = $path;
+        } else {
+            $entity->$ident = $destinationPath . $fileName;
+        }
+        
+        $entity->save();
+        
+        $data = array(
+            'status' => true,
+            'src'    => asset($entity->$ident),
+        );
+        return Response::json($data);
+    } // end doUploadSingleImage
+    
+    private function getImageForm()
+    {
+        $model = '\\' . Config::get('jarboe::images.models.image');
+        $image = $model::find(Input::get('id'));
+        
+        $type = Input::get('type_select');
+        $sizes  = Config::get('jarboe::images.image.sizes');
+        $fields = Config::get('jarboe::images.image.fields');
+        $select2 = $this->fetchSelect2(Input::get('id'));
+        
+        $html = View::make(
+            'admin::tb.storage.image.superbox_image_container', 
+            compact('image', 'sizes', 'type', 'select2', 'fields')
+        )->render();
+        
+        return Response::json(array(
+            'status' => true,
+            'html'   => $html,
+        ));
+    } // end getImageForm
+    
+    private function doRenameGallery()
+    {
+        $model = '\\' . Config::get('jarboe::images.models.gallery');
+        
+        $gallery = $model::find(Input::get('id'));
+        $gallery->title = Input::get('title');
+        $gallery->save();
+        
+        return Response::json(array(
+            'status' => true,
+        ));
+    } // end doRenameGallery
+    
+    private function doRenameTag()
+    {
+        $model = '\\' . Config::get('jarboe::images.models.tag');
+        
+        $gallery = $model::find(Input::get('id'));
+        $gallery->title = Input::get('title');
+        $gallery->save();
+        
+        return Response::json(array(
+            'status' => true,
+        ));
+    } // end doRenameTag
+    
+    private function fetchSelect2($idImage)
+    {
+        $html = '<fieldset>';
+        $html .= $this->fetchTagsSelect($idImage);
+        $html .= $this->fetchGalleriesSelect($idImage);
+        $html .= '</fieldset>';
+        
+        return $html;
+    } // end fetchSelect2
     
     private function getImageTagsAndGalleries()
     {
@@ -205,6 +319,23 @@ class Image
             $file->move(public_path() . $destinationPath, $fileName);
             
             $entity->source = $destinationPath . $fileName;
+
+            // image variations
+            $sourcePath = public_path() . $destinationPath . $fileName;
+            $sizes = Config::get('jarboe::images.image.sizes', array());
+            foreach ($sizes as $sizeIdent => $sizeInfo) {
+                $img = \Image::make($sourcePath);
+                foreach ($sizeInfo['modify'] as $method => $args) {
+                    call_user_func_array(array($img, $method), $args);
+                }
+                    
+                $path = $destinationPath . $rawFileName .'_'. $sizeIdent .'.'. $extension;
+                $img->save(public_path() .'/'. $path, 90);
+                
+                $fieldName = 'source_'. $sizeIdent;
+                $entity->$fieldName = $path;
+            }
+            
             $entity->save();
             
             $html .= View::make('admin::tb.storage.image.single_image')->with('image', $entity)->render();

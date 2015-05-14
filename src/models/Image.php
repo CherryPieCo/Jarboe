@@ -14,6 +14,15 @@ class Image extends \Eloquent
         return preg_replace('~"~', "~", $info);
     } // end getInfo
     
+    public function getSource($ident = '')
+    {
+        $ident = $ident ? '_' . $ident : '';
+        $source = 'source' . $ident;
+
+        
+        return $this->$source;
+    } // end getSource
+    
     public function tags()
     {
         $model = \Config::get('jarboe::images.models.tag');
@@ -24,10 +33,11 @@ class Image extends \Eloquent
     public function get($ident, $postfix = '')
     {
         $ident = $ident . $postfix;
-        $info  = json_decode($this->info, true);
         
-        if (!array_key_exists($ident, $info)) {
-            return false;
+        $info = json_decode($this->info, true);
+        
+        if (!$info || !array_key_exists($ident, $info)) {
+            return '';
         }
         
         return $info[$ident];

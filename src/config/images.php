@@ -14,6 +14,35 @@ return array(
             'title' => array(
                 'caption' => 'Caption',
             ),
-        )
+        ),
+        /*
+        'sizes' => array(
+            // $image->source_large
+            'large' => array(
+                'caption' => 'Large',
+                'modify' => array(
+                    'resize' => array(690, 460),
+                ),
+            ),
+            'medium' => array(
+                'caption' => 'Med',
+                'modify' => array(
+                    'resize' => array(360, 240),
+                ),
+            ),
+            'small' => array(
+                'caption' => 'Small',
+                'modify' => array(
+                    'resize' => array(300, 175),
+                ),
+            ),
+            'extra_small' => array(
+                'caption' => 'XS',
+                'modify' => array(
+                    'resize' => array(160, 80),
+                ),
+            ),
+        ),
+        */
     ),
 );

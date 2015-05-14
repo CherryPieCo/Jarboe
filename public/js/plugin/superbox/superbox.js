@@ -16,10 +16,10 @@
     $.fn.SuperBox = function(options) {
         
         var superbox      = $('<div class="superbox-show"></div>');
-        var superboximg   = $('<img src="" class="superbox-current-img"><a download="download" target="_blank" href="" class="j-btn-download btn btn-default btn-sm" style="position: absolute; top: 30px; left: 30px;">скачать оригинал</a><div id="imgInfoBox" class="superbox-imageinfo inline-block"> <h1>Image Title</h1><span style="display:inline;margin:0;"><form class="smart-form"></form><p class="well" style="overflow: auto;padding: 20px 8px 8px;margin: 0px;"><a href="javascript:void(0);" onclick="Superbox.saveImageInfo(this);" class="btn btn-success btn-sm pull-right j-btn-save">Сохранить</a> <a href="javascript:void(0);" onclick="Superbox.selectImage(this);" class="j-image-storage-select-image-btn btn btn-primary btn-sm pull-right j-btn-save"style="margin-right: 6px;">Выбрать</a> <a href="javascript:void(0);" onclick="Superbox.deleteImage(this);" class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a></p></span> </div>');
+        var superboximg   = $('#j-superbox-image-box').html();
         var superboxclose = $('<div class="superbox-close txt-color-white"><i class="fa fa-times fa-lg"></i></div>');
         
-        superbox.append(superboximg).append(superboxclose);
+        
         
         var imgInfoBox = $('.superbox-imageinfo');
         $('.superbox-list').unbind("click");
@@ -28,6 +28,70 @@
             
             $('.superbox-list').click(function() {
                 $this = $(this);
+                self = this;
+                var currentimg = $this.find('.superbox-img');
+                
+                console.log('oh hai');
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: { query_type: 'image_storage', storage_type: 'get_image_form', type_select: Superbox.type_select, id: currentimg.data('id'), '__node': TableBuilder.getUrlParameter('node') },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status) {
+                        
+                            $('.superbox-list').removeClass('active');
+                            $this.addClass('active');
+                        
+                            superbox.html('');
+                            superbox.append(response.html).append(superboxclose);
+                            console.log(superbox);
+                            if($('.superbox-current-img').css('opacity') == 0) {
+                                $('.superbox-current-img').animate({opacity: 1});
+                            }
+                            
+                            if ($(this).next().hasClass('superbox-show')) {
+                                $('.superbox-list').removeClass('active');
+                                superbox.toggle();
+                            } else {
+                                superbox.insertAfter(self).css('display', 'block');
+                                $this.addClass('active');
+                            }
+                            
+                            $('html, body').animate({
+                                scrollTop:superbox.position().top - currentimg.width()
+                            }, 'medium');
+
+                            $('.superbox').on('click', '.superbox-close', function() {
+                                $('.superbox-list').removeClass('active');
+                                $('.superbox-current-img').animate({opacity: 0}, 200, function() {
+                                    $('.superbox-show').slideUp();
+                                });
+                            });
+
+                            $('.select22').select2();
+                            jQuery('.j-images-storage').on('click', function() {
+                                jQuery('.select22').select2("close");
+                                jQuery('.select2-hidden-accessible').hide();
+                            });
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
+                
+                return;
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
                 var currentimg = $this.find('.superbox-img');
                 var imgData = currentimg.data('img');

@@ -22,6 +22,105 @@ var Superbox =
     {
     }, // end openCatalog
     
+    uploadSingleImage: function(context, type, idImage)
+    {
+        var data = new FormData();
+        data.append("image", context.files[0]);
+        data.append('query_type', 'image_storage');
+        data.append('storage_type', 'upload_single_image');
+        data.append('__node', TableBuilder.getUrlParameter('node'));
+        data.append('type', type);
+        data.append('id', idImage);
+
+        jQuery.ajax({
+            data: data,
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status) {
+                    $(context).parent().parent().parent().parent().find('.superbox-current-img').prop('src', response.src);
+                } else {
+                    TableBuilder.showErrorNotification("Ошибка при загрузке изображения");
+                }
+            }
+        });
+    }, // end uploadSingleImage
+    
+    showGalleryEditInput: function(context)
+    {
+        var $td = $(context).closest('td');
+        
+        $td.find('.b-value').hide();
+        $td.find('.b-input').show();
+    }, // end showGalleryEditInput
+    
+    closeGalleryEditInput: function(context)
+    {
+        var $td = $(context).closest('td');
+        
+        var value = $td.find('.b-value').show().find('a').text().trim();
+        $td.find('.b-input').hide().find('input').val(value);
+    }, // end closeGalleryEditInput
+    
+    saveGalleryEditInput: function(context, idGallery)
+    {
+        var $td = $(context).closest('td');
+        var value = $td.find('.b-input').hide().find('input').val();
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'image_storage', storage_type: 'rename_gallery', title: value, id: idGallery, '__node': TableBuilder.getUrlParameter('node') },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    $td.find('.b-value').show().find('a').text(value);
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end saveGalleryEditInput
+    
+    showTagEditInput: function(context)
+    {
+        var $td = $(context).closest('td');
+        
+        $td.find('.b-value').hide();
+        $td.find('.b-input').show();
+    }, // end showGalleryEditInput
+    
+    closeTagEditInput: function(context)
+    {
+        var $td = $(context).closest('td');
+        
+        var value = $td.find('.b-value').show().find('a').text().trim();
+        $td.find('.b-input').hide().find('input').val(value);
+    }, // end closeTagEditInput
+    
+    saveTagEditInput: function(context, idTag)
+    {
+        var $td = $(context).closest('td');
+        var value = $td.find('.b-input').hide().find('input').val();
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'image_storage', storage_type: 'rename_tag', title: value, id: idTag, '__node': TableBuilder.getUrlParameter('node') },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    $td.find('.b-value').show().find('a').text(value);
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end saveTagEditInput
+    
     deleteImage: function(context)
     {
         jQuery.SmartMessageBox({

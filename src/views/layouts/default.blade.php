@@ -101,9 +101,6 @@
         </div>
         
         
-        
-        
-        
         @include('admin::partials.header')
         @include('admin::partials.navigation')
 

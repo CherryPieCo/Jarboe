@@ -1,6 +1,21 @@
 <tr>
     <td>{{ $tag->id }}</td>
-    <td>{{ $tag->title }}</td>
+    <td>
+        <div class="b-value">
+            <a onclick="Superbox.showTagEditInput(this);" style="text-decoration: blink; border-bottom: rgb(153, 153, 153) 2px dotted; color: black;" href="javascript:void(0);">
+                {{ $tag->title }}
+            </a>
+        </div>
+        <div class="b-input" style="display: none;">
+            <input type="text" value="{{ $tag->title }}">
+            <a onclick="Superbox.saveTagEditInput(this, '{{ $tag->id }}');" href="javascript:void(0);" class="btn btn-default btn-sm" style="height: 24px;line-height: 8px;margin-top: -4px;">
+                <i class="fa fa-check"></i>
+            </a>
+            <a onclick="Superbox.closeTagEditInput(this);" href="javascript:void(0);" class="btn btn-default btn-sm" style="height: 24px;line-height: 8px;margin-top: -4px;">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+    </td>
     @if ($type == 'tag')
     <td width="1%">
         <a href="javascript:void(0);" class="btn btn-default btn-sm" 

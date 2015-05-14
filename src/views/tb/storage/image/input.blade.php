@@ -15,8 +15,8 @@
         <a onclick="TableBuilder.openImageStorageModal(this, '{{$type}}');" style="width:100%;" class="btn btn-info btn-sm" href="javascript:void(0);">Открыть</a>
     </div>
     
-    @if ($row)
-        <img style="height: 90px;" src="{{ glide($entity->source, []) }}">
+    @if ($row && $entity)
+        <img style="height: 90px;" src="{{ glide($entity->source, ['h' => 90]) }}">
     @endif
 </div>
 

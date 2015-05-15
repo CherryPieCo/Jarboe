@@ -1012,6 +1012,7 @@ console.log(values);
         data.append("image", context.files[0]);
         data.append('ident', ident);
         data.append('query_type', 'upload_photo');
+        data.append('__node', TableBuilder.getUrlParameter('node'));
         
         var $progress = jQuery(context).parent().parent().parent().parent().parent().find('.progress-bar');
         //console.log($progress);
@@ -1099,6 +1100,7 @@ console.log(values);
         data.append("image", context.files[0]);
         data.append('ident', ident);
         data.append('query_type', 'upload_photo');
+        data.append('__node', TableBuilder.getUrlParameter('node'));
         
         var $progress = jQuery(context).parent().parent().parent().parent().parent().find('.progress-bar');
         
@@ -1218,6 +1220,7 @@ console.log(num);
         var data = new FormData();
         data.append("image", files[0]);
         data.append('query_type', 'upload_photo_wysiwyg');
+        data.append('__node', TableBuilder.getUrlParameter('node'));
 
         jQuery.ajax({
             data: data,
@@ -1278,6 +1281,7 @@ console.log(num);
         data.append("file", context.files[0]);
         data.append('query_type', 'upload_file');
         data.append('ident', ident);
+        data.append('__node', TableBuilder.getUrlParameter('node'));
 
         jQuery.ajax({
             data: data,

@@ -31,7 +31,7 @@
                         jQuery(document).ready(function() {
                             jQuery('#{{$pre . $name . $tab['postfix']}}-wysiwyg').redactor({
                                 buttonSource: true,
-                                imageUpload: '{{ url($action) }}?query_type=redactor_image_upload',
+                                imageUpload: '{{ preg_match('~\?~', $action) ? url($action).'&query_type=redactor_image_upload' : url($action).'?query_type=redactor_image_upload' }}',
                                 imageUploadCallback: function(image, json) {
                                     console.log(this);
                                     console.log(image);
@@ -39,7 +39,7 @@
                                     //TableBuilder.uploadImageFromWysiwygSummertime(files, editor, $editable);
                                 },
                                 <?php // FIXME: ?>
-                                imageManagerJson: '{{ url($action) }}?query_type=image_storage&storage_type=get_redactor_images_list&__node={{ \Input::get('__node') }}',
+                                imageManagerJson: '{{ preg_match('~\?~', $action) ? url($action).'&query_type=image_storage&storage_type=get_redactor_images_list' : url($action).'?query_type=image_storage&storage_type=get_redactor_images_list&__node='. \Input::get('__node', \Input::get('node')) }}',
                                 plugins: ['imagemanager']
                             });
                         });

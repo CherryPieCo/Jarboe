@@ -76,12 +76,12 @@
         
         
         <p class="well" style="overflow: auto;padding: 20px 8px 8px;margin: 0px;">
-            <a onclick="Superbox.saveImageInfo(this);" href="javascript:void(0);" 
+            <a onclick="Superbox.saveImageInfo(this, {{ $image->id }});" href="javascript:void(0);" 
                                           class="btn btn-success btn-sm pull-right j-btn-save">Сохранить</a> 
-            <a onclick="Superbox.selectImage(this);" href="javascript:void(0);" 
+            <a onclick="Superbox.selectImage(this, {{ $image->id }});" href="javascript:void(0);" 
                                           class="j-image-storage-select-image-btn btn btn-primary btn-sm pull-right j-btn-save" 
                                           style="margin-right: 6px;">Выбрать</a> 
-            <a onclick="Superbox.deleteImage(this);" href="javascript:void(0);" 
+            <a onclick="Superbox.deleteImage(this, {{ $image->id }});" href="javascript:void(0);" 
                                           class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a>
         </p>
     </span> 

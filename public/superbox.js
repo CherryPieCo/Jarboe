@@ -121,7 +121,7 @@ var Superbox =
         });
     }, // end saveTagEditInput
     
-    deleteImage: function(context)
+    deleteImage: function(context, idImage)
     {
         jQuery.SmartMessageBox({
             title : "Удалить изображение?",
@@ -132,7 +132,7 @@ var Superbox =
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
-                    data: { query_type: 'image_storage', storage_type: 'delete_image', id: $(context).data('id'), '__node': TableBuilder.getUrlParameter('node') },
+                    data: { query_type: 'image_storage', storage_type: 'delete_image', id: idImage, '__node': TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
                         if (response.status) {
@@ -197,11 +197,11 @@ var Superbox =
         });
     }, // end uploadFile
     
-    saveImageInfo: function(context)
+    saveImageInfo: function(context, idImage)
     {
         var $context = $(context);
         var data = $context.parent().parent().find('form').serializeArray();
-        data.push({ name: 'id', value: $context.data('id') });
+        data.push({ name: 'id', value: idImage });
         data.push({ name: 'query_type', value: 'image_storage' });
         data.push({ name: 'storage_type', value: 'save_image_info' });
         data.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
@@ -225,11 +225,9 @@ var Superbox =
         console.table(data);
     }, // end saveImageInfo
     
-    selectImage: function(context)
+    selectImage: function(context, idImage)
     {
-        var value = $('.superbox .superbox-list.active .superbox-img', '.b-j-images').data('id');
-        
-        Superbox.input.val(value);
+        Superbox.input.val(idImage);
         TableBuilder.closeImageStorageModal();
     }, // end selectImage
     

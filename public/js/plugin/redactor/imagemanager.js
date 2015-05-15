@@ -47,12 +47,14 @@ if (!RedactorPlugins) var RedactorPlugins = {};
             insert: function(e)
             {
                 var code = '<img class="j-image" src="' + $(e.target).data('source') + '"';
-                console.log($(e.target).data('info'));
-                var info = JSON.parse($(e.target).data('info').replace(/~/g, '"'));
-                console.log(info);
-                $.each(info, function(key, value) {
-                    code += ' data-'+ key +'="'+ value +'"';
-                });
+                
+                if (!!$(e.target).data('info')) {
+                    var info = JSON.parse($(e.target).data('info').replace(/~/g, '"'));
+                    console.log(info);
+                    $.each(info, function(key, value) {
+                        code += ' data-'+ key +'="'+ value +'"';
+                    });
+                }
                 
                 code += '>';
                 

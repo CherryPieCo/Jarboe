@@ -22,6 +22,9 @@ class File
             case 'upload_file':
                 return $this->doUploadFile();
                 
+            case 'show_edit_file':
+                return $this->getFileEditForm();
+                
             case 'delete_file':
                 return $this->doDeleteFile();
                 
@@ -29,6 +32,16 @@ class File
                 throw new \RuntimeException('What are you looking for?');
         }
     } // end handle
+    
+    private function getFileEditForm()
+    {
+        $html = '';
+        
+        return Response::json(array(
+            'status' => true,
+            'html'   => $html,
+        ));
+    } // end getFileEditForm
     
     private function doDeleteFile()
     {

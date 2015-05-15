@@ -10,6 +10,25 @@ var FileStorage =
         //
     }, // end init
     
+    editFileInfo: function(context, idFile)
+    {
+        jQuery.ajax({
+            data: { query_type: 'file_storage', storage_type: 'show_edit_file', id: idFile, '__node': TableBuilder.getUrlParameter('node') },
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log(response);
+                if (response.status) {
+                    
+                } else {
+                    TableBuilder.showErrorNotification("Ошибка");
+                }
+            }
+        });
+    }, // end editFileInfo
     
     uploadFile: function(context)
     {

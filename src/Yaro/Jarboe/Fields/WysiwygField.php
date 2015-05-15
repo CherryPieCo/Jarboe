@@ -39,7 +39,11 @@ class WysiwygField extends AbstractField
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
         
-        $input->action = $this->definition['options']['action_url'];
+        $action = $this->definition['options']['action_url'];
+        if (isset($this->definition['options']['action_url_tree'])) {
+            $action = $this->definition['options']['action_url_tree'];
+        }
+        $input->action = $action;
 
         return $input->render();
     } // end getEditInput
@@ -81,7 +85,12 @@ class WysiwygField extends AbstractField
         $input->options = $this->getWysiwygOptions();
         $input->tabs = $this->getPreparedTabs($row);
         $input->caption = $this->getAttribute('caption');
-        $input->action = $this->definition['options']['action_url'];
+        
+        $action = $this->definition['options']['action_url'];
+        if (isset($this->definition['options']['action_url_tree'])) {
+            $action = $this->definition['options']['action_url_tree'];
+        }
+        $input->action = $action;
         // HACK: for tabs right behaviour in edit-create modals
         $input->pre = $row ? 'e' : 'c';
         

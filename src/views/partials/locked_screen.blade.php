@@ -1,7 +1,6 @@
 
 <form id="locked-screen-form" class="smart-form animated flipInY" action="{{url('login')}}" style="width: 450px;margin: 100px auto 0;">
     <header>
-        Авторизируйтесь
     </header>
 
     <fieldset>

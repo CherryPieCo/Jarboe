@@ -150,7 +150,7 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $idNode  = Input::get('__node', 1);
+        $idNode  = Input::get('__node', Input::get('node', 1));
         $current = $model::find($idNode);
 
         $templates = Config::get('jarboe::tree.templates');

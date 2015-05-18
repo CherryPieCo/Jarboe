@@ -200,7 +200,7 @@ var Superbox =
     saveImageInfo: function(context, idImage)
     {
         var $context = $(context);
-        var data = $context.parent().parent().find('form').serializeArray();
+        var data = $context.parent().parent().parent().find('form').serializeArray();
         data.push({ name: 'id', value: idImage });
         data.push({ name: 'query_type', value: 'image_storage' });
         data.push({ name: 'storage_type', value: 'save_image_info' });

@@ -85,6 +85,28 @@
 
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datepicker/jquery.ui.datepicker-ru.js')}}"></script>
 
+<script type="text/javascript" src="{{asset('packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-addon.js')}}"></script>
+<script type="text/javascript" src="{{asset('packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-addon-i18n.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-sliderAccess.js')}}"></script>
+<script>
+$.timepicker.regional['ru'] = {
+    timeOnlyTitle: 'Выберите время',
+    timeText: 'Время',
+    hourText: 'Часы',
+    minuteText: 'Минуты',
+    secondText: 'Секунды',
+    millisecText: 'Миллисекунды',
+    timezoneText: 'Часовой пояс',
+    currentText: 'Сейчас',
+    closeText: 'Закрыть',
+    timeFormat: 'HH:mm',
+    amNames: ['AM', 'A'],
+    pmNames: ['PM', 'P'],
+    isRTL: false
+};
+$.timepicker.setDefaults($.timepicker.regional['ru']);
+</script>
+
 <script src="{{ asset('packages/yaro/jarboe/js/plugin/superbox/superbox.js') }}"></script>
 <script src="{{ asset('packages/yaro/jarboe/superbox.js') }}"></script>
 

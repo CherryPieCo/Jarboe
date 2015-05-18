@@ -15,9 +15,21 @@ class Tree extends \Baum\Node
     {
         $slug = \Jarboe::urlify($value);
         
-        $slugCount = $this->where('parent_id', $this->parent_id)
-                          ->where('id', '<>', $this->id)
-                          ->whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")->count();
+        $maxSlug = $this->where('parent_id', $this->parent_id)
+                        ->where('id', '<>', $this->id)
+                        ->whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")
+                        ->orderByRaw('MAX(slug)')
+                        ->pluck('slug');
+        $slugCount = '';
+        if ($maxSlug) {
+            preg_match('~(\d+)$~', $maxSlug, $matches);
+            if (isset($matches[1])) {
+                $slugCount = $matches[1] + 1;
+            } else {
+                $slugCount = 1;
+            }
+            
+        }
         $slug = $slugCount ? $slug .'-'. $slugCount : $slug;
         
         $this->attributes['slug'] = $slug;

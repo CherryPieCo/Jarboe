@@ -363,7 +363,7 @@ class Image
     private function getRedactorImagesList()
     {
         $model = '\\' . Config::get('jarboe::images.models.image');
-        $images = $model::all();
+        $images = $model::orderBy('id', 'desc')->get();
         
         $data = array();
         foreach ($images as $image) {
@@ -448,6 +448,8 @@ class Image
         $sanitized = $values;
         
         unset($sanitized['id']);
+        unset($sanitized['__node']);
+        unset($sanitized['node']);
         unset($sanitized['storage_type']);
         unset($sanitized['query_type']);
         unset($sanitized['j-tags']);

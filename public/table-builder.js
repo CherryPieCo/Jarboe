@@ -885,9 +885,12 @@ var TableBuilder = {
             .val('');
         jQuery('textarea', context).text('');
         
+        // summernote
         if (jQuery('div[id$="-wysiwyg"]', context).length) {
             jQuery('div[id$="-wysiwyg"]', context).code('');
         }
+        // redactor
+        jQuery('textarea[id$="-wysiwyg"]').redactor('code.set', '');
         
         jQuery('input, textarea', context).removeClass('valid').removeClass('invalid');
         jQuery('.state-success, .state-error', context).removeClass('state-success').removeClass('state-error');

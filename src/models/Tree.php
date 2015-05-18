@@ -16,6 +16,7 @@ class Tree extends \Baum\Node
         $slug = \Jarboe::urlify($value);
         
         $slugCount = $this->where('parent_id', $this->parent_id)
+                          ->where('id', '<>', $this->id)
                           ->whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")->count();
         $slug = $slugCount ? $slug .'-'. $slugCount : $slug;
         

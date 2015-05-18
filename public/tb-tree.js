@@ -253,7 +253,15 @@ var Tree =
                     return { "name": this.name, "value": 0 };
                 }).get()
         );
-        console.log(values);
+        var selectMultiple = [];
+        jQuery(TableBuilder.edit_form).find('select[multiple="multiple"]').each(function(i, value) {
+            if (!$(this).val()) {
+                selectMultiple.push({"name": this.name, "value": ''});
+            }
+        })
+        console.table(selectMultiple);
+        values = values.concat(selectMultiple);
+        console.table(values);
         
         jQuery.ajax({
             type: "POST",

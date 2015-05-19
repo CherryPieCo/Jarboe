@@ -83,8 +83,9 @@ class Image
         
         //$file->move(public_path() . $destinationPath, $fileName);
         
+        $img = \Image::make($file->getRealPath());
         if (Input::get('type')) {
-            $img = \Image::make($file->getRealPath());
+            
             $sizes = Config::get('jarboe::images.image.sizes', array());
             
             foreach ($sizes[Input::get('type')]['modify'] as $method => $args) {
@@ -92,12 +93,12 @@ class Image
             }
                     
             $path = $destinationPath . $rawFileName .'_'. Input::get('type') .'.'. $extension;
-            $img->save(public_path() .'/'. $path, 90);
-            
-            $entity->$ident = $path;
         } else {
-            $entity->$ident = $destinationPath . $fileName;
+            $path = $destinationPath . $fileName;
         }
+        
+        $entity->$ident = $path;
+        $img->save(public_path() .'/'. $path, 90);
         
         $entity->save();
         

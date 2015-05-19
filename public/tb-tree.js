@@ -120,7 +120,10 @@ var Tree =
                 });
             }
             */
-        });
+        }).bind("dblclick.jstree", function (event) {
+            var node = $(event.target).closest("li");
+            window.location.href = window.location.origin + window.location.pathname + '?node='+ node.context.parentElement.dataset.id;
+        });;
 
         var to = false;
         $('#plugins4_q').keyup(function () {

@@ -27,8 +27,9 @@
                                        class="dblclick-edit-input form-control input-sm unselectable"></input>
                             @elseif ($fieldInfo['type'] == 'select')
                                 <select style="width: auto;" name="{{$name}}[#{i}][{{$field}}]" class="dblclick-edit-input form-control input-sm unselectable">
+                                    <?php reset($fieldInfo['options']); $firstOptionIdent = key($fieldInfo['options']); ?>
                                     @foreach ($fieldInfo['options'] as $optionIdent => $optionCaption)
-                                        <option value="{{ $optionIdent }}" {{ $optionIdent == key($fieldInfo['options']) ? 'selected="selected"' : '' }}>
+                                        <option value="{{ $optionIdent }}" {{ $optionIdent == $firstOptionIdent ? 'selected="selected"' : '' }}>
                                             {{ $optionCaption }}
                                         </option>
                                     @endforeach

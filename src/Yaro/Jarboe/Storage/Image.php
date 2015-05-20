@@ -370,7 +370,8 @@ class Image
         foreach ($images as $image) {
             $data[] = array(
                 'id'     => $image->id,
-                'thumb'  => glide($image->source, ['w' => 100, 'h' => 75, 'fit' => 'crop']),
+                // FIXME:
+                'thumb'  => asset($image->source),
                 'source' => URL::to($image->source),
                 'title'  => $image->title,
                 'info'   => $image->getInfo(),

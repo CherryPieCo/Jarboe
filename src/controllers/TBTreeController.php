@@ -100,6 +100,8 @@ class TBTreeController extends \Controller
         $item = Tree::find($idNode);
         $result['html'] = View::make('admin::tree.content_row', compact('item'))->render();
 
+        $this->doFlushTreeStructureCache();
+
         return Response::json($result);   
     } // end doEditNode
     
@@ -107,6 +109,9 @@ class TBTreeController extends \Controller
     {
         $item = Tree::find(Input::get('id'));
         $status = $item->delete();
+        
+        
+        $this->doFlushTreeStructureCache();
         
         return Response::json(array(
             'status' => $status
@@ -163,6 +168,8 @@ class TBTreeController extends \Controller
         }
         
         Tree::rebuild();
+        
+        $this->doFlushTreeStructureCache();
 
         $item = Tree::find($item->id);
         
@@ -173,12 +180,27 @@ class TBTreeController extends \Controller
         );
         return Response::json($data);
     } // end changePosition
+    
+    private function doFlushTreeStructureCache()
+    {
+        \Cache::tags('j_tree')->flush();
+    } // end doFlushTreeStructureCache
 
     public function changeActive()
     {
+        $activeField = \Config::get('jarboe::tree.node_active_field.field');
+        $options = \Config::get('jarboe::tree.node_active_field.options', array());
+        
+        $value = Input::get('is_active');
+        if ($options) {
+            $value = implode(array_filter(Input::get('onoffswitch', array())), ',');
+        }
+        
         DB::table('tb_tree')->where('id', Input::get('id'))->update(array(
-            'is_active' => Input::get('is_active')
+            $activeField => $value
         ));
+        
+        $this->doFlushTreeStructureCache();
     } // end changeActive
     
     public function doCreateNode()
@@ -197,6 +219,8 @@ class TBTreeController extends \Controller
         
         Tree::rebuild();
         
+        $this->doFlushTreeStructureCache();
+        
         return Response::json(array(
             'status' => true, 
         ));
@@ -214,6 +238,8 @@ class TBTreeController extends \Controller
             default:
                 throw new \RuntimeException('someone tries to hack me :c');
         }
+        
+        $this->doFlushTreeStructureCache();
     } // end doUpdateNode
 
 }

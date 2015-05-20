@@ -72,6 +72,8 @@ class TreeCatalogController
             default:
                 throw new \RuntimeException('someone tries to hack me :c');
         }
+        
+        $model::flushCache();
     } // end doUpdateNode
         
     public function doCreateNode()
@@ -93,6 +95,7 @@ class TreeCatalogController
         $node->makeChildOf($root);
         
         $model::rebuild();
+        $model::flushCache();
         
         return Response::json(array(
             'status' => true, 
@@ -101,12 +104,25 @@ class TreeCatalogController
     
     public function doChangeActiveStatus()
     {
+        $activeField = \Config::get('jarboe::tree.node_active_field.field');
+        $options = \Config::get('jarboe::tree.node_active_field.options', array());
         $model = $this->model;
         
         $node = $model::find(Input::get('id'));
-        $node->is_active = Input::get('is_active');
+        
+        $value = Input::get('is_active');
+        if ($options) {
+            $value = implode(array_filter(array_keys(Input::get('onoffswitch', array()))), ',');
+        }
+        $node->$activeField = $value;
         
         $node->save();
+        
+        $model::flushCache();
+        
+        return Response::json(array(
+            'axtive' => true
+        ));
     } // end doChangeActiveStatus
     
     public function doChangePosition()
@@ -136,6 +152,7 @@ class TreeCatalogController
         }
         
         $model::rebuild();
+        $model::flushCache();
 
         $item = $model::find($item->id);
         
@@ -181,6 +198,7 @@ class TreeCatalogController
         $model = $this->model;
         
         $status = $model::destroy(Input::get('id'));
+        $model::flushCache();
         
         return Response::json(array(
             'status' => $status
@@ -281,6 +299,8 @@ class TreeCatalogController
         
         
         $result = $controller->query->updateRow(Input::all());
+        $model::flushCache();
+        
         $item = $model::find($idNode);
         $result['html'] = View::make('admin::tree.content_row', compact('item'))->render();
 

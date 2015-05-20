@@ -11,6 +11,11 @@ class Tree extends \Baum\Node
 
     protected $_nodeUrl;
     
+    public static function flushCache()
+    {
+        \Cache::tags('j_tree')->flush();
+    } // end flushCache
+    
     public function setSlugAttribute($value)
     {
         $slug = \Jarboe::urlify($value);
@@ -62,9 +67,26 @@ class Tree extends \Baum\Node
         return $this->_nodeUrl;
     } // end getUrl
 
-    public function isActive()
+    public function isActive($setIdent = false)
     {
-        return $this->is_active == 1;
+        $activeField = \Config::get('jarboe::tree.node_active_field.field');
+        $options = \Config::get('jarboe::tree.node_active_field.options', array());
+        
+        if ($setIdent) {
+            return !!preg_match('~'. preg_quote($setIdent) .'~', $this->$activeField);
+        }
+        
+        if (!$options) {
+            return $this->$activeField == 1;
+        }
+        
+        foreach ($options as $ident => $caption) {
+            if (preg_match('~'. preg_quote($ident) .'~', $this->$activeField)) {
+                return true;
+            }
+        }
+        
+        return false;
     } // end isActive
 
     public function getGeneratedUrl()

@@ -154,6 +154,30 @@ var Tree =
         });
     }, // end activeToggle
     
+    activeSetToggle: function(context, id)
+    {
+        var $table = $(context).closest('table');
+        var $smoke = $table.parent().find('.node-active-smoke-lol');
+        $smoke.show();
+        
+        var data = $table.find(':input').serializeArray();
+        data.push({ name: 'id', value: id });
+        data.push({ name: 'query_type', value: 'do_change_active_status' });
+        
+        console.table(data);
+        
+        jQuery.ajax({
+            url: window.location.href,
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: data,
+            success: function(response) {
+                $smoke.hide();
+            }
+        });
+    }, // end activeSetToggle
+    
     showCreateForm: function(id)
     {
         $('#cf-node', '#tree-create-modal').val(id);

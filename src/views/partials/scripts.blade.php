@@ -143,6 +143,7 @@ $.timepicker.setDefaults($.timepicker.regional['ru']);
 
 <script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.min.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/imagemanager.js')}}"></script>
+<script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/table.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.css')}}">
 
 <!-- JQUERY MASKED INPUT -->

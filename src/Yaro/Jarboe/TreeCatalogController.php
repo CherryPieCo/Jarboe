@@ -78,6 +78,8 @@ class TreeCatalogController
         
     public function doCreateNode()
     {
+        $activeField = \Config::get('jarboe::tree.node_active_field.field');
+        $options = \Config::get('jarboe::tree.node_active_field.options', false);
         $model = $this->model;
         
         $root = $model::find(Input::get('node', 1));
@@ -86,7 +88,7 @@ class TreeCatalogController
         $node->parent_id = Input::get('node', 1);
         $node->title     = Input::get('title');
         $node->template  = Input::get('template');
-        $node->is_active = '0';
+        $node->$activeField = $options ? '' : '0';
         $node->save();
         
         $node->slug = Input::get('slug') ? : Input::get('title');

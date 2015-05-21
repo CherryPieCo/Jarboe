@@ -365,14 +365,15 @@ class Image
     {
         $model = '\\' . Config::get('jarboe::images.models.image');
         $images = $model::orderBy('id', 'desc')->get();
+        $wysiwygColumn = Config::get('jarboe::images.wysiwyg_image_type', 'source');
         
         $data = array();
         foreach ($images as $image) {
             $data[] = array(
                 'id'     => $image->id,
-                // FIXME:
-                'thumb'  => asset($image->source),
-                'source' => URL::to($image->source),
+                // FIXME: thumb generate
+                'thumb'  => asset($image->$wysiwygColumn),
+                'source' => asset($image->$wysiwygColumn),
                 'title'  => $image->title,
                 'info'   => $image->getInfo(),
             );

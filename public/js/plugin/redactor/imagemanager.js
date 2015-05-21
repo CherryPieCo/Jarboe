@@ -46,7 +46,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
             },
             insert: function(e)
             {
-                var code = '<img class="j-image" src="' + $(e.target).data('source') + '"';
+                var code = '<img data-j_images_id="'+ $(e.target).data('id') +'" class="j-image" src="' + $(e.target).data('source') + '"';
                 
                 if (!!$(e.target).data('info')) {
                     var info = JSON.parse($(e.target).data('info').replace(/~/g, '"'));

@@ -8,6 +8,11 @@ class Image extends \Eloquent
     
     protected $table = 'j_images';
     
+    public static function flushCache()
+    {
+        \Cache::tags('j_images')->flush();
+    } // end flushCache
+    
     public function getInfo($values = false)
     {
         $info = $values ? : $this->info;

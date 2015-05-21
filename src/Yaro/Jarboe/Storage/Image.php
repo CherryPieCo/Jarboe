@@ -102,6 +102,8 @@ class Image
         
         $entity->save();
         
+        $model::flushCache();
+        
         $data = array(
             'status' => true,
             'src'    => asset($entity->$ident),
@@ -276,6 +278,8 @@ class Image
         $model = '\\' . Config::get('jarboe::images.models.image');
         $model::destroy(Input::get('id'));
         
+        $model::flushCache();
+        
         return Response::json(array(
             'status' => true
         ));
@@ -341,6 +345,9 @@ class Image
             
             $html .= View::make('admin::tb.storage.image.single_image')->with('image', $entity)->render();
         }
+
+
+        $model::flushCache();
         
         $data = array(
             'status' => true,
@@ -404,6 +411,8 @@ class Image
         $image->info = json_encode($values);
         $image->save();
         
+        $model::flushCache();
+        
         return Response::json(array(
             'status' => true,
             'info'   => $image->getInfo($values)
@@ -451,8 +460,8 @@ class Image
         $sanitized = $values;
         
         unset($sanitized['id']);
-        unset($sanitized['__node']);
         unset($sanitized['node']);
+        unset($sanitized['__node']);
         unset($sanitized['storage_type']);
         unset($sanitized['query_type']);
         unset($sanitized['j-tags']);

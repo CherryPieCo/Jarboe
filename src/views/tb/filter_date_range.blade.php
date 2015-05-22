@@ -32,23 +32,21 @@
 
 <script>
 jQuery(document).ready(function() {
-    jQuery("#f-from-{{$name}}").datetimepicker({
+    jQuery("#f-from-{{$name}}").datepicker({
         changeMonth: true,
         prevText: '<i class="fa fa-chevron-left"></i>',
         nextText: '<i class="fa fa-chevron-right"></i>',
         dateFormat: "dd/mm/yy",
-        timeFormat: 'HH:mm:ss',
         //showButtonPanel: true,
         regional: ["ru"],
         onClose: function (selectedDate) {}
     });
     
-    jQuery("#f-to-{{$name}}").datetimepicker({
+    jQuery("#f-to-{{$name}}").datepicker({
         changeMonth: true,
         prevText: '<i class="fa fa-chevron-left"></i>',
         nextText: '<i class="fa fa-chevron-right"></i>',
         dateFormat: "dd/mm/yy",
-        timeFormat: 'HH:mm:ss',
         //showButtonPanel: true,
         regional: ["ru"],
         onClose: function (selectedDate) {}

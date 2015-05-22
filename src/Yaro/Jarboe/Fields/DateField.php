@@ -22,14 +22,14 @@ class DateField extends AbstractField
             $db->whereBetween(
                 $table .'.'. $this->getFieldName(), 
                 array(
-                    date('Y-m-d H:i:s', $dateFrom), 
-                    date('Y-m-d H:i:s', $dateTo)
+                    date('Y-m-d', $dateFrom), 
+                    date('Y-m-d', $dateTo)
                 )
             );
         } else {
             $db->where(
                 $table .'.'. $this->getFieldName(), 
-                date('Y-m-d H:i:s', $this->getTimestamp($value))
+                date('Y-m-d', $this->getTimestamp($value))
             );
         }
     } // end onSearchFilter
@@ -42,7 +42,7 @@ class DateField extends AbstractField
             }
         }
 
-        return date('Y-m-d H:i:s', $this->getTimestamp($value));
+        return date('Y-m-d', $this->getTimestamp($value));
     } // end prepareQueryValue
     
     private function getTimestamp($date)
@@ -82,7 +82,7 @@ class DateField extends AbstractField
         $value = $this->getValue($row);
         $value = $value ? date('d/m/Y', $this->getTimestamp($value)) : '';
 
-        $input = View::make('admin::tb.input_datetime');
+        $input = View::make('admin::tb.input_date');
         $input->value  = $value;
         $input->name   = $this->getFieldName();
         $input->months = $this->getAttribute('months');
@@ -106,7 +106,7 @@ class DateField extends AbstractField
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
         $filter = Session::get($sessionPath, '');
 
-        $input = View::make('admin::tb.filter_datetime');
+        $input = View::make('admin::tb.filter_date');
         $input->name = $this->getFieldName();
         $input->value = $filter;
         $input->months = $this->getAttribute('months');
@@ -120,7 +120,7 @@ class DateField extends AbstractField
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
         $filter = Session::get($sessionPath, array());
 
-        $input = View::make('admin::tb.filter_datetime_range');
+        $input = View::make('admin::tb.filter_date_range');
         $input->name = $this->getFieldName();
         $input->valueFrom = isset($filter['from']) ? $filter['from'] : false;
         $input->valueTo = isset($filter['to']) ? $filter['to'] : false;

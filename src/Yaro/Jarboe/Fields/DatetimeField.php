@@ -66,7 +66,7 @@ class DatetimeField extends AbstractField
         $timestamp = $this->getTimestamp($this->getValue($row));
         
         // FIXME:
-        return date('d/m/Y', $timestamp);
+        return date('d/m/Y H:i:s', $timestamp);
     } // end getListValue
 
     public function getEditInput($row = array())
@@ -80,7 +80,7 @@ class DatetimeField extends AbstractField
 
         // FIXME:
         $value = $this->getValue($row);
-        $value = $value ? date('d/m/Y', $this->getTimestamp($value)) : '';
+        $value = $value ? date('d/m/Y H:i:s', $this->getTimestamp($value)) : '';
 
         $input = View::make('admin::tb.input_datetime');
         $input->value  = $value;

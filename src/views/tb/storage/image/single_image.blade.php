@@ -1,8 +1,7 @@
 
 <div class="superbox-list">
-    <img class="superbox-img" 
-         src="{{ glide($image->source, ['w' => 160, 'h' => 160, 'fit' => 'crop']) }}" 
-         data-img="{{ glide($image->source, ['w' => 666, 'h' => 420]) }}" 
+    <img class="superbox-img" style="width:160px; height: 160px;" 
+         src="{{ asset($image->source) }}" 
          data-info="{{ $image->getInfo() }}" 
          data-id="{{ $image->id }}" 
          data-source="{{ asset($image->source) }}" 

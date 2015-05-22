@@ -121,12 +121,7 @@
                 </div>
             </div>
             
-            <div id="locked-screen" style="display: none;  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9999999;
-  height: 100%;
-  background-color: #fff;width: 100%;">
+            <div id="locked-screen" style="display: none;  position: fixed; top: 0; right: 0; z-index: 9999999; height: 100%; background-color: #fff;width: 100%;">
                 @include('admin::partials.locked_screen')
             </div>
         </div>

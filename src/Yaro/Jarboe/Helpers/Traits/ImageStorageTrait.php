@@ -19,27 +19,30 @@ trait ImageStorageTrait
         $patterns = array();
         $replacements = array();
         foreach ($ids as $index => $id) {
-            $image = $food->filter(function($item) use($id) {
+            $image = $images->filter(function($item) use($id) {
                 return $item->id == $id;
             })->first();
-            
+
             $patterns[] = '~'. preg_quote($html[$index]) .'~';
             $replacements[] = $image ? $this->fetchImage($image) : '';
         }
-        preg_replace($patterns, $replacements, $value);
-        
-        return $value;
+
+        return preg_replace($patterns, $replacements, $value);
     } // end doImagesParse
     
     public function fetchImage($image)
     {
-        $html = '<img class="j-image"';
-        $info = json_encode($image->info, true) ? : array();
+        $wysiwygSource = \Config::get('jarboe::images.wysiwyg_image_type');
+        $html = '<img class="j-image" src="'. asset($image->$wysiwygSource) 
+              . '" data-source="'. asset($image->source) .'"';
+
+        $info = $image->info ? json_decode($image->info, true) : array();
+
         foreach ($info as $key => $val) {
             $html .= ' data-'. $key .'="'. $val .'"';
         }
         $html .= '>';
-        
+
         return $html;
     } // end fetchImage
 

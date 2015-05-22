@@ -6,6 +6,25 @@
     jQuery(document).ready(function() {
         jQuery('#{{$name}}-wysiwyg').redactor({
             buttonSource: true,
+            pasteCallback: function(html) {
+                var redactor = this;
+                jQuery.ajax({
+                    type: "POST",
+                    // FIXME: move action url to options
+                    url: TableBuilder.admin_prefix +'/tb/embed-to-text',
+                    data: {text: redactor.code.get()},
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status) {
+                            console.log(response);
+                            redactor.code.set(response.html);
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
+                return html;
+            },
             imageUpload: '{{ url($action) }}?query_type=redactor_image_upload',
             imageUploadCallback: function(image, json) {
                 console.log(this);

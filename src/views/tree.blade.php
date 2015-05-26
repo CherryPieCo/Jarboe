@@ -18,7 +18,7 @@
         </thead>
         <tbody>
          <tr>
-            <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">@include('admin::tree.tree')</td>
+            <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;background-color: #fff;">@include('admin::tree.tree')</td>
             <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">
                 {{ $content }}
             </td>

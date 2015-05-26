@@ -25,6 +25,9 @@ class File
             case 'show_edit_file':
                 return $this->getFileEditForm();
                 
+            case 'save_file_info':
+                return $this->doSaveFileInfo();
+                
             case 'delete_file':
                 return $this->doDeleteFile();
                 
@@ -33,9 +36,39 @@ class File
         }
     } // end handle
     
+    private function doSaveFileInfo()
+    {
+        $model = '\\' . Config::get('jarboe::files.models.file');
+        $file = $model::find(Input::get('id')); 
+        
+        $values = $this->getSanitizedValues(Input::all());
+        $file->info = json_encode($values);
+        $file->save();
+        
+        return Response::json(array(
+            'status' => true,
+        ));
+    } // end doSaveFileInfo
+    
+    private function getSanitizedValues($values)
+    {
+        $sanitized = $values;
+        
+        unset($sanitized['id']);
+        unset($sanitized['node']);
+        unset($sanitized['__node']);
+        unset($sanitized['storage_type']);
+        unset($sanitized['query_type']);
+        
+        return $sanitized;
+    } // end getSanitizedValues
+    
     private function getFileEditForm()
     {
-        $html = '';
+        $fields = Config::get('jarboe::images.image.fields');
+        $model = '\\' . Config::get('jarboe::files.models.file');
+        $file = $model::find(Input::get('id'));
+        $html = View::make('admin::tb.storage.file.edit_form', compact('file', 'fields'))->render();
         
         return Response::json(array(
             'status' => true,

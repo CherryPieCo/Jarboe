@@ -1,7 +1,7 @@
-<section id="widget-grid" class="">
+<section id="widget-grid" class="" style="max-width: 300px;overflow: auto;width: 300px;margin: 0;">
 
     <!-- row -->
-    <div class="row" style="padding-right: 13px; padding-left: 13px;">
+    <div class="row" style="margin-right: 0; margin-left: 0;">
 
 <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px;">
 <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-3" style="margin: 0;"

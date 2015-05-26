@@ -9,7 +9,7 @@ trait ImageStorageTrait
     public function doImagesParse($value)
     {
         $model = \Config::get('jarboe::images.models.image');
-        $images = \Cache::tags('j_images', 'jarboe')->get('j_images', function() use($model) {
+        $images = \Cache::tags('j_images', 'jarboe')->rememberForever('j_images', function() use($model) {
             return $model::all(); 
         });
         

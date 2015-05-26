@@ -1,7 +1,7 @@
 <tr>
     <td>{{ $file->id }}</td>
     <td>{{ $file->title }}</td>
-    <td><a target="_blank" href="{{ asset($file->source) }}">{{ asset($file->source) }}</a></td>
+    <td><a download="{{$file->title}}" target="_blank" href="{{ asset($file->source) }}">{{ asset($file->source) }}</a></td>
     <td width="1%">
         <a href="javascript:void(0);" class="btn btn-default btn-sm" 
            onclick="FileStorage.selectFile(this, {{ $file->id }});">

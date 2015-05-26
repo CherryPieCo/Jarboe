@@ -12,23 +12,58 @@ var FileStorage =
     
     editFileInfo: function(context, idFile)
     {
+        $('.file-storage-edit-form-tr').remove();
+        
+        var data = { 
+            query_type: 'file_storage', 
+            storage_type: 'show_edit_file', 
+            id: idFile, 
+            '__node': TableBuilder.getUrlParameter('node') 
+        };
         jQuery.ajax({
-            data: { query_type: 'file_storage', storage_type: 'show_edit_file', id: idFile, '__node': TableBuilder.getUrlParameter('node') },
+            data: data,
             type: "POST",
             url: TableBuilder.getActionUrl(),
-            cache: false,
-            contentType: false,
-            processData: false,
+            dataType: 'json',
             success: function(response) {
-                console.log(response);
                 if (response.status) {
-                    
+                    var $tr = $(context).closest('tr');
+                    $tr.after(response.html);
                 } else {
                     TableBuilder.showErrorNotification("Ошибка");
                 }
             }
         });
     }, // end editFileInfo
+    
+    closeEditForm: function()
+    {
+        $('.file-storage-edit-form-tr').remove();
+    }, // end closeEditForm
+    
+    saveFileInfo: function(context, idFile)
+    {
+        var data = $(context).closest('form').serializeArray();
+        data.push({ name: 'id', value: idFile });
+        data.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
+        data.push({ name: 'query_type', value: 'file_storage' });
+        data.push({ name: 'storage_type', value: 'save_file_info' });
+        
+        jQuery.ajax({
+            data: data,
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    TableBuilder.showSuccessNotification("Успешно сохранено.");
+                    FileStorage.closeEditForm();
+                } else {
+                    TableBuilder.showErrorNotification("Ошибка, попробуйте позже");
+                }
+            }
+        });
+    }, // end closeEditForm
     
     uploadFile: function(context)
     {

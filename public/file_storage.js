@@ -99,6 +99,33 @@ var FileStorage =
         });
     }, // end uploadFile
     
+    reuploadFile: function(context, idFile)
+    {
+        var data = new FormData();
+        data.append("file", context.files[0]);
+        data.append('query_type', 'file_storage');
+        data.append('storage_type', 'reupload_file');
+        data.append('id', idFile);
+        data.append('__node', TableBuilder.getUrlParameter('node'));
+
+        jQuery.ajax({
+            data: data,
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log(response);
+                if (response.status) {
+                    TableBuilder.showSuccessNotification("Файл успшно перезалит");
+                } else {
+                    TableBuilder.showErrorNotification("Ошибка при загрузке файла");
+                }
+            }
+        });
+    }, // end uploadFile
+    
     deleteFile: function(context, idFile)
     {
         jQuery.SmartMessageBox({

@@ -22,6 +22,9 @@ class File
             case 'upload_file':
                 return $this->doUploadFile();
                 
+            case 'reupload_file':
+                return $this->doReuploadFile();
+                
             case 'show_edit_file':
                 return $this->getFileEditForm();
                 
@@ -100,7 +103,6 @@ class File
     {
         $model = '\\' . Config::get('jarboe::files.models.file');
         
-        
         $html = '';
         $files = Input::file('files');
         
@@ -150,6 +152,51 @@ class File
         
         return Response::json($data);
     } // end doUploadFile
+    
+    private function doReuploadFile()
+    {
+        $model = '\\' . Config::get('jarboe::files.models.file');
+        
+        $file = Input::file('file');
+        
+        $entity = $model::find(Input::get('id'));
+        
+        $mimeType = $file->getMimeType();
+        $extension = $file->guessExtension();
+        $rawFileName = md5_file($file->getRealPath()) .'_'. time();
+        $fileName = $rawFileName .'.'. $extension;
+        
+        $prefixPath = '/storage/j-files-storage/';
+        
+        //
+        list($chunks, $postfixPath) = $this->getPathByID($entity->id);
+        $tempPath = public_path() . $prefixPath;
+        
+        foreach ($chunks as $chunk) {
+            $tempPath = $tempPath . $chunk;
+            
+            if (!file_exists($tempPath)) {
+                if (!mkdir($tempPath, 0755, true)) {
+                    throw new \RuntimeException('Unable to create the directory ['. $tempPath .']');
+                }
+            }
+            $tempPath = $tempPath .'/';
+        }
+        $destinationPath = $prefixPath . $postfixPath;
+        
+        $file->move(public_path() . $destinationPath, $fileName);
+        
+        $entity->source = $destinationPath . $fileName;
+        $entity->size = $file->getSize();
+        $entity->mime = $mimeType;
+        $entity->extension = $extension;
+        $entity->save();
+        
+        $data = array(
+            'status' => true,
+        );
+        return Response::json($data);
+    } // end doReuploadFile
     
     private function getPathByID($id)
     {

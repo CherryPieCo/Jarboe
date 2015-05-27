@@ -14,6 +14,13 @@
             </div>
             @endforeach
             
+            <hr>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Перезагрузить файл</label>
+                <div class="col-md-10">
+                    <input type="file" class="btn btn-default" onchange="FileStorage.reuploadFile(this, {{ $file->id }});">
+                </div>
+            </div>
         </fieldset>
         
         

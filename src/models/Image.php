@@ -35,9 +35,9 @@ class Image extends \Eloquent
         return $this->belongsToMany($model, 'j_images2tags', 'id_image', 'id_tag');
     } // end tags
     
-    public function get($ident, $postfix = false)
+    public function get($ident, $localePostfix = false)
     {
-        $postfix = $postfix ? '_'. $postfix : '';
+        $postfix = $localePostfix ? '_'. \App::getLocale() : '';
         $ident = $ident . $postfix;
         
         $info = json_decode($this->info, true);

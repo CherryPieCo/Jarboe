@@ -8,9 +8,9 @@ class File extends \Eloquent
     
     protected $table = 'j_files';
     
-    public function get($ident, $postfix = false)
+    public function get($ident, $localePostfix = false)
     {
-        $postfix = $postfix ? '_'. $postfix : '';
+        $postfix = $localePostfix ? '_'. \App::getLocale() : '';
         $ident = $ident . $postfix;
         
         $info = json_decode($this->info, true);

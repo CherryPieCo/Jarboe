@@ -22,4 +22,19 @@ class File extends \Eloquent
         return $info[$ident];
     } // end get
     
+    public function getSize()
+    {
+        return $this->size;
+    } // end getSize
+    
+    public function getExtension()
+    {
+        return $this->extension;
+    } // end getExtension
+    
+    public function getMimeType()
+    {
+        return $this->mime;
+    } // end getMimeType
+    
 }

@@ -109,6 +109,7 @@ class File
             $entity->title = Input::get('title');
             $entity->save();
             
+            $mimeType = $file->getMimeType();
             $extension = $file->guessExtension();
             $rawFileName = md5_file($file->getRealPath()) .'_'. time();
             $fileName = $rawFileName .'.'. $extension;
@@ -134,6 +135,9 @@ class File
             $file->move(public_path() . $destinationPath, $fileName);
             
             $entity->source = $destinationPath . $fileName;
+            $entity->size = $file->getSize();
+            $entity->mime = $mimeType;
+            $entity->extension = $extension;
             $entity->save();
             
             $html .= View::make('admin::tb.storage.file.file_row')->with('file', $entity)->render();

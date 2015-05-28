@@ -24,6 +24,9 @@ Route::group(array('prefix' => Config::get('jarboe::admin.uri'), 'before' => arr
     // menu
     Route::post('tb/menu/collapse', 'Yaro\Jarboe\TBController@doSaveMenuPreference');
     
+    // structure
+    Route::post('tb/structure/save-height', 'Yaro\Jarboe\TBController@doSaveStructureHeight');
+    
     // FIXME: access permission check
     // users
     //Route::get('tb/users', 'Yaro\Jarboe\TBUsersController@showUsers');

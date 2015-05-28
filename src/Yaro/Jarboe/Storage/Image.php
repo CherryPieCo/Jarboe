@@ -379,8 +379,8 @@ class Image
             $data[] = array(
                 'id'     => $image->id,
                 // FIXME: thumb generate
-                'thumb'  => asset($image->$wysiwygColumn),
-                'source' => asset($image->$wysiwygColumn),
+                'thumb'  => asset(cropp($image->getSource())->fit(100, 75)),
+                'source' => asset($image->getSource()),
                 'title'  => $image->title,
                 'info'   => $image->getInfo(),
             );

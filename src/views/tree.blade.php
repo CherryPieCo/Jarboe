@@ -9,16 +9,19 @@
 
     <div id="table-preloader" class="smoke_lol"><i class="fa fa-gear fa-4x fa-spin"></i></div>
               
+    <div id="fff" style="height:300px;overflow-x: hidden;overflow-y: auto;background-color: #fff;margin-bottom: 25px;  border-bottom: solid #888 2px;">
+    <div>@include('admin::tree.tree_header')</div>
+    <div style="padding: 0px; vertical-align: top;text-align: left;background-color: #fff;">@include('admin::tree.tree')</div>
+    </div>    
+    
     <table id="tb-tree-table" class="table table-bordered">
         <thead>
           <tr>
-            <th style="width: 1%;">@include('admin::tree.tree_header')</th>
             <th class="text-left">@include('admin::tree.content_header')</th>
           </tr>
         </thead>
         <tbody>
          <tr>
-            <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;background-color: #fff;">@include('admin::tree.tree')</td>
             <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">
                 {{ $content }}
             </td>

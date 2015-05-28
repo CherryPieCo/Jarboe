@@ -1,4 +1,4 @@
-<section id="widget-grid" class="" style="max-width: 300px;overflow: auto;width: 300px;margin: 0;">
+<section id="widget-grid" class="resizable-structure" style="margin: 0;">
 
     <!-- row -->
     <div class="row" style="margin-right: 0; margin-left: 0;">

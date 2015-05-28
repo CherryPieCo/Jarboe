@@ -330,11 +330,15 @@ class Image
             $sizes = Config::get('jarboe::images.image.sizes', array());
             foreach ($sizes as $sizeIdent => $sizeInfo) {
                 $img = \Image::make($sourcePath);
+                $sizeExtension = $extension;
                 foreach ($sizeInfo['modify'] as $method => $args) {
                     call_user_func_array(array($img, $method), $args);
+                    if ($method == 'resizeCanvas' && (isset($args[4]) && preg_match('~rgba\(\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[01]+\.?[0-9]?\)~', $args[4]))) {
+                        $sizeExtension = 'png';
+                    }
                 }
                     
-                $path = $destinationPath . $rawFileName .'_'. $sizeIdent .'.'. $extension;
+                $path = $destinationPath . $rawFileName .'_'. $sizeIdent .'.'. $sizeExtension;
                 $img->save(public_path() .'/'. $path, 90);
                 
                 $fieldName = 'source_'. $sizeIdent;

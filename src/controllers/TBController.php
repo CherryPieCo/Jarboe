@@ -6,6 +6,16 @@ namespace Yaro\Jarboe;
 class TBController extends \Controller
 {
 
+    public function __construct()
+    {
+        $params = array(
+            'only' => array(
+                'postLogin',
+            )
+        );
+        $this->beforeFilter('csrf', $params);
+    } // end __construct
+
     public function showDashboard()
     {
         return \View::make('admin::dashboard');

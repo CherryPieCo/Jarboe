@@ -134,6 +134,24 @@ var Tree =
             }, 250);
         });
         Tree.setdbl();
+        
+        $( "#fff" ).resizable({
+            handles: 'n, s',
+            onResize: function(size) {
+                jQuery.ajax({
+                    data: { height: size.height },
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status) {
+                        } else {
+                            TableBuilder.showErrorNotification("Ошибка");
+                        }
+                    }
+                });
+            }
+        });
     }, // end saveMenuPreference
 
     activeToggle: function(id, isActive)

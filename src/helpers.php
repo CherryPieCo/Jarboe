@@ -119,6 +119,16 @@ if (!function_exists('glide'))
     } // end glide
 }
 
+
+if (!function_exists('cropp'))
+{
+    function cropp($source) 
+    {
+        return Yaro\Jarboe\Helpers\Cropp::make($source);
+    } // end cropp
+}
+
+
 if (!function_exists('xml2array'))
 {
     function xml2array(SimpleXMLElement $xml, $options = array())
@@ -221,3 +231,4 @@ if (!function_exists('filesize_format'))
         return $bytes;
     } // end filesize_format
 }
+

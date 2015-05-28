@@ -2,18 +2,11 @@
 <html lang="en-us">
     <head>
         <meta charset="utf-8">
-        <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
         <title>{{{ \Config::get('jarboe::admin.caption') }}}</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <!-- Use the correct meta names below for your web application
-             Ref: http://davidbcalhoun.com/2010/viewport-metatag 
-             
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">-->
-        
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- Basic Styles -->
@@ -24,8 +17,6 @@
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/smartadmin-production.css')}}">
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/smartadmin-skins.css')}}">  
         
-        <!-- SmartAdmin RTL Support is under construction
-            <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.css"> -->
         
         <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/demo.css')}}">

@@ -14,15 +14,25 @@ if (!RedactorPlugins) var RedactorPlugins = {};
             load: function()
             {
                 var $modal = this.modal.getModal();
-
+console.log(this.opts);
                 this.modal.createTabber($modal);
-                this.modal.addTab(1, 'Загрузить', 'active');
-                this.modal.addTab(2, 'Выбрать изображение');
-
-                $('#redactor-modal-image-droparea').addClass('redactor-tab redactor-tab1');
-
-                var $box = $('<div id="redactor-image-manager-box" style="overflow: auto; height: 300px;" class="redactor-tab redactor-tab2">').hide();
-                $modal.append($box);
+                if (this.opts.is_image_storage_only) {
+                    this.modal.addTab(1, 'Выбрать изображение', 'active');
+    
+                    $('#redactor-modal-image-droparea').hide();
+    
+                    var $box = $('<div id="redactor-image-manager-box" style="overflow: auto; height: 300px;" class="redactor-tab redactor-tab1">');
+                    $modal.append($box);
+                } else {
+                    this.modal.addTab(1, 'Загрузить', 'active');
+                    this.modal.addTab(2, 'Выбрать изображение');
+    
+                    $('#redactor-modal-image-droparea').addClass('redactor-tab redactor-tab1');
+    
+                    var $box = $('<div id="redactor-image-manager-box" style="overflow: auto; height: 300px;" class="redactor-tab redactor-tab2">').hide();
+                    $modal.append($box);
+                }
+                
 
                 $.ajax({
                   dataType: "json",

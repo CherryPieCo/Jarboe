@@ -5,6 +5,9 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('#{{$name}}-wysiwyg').redactor({
+            @foreach ($extraOptions as $key => $val)
+                {{$key}}: '{{$val}}',
+            @endforeach
             buttonSource: true,
             pasteCallback: function(html) {
                 var redactor = this;

@@ -38,6 +38,7 @@ class WysiwygField extends AbstractField
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
+        $input->extraOptions = $this->getAttribute('extra-options', array());
         
         $action = $this->definition['options']['action_url'];
         if (isset($this->definition['options']['action_url_tree'])) {
@@ -83,6 +84,7 @@ class WysiwygField extends AbstractField
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
+        $input->extraOptions = $this->getAttribute('extra-options', array());
         $input->tabs = $this->getPreparedTabs($row);
         $input->caption = $this->getAttribute('caption');
         

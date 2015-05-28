@@ -30,6 +30,9 @@
                     <script type="text/javascript">
                         jQuery(document).ready(function() {
                             jQuery('#{{$pre . $name . $tab['postfix']}}-wysiwyg').redactor({
+                                @foreach ($extraOptions as $key => $val)
+                                    {{$key}}: '{{$val}}',
+                                @endforeach
                                 buttonSource: true,
                                 pasteCallback: function(html) {
                                     var redactor = this;

@@ -28,6 +28,8 @@
                 color : "#C79121",
                 icon : ""
             });
+            TableBuilder.hidePreloader();
+            TableBuilder.hideFormPreloader();
         }
     });
     
@@ -43,6 +45,7 @@
                     $('#locked-screen-form')[0].reset();
                     
                     TableBuilder.hidePreloader();
+                    TableBuilder.hideFormPreloader();
                     TableBuilder.hideFormPreloader(TableBuilder.form_edit);
                     TableBuilder.hideFormPreloader(TableBuilder.form);
                     $('.superbox-modal-hide').removeClass('superbox-modal-hide').show();

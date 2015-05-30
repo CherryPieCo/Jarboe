@@ -1,5 +1,13 @@
 <?php
 
+if (!function_exists('urlify'))
+{
+    function urlify($string)
+    {
+        return Jarboe::urlify($string);
+    } // end urlify
+}
+
 if (!function_exists('__'))
 {
     function __()

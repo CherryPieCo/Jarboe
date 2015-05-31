@@ -58,7 +58,7 @@ class Cropp
         $hash = md5($this->fileHash . $methodsHash);
         $source = 'storage/cropp/'. $hash . $this->extension;
         
-        if (file_exists(public_path($source))) {
+        if (is_readable(public_path($source))) {
             return $source;
         }
         
@@ -72,6 +72,16 @@ class Cropp
         if (!$res) {
             throw new RuntimeException('Do you have writeable [public/storage/cropp/] directory?');
         }
+        
+        if (\Config::get('jarboe::cropp.is_optimize')) {
+            $optimizer = new \Extlib\ImageOptimizer(array(
+                \Extlib\ImageOptimizer::OPTIMIZER_OPTIPNG   => \Config::get('jarboe::cropp.binaries.optipng'),  
+                \Extlib\ImageOptimizer::OPTIMIZER_JPEGOPTIM => \Config::get('jarboe::cropp.binaries.jpegoptim'), 
+                \Extlib\ImageOptimizer::OPTIMIZER_GIFSICLE  => \Config::get('jarboe::cropp.binaries.gifsicle'),
+            ));
+            $optimizer->optimize(public_path($source));
+        }
+        
         
         return $source;
     } // end __toString

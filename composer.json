@@ -18,7 +18,8 @@
         "barryvdh/laravel-elfinder": "0.1.x",
         "intervention/image": "2.*",
         "yaro/laravel-glide": "1.0.1",
-        "mcamara/laravel-localization": "v0.15.1"
+        "mcamara/laravel-localization": "v0.15.1",
+        "lciolecki/php-image-optimizer": "dev-master"
     },
     "repositories": [
         {
@@ -35,5 +36,5 @@
             "Yaro\\Jarboe\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }

@@ -22,6 +22,112 @@ var Superbox =
     {
     }, // end openCatalog
     
+    showGalleryPreloader: function()
+    {
+        $('.j-galleries-preloader').show();
+    }, // end showGalleryPreloader
+    
+    hideGalleryPreloader: function()
+    {
+        $('.j-galleries-preloader').hide();
+    }, // end hideGalleryPreloader
+    
+    onGalleryImagesPriorityChange: function(idGallery, order) 
+    {
+        var data = { 
+            query_type: 'image_storage', 
+            storage_type: 'change_gallery_images_priority', 
+            images: order, 
+            id_gallery: idGallery, 
+            '__node': TableBuilder.getUrlParameter('node') 
+        };
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    TableBuilder.showSuccessNotification('Порядок следования изменен');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end onGalleryImagesPriorityChange
+    
+    deleteGalleryImageRelation: function(context, idImage, idGallery)
+    {
+        jQuery.SmartMessageBox({
+            title : "Удалить изображение из галереи?",
+            content : "Эту операцию нельзя будет отменить.",
+            buttons : '[Нет][Да]'
+        }, function(ButtonPressed) {
+            if (ButtonPressed === "Да") {
+                Superbox.showGalleryPreloader();
+                var data = { 
+                    query_type: 'image_storage', 
+                    storage_type: 'delete_image_from_gallery', 
+                    id_image: idImage, 
+                    id_gallery: idGallery, 
+                    '__node': TableBuilder.getUrlParameter('node') 
+                };
+    
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status) {
+                            $(context).parent().remove();
+                            $("#sortable").sortable("refresh");
+                            Superbox.hideGalleryPreloader();
+                            
+                            TableBuilder.showSuccessNotification('Изображение удалено из галереи');
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
+            }
+        });
+    }, // end deleteGalleryImageRelation
+    
+    editGalleryContent: function(context, idGallery)
+    {
+        Superbox.showGalleryPreloader();
+        Superbox.closeGalleryContentForm();
+        
+        var data = { 
+            query_type: 'image_storage', 
+            storage_type: 'show_edit_gallery_content', 
+            id: idGallery, 
+            '__node': TableBuilder.getUrlParameter('node') 
+        };
+        jQuery.ajax({
+            data: data,
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            dataType: 'json',
+            success: function(response) {
+                Superbox.hideGalleryPreloader();
+                if (response.status) {
+                    var $tr = $(context).closest('tr');
+                    $tr.after(response.html);
+                } else {
+                    TableBuilder.showErrorNotification("Ошибка");
+                }
+            }
+        });
+    }, // end editGalleryContent
+    
+    closeGalleryContentForm: function()
+    {
+        $('.image-storage-edit-gallery-tr').remove();
+    }, // end closeEditForm
+    
     uploadSingleImage: function(context, type, idImage)
     {
         var data = new FormData();
@@ -352,12 +458,14 @@ var Superbox =
             buttons : '[Нет][Да]'
         }, function(ButtonPressed) {
             if (ButtonPressed === "Да") {
+                Superbox.showGalleryPreloader();
                 jQuery.ajax({
                     type: "POST",
                     url: TableBuilder.getActionUrl(),
                     data: { query_type: 'image_storage', storage_type: 'delete_gallery', id: id, '__node': TableBuilder.getUrlParameter('node') },
                     dataType: 'json',
                     success: function(response) {
+                        Superbox.hideGalleryPreloader();
                         console.log(response);
                         if (response.status) {
                             $(context).parent().parent().remove();

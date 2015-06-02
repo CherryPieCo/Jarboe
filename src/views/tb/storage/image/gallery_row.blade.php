@@ -2,7 +2,7 @@
     <td>{{ $gallery->id }}</td>
     <td>
         <div class="b-value">
-            <a onclick="Superbox.showGalleryEditInput(this);" style="text-decoration: blink; border-bottom: rgb(153, 153, 153) 2px dotted; color: black;" href="javascript:void(0);">
+            <a onclick="Superbox.showGalleryEditInput(this);" style="text-decoration: blink; border-bottom: rgb(153, 153, 153) 1px dotted; color: black;" href="javascript:void(0);">
                 {{ $gallery->title }}
             </a>
         </div>
@@ -25,6 +25,10 @@
     </td>
     @endif
     <td width="1%">
+        <a href="javascript:void(0);" class="btn btn-default btn-sm" 
+           onclick="Superbox.editGalleryContent(this, {{ $gallery->id }});">
+            <i class="fa fa-pencil"></i>
+        </a>
         <a href="javascript:void(0);" class="btn btn-default btn-sm" 
            onclick="Superbox.deleteGallery({{ $gallery->id }}, this);">
             <i class="fa fa-times"></i>

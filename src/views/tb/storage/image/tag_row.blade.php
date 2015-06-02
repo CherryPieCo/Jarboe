@@ -2,7 +2,7 @@
     <td>{{ $tag->id }}</td>
     <td>
         <div class="b-value">
-            <a onclick="Superbox.showTagEditInput(this);" style="text-decoration: blink; border-bottom: rgb(153, 153, 153) 2px dotted; color: black;" href="javascript:void(0);">
+            <a onclick="Superbox.showTagEditInput(this);" style="text-decoration: blink; border-bottom: rgb(153, 153, 153) 1px dotted; color: black;" href="javascript:void(0);">
                 {{ $tag->title }}
             </a>
         </div>

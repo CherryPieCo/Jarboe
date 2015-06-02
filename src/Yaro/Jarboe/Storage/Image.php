@@ -19,6 +19,15 @@ class Image
             case 'show_modal':
                 return $this->handleModalContent();
                 
+            case 'show_edit_gallery_content':
+                return $this->getGalleryContentForm();
+                
+            case 'change_gallery_images_priority':
+                return $this->doChangeGalleryImagesPriority();
+                
+            case 'delete_image_from_gallery':
+                return $this->doDeleteImageGalleryRelation();
+                
             case 'get_image_form':
                 return $this->getImageForm();
                 
@@ -62,6 +71,50 @@ class Image
                 throw new \RuntimeException('What are you looking for?');
         }
     } // end handle
+    
+    private function doChangeGalleryImagesPriority()
+    {
+        $idGallery = Input::get('id_gallery');
+        
+        $priority = 1;
+        foreach (Input::get('images') as $idImage) {
+            DB::table('j_galleries2images')->where('id_image', $idImage)->where('id_gallery', $idGallery)->update(array(
+                'priority' => $priority
+            ));
+            
+            $priority++;
+        }
+        
+        return Response::json(array(
+            'status' => true
+        ));
+    } // end doChangeGalleryImagesPriority
+    
+    private function getGalleryContentForm()
+    {
+        $model = '\\' . Config::get('jarboe::images.models.gallery');
+        $gallery = $model::with(array('images' => function($query) {
+            $query->priority();
+        }))->where('id', Input::get('id'))->first();
+        
+        $html = View::make('admin::tb.storage.image.gallery_form', compact('gallery'))->render();
+        
+        $data = array(
+            'status' => true,
+            'html'   => $html,
+        );
+        return Response::json($data);
+    } // end getGalleryContentForm
+    
+    private function doDeleteImageGalleryRelation()
+    {
+        DB::table('j_galleries2images')->where('id_image', Input::get('id_image'))
+                                       ->where('id_gallery', Input::get('id_gallery'))
+                                       ->delete();
+        return Response::json(array(
+            'status' => true
+        ));
+    } // end doDeleteImageGalleryRelation
     
     private function doUploadSingleImage()
     {

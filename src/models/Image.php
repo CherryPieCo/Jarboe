@@ -13,6 +13,11 @@ class Image extends \Eloquent
         \Cache::tags('j_images')->flush();
     } // end flushCache
     
+    public function scopePriority($query, $direction = 'asc')
+    {
+        return $query->orderBy('priority', $direction);
+    } // end priority
+    
     public function getInfo($values = false)
     {
         $info = $values ? : $this->info;

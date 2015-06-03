@@ -30,7 +30,7 @@ foreach ($def['fields'] as $ident => $field) {
     
     
     @if (!$field->getAttribute('hide_list'))
-    <td style="background-color: {{ $trColor }}; background-color: {{ $field->getRowColor($row) }};" width="{{ $field->getAttribute('width') }}" class="{{ $field->getAttribute('class') }} unselectable">
+    <td style="background-color: {{ $trColor }}; background-color: {{ $field->getRowColor($row) }};" width="{{ $field->getAttribute('width') }}" class="{{ $field->getAttribute('class') }} ">
         @if ($field->getAttribute('fast-edit'))
             <span class="dblclick-edit selectable">{{ $field->getListValue($row) }}</span>
             {{ $field->getEditInput($row) }}

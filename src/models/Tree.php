@@ -72,12 +72,12 @@ class Tree extends \Baum\Node
         $activeField = \Config::get('jarboe::tree.node_active_field.field');
         $options = \Config::get('jarboe::tree.node_active_field.options', array());
         
-        if ($setIdent) {
-            return !!preg_match('~'. preg_quote($setIdent) .'~', $this->$activeField);
-        }
-        
         if (!$options) {
             return $this->$activeField == 1;
+        }
+        
+        if ($setIdent) {
+            return !!preg_match('~'. preg_quote($setIdent) .'~', $this->$activeField);
         }
         
         foreach ($options as $ident => $caption) {

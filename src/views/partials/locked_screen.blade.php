@@ -4,6 +4,7 @@
     </header>
 
     <fieldset>
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
         <section>
             <label class="label">{{trans('jarboe::login.email')}}</label>

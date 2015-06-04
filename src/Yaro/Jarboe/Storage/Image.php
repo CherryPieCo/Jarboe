@@ -19,8 +19,14 @@ class Image
             case 'show_modal':
                 return $this->handleModalContent();
                 
+            case 'fetch_image_by_id':
+                return $this->getFetchedImage();
+                
             case 'show_edit_gallery_content':
                 return $this->getGalleryContentForm();
+                
+            case 'load_more_images':
+                return $this->doLoadMoreImages();
                 
             case 'change_gallery_images_priority':
                 return $this->doChangeGalleryImagesPriority();
@@ -71,6 +77,44 @@ class Image
                 throw new \RuntimeException('What are you looking for?');
         }
     } // end handle
+    
+    private function getFetchedImage()
+    {
+        $idImage = Input::get('id');
+        $model = Config::get('jarboe::images.models.image');
+        $wysiwygType = Config::get('jarboe::images.wysiwyg_image_type', '');
+        
+        $image = $model::find($idImage);
+        $html = '<img src="'. $image->$wysiwygType .'" data-src="'. $image->getSource() .'"';
+        $info = json_decode($image->info, true) ? : array();
+        foreach ($info as $key => $val) {
+            $html .= ' data-'. $key . '="'. $val .'"';
+        }
+        $html .= '>';
+        
+        return Response::json(array(
+            'status' => true,
+            'html'   => $html
+        ));
+    } // end getFetchedImage
+    
+    private function doLoadMoreImages()
+    {
+        $page = Input::get('page');
+        $perPage = Config::get('jarboe::images.per_page');
+        $model = Config::get('jarboe::images.models.image');
+        
+        $images = $model::orderBy('id', 'desc')->skip($perPage * $page)->limit($perPage)->get();
+        $html = '';
+        foreach ($images as $image) {
+            $html .= View::make('admin::tb.storage.image.single_image', compact('image'))->render();
+        }
+        
+        return Response::json(array(
+            'status' => true,
+            'html'   => $html
+        ));
+    } // end doLoadMoreImages
     
     private function doChangeGalleryImagesPriority()
     {
@@ -425,10 +469,11 @@ class Image
         );
     } // end getPathByID
     
+    // @deprecated
     private function getRedactorImagesList()
     {
         $model = '\\' . Config::get('jarboe::images.models.image');
-        $images = $model::orderBy('id', 'desc')->get();
+        $images = $model::orderBy('id', 'desc')->skip()->limit()->get();
         $wysiwygColumn = Config::get('jarboe::images.wysiwyg_image_type', 'source');
         
         $data = array();

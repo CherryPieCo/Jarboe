@@ -11,7 +11,7 @@
                                                     
     <div style="width: 30%;" class="btn-group btn-group-justified pull-right">
         <a href="javascript:void(0);" onclick="Superbox.showGalleries(this);" class="btn btn-default">Галереи</a>
-        <a href="javascript:void(0);" onclick="Superbox.showImages(this);" class="btn btn-default active">Изображения</a>
+        <a href="javascript:void(0);" onclick="Superbox.showImages(this);" class="btn btn-default active j-images-img-action">Изображения</a>
         <a href="javascript:void(0);" onclick="Superbox.showTags(this);" class="btn btn-default">Теги</a>
     </div>
 </div>

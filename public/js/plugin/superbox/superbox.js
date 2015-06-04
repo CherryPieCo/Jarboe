@@ -69,8 +69,9 @@
                                     $('.superbox-show').slideUp();
                                 });
                             });
-
-                            $('.select22').select2();
+                            
+                            $('select.select22').select2("destroy").select2();
+                            
                             jQuery('.j-images-storage').on('click', function() {
                                 jQuery('.select22').select2("close");
                                 jQuery('.select2-hidden-accessible').hide();

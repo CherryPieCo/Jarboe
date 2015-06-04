@@ -65,8 +65,16 @@ div.superbox-imageinfo {
 
 
 <script>
+    Superbox.images_page = 1;
     Superbox.fields.image = {{ json_encode(\Config::get('jarboe::images.image.fields') ? : array()) }};
     Superbox.init();
+    $('.image_storage_wrapper').scroll(function() {
+        if ($('.image_storage_wrapper').scrollTop() + $('.image_storage_wrapper').height() == $('#modal_image_storage_wrapper').innerHeight()) {
+            if ($('.j-images-img-action').hasClass('active')) {
+                Superbox.loadMoreImages();
+            }
+        }
+    });
 </script>
 
 

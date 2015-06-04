@@ -9,6 +9,8 @@ return array(
         'storage' => 'Yaro\Jarboe\ImageCatalog',
     ),
     
+    'per_page' => 32,
+    
     'wysiwyg_image_type' => 'source',
     
     'image' => array(

@@ -3,6 +3,9 @@
 var Superbox = 
 {
 
+    redactor: null,
+    is_images_loading: false,
+    images_page: 1,
     input: null,
     type_select: null,
 
@@ -337,6 +340,28 @@ var Superbox =
         TableBuilder.closeImageStorageModal();
     }, // end selectImage
     
+    selectImageForRedactor: function(idImage)
+    {
+        Superbox.input.val(idImage);
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'image_storage', storage_type: 'fetch_image_by_id', id: idImage, '__node': TableBuilder.getUrlParameter('node') },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.status) {
+                    TableBuilder.closeImageStorageModal();
+                    
+                    Superbox.redactor.image.insert(response.html);
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end selectImageForRedactor
+    
     showGalleries: function(context)
     {
         var $context = $(context);
@@ -477,6 +502,39 @@ var Superbox =
             }
         });
     }, // end deleteGallery
+    
+    loadMoreImages: function()
+    {
+        if (Superbox.is_images_loading) {
+            return;
+        }
+        
+        Superbox.is_images_loading = true;
+        var data = { 
+            query_type: 'image_storage', 
+            storage_type: 'load_more_images', 
+            page: Superbox.images_page, 
+            '__node': TableBuilder.getUrlParameter('node') 
+        };
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    Superbox.images_page = Superbox.images_page + 1;
+                
+                    $('.superbox').append(response.html);
+                    Superbox.init();
+                    
+                    Superbox.is_images_loading = false;
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так. Ахахаха!');
+                }
+            }
+        });
+    }, // end loadMoreImages
     
 };
 

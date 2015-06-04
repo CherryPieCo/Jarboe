@@ -5,6 +5,25 @@ if (!RedactorPlugins) var RedactorPlugins = {};
     RedactorPlugins.imagemanager = function()
     {
         return {
+            init: function ()
+            {
+                var button = this.button.add('imagemanager', 'Фотохранилище');
+                this.button.setAwesome('imagemanager', 'fa-folder-open');
+                this.button.addCallback(button, this.imagemanager.openStorage);
+            },
+            openStorage: function(buttonName)
+            {
+                $('body').prepend('<div><div><input id="wysiwyg-redactor-image-id" type="hidden"></div></div>');
+                var $input = $('#wysiwyg-redactor-image-id');
+                
+                Superbox.redactor = this;
+                TableBuilder.openImageStorageModal($input, 'redactor_image');
+            }
+        };
+    
+    
+    /*
+        return {
             init: function()
             {
                 if (!this.opts.imageManagerJson) return;
@@ -71,5 +90,6 @@ console.log(this.opts);
                 this.image.insert(code);
             }
         };
+        */
     };
 })(jQuery);

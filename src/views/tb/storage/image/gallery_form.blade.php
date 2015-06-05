@@ -16,10 +16,10 @@
                 <ul id="sortable">
                 @foreach ($gallery->images as $image)
                     <li class="ui-state-default" id="{{$image->id}}">
-                        <img src="{{asset(cropp($image->source)->fit(80))}}" style="height: 80px; width: 80px;"/>
+                        <img class="j-image-dblclk" src="{{asset(cropp($image->source)->fit(80))}}" style="height: 80px; width: 80px;"/>
                         <a onclick="Superbox.deleteGalleryImageRelation(this, {{$image->id}}, {{$gallery->id}});" style="position: absolute; right: 0; bottom: 0; width: 100%;" 
                             href="javascript:void(0);" 
-                            class="btn btn-default btn-xs" >Удалить</a>
+                            class="btn btn-default btn-xs">Удалить</a>
                     </li>
                 @endforeach
                 </ul>
@@ -38,16 +38,21 @@
     </style>
     <script>
       $(function() {
-        $( "#sortable" ).sortable({
+        $("#sortable").sortable({
             placeholder: "ui-state-highlight",
             items: 'li',
             context: this,
+            create: function(event, ui) {
+                $('.j-image-dblclk').dblclick(function() {
+                    Superbox.showImageFormFromGalleryView(this);
+                });
+            },
             update: function() {
                 var order = $(this).sortable('toArray');
                 Superbox.onGalleryImagesPriorityChange({{$gallery->id}}, order);
             } // end update
         });
-        $( "#sortable" ).disableSelection();
+        $("#sortable").disableSelection();
       });
     </script>
 

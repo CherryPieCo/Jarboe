@@ -536,6 +536,56 @@ var Superbox =
         });
     }, // end loadMoreImages
     
+    deleteImageFromGalleryView: function(idImage)
+    {
+        jQuery.SmartMessageBox({
+            title : "Удалить изображение?",
+            content : "Эту операцию нельзя будет отменить.",
+            buttons : '[Нет][Да]'
+        }, function(ButtonPressed) {
+            if (ButtonPressed === "Да") {
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: { query_type: 'image_storage', storage_type: 'delete_image', id: idImage, '__node': TableBuilder.getUrlParameter('node') },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status) {
+                            $('#'+ idImage).remove();
+                            $('#sortable').sortable("refresh");
+                            $('.j-images-fuck').remove();
+                            TableBuilder.showSuccessNotification('Изображение удалено полностью и с концами');
+                        } else {
+                            TableBuilder.showErrorNotification('Что-то пошло не так');
+                        }
+                    }
+                });
+            }
+        });
+    }, // end deleteImageFromGalleryView
+    
+    showImageFormFromGalleryView: function(context)
+    {
+        $('.j-images-fuck').remove();
+        var idImage = $(context).parent().attr('id');
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: { query_type: 'image_storage', storage_type: 'get_image_form', type_select: 'image_from_gallery', id: idImage, '__node': TableBuilder.getUrlParameter('node') },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.status) {
+                    var html = '<div style="position: relative;padding: 10px;width: 100%;height: 100%;background-color: #222;" class="j-images-fuck">'+ response.html +'</div>';
+                    $('form', ".image-storage-edit-gallery-tr").before(html);
+                    $('select.select22').select2();
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end 
+    
 };
 
 $(document).ready(function() {

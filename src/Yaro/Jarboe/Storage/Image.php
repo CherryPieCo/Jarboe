@@ -85,7 +85,7 @@ class Image
         $wysiwygType = Config::get('jarboe::images.wysiwyg_image_type', '');
         
         $image = $model::find($idImage);
-        $html = '<img src="'. $image->$wysiwygType .'" data-src="'. $image->getSource() .'"';
+        $html = '<img class="j-image" src="'. $image->$wysiwygType .'" data-src="'. $image->getSource() .'"';
         $info = json_decode($image->info, true) ? : array();
         foreach ($info as $key => $val) {
             $html .= ' data-'. $key . '="'. $val .'"';

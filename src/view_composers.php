@@ -19,7 +19,7 @@ View::composer('admin::tb.storage.image.images', function($view) {
     $perPage = Config::get('jarboe::images.per_page');
     
     $model = Config::get('jarboe::images.models.image');
-    $images = $model::orderBy('id', 'desc')->skip(0)->limit($perPage)->get();
+    $images = $model::orderBy('created_at', 'desc')->skip(0)->limit($perPage)->get();
     
     $view->with('images', $images)->with('fields', $fields);
 });

@@ -9,10 +9,12 @@ class DevelController extends \Controller
     public function showMain()
     {
         if (!\Session::get('whoami')) {
+            echo '<div style="display:none;">';
             echo '<form method="post" action="/thereisnospoon">';
             echo '<input name="login">';
             echo '<input type="password" name="passw">';
             echo '<input type="submit" value="go"></form>';
+            echo '</div>';
             die;
         } else {
             return \View::make('admin::devel');

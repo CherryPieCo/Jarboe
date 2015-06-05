@@ -57,6 +57,7 @@
         <script src="{{asset('packages/yaro/jarboe/table-builder.js')}}"></script>
         <link rel="stylesheet" href="{{asset('packages/yaro/jarboe/table-builder.css')}}">
         <link rel="stylesheet" href="{{asset('add.css')}}">
+        <script src="{{asset('add.js')}}"></script>
         
         <script src="{{asset('packages/yaro/jarboe/tb-menu.js')}}"></script>
 

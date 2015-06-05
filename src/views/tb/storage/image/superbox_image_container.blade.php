@@ -91,8 +91,13 @@
                       style="margin-right: 6px;">Выбрать</a> 
             @endif
             
+            @if ($type == 'image_from_gallery') 
+            <a onclick="Superbox.deleteImageFromGalleryView({{ $image->id }});" href="javascript:void(0);" 
+                      class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a>
+            @else
             <a onclick="Superbox.deleteImage(this, {{ $image->id }});" href="javascript:void(0);" 
                       class="btn btn-danger btn-sm pull-left j-btn-del">Удалить</a>
+            @endif
         </p>
     </span> 
 </div>

@@ -7,14 +7,19 @@
 
 
 <div class="b-j-images">
+    <?php /*
     <div class="b-j-catalog well">
-        <?php /*
         @for ($i = 0; $i < 12; $i++)
         <a href="javascript:void(0);" class="btn btn-default btn-sm">button ({{$i}})</a>
         @endfor
-        */ ?>
+        
     </div>
-    @include('admin::tb.storage.image.images')
+    */ ?>
+    
+    @include('admin::tb.storage.image.images_search')
+    <div id="j-images-container">
+        @include('admin::tb.storage.image.images')
+    </div>
 </div>
 
 <div style="display: none;" class="b-j-tags">
@@ -33,6 +38,9 @@
 
 
 <style>
+div#ui-datepicker-div {
+    z-index: 999999 !important;
+}
 div.select2-drop {
     z-index: 8888881;
 }
@@ -51,6 +59,10 @@ div.superbox-imageinfo {
 .j-images-storage .b-j-catalog {
     background-color: aliceblue;
     text-align: left;
+}
+.j-images-storage .b-j-search {
+    background-color: rgb(251, 251, 251);
+    padding: 0;
 }
 .j-images-storage .b-j-images {
     text-align: center;
@@ -75,6 +87,8 @@ div.superbox-imageinfo {
             }
         }
     });
+    
+    $('.j-datepicker').datepicker();
 </script>
 
 

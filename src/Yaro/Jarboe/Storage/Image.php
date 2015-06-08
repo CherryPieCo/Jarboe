@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 
 class Image 
@@ -21,6 +22,9 @@ class Image
                 
             case 'fetch_image_by_id':
                 return $this->getFetchedImage();
+                
+            case 'search_images':
+                return $this->getImagesBySearchQuery();
                 
             case 'show_edit_gallery_content':
                 return $this->getGalleryContentForm();
@@ -78,6 +82,17 @@ class Image
         }
     } // end handle
     
+    private function getImagesBySearchQuery()
+    {
+        Session::put('_jsearch_images', Input::get('_jsearch', array()));
+        $html = View::make('admin::tb.storage.image.images')->render();
+        
+        return Response::json(array(
+            'status' => true,
+            'html'   => $html
+        ));
+    } // end getImagesBySearchQuery
+    
     private function getFetchedImage()
     {
         $idImage = Input::get('id');
@@ -104,7 +119,7 @@ class Image
         $perPage = Config::get('jarboe::images.per_page');
         $model = Config::get('jarboe::images.models.image');
         
-        $images = $model::orderBy('id', 'desc')->skip($perPage * $page)->limit($perPage)->get();
+        $images = $model::search()->orderBy('id', 'desc')->skip($perPage * $page)->limit($perPage)->get();
         $html = '';
         foreach ($images as $image) {
             $html .= View::make('admin::tb.storage.image.single_image', compact('image'))->render();

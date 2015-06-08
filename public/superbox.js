@@ -516,6 +516,7 @@ var Superbox =
             page: Superbox.images_page, 
             '__node': TableBuilder.getUrlParameter('node') 
         };
+        data = $.merge(data, $('#j-images-search-form').serializeArray());
         jQuery.ajax({
             type: "POST",
             url: TableBuilder.getActionUrl(),
@@ -584,7 +585,31 @@ var Superbox =
                 }
             }
         });
-    }, // end 
+    }, // end showImageFormFromGalleryView
+    
+    searchImages: function(context)
+    {
+        var data = $('#j-images-search-form').serializeArray();
+        data.push({ name: 'query_type', value: 'image_storage' });
+        data.push({ name: 'storage_type', value: 'search_images' });
+        data.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    $('#j-images-container').html(response.html);
+                    Superbox.images_page = 1;
+                    Superbox.init();
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end searchImages
     
 };
 

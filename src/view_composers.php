@@ -15,11 +15,14 @@ View::composer('admin::tb.storage.image.galleries', function($view) {
 
 View::composer('admin::tb.storage.image.images', function($view) {
     // FIXME:
-    $fields = Config::get('jarboe::images.image.fields');
+    $fields  = Config::get('jarboe::images.image.fields');
     $perPage = Config::get('jarboe::images.per_page');
     
-    $model = Config::get('jarboe::images.models.image');
-    $images = $model::orderBy('created_at', 'desc')->skip(0)->limit($perPage)->get();
+    $model  = Config::get('jarboe::images.models.image');
+    $images = $model::search()
+                    ->orderBy('created_at', 'desc')
+                    ->skip(0)->limit($perPage)
+                    ->get();
     
     $view->with('images', $images)->with('fields', $fields);
 });

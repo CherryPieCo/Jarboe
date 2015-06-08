@@ -53,5 +53,30 @@ class Image extends \Eloquent
         
         return $info[$ident];
     } // end get
+    
+    public function scopeSearch($query)
+    {
+        $search = \Session::get('_jsearch_images', array());
+        foreach ($search as $column => $value) {
+            if (!$value) {
+                continue;
+            }
+            
+            if (is_array($value)) {
+                $value['to']   = $value['to'] ? : '12/12/2222';
+                $value['from'] = $value['from'] ? : '12/12/1971';
+                
+                // HACK: MariaDB date() hack for timestamp
+                $from = date('Y-m-d H:i:s', strtotime(preg_replace('~/~', '-', $value['from'])));
+                $to   = date('Y-m-d H:i:s', strtotime(preg_replace('~/~', '-', $value['to'])));
+                
+                $query->whereBetween($column, array($from, $to));
+            } else {
+                $query->where($column, 'like', '%'. $value .'%');
+            }
+        }
+        
+        return $query;
+    } // end scopeSearch
 
 }

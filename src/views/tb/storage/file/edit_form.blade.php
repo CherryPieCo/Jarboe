@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">{{ $info['caption'] }}</label>
                 <div class="col-md-10">
-                    <input class="form-control" value="{{$file->get($ident)}}" placeholder="{{ $info['placeholder'] or '' }}" name="{{ $ident }}" type="text">
+                    <input class="form-control" value="{{{ $file->get($ident) }}}" placeholder="{{ $info['placeholder'] or '' }}" name="{{ $ident }}" type="text">
                 </div>
             </div>
             @endforeach

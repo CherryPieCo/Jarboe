@@ -8,6 +8,7 @@
 'id_city' => array(
     'caption' => 'Город',
     'type'    => 'foreign',
+    'select_type' => 'select2',
     'filter'  => 'text',
     'is_null' => true,
     'null_caption' => 'Без города',
@@ -16,11 +17,19 @@
     'foreign_table'       => 'cities',
     'foreign_key_field'   => 'id',
     'foreign_value_field' => 'name',
+    'additional_where' => array(
+        'cities.type' => array(
+            'sign'  => '=',
+            'value' => 'capital'
+        )
+    )
 ),
 </code>
 </pre>            
     
 <dl class="dl-horizontal">
+  <dt>select_type</dt>
+  <dd>Тип отображения селекта. <code>simple|select2</code> <span class="label bg-color-blueLight pull-right">simple</span></dd>
   <dt>is_null</dt>
   <dd>Если внешний ключ может быть <code>NULL</code>. Делается не <code>INNER JOIN</code>, а <code>LEFT JOIN</code>. <span class="label bg-color-blueLight pull-right">false</span></dd>
   <dt>null_caption</dt>
@@ -36,4 +45,8 @@
   <dd>Ключ внешней таблицы, на который ссылается данное поле. <span class="label bg-color-red pull-right">обязательно</span></dd>
   <dt>foreign_value_field</dt>
   <dd>Значение из внешней таблицы, которое подтянется вместо идентификатора текущей таблицы. <span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dt>additional_where</dt>
+  <dd>Перечень дополнительных условий для выборки внешних ключей. <span class="label bg-color-blueLight pull-right">без них</span></dd>
+  
+
 </dl>

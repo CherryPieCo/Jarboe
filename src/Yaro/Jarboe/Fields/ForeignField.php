@@ -143,16 +143,19 @@ class ForeignField extends AbstractField
             return $this->getValue($row);
         }
 
-        $input = View::make('admin::tb.input_foreign');
+        $selectType = $this->getAttribute('select_type', 'simple');
+        
+        $input = View::make('admin::tb.input_foreign_'. $selectType);
         $input->selected = $this->getValue($row);
         $input->name     = $this->getFieldName();
         $input->options  = $this->getForeignKeyOptions();
         $input->is_null  = $this->getAttribute('is_null');
         $input->null_caption = $this->getAttribute('null_caption');
+        $input->postfix = $row ? 'e' : 'c';
 
         return $input->render();
     } // end getEditInput
-
+    
     protected function getForeignKeyOptions()
     {
         $db = DB::table($this->getAttribute('foreign_table'))

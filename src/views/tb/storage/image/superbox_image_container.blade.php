@@ -66,7 +66,7 @@
             <section>
                 <label class="label">{{ $info['caption'] }}</label>
                     <label class="input">
-                        <input class="input-xs" name="{{ $ident }}" value="{{ $image->get($ident) }}">
+                        <input class="input-xs" name="{{ $ident }}" value="{{{ $image->get($ident) }}}">
                     </label>
             </section>
             @endforeach

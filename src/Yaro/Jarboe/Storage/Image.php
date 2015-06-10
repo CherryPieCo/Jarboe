@@ -301,7 +301,7 @@ class Image
         $html .= '<select id="j-storage-tags" name="j-tags[]" multiple style="width:100%" class="select22">';
         
         $model = '\\' . Config::get('jarboe::images.models.tag');
-        $tags = $model::all();
+        $tags = $model::orderBy('id', 'desc')->get();
         
         $selectedIds = DB::table('j_images2tags')->where('id_image', $idImage)->lists('id_tag') ? : array();
         foreach ($tags as $tag) {
@@ -320,7 +320,7 @@ class Image
         $html .= '<select id="j-storage-galleries" name="j-galleries[]" multiple style="width:100%" class="select22">';
         
         $model = '\\' . Config::get('jarboe::images.models.gallery'); 
-        $galleries = $model::all();
+        $galleries = $model::orderBy('id', 'desc')->get();
         
         $selectedIds = DB::table('j_galleries2images')->where('id_image', $idImage)->lists('id_gallery') ? : array();
         foreach ($galleries as $gallery) {

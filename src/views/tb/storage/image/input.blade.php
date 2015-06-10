@@ -16,7 +16,7 @@
     </div>
     
     @if ($row && $entity)
-        <img style="height: 90px;" src="{{ glide($entity->source, ['h' => 90]) }}">
+        <img style="height: 90px;" src="{{ cropp($entity->source)->fit(90) }}">
     @endif
 </div>
 

@@ -4,6 +4,7 @@ namespace Yaro\Jarboe;
 
 use Illuminate\Support\Facades\Session;
 use Yaro\Jarboe\Handlers\ViewHandler;
+use Yaro\Jarboe\Handlers\CacheHandler;
 use Yaro\Jarboe\Handlers\RequestHandler;
 use Yaro\Jarboe\Handlers\QueryHandler;
 use Yaro\Jarboe\Handlers\ActionsHandler;
@@ -30,6 +31,7 @@ class JarboeController
     public $view;
     public $request;
     public $query;
+    public $cache;
     public $actions;
     public $export;
     public $import;
@@ -54,11 +56,13 @@ class JarboeController
         $this->export  = new ExportHandler($this->definition['export'], $this);
         $this->import  = new ImportHandler($this->definition['import'], $this);
         $this->query   = new QueryHandler($this);
-        $this->allowedIds = $this->query->getTableAllowedIds();
         $this->view    = new ViewHandler($this);
         $this->request = new RequestHandler($this);
+        $this->cache   = new CacheHandler($this);
         $this->imageStorage = new ImageStorage($this);
         $this->fileStorage  = new FileStorage($this);
+        
+        $this->allowedIds = $this->query->getTableAllowedIds();
         
         // HACK:
         $this->currentID = \Input::get('id');
@@ -176,6 +180,16 @@ class JarboeController
     {
         return $this->definition;
     } // end getDefinition
+    
+    public function getDefinitionOption($ident, $default = null)
+    {
+        $value = array_get($this->getDefinition(), $ident);
+        if (!$value && !is_null($default)) {
+            return $default;
+        }
+        
+        return $value;
+    } // end getDefinitionOption
 
     protected function loadFields()
     {

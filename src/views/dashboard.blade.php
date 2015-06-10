@@ -1,8 +1,8 @@
 @extends('admin::layouts.default')
 
 @section('headline')
-    <div>
-        <h1>TBA Docs</h1>
+    <div> 
+        <h1>Jarboe Docs</h1>
     </div>
 @stop
 

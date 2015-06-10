@@ -48,6 +48,27 @@
 <hr>
 <br>
 
+<b>cache</b> - список тегов и ключей, которые необходимо сбросить при создании/редактировании/удалении.
+<pre>
+<code class="php">
+'cache' => array(
+    'keys' => array('key'),
+    'tags' => array('people', 'shit'),
+),
+</code>
+</pre> 
+    
+<dl class="dl-horizontal">
+  <dt>keys</dt>
+  <dd>Перечень ключей для сброса. <span class="label bg-color-blueLight pull-right">можно опустить</span></dd>
+  <dt>tags</dt>
+  <dd>Перечень тегов для сброса. <span class="label bg-color-blueLight pull-right">можно опустить</span></dd>
+</dl>
+    
+<hr>
+<br>    
+    
+
 <b>options</b> - описание настроек для формирования начального отображения форм и таблицы.
 <pre>
 <code class="php">

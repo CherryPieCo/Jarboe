@@ -228,6 +228,8 @@ class QueryHandler
         if ($this->controller->hasCustomHandlerMethod('onUpdateRowResponse')) {
             $this->controller->getCustomHandler()->onUpdateRowResponse($res);
         }
+            
+        $this->controller->cache->flush();
 
         return $res;
     } // end updateRow
@@ -257,6 +259,8 @@ class QueryHandler
         if ($this->controller->hasCustomHandlerMethod('onDeleteRowResponse')) {
             $this->controller->getCustomHandler()->onDeleteRowResponse($res);
         }
+        
+        $this->controller->cache->flush();
 
         return $res;
     } // end deleteRow
@@ -308,6 +312,8 @@ class QueryHandler
         if ($this->controller->hasCustomHandlerMethod('onInsertRowResponse')) {
             $this->controller->getCustomHandler()->onInsertRowResponse($res);
         }
+            
+        $this->controller->cache->flush();
 
         return $res;
     } // end insertRow

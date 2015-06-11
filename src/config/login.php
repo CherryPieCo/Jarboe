@@ -2,7 +2,8 @@
 
 return array(
 
-    'is_active_remember_me' => true,
+    'is_active_remember_me'  => true,
+    'is_active_autocomplete' => true,
 
     'background_url' => function() {
         return asset('packages/yaro/jarboe/img/login-bg.jpg');

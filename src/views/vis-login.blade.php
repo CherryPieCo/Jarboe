@@ -42,25 +42,25 @@
                             </div>
                         @endif
                         
-                        <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post">
+                        <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post" {{ \Config::get('jarboe::login.is_active_autocomplete') ?: 'readonly onfocus="this.removeAttribute(\'readonly\');"' }} >
                             <header>
                                 {{trans('jarboe::login.sign_in')}}
                                 <img class="tbfavicon pull-right" style="height:25px;" src="<?php $faviconUrl = \Config::get('jarboe::login.favicon_url'); echo $faviconUrl(); ?>" />
                             </header>
     
                             <fieldset>
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}" {{ \Config::get('jarboe::login.is_active_autocomplete') ?: 'readonly onfocus="this.removeAttribute(\'readonly\');"' }} >
                                 <section>
                                     <label class="label">{{trans('jarboe::login.email')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>
-                                        <input type="email" name="email">
+                                        <input type="email" name="email" {{ \Config::get('jarboe::login.is_active_autocomplete') ?: 'readonly onfocus="this.removeAttribute(\'readonly\');"' }} >
                                         <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{trans('jarboe::login.email_tooltip')}}</b></label>
                                 </section>
     
                                 <section>
                                     <label class="label">{{trans('jarboe::login.password')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                        <input type="password" name="password">
+                                        <input type="password" name="password" {{ \Config::get('jarboe::login.is_active_autocomplete') ?: 'readonly onfocus="this.removeAttribute(\'readonly\');"' }} >
                                         <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{trans('jarboe::login.password_tooltip')}}</b> </label>
                                     
                                     {{--

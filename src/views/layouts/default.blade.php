@@ -98,6 +98,7 @@
         @yield('table_form')
         
         <div class="image_storage_wrapper" style="display:none;">
+            @include('admin::tb.storage.image.preloader')
             <div class="close_image_storage">
                 <a href="javascript:void(0);" onclick="TableBuilder.closeImageStorageModal();" class="btn btn-info btn-xs"><i class="fa fa-times"></i></a>
             </div>

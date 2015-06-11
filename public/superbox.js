@@ -273,37 +273,67 @@ var Superbox =
     
     uploadImage: function(context)
     {
+        var imgTotal = context.files.length;
+        var imgCount        = 0;
+        var imgFailCount    = 0;
+        var imgSuccessCount = 0;
+        var percentageMod     = 100 / imgTotal;
+        var failPercentage    = 0;
+        var successPercentage = 0;
+        var $fog = $('.j-images-smoke').show();
+        $fog.find('.j-images-upload-total').text(imgTotal);
+        
         var $titleInput = $(context).parent().parent().find('.j-image-title');
         
         var data = new FormData();
-        for (var x = 0; x < context.files.length; x++) {
+        for (var x = 0; x < imgTotal; x++) {
+            var data = new FormData();
             data.append("images[]", context.files[x]);
-        }
-        data.append('query_type', 'image_storage');
-        data.append('storage_type', 'upload_image');
-        data.append('title', $titleInput.val());
-        data.append('__node', TableBuilder.getUrlParameter('node'));
-        // FIXME: catalog
-        data.append('id_catalog', 1);
-
-        jQuery.ajax({
-            data: data,
-            type: "POST",
-            url: TableBuilder.getActionUrl(),
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                console.log(response);
-                if (response.status) {
-                    $titleInput.val('');
-                    $('.superbox').prepend(response.html);
-                    Superbox.init();
-                } else {
-                    TableBuilder.showErrorNotification("Ошибка при загрузке изображения");
+            console.log(context.files[x]);
+            
+            data.append('query_type', 'image_storage');
+            data.append('storage_type', 'upload_image');
+            data.append('title', $titleInput.val());
+            data.append('__node', TableBuilder.getUrlParameter('node'));
+            // FIXME: catalog
+            data.append('id_catalog', 1);
+    
+            jQuery.ajax({
+                data: data,
+                type: "POST",
+                url: TableBuilder.getActionUrl(),
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    imgCount = imgCount + 1;
+                    
+                    if (response.status) {
+                        $titleInput.val('');
+                        $('.superbox').prepend(response.html);
+                        Superbox.init();
+                        
+                        imgSuccessCount = imgSuccessCount + 1;
+                        successPercentage = successPercentage + percentageMod;
+                        
+                        $fog.find('.j-images-upload-upload').text(imgCount);
+                        $fog.find('.j-images-upload-success').text(imgSuccessCount);
+                        $fog.find('.j-images-progress-success').css('width', successPercentage +'%');
+                    } else {
+                        imgFailCount = imgFailCount + 1;
+                        failPercentage = successPercentage + failPercentage;
+                        var failWidth  = successPercentage + failPercentage;
+                        $fog.find('.j-images-progress-fail').css('width', failWidth +'%');
+                        $fog.find('.j-images-upload-fail').text(imgFailCount);
+                        //TableBuilder.showErrorNotification("Ошибка при загрузке изображения");
+                    }
+                    
+                    if (imgCount == imgTotal) {
+                        $fog.find('.j-images-upload-finish-btn').show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }, // end uploadFile
     
     saveImageInfo: function(context, idImage)

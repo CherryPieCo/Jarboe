@@ -3,7 +3,7 @@
 namespace Yaro\Jarboe;
 
 
-class Gallery extends \Eloquent
+class Gallery extends AbstractImageStorage
 {
     
     protected $table = 'j_galleries';
@@ -22,5 +22,10 @@ class Gallery extends \Eloquent
         
         return $this->belongsToMany($model, 'j_galleries2tags', 'id_gallery', 'id_tag');
     } // end tags
+    
+    public function isGallery()
+    {
+        return true;
+    } // end isGallery
     
 }

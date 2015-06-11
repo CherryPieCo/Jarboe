@@ -3,7 +3,7 @@
 namespace Yaro\Jarboe;
 
 
-class Image extends \Eloquent
+class Image extends AbstractImageStorage
 {
     
     protected $table = 'j_images';
@@ -78,5 +78,10 @@ class Image extends \Eloquent
         
         return $query;
     } // end scopeSearch
+    
+    public function isImage()
+    {
+        return true;
+    } // end isImage
 
 }

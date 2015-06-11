@@ -6,7 +6,7 @@
 </div>
 
 
-<div class="b-j-images">
+<div {{ in_array($type, ['image', 'redactor_image']) ? '' : 'style="display: none;"' }} class="b-j-images">
     <?php /*
     <div class="b-j-catalog well">
         @for ($i = 0; $i < 12; $i++)
@@ -22,12 +22,12 @@
     </div>
 </div>
 
-<div style="display: none;" class="b-j-tags">
+<div {{ $type == 'tag' ? '' : 'style="display: none;"' }} class="b-j-tags">
     <div class="row well">
         @include('admin::tb.storage.image.tags')
     </div>
 </div>
-<div style="display: none;" class="b-j-galleries">
+<div {{ $type == 'gallery' ? '' : 'style="display: none;"' }} class="b-j-galleries">
     <div class="row well">
         @include('admin::tb.storage.image.galleries')
     </div>

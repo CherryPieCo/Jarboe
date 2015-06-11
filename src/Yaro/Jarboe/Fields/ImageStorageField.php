@@ -20,9 +20,9 @@ class ImageStorageField extends AbstractField
         // TODO:
     } // end getListValue
     
-
     public function onSearchFilter(&$db, $value)
     {
+        // TODO:
         // FIXME: how? title
     } // end onSearchFilter
     
@@ -36,22 +36,23 @@ class ImageStorageField extends AbstractField
             }
         }
         
+        $type = $this->getRequiredAttribute('storage_type');
+        
         $input = View::make('admin::tb.storage.image.input');
+        $input->type  = $type;
         $input->value = $this->getValue($row);
         $input->row   = $row;
         $input->name  = $this->getFieldName();
         $input->caption = $this->getAttribute('caption');
         $input->placeholder = $this->getAttribute('placeholder');
-        $input->type = $this->getRequiredAttribute('storage_type');
 
         if ($row) {
-            $model = '\\' . \Config::get('jarboe::images.models.image');
+            $model = '\\' . \Config::get('jarboe::images.models.'. $type);
             $input->entity = $model::find($this->getValue($row));
         }
         
         return $input->render();
     } // end getEditInput
-    
     
     public function prepareQueryValue($value)
     {

@@ -16,7 +16,13 @@
     </div>
     
     @if ($row && $entity)
-        <img style="height: 90px;" src="{{ cropp($entity->source)->fit(90) }}">
+        @if ($entity->isImage() && $entity->getSource())
+            <img style="height: 90px;" src="{{ cropp($entity->getSource())->fit(90) }}">
+        @elseif ($entity->isGallery())
+            {{ $entity->title }} | {{ $entity->created_at }}
+        @elseif($entity->isTag())
+            {{ $entity->title }} | {{ $entity->created_at }}
+        @endif
     @endif
 </div>
 

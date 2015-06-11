@@ -3,7 +3,7 @@
 namespace Yaro\Jarboe;
 
 
-class Tag extends \Eloquent
+class Tag extends AbstractImageStorage
 {
     
     protected $table = 'j_tags';
@@ -22,5 +22,10 @@ class Tag extends \Eloquent
         
         return $this->belongsToMany($model, 'j_galleries2tags', 'id_tag', 'id_gallery');
     } // end galleries
+    
+    public function isTag()
+    {
+        return true;
+    } // end isTag
     
 }

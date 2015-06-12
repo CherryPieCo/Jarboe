@@ -32,7 +32,7 @@ class WysiwygField extends AbstractField
             }
         }
 
-        $wysiwyg = $this->getAttribute('wysiwyg', 'summernote');
+        $wysiwyg = $this->getAttribute('wysiwyg', 'redactor');
 
         $input = \View::make('admin::tb.input_wysiwyg' .'_'. $wysiwyg);
         $input->value = $this->getValue($row);
@@ -78,7 +78,7 @@ class WysiwygField extends AbstractField
             }
         }
         
-        $wysiwyg = $this->getAttribute('wysiwyg', 'summernote');
+        $wysiwyg = $this->getAttribute('wysiwyg', 'redactor');
         
         $input = \View::make('admin::tb.tab_input_wysiwyg' .'_'. $wysiwyg);
         $input->value = $this->getValue($row);

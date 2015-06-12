@@ -22,7 +22,7 @@
         </dl>
         <hr>
         
-        <a href="javascript:void(0);" onclick="$(this).hide().parent().parent().hide();" class="btn btn-info j-images-upload-finish-btn" style="display:none; margin-left: 166px;">готово</a>
+        <a href="javascript:void(0);" onclick="$(this).hide().parent().parent().hide();$('.j-images-progress-fail').css('width', '0%');$('.j-images-progress-success').css('width', '0%');" class="btn btn-info j-images-upload-finish-btn" style="display:none; margin-left: 166px;">готово</a>
         
     </div>
     

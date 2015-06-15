@@ -9,7 +9,7 @@ class Tree extends \Baum\Node
     protected $table = 'tb_tree';
     protected $parentColumn = 'parent_id';
 
-    protected $_nodeUrl;
+    protected $_nodeUrl = null;
     
     public static function flushCache()
     {
@@ -61,7 +61,7 @@ class Tree extends \Baum\Node
 
     public function getUrl()
     {
-        if (!$this->_nodeUrl) {
+        if (is_null($this->_nodeUrl)) {
             $this->_nodeUrl = $this->getGeneratedUrl();
         }
         return $this->_nodeUrl;

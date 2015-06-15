@@ -9,6 +9,11 @@ class Gallery extends AbstractImageStorage
     protected $table = 'j_galleries';
 
     
+    public static function flushCache()
+    {
+        \Cache::tags('j_galleries')->flush();
+    } // end flushCache
+    
     public function images()
     {
         $model = \Config::get('jarboe::images.models.image');

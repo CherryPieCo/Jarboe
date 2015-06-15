@@ -144,6 +144,12 @@ class Image
             $priority++;
         }
         
+        $imageModel = Config::get('jarboe::images.models.image');
+        $galleryModel = Config::get('jarboe::images.models.gallery');
+        
+        $imageModel::flushCache();
+        $galleryModel::flushCache();
+        
         return Response::json(array(
             'status' => true
         ));
@@ -170,6 +176,13 @@ class Image
         DB::table('j_galleries2images')->where('id_image', Input::get('id_image'))
                                        ->where('id_gallery', Input::get('id_gallery'))
                                        ->delete();
+                                       
+        $imageModel = Config::get('jarboe::images.models.image');
+        $galleryModel = Config::get('jarboe::images.models.gallery');
+        
+        $imageModel::flushCache();
+        $galleryModel::flushCache();
+                                       
         return Response::json(array(
             'status' => true
         ));
@@ -338,6 +351,7 @@ class Image
         $model = '\\' . Config::get('jarboe::images.models.gallery');
         
         $model::destroy(Input::get('id'));
+        $model::flushCache();
         
         return Response::json(array(
             'status' => true,
@@ -353,6 +367,8 @@ class Image
         $gallery->title = Input::get('title');
         $gallery->save();
         
+        $model::flushCache();
+        
         return Response::json(array(
             'status' => true,
             'html'   => View::make('admin::tb.storage.image.gallery_row', compact('gallery', 'type'))->render(),
@@ -364,6 +380,7 @@ class Image
         $model = '\\' . Config::get('jarboe::images.models.tag');
         
         $model::destroy(Input::get('id'));
+        $model::flushCache();
         
         return Response::json(array(
             'status' => true,
@@ -378,6 +395,8 @@ class Image
         $tag = new $model();
         $tag->title = Input::get('title');
         $tag->save();
+        
+        $model::flushCache();
         
         return Response::json(array(
             'status' => true,
@@ -401,10 +420,8 @@ class Image
     {
         $model = '\\' . Config::get('jarboe::images.models.image');
         
-        
         $html = '';
         $files = Input::file('images');
-        
         foreach ($files as $file) {
             $entity = new $model;
             $entity->title = Input::get('title');
@@ -484,7 +501,9 @@ class Image
         );
     } // end getPathByID
     
-    // @deprecated
+    /*
+     * @deprecated
+     */
     private function getRedactorImagesList()
     {
         $model = '\\' . Config::get('jarboe::images.models.image');
@@ -548,6 +567,12 @@ class Image
             );
         }
         
+        $imageModel = Config::get('jarboe::images.models.image');
+        $tagModel = Config::get('jarboe::images.models.tag');
+        
+        $imageModel::flushCache();
+        $tagModel$tagModel::flushCache();
+        
         DB::table('j_images2tags')->where('id_image', $idImage)->delete();
         if ($data) {
             DB::table('j_images2tags')->insert($data);
@@ -565,6 +590,12 @@ class Image
                 'id_gallery' => $idGallery
             );
         }
+        
+        $imageModel = Config::get('jarboe::images.models.image');
+        $galleryModel = Config::get('jarboe::images.models.gallery');
+        
+        $imageModel::flushCache();
+        $galleryModel::flushCache();
         
         DB::table('j_galleries2images')->where('id_image', $idImage)->delete();
         if ($data) {

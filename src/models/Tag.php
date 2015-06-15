@@ -9,6 +9,11 @@ class Tag extends AbstractImageStorage
     protected $table = 'j_tags';
 
     
+    public static function flushCache()
+    {
+        \Cache::tags('j_tags')->flush();
+    } // end flushCache
+    
     public function images()
     {
         $model = \Config::get('jarboe::images.models.image');

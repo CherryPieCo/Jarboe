@@ -571,7 +571,7 @@ class Image
         $tagModel = Config::get('jarboe::images.models.tag');
         
         $imageModel::flushCache();
-        $tagModel$tagModel::flushCache();
+        $tagModel::flushCache();
         
         DB::table('j_images2tags')->where('id_image', $idImage)->delete();
         if ($data) {

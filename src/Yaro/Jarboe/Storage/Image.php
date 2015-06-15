@@ -206,8 +206,6 @@ class Image
         list(, $postfixPath) = $this->getPathByID($entity->id);
         $destinationPath = $prefixPath . $postfixPath;
         
-        //$file->move(public_path() . $destinationPath, $fileName);
-        
         $img = \Image::make($file->getRealPath());
         if (Input::get('type')) {
             

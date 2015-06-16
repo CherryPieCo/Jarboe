@@ -15,3 +15,20 @@ To app/config/app.php
 // ...
 ```
 
+
+
+```php
+Route::any('/storage/image', 'TableAdminController@showImageStorage');
+//..
+public function showImageStorage()
+{
+    if (Request::isMethod('post')) {
+        $options = array(
+            'url'      => Request::path(),
+            'def_name' => 'settings',
+        );
+        return Jarboe::table($options);
+    }
+    return View::make('admin::image_storage');
+} // end showImageStorage
+```

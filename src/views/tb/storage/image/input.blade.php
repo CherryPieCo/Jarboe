@@ -17,7 +17,7 @@
     
     @if ($row && $entity)
         @if ($entity->isImage() && $entity->getSource())
-            <img style="height: 90px;" src="{{ cropp($entity->getSource())->fit(90) }}">
+            <img style="height: 90px;" src="{{ asset(cropp($entity->getSource())->fit(90)) }}">
         @elseif ($entity->isGallery())
             {{ $entity->title }} | {{ $entity->created_at }}
         @elseif($entity->isTag())

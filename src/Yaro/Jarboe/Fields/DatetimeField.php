@@ -81,12 +81,21 @@ class DatetimeField extends AbstractField
         // FIXME:
         $value = $this->getValue($row);
         $value = $value ? date('d/m/Y H:i:s', $this->getTimestamp($value)) : '';
+        // FIXME: default 'now'
+        $defaultValue = $this->getAttribute('default');
+        if ($defaultValue === 'now') {
+            $defaultValue = date('Y-m-d H:i:s');
+        }
+        if (!$value && $defaultValue) {
+            $value = date('d/m/Y H:i:s', $this->getTimestamp($defaultValue));
+        }
 
         $input = View::make('admin::tb.input_datetime');
-        $input->value  = $value;
-        $input->name   = $this->getFieldName();
-        $input->months = $this->getAttribute('months');
-        $input->prefix = $row ? 'e-' : 'c-';
+        $input->value   = $value;
+        $input->default = $this->getAttribute('default');
+        $input->name    = $this->getFieldName();
+        $input->months  = $this->getAttribute('months');
+        $input->prefix  = $row ? 'e-' : 'c-';
 
         return $input->render();
     } // end getEditInput

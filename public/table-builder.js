@@ -523,6 +523,16 @@ var TableBuilder = {
                 }
             });
         }
+        
+        // default datetime value
+        if (jQuery('.datetime-default-value', TableBuilder.create_form).length) {
+            $.each($('.datetime-default-value', TableBuilder.create_form), function() {
+                var $input = $(this);
+                var value = $input.data('default') == 'now' ? (new Date()) : $input.data('default');
+                
+                $input.datetimepicker('setDate', value);
+            });
+        }
 
         //jQuery(TableBuilder.form_label).text('Create');
         jQuery(TableBuilder.form).modal('show');

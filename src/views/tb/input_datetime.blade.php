@@ -3,7 +3,8 @@
        id="{{ $prefix . $name }}"
        value="{{$value}}" 
        name="{{$name}}" 
-       class="form-control datepicker" >
+       data-default="{{$default}}" 
+       class="form-control datepicker {{ $default ? 'datetime-default-value' : '' }}">
        
 <span class="input-group-addon form-input-icon">
     <i class="fa fa-calendar"></i>

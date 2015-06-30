@@ -421,7 +421,6 @@ class RequestHandler
 
     protected function handleSaveEditFormAction()
     {
-        $idRow = $this->getRowID();
         $this->checkEditPermission();
 
         $result = $this->controller->query->updateRow(Input::all());

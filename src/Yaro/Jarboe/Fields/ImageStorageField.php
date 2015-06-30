@@ -17,7 +17,22 @@ class ImageStorageField extends AbstractField
 
     public function getListValue($row)
     {
-        // TODO:
+        $html = '<span class="glyphicon glyphicon-minus"></span>';
+        
+        $type = $this->getRequiredAttribute('storage_type');
+        $model = '\\' . \Config::get('jarboe::images.models.'. $type);
+        $entity = $model::find($this->getValue($row));
+        if ($entity) {
+            if ($entity->isImage() && $entity->getSource()) {
+                $html = '<img style="height: 90px;" src="'. asset(cropp($entity->getSource())->fit(90)) .'">';
+            } elseif ($entity->isGallery()) {
+                $html = $entity->title .' | '. $entity->created_at;
+            } elseif ($entity->isTag()) {
+                $html = $entity->title .' | '. $entity->created_at;
+            }
+        }
+        
+        return $html;
     } // end getListValue
     
     public function onSearchFilter(&$db, $value)

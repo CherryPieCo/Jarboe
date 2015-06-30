@@ -31,7 +31,7 @@
                         jQuery(document).ready(function() {
                             jQuery('#{{$pre . $name . $tab['postfix']}}-wysiwyg').redactor({
                                 @foreach ($extraOptions as $key => $val)
-                                    {{$key}}: '{{$val}}',
+                                    {{$key}}: {{$val}},
                                 @endforeach
                                 buttonSource: true,
                                 pasteCallback: function(html) {

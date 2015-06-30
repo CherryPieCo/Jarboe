@@ -64,7 +64,7 @@ class JarboeController
         
         $this->allowedIds = $this->query->getTableAllowedIds();
         
-        // HACK:
+        // HACK: remove me, pls
         $this->currentID = \Input::get('id');
     } // end __construct
     

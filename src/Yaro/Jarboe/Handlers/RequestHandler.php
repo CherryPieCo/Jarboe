@@ -60,6 +60,9 @@ class RequestHandler
                 
             case 'set_per_page':
                 return $this->handleSetPerPageAmountAction();
+                
+            case 'save_inline_form':
+                return $this->handleSaveInlineFormAction();
 
             case 'show_edit_form':
                 return $this->handleShowEditFormAction();
@@ -98,6 +101,22 @@ class RequestHandler
                 return $this->handleShowList();
         }
     } // end handle
+    
+    private function handleSaveInlineFormAction()
+    {
+        $this->checkEditPermission();
+        
+        $idRow = $this->getRowID();
+        $fieldType = Input::get('__field_type');
+        
+        $field = $this->controller->getField($fieldType);
+        $errors = $field->doSaveInlineEditForm($idRow, Input::all());
+        
+        return Response::json(array(
+            'status' => empty($errors),
+            'errors' => $errors,
+        ));
+    } // end handleSaveInlineFormAction
     
     protected function handleManyToManyAjaxSearch()
     {
@@ -377,8 +396,8 @@ class RequestHandler
     
     protected function handleDeleteAction()
     {
-        $idRow = $this->_getRowID();
-        $this->checkEditPermission($idRow);
+        $idRow = $this->getRowID();
+        $this->checkEditPermission();
 
         $result = $this->controller->query->deleteRow($idRow);
 
@@ -402,8 +421,8 @@ class RequestHandler
 
     protected function handleSaveEditFormAction()
     {
-        $idRow = $this->_getRowID();
-        $this->checkEditPermission($idRow);
+        $idRow = $this->getRowID();
+        $this->checkEditPermission();
 
         $result = $this->controller->query->updateRow(Input::all());
         $result['html'] = $this->controller->view->getRowHtml($result);
@@ -413,8 +432,8 @@ class RequestHandler
 
     protected function handleShowEditFormAction()
     {
-        $idRow = $this->_getRowID();
-        $this->checkEditPermission($idRow);
+        $idRow = $this->getRowID();
+        $this->checkEditPermission();
 
         $html = $this->controller->view->showEditForm($idRow);
         $data = array(
@@ -425,20 +444,20 @@ class RequestHandler
         return Response::json($data);
     } // end handleShowEditFormAction
 
-    protected function checkEditPermission($id)
+    protected function checkEditPermission()
     {
-        if (!$this->controller->isAllowedID($id)) {
+        if (!$this->controller->isAllowedID($this->getRowID())) {
             throw new \RuntimeException("Permission denied to perform edit for #{$id}.");
         }
     } // end checkEditPermission
 
-    private function _getRowID()
+    private function getRowID()
     {
         if (Input::has('id')) {
             return Input::get('id');
         }
         throw new \RuntimeException("Undefined row id for action.");
-    } // end _getRowID
+    } // end getRowID
 
     protected function handleShowList()
     {

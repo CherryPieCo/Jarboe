@@ -38,7 +38,7 @@ class WysiwygField extends AbstractField
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
-        $input->extraOptions = $this->getAttribute('extra-options', array());
+        $input->extraOptions = $this->getWysiwygOptions();
         
         $action = $this->definition['options']['action_url'];
         if (isset($this->definition['options']['action_url_tree'])) {
@@ -51,19 +51,36 @@ class WysiwygField extends AbstractField
     
     private function getWysiwygOptions()
     {
+        // FIXME:
         $options = $this->getAttribute('editor-options', array());
-        if (!array_key_exists('lang', $options)) {
-            $options['lang'] = 'ru-RU';
+        
+        if ($this->getAttribute('wysiwyg', 'redactor') == 'summernote') {
+            if (!array_key_exists('lang', $options)) {
+                $options['lang'] = 'ru-RU';
+            }
+            
+            if (!array_key_exists('height', $options)) {
+                $options['height'] = 200;
+            }
+            if (!array_key_exists('minHeight', $options)) {
+                $options['minHeight'] = null;
+            }
+            if (!array_key_exists('maxHeight', $options)) {
+                $options['maxHeight'] = null;
+            }
         }
         
-        if (!array_key_exists('height', $options)) {
-            $options['height'] = 200;
-        }
-        if (!array_key_exists('minHeight', $options)) {
-            $options['minHeight'] = null;
-        }
-        if (!array_key_exists('maxHeight', $options)) {
-            $options['maxHeight'] = null;
+        
+        foreach ($options as &$option) {
+            if (preg_match('~^(\d+)$~', $option)) {
+                $option = $option;
+            } elseif (preg_match('~^(true|false)$~', $option)) {
+                $option = $option;
+            } elseif (preg_match('~^\[.+\]$~', $option)) {
+                $option = $option;
+            } else {
+                $option = "'". $option ."'";
+            }
         }
         
         return $options;
@@ -84,7 +101,7 @@ class WysiwygField extends AbstractField
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
-        $input->extraOptions = $this->getAttribute('extra-options', array());
+        $input->extraOptions = $this->getWysiwygOptions();
         $input->tabs = $this->getPreparedTabs($row);
         $input->caption = $this->getAttribute('caption');
         

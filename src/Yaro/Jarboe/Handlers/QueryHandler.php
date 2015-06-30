@@ -182,7 +182,7 @@ class QueryHandler
             $this->controller->getField($name)->onSearchFilter($this->db, $value);
         }
     } // end onSearchFilterQuery
-
+    
     public function updateRow($values)
     {
         if (!$this->controller->actions->isAllowed('update')) {
@@ -406,6 +406,7 @@ class QueryHandler
     {
         unset($values['id']);
         unset($values['query_type']);
+        unset($values['__field_type']);
 
         foreach ($values as $key => $val) {
             if (preg_match('~^many2many~', $key)) {

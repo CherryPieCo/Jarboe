@@ -1640,6 +1640,32 @@ console.log(num);
         });
     }, // end openFileStorageModal
     
+    sendInlineEditForm: function(context, field, idRow)
+    {
+        var data = $(context).closest('.tb-inline-edit-container').find("select, textarea, input").serializeArray();
+        data.push({ name: 'id', value: idRow });
+        data.push({ name: '__field_type', value: field });
+        data.push({ name: 'query_type', value: 'save_inline_form' });
+        data.push({ name: '__node', value: TableBuilder.getUrlParameter('node') });
+        
+        console.table(data);
+        
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    
+                    
+                    TableBuilder.showSuccessNotification('Сохранено успешно');
+                } else {
+                    TableBuilder.showErrorNotification('Что-то пошло не так');
+                }
+            }
+        });
+    }, // end sendInlineEditForm
     
 };
 

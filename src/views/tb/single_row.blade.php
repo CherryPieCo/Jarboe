@@ -31,17 +31,9 @@ foreach ($def['fields'] as $ident => $field) {
     
     @if (!$field->getAttribute('hide_list'))
     <td style="background-color: {{ $trColor }}; background-color: {{ $field->getRowColor($row) }};" width="{{ $field->getAttribute('width') }}" class="{{ $field->getAttribute('class') }} ">
-        @if ($field->getAttribute('fast-edit'))
-            <span class="dblclick-edit selectable">{{ $field->getListValue($row) }}</span>
-            {{ $field->getEditInput($row) }}
-            <div class="fast-edit-buttons">
-                <button class="btn btn-default btn-mini btn-save" type="button"
-                        onclick="TableBuilder.saveFastEdit(this, {{ $row['id'] }}, '{{ $ident }}');">
-                    {{ $def['fast-edit']['save']['caption'] or 'Save' }}
-                </button>
-                <i class="glyphicon glyphicon-remove btn-cancel tip-top" 
-                   data-original-title="{{ $def['fast-edit']['cancel']['caption'] or 'Cancel edit' }}"
-                   onclick="TableBuilder.closeFastEdit(this, 'cancel');"></i>
+        @if ($field->isInlineEdit())
+            <div class="tb-inline-edit-container">
+                {{ $field->getInlineEditInput($row) }}
             </div>
         @else
             <span>{{ $field->getListValue($row) }}</span>

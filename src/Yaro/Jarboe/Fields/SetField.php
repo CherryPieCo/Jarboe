@@ -48,13 +48,43 @@ class SetField extends AbstractField
             }
         }
 
-        $table = View::make('admin::tb.input_set');
-        $table->selected = explode(',', $this->getValue($row));
-        $table->name     = $this->getFieldName();
-        $table->options  = $this->getAttribute('options');
+        $input = View::make('admin::tb.input_set');
+        $input->selected = explode(',', $this->getValue($row));
+        $input->name     = $this->getFieldName();
+        $input->options  = $this->getAttribute('options');
 
-        return $table->render();
+        return $input->render();
     } // end getEditInput
+    
+    public function getInlineEditInput($row)
+    {
+        $input = View::make('admin::tb.input_inline_set');
+        $input->row      = $row;
+        $input->name     = $this->getFieldName();
+        $input->options  = $this->getRequiredAttribute('options');
+        $input->selected = explode(',', $this->getValue($row));
+        
+        return $input->render();
+    } // end getInlineEditInput
+    
+    public function doSaveInlineEditForm($idRow, $values)
+    {
+        if (!$this->isInlineEdit()) {
+            throw new RuntimeException('No inline editing is allowed for ['. $this->getFieldName() .']');
+        }
+        
+        $errors = array();
+        
+        // FIXME: validation, etc
+        $table = $this->getDefinitionOption('db.table');
+        $value = $this->getValue($values) ? : array();
+        $value = array_keys($value);
+        \DB::table($table)->where('id', $idRow)->update(array(
+            $this->getFieldName() => $this->prepareQueryValue($value)
+        ));
+        
+        return $errors;
+    } // end doSaveInlineEditForm
 
     public function getRowColor($row)
     {

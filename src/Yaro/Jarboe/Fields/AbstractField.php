@@ -29,10 +29,25 @@ abstract class AbstractField
         $this->handler = &$handler;
     } // end __construct
     
+    public function getDefinitionOption($ident, $default = null)
+    {
+        $value = array_get($this->definition, $ident);
+        if (!$value && !is_null($default)) {
+            return $default;
+        }
+        
+        return $value;
+    } // end getDefinitionOption
+    
     public function isPattern()
     {
         return false;
     } // end isPattern
+    
+    public function isInlineEdit()
+    {
+        return $this->getAttribute('is_inline');
+    } // end isInlineEdit
 
     public function getFieldName()
     {
@@ -143,6 +158,11 @@ abstract class AbstractField
 
         return $input->render();
     } // end getEditInput
+    
+    public function getInlineEditInput($row)
+    {
+        return '';
+    } // end getInlineEditInput
     
     public function getTabbedEditInput($row = array())
     {
@@ -330,5 +350,11 @@ abstract class AbstractField
     } // end getRowColor
 
     abstract public function onSearchFilter(&$db, $value);
+    
+    public function doSaveInlineEditForm($idRow, $values)
+    {
+        // FIXME:
+        throw new RuntimeException('AHAHAHAHAHAHAHAHA');
+    } // end doSaveInlineEditForm
     
 }

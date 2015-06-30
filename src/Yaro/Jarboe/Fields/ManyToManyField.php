@@ -190,7 +190,7 @@ class ManyToManyField extends AbstractField
         $externalTable = $this->getAttribute('mtm_external_table');
         $externalForeignKey = $externalTable .'.'. $this->getAttribute('mtm_external_foreign_key_field');
         
-        $options = DB::table($this->getAttribute('mtm_table'));
+        $options = DB::table($this->getAttribute('mtm_table'))->orderBy($externalTable .'.id', 'desc');
         $options->select($keyField, $valueField);
         if ($isGetAll) {
             $options->addSelect($this->getAttribute('mtm_table') .'.*');
@@ -266,7 +266,7 @@ class ManyToManyField extends AbstractField
     public function getAjaxSearchResult($query, $limit, $page)
     {
         // TODO: create handler callback & lambda callback
-        $results = DB::table($this->getAttribute('mtm_external_table'))
+        $results = DB::table($this->getAttribute('mtm_external_table'))->orderBy($this->getAttribute('mtm_external_table') .'.id', 'desc')
                     ->select('id', $this->getAttribute('mtm_external_value_field'))
                     ->where($this->getAttribute('mtm_external_value_field'), 'LIKE', '%'. $query .'%')
                     ->take($limit)

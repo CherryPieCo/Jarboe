@@ -1,6 +1,7 @@
 {
     "name": "yaro/jarboe",
-    "description": "",
+    "description": "An administrative interface builder for Laravel",
+    "keywords": ["administrator", "admin", "database", "laravel-administrator", "laravel", "cms"],
     "authors": [
         {
             "name": "Yaro",
@@ -8,34 +9,24 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "4.2.*",
-        "radic/blade-extensions": "1.1.*",
-        "baum/baum": "1.0.12",
+        "php": ">=5.5.9",
+        "radic/blade-extensions": "4.0.*",
+        "baum/baum": "1.1.*",
         "yandex/translate-api": "~1.0",
-        "mpratt/embera": "1.8.*",
-        "cartalyst/sentry": "2.1.*",
-        "barryvdh/laravel-elfinder": "0.1.x",
+        "cartalyst/sentinel": "2.0.*",
         "intervention/image": "2.*",
-        "yaro/laravel-glide": "1.0.1",
-        "yaro/mecha": "0.0.*",
-        "mcamara/laravel-localization": "v0.15.1",
-        "lciolecki/php-image-optimizer": "dev-master"
+        "yaro/cropp": "0.0.*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/Cherry-Pie/laravel-glide.git"
-        }
-    ],
     "autoload": {
-        "classmap": [
-            "src/controllers",
-            "src/models"
-        ],
-        "psr-0": {
+        "psr-4": {
             "Yaro\\Jarboe\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php",
+            "src/filters.php",
+            "src/Http/routes.php",
+            "src/view_composers.php"
+        ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

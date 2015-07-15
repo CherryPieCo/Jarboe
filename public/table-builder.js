@@ -470,7 +470,7 @@ var TableBuilder = {
             }
         }
     }, // end getUrlParameter
-
+/*
     showEditForm: function(idRow)
     {
         // FIXME: not used?
@@ -502,44 +502,58 @@ var TableBuilder = {
                 });
         });
     }, // end showEditForm
-
+*/
     getCreateForm: function()
     {
         // FIXME:
         if (TableBuilder.onGetCreateForm) {
             TableBuilder.onGetCreateForm();
         }
-
+        
         TableBuilder.showPreloader();
         TableBuilder.flushStorage();
 
-        // flush image previews
-        if (jQuery('.tb-uploaded-image-container', TableBuilder.create_form).length) {
-            jQuery.each(jQuery('.tb-uploaded-image-container', TableBuilder.create_form), function (i) {
-                if (jQuery(this).find('ul').length) {
-                    jQuery(this).find('ul').html('');
-                } else {    
-                    jQuery(this).html('');
+        var data = [
+            {name: "query_type", value: "show_create_form"},
+            {name: "__node", value: TableBuilder.getUrlParameter('node')}
+        ];
+        console.table(data);
+        jQuery.ajax({
+            type: "POST",
+            url: TableBuilder.getActionUrl(),
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                console.log('edit form');
+//modal_wrapper
+                if (response.status) {
+                    jQuery(TableBuilder.form_wrapper).html(response.html);
+
+                    //jQuery(TableBuilder.form_label).text('Edit');
+
+                    jQuery(TableBuilder.form).modal('show');
+                    jQuery(TableBuilder.form).find('input[data-mask]').each(function() {
+                        var $input = jQuery(this);
+                        $input.mask($input.attr('data-mask'));
+                    });
+
+                    TableBuilder.initSingleImageEditable();
+                    TableBuilder.initMultipleImageEditable();
+                    TableBuilder.initSummernoteFullscreen();
+                    TableBuilder.initSelect2Hider();
+                } else {
+                    jQuery.smallBox({
+                        title : "Что-то пошло не так, попробуйте позже",
+                        content : "",
+                        color : "#C46A69",
+                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                        timeout : 4000
+                    });
                 }
-            });
-        }
-        
-        // default datetime value
-        if (jQuery('.datetime-default-value', TableBuilder.create_form).length) {
-            $.each($('.datetime-default-value', TableBuilder.create_form), function() {
-                var $input = $(this);
-                var value = $input.data('default') == 'now' ? (new Date()) : $input.data('default');
-                
-                $input.datetimepicker('setDate', value);
-            });
-        }
 
-        //jQuery(TableBuilder.form_label).text('Create');
-        jQuery(TableBuilder.form).modal('show');
-        TableBuilder.initSummernoteFullscreen();
-        TableBuilder.initSelect2Hider();
-
-        TableBuilder.hidePreloader();
+                TableBuilder.hidePreloader();
+            }
+        });
     }, // end getCreateForm
     
     initSelect2Hider: function()
@@ -553,6 +567,7 @@ var TableBuilder = {
     
     getEditForm: function(id, context)
     {
+        console.log('pre');
         TableBuilder.showPreloader();
         TableBuilder.flushStorage();
         jQuery('#wid-id-1').find('tr[data-editing="true"]').removeAttr('data-editing');
@@ -972,7 +987,7 @@ console.log(values);
                         return;
                     }
                     
-                    jQuery('#wid-id-1').find('tbody').prepend(response.html);
+                    jQuery('#wid-id-1').find('tbody').first().prepend(response.html);
 
                     TableBuilder.removeInputValues(TableBuilder.form);
                     jQuery(TableBuilder.form).modal('hide');

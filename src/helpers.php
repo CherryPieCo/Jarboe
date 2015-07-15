@@ -52,13 +52,13 @@ if (!function_exists('__'))
     } // end __
 }
 
-
 if (!function_exists('dr'))
 {
     function dr($array)
     {
         echo '<pre>';
-        die(print_r($array));
+        print_r($array);
+        die;
     } // end dr
 }
 
@@ -107,35 +107,6 @@ if (!function_exists('remove_bom'))
         return $val;
     } // end remove_bom
 }
-
-// @deprecated
-if (!function_exists('img'))
-{
-    function img($source, $options = array())
-    {
-        return glide($source, $options);
-    } // end img
-}
-
-if (!function_exists('glide'))
-{
-    function glide($source, $options = array())
-    {
-        if (!$source) return;
-        
-        return asset(GlideImage::load($source)->modify($options));
-    } // end glide
-}
-
-
-if (!function_exists('cropp'))
-{
-    function cropp($source) 
-    {
-        return Yaro\Jarboe\Helpers\Cropp::make($source);
-    } // end cropp
-}
-
 
 if (!function_exists('xml2array'))
 {

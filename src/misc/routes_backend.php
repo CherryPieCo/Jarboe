@@ -1,7 +1,7 @@
 <?php
 
 Route::group(array(
-    'prefix' => Config::get('jarboe::admin.uri'), 
+    'prefix' => config('jarboe::admin.uri'), 
     'before' => array(
         'auth_admin', 
         'check_permissions'

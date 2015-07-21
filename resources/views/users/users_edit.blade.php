@@ -10,7 +10,7 @@
 @section('scripts')
 <script src="{{asset('packages/yaro/jarboe/tb-user.js')}}"></script>
 <script>
-    TBUser.admin_uri = '{{\Config::get('jarboe::admin.uri')}}';
+    TBUser.admin_uri = '{{\config('jarboe::admin.uri')}}';
     TBUser.id_user   = '{{$user->id}}';
 </script>
 @stop
@@ -20,7 +20,7 @@
         
 
 <div class="widget-body no-padding">
-    <form id="user-update-form" method="post" class="smart-form" novalidate="novalidate" action="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/update') }}">
+    <form id="user-update-form" method="post" class="smart-form" novalidate="novalidate" action="{{ url(\config('jarboe::admin.uri') .'/tb/users/update') }}">
         
     <ul class="nav nav-tabs tabs-pull-right bordered">
         <li class="pull-right">
@@ -38,7 +38,7 @@
         <div class="tab-pane" id="l1">
             <div class="widget-body no-padding" style="margin: -10px;">
                 
-            <?php $permissions = \Config::get('jarboe::users.permissions', array()); ?>
+            <?php $permissions = \config('jarboe::users.permissions', array()); ?>
             @foreach ($permissions as $ident => $info)
             <header style="margin:0px 0 0; padding-left: 10px;">{{$info['caption']}}</header>
             
@@ -188,7 +188,7 @@
         </div>    
         
         <footer>
-            <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users') }}">
+            <a href="{{ url(\config('jarboe::admin.uri') .'/tb/users') }}">
             <button type="button" class="btn btn-default">
                 Назад
             </button>

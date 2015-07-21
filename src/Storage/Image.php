@@ -96,8 +96,8 @@ class Image
     private function getFetchedImage()
     {
         $idImage = Input::get('id');
-        $model = Config::get('jarboe::images.models.image');
-        $wysiwygType = Config::get('jarboe::images.wysiwyg_image_type', '');
+        $model = config('jarboe::images.models.image');
+        $wysiwygType = config('jarboe::images.wysiwyg_image_type', '');
         
         $image = $model::find($idImage);
         $html = '<img class="j-image" src="'. $image->$wysiwygType .'" data-src="'. $image->getSource() .'"';
@@ -116,8 +116,8 @@ class Image
     private function doLoadMoreImages()
     {
         $page = Input::get('page');
-        $perPage = Config::get('jarboe::images.per_page');
-        $model = Config::get('jarboe::images.models.image');
+        $perPage = config('jarboe::images.per_page');
+        $model = config('jarboe::images.models.image');
         
         $images = $model::search()->orderBy('id', 'desc')->skip($perPage * $page)->limit($perPage)->get();
         $html = '';
@@ -144,8 +144,8 @@ class Image
             $priority++;
         }
         
-        $imageModel = Config::get('jarboe::images.models.image');
-        $galleryModel = Config::get('jarboe::images.models.gallery');
+        $imageModel = config('jarboe::images.models.image');
+        $galleryModel = config('jarboe::images.models.gallery');
         
         $imageModel::flushCache();
         $galleryModel::flushCache();
@@ -157,7 +157,7 @@ class Image
     
     private function getGalleryContentForm()
     {
-        $model = '\\' . Config::get('jarboe::images.models.gallery');
+        $model = '\\' . config('jarboe::images.models.gallery');
         $gallery = $model::with(array('images' => function($query) {
             $query->priority();
         }))->where('id', Input::get('id'))->first();
@@ -177,8 +177,8 @@ class Image
                                        ->where('id_gallery', Input::get('id_gallery'))
                                        ->delete();
                                        
-        $imageModel = Config::get('jarboe::images.models.image');
-        $galleryModel = Config::get('jarboe::images.models.gallery');
+        $imageModel = config('jarboe::images.models.image');
+        $galleryModel = config('jarboe::images.models.gallery');
         
         $imageModel::flushCache();
         $galleryModel::flushCache();
@@ -190,7 +190,7 @@ class Image
     
     private function doUploadSingleImage()
     {
-        $model = '\\' . Config::get('jarboe::images.models.image');
+        $model = '\\' . config('jarboe::images.models.image');
         
         $entity = $model::find(Input::get('id'));
         
@@ -209,7 +209,7 @@ class Image
         $img = \Image::make($file->getRealPath());
         if (Input::get('type')) {
             
-            $sizes = Config::get('jarboe::images.image.sizes', array());
+            $sizes = config('jarboe::images.image.sizes', array());
             
             foreach ($sizes[Input::get('type')]['modify'] as $method => $args) {
                 call_user_func_array(array($img, $method), $args);
@@ -236,12 +236,12 @@ class Image
     
     private function getImageForm()
     {
-        $model = '\\' . Config::get('jarboe::images.models.image');
+        $model = '\\' . config('jarboe::images.models.image');
         $image = $model::find(Input::get('id'));
         
         $type = Input::get('type_select');
-        $sizes  = Config::get('jarboe::images.image.sizes');
-        $fields = Config::get('jarboe::images.image.fields');
+        $sizes  = config('jarboe::images.image.sizes');
+        $fields = config('jarboe::images.image.fields');
         $select2 = $this->fetchSelect2(Input::get('id'));
         
         $html = View::make(
@@ -257,7 +257,7 @@ class Image
     
     private function doRenameGallery()
     {
-        $model = '\\' . Config::get('jarboe::images.models.gallery');
+        $model = '\\' . config('jarboe::images.models.gallery');
         
         $gallery = $model::find(Input::get('id'));
         $gallery->title = Input::get('title');
@@ -270,7 +270,7 @@ class Image
     
     private function doRenameTag()
     {
-        $model = '\\' . Config::get('jarboe::images.models.tag');
+        $model = '\\' . config('jarboe::images.models.tag');
         
         $gallery = $model::find(Input::get('id'));
         $gallery->title = Input::get('title');
@@ -311,7 +311,7 @@ class Image
         $html = '<section><label>Теги</label>';
         $html .= '<select id="j-storage-tags" name="j-tags[]" multiple style="width:100%" class="select22">';
         
-        $model = '\\' . Config::get('jarboe::images.models.tag');
+        $model = '\\' . config('jarboe::images.models.tag');
         $tags = $model::orderBy('id', 'desc')->get();
         
         $selectedIds = DB::table('j_images2tags')->where('id_image', $idImage)->lists('id_tag') ? : array();
@@ -330,7 +330,7 @@ class Image
         $html = '<section><label>'. __('Галереи') .'</label>';
         $html .= '<select id="j-storage-galleries" name="j-galleries[]" multiple style="width:100%" class="select22">';
         
-        $model = '\\' . Config::get('jarboe::images.models.gallery'); 
+        $model = '\\' . config('jarboe::images.models.gallery'); 
         $galleries = $model::orderBy('id', 'desc')->get();
         
         $selectedIds = DB::table('j_galleries2images')->where('id_image', $idImage)->lists('id_gallery') ? : array();
@@ -346,7 +346,7 @@ class Image
     
     private function doDeleteGallery()
     {
-        $model = '\\' . Config::get('jarboe::images.models.gallery');
+        $model = '\\' . config('jarboe::images.models.gallery');
         
         $model::destroy(Input::get('id'));
         $model::flushCache();
@@ -358,7 +358,7 @@ class Image
     
     private function doAddGallery()
     {
-        $model = '\\' . Config::get('jarboe::images.models.gallery');
+        $model = '\\' . config('jarboe::images.models.gallery');
         $type  = Input::get('type');
         
         $gallery = new $model();
@@ -375,7 +375,7 @@ class Image
     
     private function doDeleteTag()
     {
-        $model = '\\' . Config::get('jarboe::images.models.tag');
+        $model = '\\' . config('jarboe::images.models.tag');
         
         $model::destroy(Input::get('id'));
         $model::flushCache();
@@ -387,7 +387,7 @@ class Image
     
     private function doAddTag()
     {
-        $model = '\\' . Config::get('jarboe::images.models.tag');
+        $model = '\\' . config('jarboe::images.models.tag');
         $type  = Input::get('type');
         
         $tag = new $model();
@@ -404,7 +404,7 @@ class Image
     
     private function doDeleteImage()
     {
-        $model = '\\' . Config::get('jarboe::images.models.image');
+        $model = '\\' . config('jarboe::images.models.image');
         $model::destroy(Input::get('id'));
         
         $model::flushCache();
@@ -416,7 +416,7 @@ class Image
     
     private function doUploadImage()
     {
-        $model = '\\' . Config::get('jarboe::images.models.image');
+        $model = '\\' . config('jarboe::images.models.image');
         
         $html = '';
         $files = Input::file('images');
@@ -454,7 +454,7 @@ class Image
 
             // image variations
             $sourcePath = public_path() . $destinationPath . $fileName;
-            $sizes = Config::get('jarboe::images.image.sizes', array());
+            $sizes = config('jarboe::images.image.sizes', array());
             foreach ($sizes as $sizeIdent => $sizeInfo) {
                 $img = \Image::make($sourcePath);
                 $sizeExtension = $extension;
@@ -504,9 +504,9 @@ class Image
      */
     private function getRedactorImagesList()
     {
-        $model = '\\' . Config::get('jarboe::images.models.image');
+        $model = '\\' . config('jarboe::images.models.image');
         $images = $model::orderBy('id', 'desc')->skip()->limit()->get();
-        $wysiwygColumn = Config::get('jarboe::images.wysiwyg_image_type', 'source');
+        $wysiwygColumn = config('jarboe::images.wysiwyg_image_type', 'source');
         
         $data = array();
         foreach ($images as $image) {
@@ -535,7 +535,7 @@ class Image
     
     private function doSaveImageInfo()
     {
-        $model = '\\' . Config::get('jarboe::images.models.image');
+        $model = '\\' . config('jarboe::images.models.image');
         $image = $model::find(Input::get('id'));
         
         $this->onImageTags();
@@ -565,8 +565,8 @@ class Image
             );
         }
         
-        $imageModel = Config::get('jarboe::images.models.image');
-        $tagModel = Config::get('jarboe::images.models.tag');
+        $imageModel = config('jarboe::images.models.image');
+        $tagModel = config('jarboe::images.models.tag');
         
         $imageModel::flushCache();
         $tagModel::flushCache();
@@ -589,8 +589,8 @@ class Image
             );
         }
         
-        $imageModel = Config::get('jarboe::images.models.image');
-        $galleryModel = Config::get('jarboe::images.models.gallery');
+        $imageModel = config('jarboe::images.models.image');
+        $galleryModel = config('jarboe::images.models.gallery');
         
         $imageModel::flushCache();
         $galleryModel::flushCache();

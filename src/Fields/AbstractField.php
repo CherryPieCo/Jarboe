@@ -27,7 +27,11 @@ abstract class AbstractField
         $this->fieldName  = $fieldName;
         
         $this->handler = &$handler;
+        
+        $this->onAssets();
     } // end __construct
+    
+    protected function onAssets() {} // end onAssets
     
     public function getDefinitionOption($ident, $default = null)
     {

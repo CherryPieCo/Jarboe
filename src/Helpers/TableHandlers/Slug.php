@@ -12,7 +12,7 @@ class Slug extends CustomHandler
     {
         
         if (isset($response['values']['slug'])) {
-            $model = '\\'. \Config::get('jarboe::tree.model');
+            $model = '\\'. \config('jarboe::tree.model');
             
             $entity = $model::find($response['id']);
             $entity->slug = $response['values']['slug'];

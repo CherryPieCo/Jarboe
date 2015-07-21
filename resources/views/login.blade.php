@@ -10,7 +10,7 @@
 
 @section('main')
     <header id="header">
-        <span id="logo">{{ Config::get('jarboe::admin.title') }}</span>
+        <span id="logo">{{ config('jarboe::admin.title') }}</span>
 
         <!--<div id="logo-group">
 

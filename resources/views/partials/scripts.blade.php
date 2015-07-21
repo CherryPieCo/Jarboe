@@ -94,33 +94,6 @@
 
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datepicker/jquery.ui.datepicker-ru.js')}}"></script>
 
-<script type="text/javascript" src="{{asset('packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-addon.js')}}"></script>
-<script type="text/javascript" src="{{asset('packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-addon-i18n.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-sliderAccess.js')}}"></script>
-<script>
-$.timepicker.regional['ru'] = {
-    timeOnlyTitle: 'Выберите время',
-    timeText: 'Время',
-    hourText: 'Часы',
-    minuteText: 'Минуты',
-    secondText: 'Секунды',
-    millisecText: 'Миллисекунды',
-    microsecText: 'Микросекунды',
-    timezoneText: 'Часовой пояс',
-    currentText: 'Сейчас',
-    closeText: 'Закрыть',
-    timeFormat: 'HH:mm',
-    amNames: ['AM', 'A'],
-    pmNames: ['PM', 'P'],
-    isRTL: false
-};
-$.timepicker.setDefaults($.timepicker.regional['ru']);
-</script>
-
-<script src="{{ asset('packages/yaro/jarboe/js/plugin/superbox/superbox.js') }}"></script>
-<script src="{{ asset('packages/yaro/jarboe/superbox.js') }}"></script>
-
-<script src="{{ asset('packages/yaro/jarboe/file_storage.js') }}"></script>
 
 <script src="{{asset('packages/yaro/jarboe/js/app.config.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/app.min.js')}}"></script>
@@ -137,61 +110,40 @@ $.timepicker.setDefaults($.timepicker.regional['ru']);
 
 <!-- JARVIS WIDGETS -->
 <script src="{{asset('packages/yaro/jarboe/js/smartwidgets/jarvis.widget.min.js')}}"></script>
-{{--
-<!-- EASY PIE CHARTS -->
-<script src="{{asset('packages/yaro/jarboe/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js')}}"></script>
-
-<!-- SPARKLINES -->
-<script src="{{asset('packages/yaro/jarboe/js/plugin/sparkline/jquery.sparkline.min.js')}}"></script>
---}}
 
 
-<script src="{{asset('packages/yaro/jarboe/js/plugin/summernote/summernote.min.js')}}"></script>
-<script src="{{asset('packages/yaro/jarboe/js/plugin/summernote/lang/summernote-ru-RU.js')}}"></script>
-<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/jarboe/css/summernote.css')}}">
-
-
-<script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.min.js')}}"></script>
-<script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/imagemanager.js')}}"></script>
-<script src="{{asset('packages/yaro/jarboe/js/plugin/redactor/table.js')}}"></script>
-<link rel="stylesheet" type="text/css" href="{{asset('packages/yaro/jarboe/js/plugin/redactor/redactor.css')}}">
 
 <!-- JQUERY MASKED INPUT -->
 <script src="{{asset('packages/yaro/jarboe/js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
 
 {{--
 <script src="{{asset('packages/yaro/jarboe/js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
---}}
-
-<!-- JQUERY SELECT2 INPUT -->
-<script src="{{asset('packages/yaro/jarboe/js/plugin/select2/select2.min.js')}}"></script>
-
-{{--
 <!-- JQUERY UI + Bootstrap Slider -->
 <script src="{{asset('packages/yaro/jarboe/js/plugin/bootstrap-slider/bootstrap-slider.min.js')}}"></script>
 
 <!-- browser msie issue fix -->
 <script src="{{asset('packages/yaro/jarboe/js/plugin/msie-fix/jquery.mb.browser.min.js')}}"></script>
---}}
+
 <!-- FastClick: For mobile devices -->
 <script src="{{asset('packages/yaro/jarboe/js/plugin/fastclick/fastclick.js')}}"></script>
-
+--}}
 <!--[if IE 7]>
 
 <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
 
 <![endif]-->
 
-<!-- Demo purpose only -->
-{{--
-<script src="{{asset('packages/yaro/jarboe/js/demo.js')}}"></script>
 
-<!-- MAIN APP JS FILE -->
-<script src="{{asset('packages/yaro/jarboe/js/app.js')}}"></script>
---}}
+@foreach (Jarboe::getAssets('css') as $css) 
+    <link href="{{ asset($css) }}" rel="stylesheet" type="text/css">
+@endforeach
+
+@foreach (Jarboe::getAssets('js') as $js) 
+    <script src="{{ asset($js) }}"></script>
+@endforeach
 
 <!-- PAGE RELATED PLUGIN(S) -->
-<script src="{{asset('packages/yaro/jarboe/js/plugin/colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+{{--
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/jquery.dataTables-cust.min.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/ColReorder.min.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/FixedColumns.min.js')}}"></script>
@@ -200,20 +152,13 @@ $.timepicker.setDefaults($.timepicker.regional['ru']);
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/media/js/TableTools.min.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/plugin/datatables/DT_bootstrap.js')}}"></script>
 <script src="{{asset('packages/yaro/jarboe/js/plugin/jquery-nestable/jquery.nestable.min.js')}}"></script>
-<script src="{{asset('packages/yaro/jarboe/js/plugin/x-editable/moment.min.js')}}"></script>
-<script src="{{asset('packages/yaro/jarboe/js/plugin/x-editable/x-editable.min.js')}}"></script>
+--}}
+
+
+
 {{--
 <script src="{{asset('packages/yaro/jarboe/js/table.js')}}"></script>
 --}}
-<script type="text/javascript">
-
-// DO NOT REMOVE : GLOBAL FUNCTIONS!
-
-$(document).ready(function() {
-    //pageSetUp();
-});
-
-</script>
 
 
 <style type="text/css">
@@ -222,6 +167,7 @@ $(document).ready(function() {
 
 <script type="text/javascript">
     TBMenu.admin_uri = '{{ config('jarboe.admin.uri') }}';
+    pageSetUp();
 </script>
 
 

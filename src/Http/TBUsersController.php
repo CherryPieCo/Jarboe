@@ -19,7 +19,7 @@ class TBUsersController extends \Controller
     
     public function showEditUser($id)
     {
-        $isAllow = \Config::get('jarboe::users.check.users.update');
+        $isAllow = \config('jarboe::users.check.users.update');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -40,7 +40,7 @@ class TBUsersController extends \Controller
     
     public function showEditGroup($id)
     {
-        $isAllow = \Config::get('jarboe::users.check.groups.update');
+        $isAllow = \config('jarboe::users.check.groups.update');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -53,7 +53,7 @@ class TBUsersController extends \Controller
     
     public function showCreateUser()
     {
-        $isAllow = \Config::get('jarboe::users.check.users.create');
+        $isAllow = \config('jarboe::users.check.users.create');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -65,7 +65,7 @@ class TBUsersController extends \Controller
     
     public function showCreateGroup()
     {
-        $isAllow = \Config::get('jarboe::users.check.groups.create');
+        $isAllow = \config('jarboe::users.check.groups.create');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -75,14 +75,14 @@ class TBUsersController extends \Controller
     
     public function doCreateGroup()
     {
-        $isAllow = \Config::get('jarboe::users.check.groups.create');
+        $isAllow = \config('jarboe::users.check.groups.create');
         if (!$isAllow()) {
             \App::abort(404);
         }
         
         $permissions = $this->getPermissions(\Input::get('permissions', array()));
         $total = 0;
-        $perms = \Config::get('jarboe::users.permissions', array());
+        $perms = \config('jarboe::users.permissions', array());
         foreach ($perms as $perm) {
             $total += count($perm['rights']);
         }
@@ -119,7 +119,7 @@ class TBUsersController extends \Controller
     
     public function doDeleteUser()
     {
-        $isAllow = \Config::get('jarboe::users.check.users.delete');
+        $isAllow = \config('jarboe::users.check.users.delete');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -134,7 +134,7 @@ class TBUsersController extends \Controller
     
     public function doCreateUser()
     {
-        $isAllow = \Config::get('jarboe::users.check.users.create');
+        $isAllow = \config('jarboe::users.check.users.create');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -263,7 +263,7 @@ class TBUsersController extends \Controller
     
     public function doUpdateUser()
     {
-        $isAllow = \Config::get('jarboe::users.check.users.update');
+        $isAllow = \config('jarboe::users.check.users.update');
         if (!$isAllow()) {
             \App::abort(404);
         }
@@ -318,14 +318,14 @@ class TBUsersController extends \Controller
         
     public function doUpdateGroup()
     {
-        $isAllow = \Config::get('jarboe::users.check.groups.update');
+        $isAllow = \config('jarboe::users.check.groups.update');
         if (!$isAllow()) {
             \App::abort(404);
         }
         
         $permissions = $this->getPermissions(\Input::get('permissions', array()));
         $total = 0;
-        $perms = \Config::get('jarboe::users.permissions', array());
+        $perms = \config('jarboe::users.permissions', array());
         foreach ($perms as $perm) {
             $total += count($perm['rights']);
         }

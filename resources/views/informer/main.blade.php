@@ -54,6 +54,6 @@ Suggestion: You may want to set a flag when this happens to tick off all checked
 
 <script src="{{ asset('/packages/yaro/jarboe/tb-informer.js') }}"></script>
 <script>
-    TBInformer.admin_prefix = '{{ \Config::get('jarboe::admin.uri') }}';
-    TBInformer.period = '{{ \Config::get('jarboe::informer.period') }}';
+    TBInformer.admin_prefix = '{{ \config('jarboe::admin.uri') }}';
+    TBInformer.period = '{{ \config('jarboe::informer.period') }}';
 </script>

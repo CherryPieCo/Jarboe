@@ -2,14 +2,21 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\URL;
+use Image;
+use View;
+use URL;
+use Jarboe;
 
 
 class ImageField extends AbstractField 
 {
-
+  
+    protected function onAssets()
+    {
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/x-editable/moment.min.js');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/x-editable/x-editable.min.js');
+    } // end onAssets
+    
     public function isEditable()
     {
         return true;

@@ -24,8 +24,8 @@ class TBTreeController extends \Controller
             $parentIDs[] = $anc->id;
         }
 
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe::tree.templates');
+        $template = config('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -53,8 +53,8 @@ class TBTreeController extends \Controller
     {
         $idNode = Input::get('id');
         $current = Tree::find($idNode);
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe::tree.templates');
+        $template = config('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -80,8 +80,8 @@ class TBTreeController extends \Controller
     {
         $idNode = Input::get('id');
         $current = Tree::find($idNode);
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe::tree.templates');
+        $template = config('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -123,8 +123,8 @@ class TBTreeController extends \Controller
         $idNode  = Input::get('node', 1);
         $current = Tree::find($idNode);
 
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe::tree.templates');
+        $template = config('jarboe::tree.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -188,8 +188,8 @@ class TBTreeController extends \Controller
 
     public function changeActive()
     {
-        $activeField = \Config::get('jarboe::tree.node_active_field.field');
-        $options = \Config::get('jarboe::tree.node_active_field.options', array());
+        $activeField = \config('jarboe::tree.node_active_field.field');
+        $options = \config('jarboe::tree.node_active_field.options', array());
         
         $value = Input::get('is_active');
         if ($options) {

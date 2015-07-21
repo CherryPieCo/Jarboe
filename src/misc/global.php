@@ -52,7 +52,7 @@ App::error(function(Exception $exception, $code)
     Log::error($exception);
 
 
-    if (!Config::get('app.debug') || $code == '404') {
+    if (!config('app.debug') || $code == '404') {
         // assumes you have app/views/errors/401.blade.php, etc
         return Response::view('errors.'. $code, compact('code'), $code);
     }

@@ -10,10 +10,10 @@
 @section('scripts')
 <script src="{{asset('packages/yaro/jarboe/tb-user.js')}}"></script>
 <script>
-    TBUser.admin_uri = '{{\Config::get('jarboe::admin.uri')}}';
+    TBUser.admin_uri = '{{\config('jarboe::admin.uri')}}';
     <?php
     $total = 1;
-    $permissions = \Config::get('jarboe::users.permissions', array());
+    $permissions = \config('jarboe::users.permissions', array());
     foreach ($permissions as $perms) {
         $total += count($perms['rights']);
     }
@@ -28,7 +28,7 @@
 
 <div class="widget-body no-padding">
     <div class="widget-body no-padding" style="margin: -10px;">
-       <form id="group-create-form" method="post" class="smart-form" autocomplete="off" action="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/do-create') }}">    
+       <form id="group-create-form" method="post" class="smart-form" autocomplete="off" action="{{ url(\config('jarboe::admin.uri') .'/tb/users/do-create') }}">    
             <fieldset> 
             <div class="row">
                 <section class="col col-6">
@@ -40,7 +40,7 @@
             </fieldset>
             <hr>
             
-            <?php $permissions = \Config::get('jarboe::users.permissions', array()); ?>
+            <?php $permissions = \config('jarboe::users.permissions', array()); ?>
             @foreach ($permissions as $ident => $info)
             <header style="margin:0; padding-left: 10px;">{{$info['caption']}}</header>
             
@@ -65,7 +65,7 @@
             @endforeach
             
             <footer>
-            <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/groups') }}">
+            <a href="{{ url(\config('jarboe::admin.uri') .'/tb/groups') }}">
             <button type="button" class="btn btn-default">
                 Назад
             </button>

@@ -6,7 +6,7 @@
 @section('scripts')
 <script src="{{asset('packages/yaro/jarboe/tb-user.js')}}"></script>
 <script>
-    TBUser.admin_uri = '{{\Config::get('jarboe::admin.uri')}}';
+    TBUser.admin_uri = '{{\config('jarboe::admin.uri')}}';
 </script>
 @stop
 
@@ -57,7 +57,7 @@
             <th>{{ $field['caption'] }}</th>
         @endforeach
             <th class="e-insert_button-cell">
-                <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/create') }}">
+                <a href="{{ url(\config('jarboe::admin.uri') .'/tb/users/create') }}">
                 <button class="btn btn-default btn-sm" style="min-width: 66px;" 
                         type="button" onclick="TableBuilder.getCreateForm();">
                     Добавить
@@ -82,7 +82,7 @@
             @endforeach
             
             <td style="width: 1%;">
-                <a href="{{ url(\Config::get('jarboe::admin.uri') .'/tb/users/'. $user->id) }}">
+                <a href="{{ url(\config('jarboe::admin.uri') .'/tb/users/'. $user->id) }}">
                     <button type="button" class="btn btn-default btn-sm" rel="tooltip" title="" data-placement="bottom" data-original-title="Update">
                         <i class="fa fa-pencil"></i>
                     </button>

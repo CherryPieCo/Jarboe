@@ -2,14 +2,21 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\URL;
+use Image;
+use View;
+use URL;
+use Jarboe;
 
 
 class ImageStorageField extends AbstractField 
 {
-
+    
+    protected function onAssets()
+    {
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/superbox/superbox.js');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/superbox.js');
+    } // end onAssets
+    
     public function isEditable()
     {
         return true;
@@ -20,11 +27,11 @@ class ImageStorageField extends AbstractField
         $html = '<span class="glyphicon glyphicon-minus"></span>';
         
         $type = $this->getRequiredAttribute('storage_type');
-        $model = '\\' . \Config::get('jarboe::images.models.'. $type);
+        $model = '\\' . config('jarboe.images.models.'. $type);
         $entity = $model::find($this->getValue($row));
         if ($entity) {
             if ($entity->isImage() && $entity->getSource()) {
-                $html = '<img style="height: 90px;" src="'. asset(cropp($entity->getSource())->fit(90)) .'">';
+                $html = '<img style="height: 90px;" src="'. cropp($entity->getSource())->fit(90) .'">';
             } elseif ($entity->isGallery()) {
                 $html = $entity->title .' | '. $entity->created_at;
             } elseif ($entity->isTag()) {
@@ -62,7 +69,7 @@ class ImageStorageField extends AbstractField
         $input->placeholder = $this->getAttribute('placeholder');
 
         if ($row) {
-            $model = '\\' . \Config::get('jarboe::images.models.'. $type);
+            $model = '\\' . config('jarboe.images.models.'. $type);
             $input->entity = $model::find($this->getValue($row));
         }
         

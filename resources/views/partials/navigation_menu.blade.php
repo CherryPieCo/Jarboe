@@ -24,14 +24,14 @@
                        @endif
                     @endif
                     ">
-                    <a href="{{url(Config::get('admin.uri') . $submenu['link'])}}">
+                    <a href="{{url(config('admin.uri') . $submenu['link'])}}">
                         {{$submenu['title']}}
                     </a>
                 </li>
                 @endforeach
             </ul>
         @else
-            <a href="{{url(Config::get('admin.uri') . $item['link'])}}" 
+            <a href="{{url(config('admin.uri') . $item['link'])}}" 
                title="{{$item['title']}}">
                 <i class="fa fa-lg fa-fw fa-{{$item['icon']}}"></i> 
                 <span class="menu-item-parent">{{$item['title']}}</span>

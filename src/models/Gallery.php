@@ -16,14 +16,14 @@ class Gallery extends AbstractImageStorage
     
     public function images()
     {
-        $model = \Config::get('jarboe::images.models.image');
+        $model = \config('jarboe::images.models.image');
         
         return $this->belongsToMany($model, 'j_galleries2images', 'id_gallery', 'id_image');
     } // end images
     
     public function tags()
     {
-        $model = \Config::get('jarboe::images.models.tag');
+        $model = \config('jarboe::images.models.tag');
         
         return $this->belongsToMany($model, 'j_galleries2tags', 'id_gallery', 'id_tag');
     } // end tags

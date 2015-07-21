@@ -2,9 +2,36 @@
 
 namespace Yaro\Jarboe\Fields;
 
+use Jarboe;
+
 
 class WysiwygField extends AbstractField 
 {
+
+    protected function onAssets()
+    {
+        $method = 'on_assets_for_'. $this->getAttribute('wysiwyg', 'redactor');
+        $method = camel_case($method);
+        
+        $this->$method();
+    } // end onAssets
+    
+    private function onAssetsForRedactor()
+    {
+        Jarboe::addAsset('css', 'packages/yaro/jarboe/js/plugin/redactor/redactor.css');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/redactor/redactor.min.js');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/redactor/table.js');
+        // FIXME: image storage
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/redactor/imagemanager.js');
+    } // end onAssetsForRedactor
+    
+    private function onAssetsForSummernote()
+    {
+        Jarboe::addAsset('css', 'packages/yaro/jarboe/css/summernote.css');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/summernote/summernote.min.js');
+        // FIXME: translation for js plugins
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/summernote/lang/summernote-ru-RU.js');
+    } // end onAssetsForSummernote
 
     public function isEditable()
     {

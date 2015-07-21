@@ -23,9 +23,9 @@
                         <label for="cf-template">Шаблон</label>
                         <select class="form-control" id="cf-template" name="template">
                             <option value="">Выберите шаблон</option>
-                            <?php /* FIXME: */ $tpls = \Config::get('jarboe::tree.templates', array()); ?>
+                            <?php /* FIXME: */ $tpls = config('jarboe.c.structure.templates', array()); ?>
                             @foreach ($tpls as $capt => $tpl)
-                                <option value="{{{ $capt }}}">{{{ $capt }}}</option>
+                                <option value="{{ $capt }}">{{ $capt }}</option>
                             @endforeach
                         </select>
                     </div>

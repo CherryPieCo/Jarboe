@@ -15,7 +15,7 @@
         "yandex/translate-api": "~1.0",
         "cartalyst/sentinel": "2.0.*",
         "intervention/image": "2.*",
-        "yaro/cropp": "0.0.*"
+        "yaro/cropp": "0.1.*"
     },
     "autoload": {
         "psr-4": {

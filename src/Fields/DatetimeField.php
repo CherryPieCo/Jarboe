@@ -2,13 +2,21 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Session;
-
+use View;
+use Session;
+use Jarboe;
 
 class DatetimeField extends AbstractField 
 {
-
+    
+    protected function onAssets()
+    {
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-addon.js');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-addon-i18n.min.js');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-sliderAccess.js');
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/datetimepicker/jquery-ui-timepicker-lang-ru.js');
+    } // end onAssets
+    
     public function onSearchFilter(&$db, $value)
     {
         $table = $this->definition['db']['table'];

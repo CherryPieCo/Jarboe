@@ -2,14 +2,20 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\URL;
+use Image;
+use View;
+use URL;
+use Jarboe;
 
 
 class FileStorageField extends AbstractField 
 {
 
+    protected function onAssets()
+    {
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/file_storage.js');
+    } // end onAssets
+    
     public function isEditable()
     {
         return true;
@@ -20,7 +26,6 @@ class FileStorageField extends AbstractField
         // TODO:
     } // end getListValue
     
-
     public function onSearchFilter(&$db, $value)
     {
         // FIXME: how? title

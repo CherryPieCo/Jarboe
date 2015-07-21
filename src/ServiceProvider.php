@@ -6,6 +6,7 @@ use Yaro\Jarboe\Commands\PrepareArtisanCommand;
 use Yaro\Jarboe\Commands\CreateAdminUserArtisanCommand;
 use Yaro\Jarboe\Commands\CreateSuperUserArtisanCommand;
 use Yaro\Jarboe\Commands\CreateDefinitionArtisanCommand;
+use Yaro\Jarboe\Commands\ComponentCommand;
 
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider 
@@ -25,12 +26,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     private $configs = [
         'admin', 
+        'components', 
         'files',
         'images', 
         'informer', 
         'login', 
         'translate', 
-        'tree', 
         'users', 
     ];
 
@@ -101,6 +102,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigurations();
         
         $this->registerServiceProviders();
+        $this->registerComponentsServiceProviders();
         
         $this->app['jarboe'] = $this->app->share(function($app) {
             return new Jarboe();
@@ -116,6 +118,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->register('Cartalyst\Sentinel\Laravel\SentinelServiceProvider');
         $this->app->register('Radic\BladeExtensions\BladeExtensionsServiceProvider');
     } // end registerServiceProviders
+    
+    private function registerComponentsServiceProviders()
+    {
+        foreach (config('jarboe.components', []) as $component) { 
+            $this->app->register('Jarboe\Component\\'. $component .'\ServiceProvider');
+        }
+    } // end registerComponentsServiceProviders
 
     private function doCommandsRegister()
     {
@@ -139,9 +148,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 return new CreateDefinitionArtisanCommand();
             }
         );
-        
+        $this->app['command.jarboe.component'] = $this->app->share(
+            function ($app) {
+                return new ComponentCommand();
+            }
+        );
 
         $this->commands(array(
+            'command.jarboe.component',
+            
+            
             'command.jarboe.prepare',
             'command.jarboe.create_admin_user',
             'command.jarboe.create_superuser',

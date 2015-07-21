@@ -93,7 +93,7 @@ class PrepareArtisanCommand extends Command
                 $table->string('namespace', 255)->default('messages');;
                 $table->string('key', 255);
                 
-                foreach (\Config::get('jarboe::translate.locales') as $locale) {
+                foreach (\config('jarboe::translate.locales') as $locale) {
                     $table->string('value_'. $locale, 255);
                 }
             });

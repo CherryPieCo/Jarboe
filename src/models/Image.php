@@ -35,7 +35,7 @@ class Image extends AbstractImageStorage
     
     public function tags()
     {
-        $model = \Config::get('jarboe::images.models.tag');
+        $model = \config('jarboe::images.models.tag');
         
         return $this->belongsToMany($model, 'j_images2tags', 'id_image', 'id_tag');
     } // end tags

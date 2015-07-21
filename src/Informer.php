@@ -37,7 +37,7 @@ class Informer
     
     protected function getPreparedTabs()
     {
-        $tabs = \Config::get('jarboe::informer.tabs', array());
+        $tabs = \config('jarboe::informer.tabs', array());
         $prepared = array();
         $total = 0;
         foreach ($tabs as $tab) {

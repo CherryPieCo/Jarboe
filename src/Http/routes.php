@@ -14,7 +14,7 @@ Route::group(array('prefix' => config('jarboe.admin.uri'), 'before' => array('au
     Route::post('tb/embed-to-text', 'Yaro\Jarboe\Http\TBController@doEmbedToText');
     
     // elfinder
-    Route::any('tb/elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
+    //Route::any('tb/elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
     
     
     // informer
@@ -26,7 +26,7 @@ Route::group(array('prefix' => config('jarboe.admin.uri'), 'before' => array('au
     
     // structure
     Route::post('tb/structure/save-height', 'Yaro\Jarboe\Http\TBController@doSaveStructureHeight');
-    
+    /*
     // FIXME: access permission check
     // users
     //Route::get('tb/users', 'Yaro\Jarboe\Http\TBUsersController@showUsers');
@@ -60,7 +60,7 @@ Route::get('/login', 'Yaro\Jarboe\Http\TBController@showLogin');
 Route::post('/login', 'Yaro\Jarboe\Http\TBController@postLogin');
 
 
-
+/*
 //
 function recurse_my_tree($tree, $node, &$slugs = array()) {
     if (!$node['parent_id']) {
@@ -150,4 +150,4 @@ if (config('jarboe.tree.is_active')) {
 Route::get('/thereisnospoon', 'Yaro\Jarboe\Http\DevelController@showMain');
 Route::post('/thereisnospoon', 'Yaro\Jarboe\Http\DevelController@handleMain');
 
-
+*/

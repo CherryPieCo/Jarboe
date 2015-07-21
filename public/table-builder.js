@@ -109,6 +109,10 @@ var TableBuilder = {
 
     initSeveralImageEditable: function()
     {
+        if (typeof $.fn.editableutils === 'undefined') {
+            return;
+        }
+        
         (function (e) {
             "use strict";
             var t = function (e) {
@@ -558,11 +562,14 @@ var TableBuilder = {
     
     initSelect2Hider: function()
     {
+        if (!$().select2) {
+            return;
+        }
+        
         jQuery('.modal-dialog').on('click', function() {
             jQuery('.select2-enabled[id^="many2many"]').select2("close");
             jQuery('.select2-hidden-accessible').hide();
         });
-        
     }, // end initSelect2Hider
     
     getEditForm: function(id, context)

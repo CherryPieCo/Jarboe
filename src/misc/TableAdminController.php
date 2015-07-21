@@ -25,18 +25,4 @@ class TableAdminController extends BaseController
         return Jarboe::table($options);
     } // end handleSettings  
     
-    public function showTree()
-    {
-        $controller = Jarboe::tree();
-        
-        return $controller->handle();
-    } // end showTree
-    
-    public function handleTree()
-    {
-        $controller = Jarboe::tree();
-        
-        return $controller->process();
-    } // end handleTree    
-        
 }

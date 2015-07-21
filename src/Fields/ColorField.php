@@ -2,12 +2,18 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Illuminate\Support\Facades\View;
+use View;
+use Jarboe;
 
 
 class ColorField extends AbstractField 
 {
 
+    protected function onAssets()
+    {
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/colorpicker/bootstrap-colorpicker.min.js');
+    } // end onAssets
+    
     public function onSearchFilter(&$db, $value)
     {
         $table = $this->definition['db']['table'];

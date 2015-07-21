@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe;
 
 use Yaro\Jarboe\Helpers\URLify;
+use Yaro\Jarboe\Helpers\Registry;
 use Yaro\Jarboe\NavigationMenu;
 use Yaro\Jarboe\DefinitionMaker;
 use Yaro\Jarboe\TreeController;
@@ -114,13 +115,33 @@ class Jarboe
         return $translation->__toString();
     } // end translate
 
-    public function tree($model = 'Yaro\Jarboe\Tree', $options = array())
+    public function tree($model, $options = array())
     {
         $controller = new TreeCatalogController($model, $options);
 
         return $controller;
     } // end tree
 
+    public function addAsset($type, $src)
+    {
+        $method = 'add'. ucfirst($type);
+        
+        Registry::$method($src);
+    } // end addAsset
+    
+    public function getAssets($type)
+    {
+        $method = 'get'. ucfirst($type);
+        
+        return Registry::$method();
+    } // end getAssets
+    
+    
+    
+    
+    
+    
+    //
     public function fileManager($connectorUrl = false)
     {
         $ident = str_random(12);

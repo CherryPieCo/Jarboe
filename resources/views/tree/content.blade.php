@@ -64,9 +64,9 @@
             $('.tpl-editable').editable({
                 url: window.location.href,
                 source: [
-                <?php /* FIXME: */ $tpls = \Config::get('jarboe::tree.templates', array()); ?>
+                <?php /* FIXME: */ $tpls = config('jarboe.c.structure.templates', array()); ?>
                 @foreach ($tpls as $capt => $tpl)
-                    { value: '{{{$capt}}}', text: '{{{$capt}}}' }, 
+                    { value: '{{$capt}}', text: '{{$capt}}' }, 
                 @endforeach
                 ],
                 display: function(value, response) {

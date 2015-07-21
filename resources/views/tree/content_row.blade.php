@@ -7,19 +7,19 @@
             data-type="select" 
             data-name="template" 
             data-pk="{{ $item->id }}" 
-            data-value="{{{ $item->template }}}" 
+            data-value="{{ $item->template }}" 
             data-original-title="Выберите шаблон">
-                {{{ $item->template }}}
+                {{ $item->template }}
         </a>
     </td>
     
     <td style="white-space: nowrap;">{{ $item->slug }}</td>
     <td style="position: relative;">
-        @if (\Config::get('jarboe::tree.node_active_field.options'))
+        @if (config('jarboe.c.structure.node_active_field.options'))
             <div class="node-active-smoke-lol" style="display:none; position: absolute; width: 100%; height: 100%; top: 0; background: #E5E5E5; left: 0px; z-index: 69; opacity: 0.6;"></div>
             <table>
             <tbody>
-                <?php foreach(\Config::get('jarboe::tree.node_active_field.options') as $setIdent => $caption): ?>
+                <?php foreach(config('jarboe.c.structure.node_active_field.options') as $setIdent => $caption): ?>
                     <tr style="white-space: nowrap;">
                     <td>
                         <span class="">

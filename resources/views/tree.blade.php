@@ -23,7 +23,7 @@
         <tbody>
          <tr>
             <td class="tree-td tree-dark" style="padding: 0px; vertical-align: top;text-align: left;">
-                {{ $content }}
+                {!! $content !!}
             </td>
          </tr>
         </tbody>
@@ -42,7 +42,7 @@
 
 <script src="{{ asset('packages/yaro/jarboe/tb-tree.js') }}"></script>
 <script>
-Tree.admin_prefix = '{{ \Config::get('jarboe::admin.uri') }}';
+Tree.admin_prefix = '{{ \config('jarboe::admin.uri') }}';
 Tree.parent_id = '{{ $current->id }}';
 </script>
 

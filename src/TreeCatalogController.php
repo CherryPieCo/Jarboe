@@ -2,12 +2,12 @@
 
 namespace Yaro\Jarboe;
 
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\URL;
+use Input;
+use View;
+use DB;
+use Response;
+use Config;
+use URL;
 
 
 class TreeCatalogController 
@@ -78,8 +78,8 @@ class TreeCatalogController
         
     public function doCreateNode()
     {
-        $activeField = \Config::get('jarboe::tree.node_active_field.field');
-        $options = \Config::get('jarboe::tree.node_active_field.options', false);
+        $activeField = config('jarboe.c.structure.node_active_field.field');
+        $options = config('jarboe.c.structure.node_active_field.options', false);
         $model = $this->model;
         
         $root = $model::find(Input::get('node', 1));
@@ -106,8 +106,8 @@ class TreeCatalogController
     
     public function doChangeActiveStatus()
     {
-        $activeField = \Config::get('jarboe::tree.node_active_field.field');
-        $options = \Config::get('jarboe::tree.node_active_field.options', array());
+        $activeField = config('jarboe.c.structure.node_active_field.field');
+        $options = config('jarboe.c.structure.node_active_field.options', array());
         $model = $this->model;
         
         $node = $model::find(Input::get('id'));
@@ -174,8 +174,8 @@ class TreeCatalogController
         $idNode  = Input::get('__node', Input::get('node', 1));
         $current = $model::find($idNode);
 
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe.c.structure.templates');
+        $template = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -209,6 +209,9 @@ class TreeCatalogController
     
     private function handleShowCatalog()
     {
+        \Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/x-editable/moment.min.js');
+        \Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/x-editable/x-editable.min.js');
+        
         $model = $this->model;
         
         $tree = $model::all()->toHierarchy();
@@ -221,8 +224,8 @@ class TreeCatalogController
             $parentIDs[] = $anc->id;
         }
 
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe.c.structure.templates');
+        $template = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -253,8 +256,8 @@ class TreeCatalogController
         
         $idNode = Input::get('id');
         $current = $model::find($idNode);
-        $templates = Config::get('jarboe::tree.templates');
-        $template = Config::get('jarboe::tree.default');
+        $templates = config('jarboe.c.structure.templates');
+        $template = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
@@ -283,8 +286,8 @@ class TreeCatalogController
         
         $idNode    = Input::get('id');
         $current   = $model::find($idNode);
-        $templates = Config::get('jarboe::tree.templates');
-        $template  = Config::get('jarboe::tree.default');
+        $templates = config('jarboe.c.structure.templates');
+        $template  = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }

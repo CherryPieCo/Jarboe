@@ -24,15 +24,15 @@ return View::make('admin::file_manager', compact('content'));
 
 <pre>
 <code class="php">
-$dir = Config::get('laravel-elfinder::dir');
-$roots = Config::get('laravel-elfinder::roots');
+$dir = config('laravel-elfinder::dir');
+$roots = config('laravel-elfinder::roots');
 if (!$roots) {
     $roots = array(
         array(
             'driver' => 'LocalFileSystem', // драйвер для доступа к файловой системе (обязательно)
             'path' => public_path() . DIRECTORY_SEPARATOR . $dir, // путь к файлам (обязательно)
             'URL' => asset($dir), // ссылка на файлы (обязательно)
-            'accessControl' => Config::get('laravel-elfinder::access') // коллбек для фльтрации (опционально)
+            'accessControl' => config('laravel-elfinder::access') // коллбек для фльтрации (опционально)
         )
     );
 }

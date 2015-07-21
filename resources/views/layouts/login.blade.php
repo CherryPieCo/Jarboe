@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-        <title>{{{ \Config::get('jarboe::admin.caption') }}}</title>
+        <title>{{{ \config('jarboe::admin.caption') }}}</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -31,8 +31,8 @@
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/demo.css')}}">
 
         <!-- FAVICONS -->
-        <link rel="shortcut icon" href="{{ \Config::get('jarboe::admin.favicon_url') }}" type="image/x-icon">
-        <link rel="icon" href="{{ \Config::get('jarboe::admin.favicon_url') }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ \config('jarboe::admin.favicon_url') }}" type="image/x-icon">
+        <link rel="icon" href="{{ \config('jarboe::admin.favicon_url') }}" type="image/x-icon">
 
         <!-- GOOGLE FONT -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">

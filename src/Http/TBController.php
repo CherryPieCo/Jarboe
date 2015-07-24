@@ -145,5 +145,16 @@ class TBController extends Controller
         
         return $response;
     } // end doSaveMenuPreference
+    
+    public function doSaveStructureHeight()
+    {
+        $option = \Input::get('height');
+        $cookie = \Cookie::forever('tb-structure-height', $option);
+        
+        $response = \Response::json(['status' => true]);
+        $response->headers->setCookie($cookie);
+        
+        return $response;
+    } // end doSaveStructureHeight
 
 }

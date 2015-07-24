@@ -5,6 +5,7 @@ var Tree =
     admin_prefix: '',
     parent_id: 1,
     node: 1,
+    tree_height: '',
     
     setdbl: function() {
         return false;
@@ -135,13 +136,13 @@ var Tree =
         });
         Tree.setdbl();
         
-        $( "#fff" ).resizable({
+        $("#fff").find('div[role="content"]').resizable({
             handles: 'n, s',
-            onResize: function(size) {
+            stop: function(event, ui) {
                 jQuery.ajax({
-                    data: { height: size.height },
+                    data: { height: ui.size.height },
                     type: "POST",
-                    url: TableBuilder.getActionUrl(),
+                    url: Tree.admin_prefix +'/tb/structure/save/height',
                     dataType: 'json',
                     success: function(response) {
                         if (response.status) {
@@ -150,9 +151,18 @@ var Tree =
                         }
                     }
                 });
+            },
+            create: function(event, ui) {
+                console.log(Tree.tree_height);
+                if (Tree.tree_height) {
+                    $("#fff").find('div[role="content"]').css('height', Tree.tree_height);
+                    console.log(Tree.tree_height);
+                }
             }
         });
-    }, // end saveMenuPreference
+        
+        
+    }, // end init
 
     activeToggle: function(id, isActive)
     {

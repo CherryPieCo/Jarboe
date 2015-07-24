@@ -2,22 +2,43 @@
 
 namespace Yaro\Jarboe;
 
+use App;
+use URL;
+use Request;
+
 
 class NavigationMenu 
 {
+
+    private $definition = array();
+
+    public function __construct($definition)
+    {
+        $this->definition = $definition;
+
+        foreach (config('jarboe.components', []) as $component) {
+            $util = 'Jarboe\Component\\'. $component .'\Util';
+            $util::onNavigationMenu($this);
+        } 
+    } // end __contruct
+    
+    public function addItem($data, $path = false)
+    {
+        if (!$path) {
+            $this->definition[] = $data;
+        }
+    } // end addItem
 
     public function fetch()
     {
         $menu = array();
 
-        $definition = config('jarboe.admin.menu');
-
-        foreach ($definition as $key => $item) {
+        foreach ($this->definition as $key => $item) {
             $menu[] = $this->onMenuItem($item);
         }
         $menu = array_filter($menu);
         
-        return \View::make('admin::partials.navigation_menu', compact('menu'))->render();
+        return view('admin::partials.navigation_menu', compact('menu'))->render();
     } // end fetch
     
     private function onMenuItem($item)
@@ -51,7 +72,7 @@ class NavigationMenu
             $isAllowed = $item['check'];
             if ($isAllowed()) {
                 $item['is_active'] = $this->isActiveURL($item);
-                $item['link'] = \URL::to(config('jarboe.admin.uri') . $item['link']);
+                $item['link'] = URL::to(config('jarboe.admin.uri') . $item['link']);
                 return $item;
             }
         }
@@ -59,9 +80,7 @@ class NavigationMenu
     
     public function checkPermissions()
     {
-        $definition = config('jarboe.admin.menu');
-
-        foreach ($definition as $key => $item) {
+        foreach ($this->definition as $key => $item) {
             $this->onCheckMenuItem($item);
         }
     } // end checkPermissions
@@ -79,16 +98,16 @@ class NavigationMenu
                 $menuLink = config('jarboe.admin.uri') . $item['pattern'];
                 $menuLink = ltrim($menuLink, '/');
                 $pattern = '~^'. $menuLink .'$~';
-                $isToCheck = preg_match($pattern, \Request::path());
+                $isToCheck = preg_match($pattern, Request::path());
             } else {
-                $menuLink = \URL::to(config('jarboe.admin.uri') . $item['link']);
-                $isToCheck = \Request::URL() == $menuLink;
+                $menuLink = URL::to(config('jarboe.admin.uri') . $item['link']);
+                $isToCheck = Request::URL() == $menuLink;
             }
             
             if ($isToCheck) {
                 $isAllowed = $item['check'];
                 if (!$isAllowed()) {
-                    \App::abort(404);
+                    App::abort(404);
                 }
             }
             
@@ -103,13 +122,13 @@ class NavigationMenu
             $menuLink = ltrim($menuLink, '/');
             $pattern = '~^'. $menuLink .'$~';
             
-            return preg_match($pattern, \Request::path());
+            return preg_match($pattern, Request::path());
         }
         
         // FIXME:
-        $menuLink = \URL::to(config('jarboe.admin.uri') . $item['link']);
+        $menuLink = URL::to(config('jarboe.admin.uri') . $item['link']);
         
-        return \Request::URL() == $menuLink;
+        return Request::URL() == $menuLink;
     } // end isActiveURL
     
 }

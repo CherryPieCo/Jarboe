@@ -41,6 +41,15 @@ class QueryHandler
     public function getRows($isPagination = true, $isUserFilters = true, $betweenWhere = array(), $isSelectAll = false)
     {
         $this->db = DB::table($this->dbOptions['table']);
+        
+        $isSoftDelete = $this->controller->getDefinitionOption('db.soft_delete', false);
+        if ($isSoftDelete) {
+            $this->db->whereNull('deleted_at');
+        }
+        // FIXME: restore action mwaa
+        if ($this->controller->getDefinitionOption('actions.restore', false)) {
+            $this->db->whereNotNull('deleted_at');
+        }
 
         $this->prepareSelectValues();
         if ($isSelectAll) {
@@ -250,7 +259,16 @@ class QueryHandler
         foreach ($this->controller->getPatterns() as $pattern) {
             $pattern->delete($id);
         }
-        $res = $this->db->where('id', $id)->delete();
+        
+        $isSoftDelete = $this->controller->getDefinitionOption('db.soft_delete', false);
+        if ($isSoftDelete) {
+            $res = $this->db->where('id', $id)->update([
+                'deleted_at' => DB::raw('NOW()')
+            ]);
+        } else {
+            $res = $this->db->where('id', $id)->delete();
+        }
+        
 
         $res = array(
             'id'     => $id,
@@ -264,6 +282,36 @@ class QueryHandler
 
         return $res;
     } // end deleteRow
+    
+    public function restoreRow($id)
+    {
+        if (!$this->controller->actions->isAllowed('restore')) {
+            throw new \RuntimeException('Restore action is not permitted');
+        }
+        
+        if ($this->controller->hasCustomHandlerMethod('handleRestoreRow')) {
+            $res = $this->controller->getCustomHandler()->handleRestoreRow($id);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $res = $this->db->where('id', $id)->update([
+            'deleted_at' => null
+        ]);
+        
+        $res = array(
+            'id'     => $id,
+            'status' => $res
+        );
+        if ($this->controller->hasCustomHandlerMethod('onRestoreRowResponse')) {
+            $this->controller->getCustomHandler()->onRestoreRowResponse($res);
+        }
+        
+        $this->controller->cache->flush();
+
+        return $res;
+    } // end restoreRow
 
     public function insertRow($values)
     {

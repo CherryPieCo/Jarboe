@@ -9,6 +9,7 @@
     @endif
     
     
+    {!! $actions->fetch('restore', $row) !!}
     
     {!! $actions->fetch('update', $row) !!}
     

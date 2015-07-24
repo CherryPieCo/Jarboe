@@ -9,7 +9,7 @@
 
     <div id="table-preloader" class="smoke_lol"><i class="fa fa-gear fa-4x fa-spin"></i></div>
               
-    <div id="fff" style="height:300px;overflow-x: hidden;overflow-y: auto;background-color: #fff;margin-bottom: 25px;  border-bottom: solid #888 2px;">
+    <div id="fff" style="/*height:300px;overflow-x: hidden;overflow-y: auto;*/background-color: #fff;margin-bottom: 25px;  border-bottom: solid #888 2px;">
     <div>@include('admin::tree.tree_header')</div>
     <div style="padding: 0px; vertical-align: top;text-align: left;background-color: #fff;">@include('admin::tree.tree')</div>
     </div>    
@@ -36,14 +36,17 @@
 <script src="/packages/yaro/jarboe/js/plugin/jstree/jstree.min.js"></script>
 
 
+{{-- 
 <script src="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/jquery.resizableColumns.js') }}"></script>
-<script src="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/store.js') }}"></script>
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/store.js') }}"></script> 
 <link rel="stylesheet" href="{{ asset('packages/yaro/jarboe/js/plugin/resizableColumns/jquery.resizableColumns.css') }}" type="text/css" media="screen" title="no title" charset="utf-8"/>
-
+ --}}
+ 
 <script src="{{ asset('packages/yaro/jarboe/tb-tree.js') }}"></script>
 <script>
-Tree.admin_prefix = '{{ \config('jarboe::admin.uri') }}';
+Tree.admin_prefix = '{{ config('jarboe.admin.uri') }}';
 Tree.parent_id = '{{ $current->id }}';
+Tree.tree_height = '{{ \Cookie::get('tb-structure-height') }}';
 </script>
 
 

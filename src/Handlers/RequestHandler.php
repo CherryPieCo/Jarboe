@@ -82,6 +82,9 @@ class RequestHandler
             case 'delete_row':
                 return $this->handleDeleteAction();
                 
+            case 'restore_row':
+                return $this->handleRestoreAction();
+                
             case 'upload_photo':
                 return $this->handlePhotoUpload();
             
@@ -406,7 +409,17 @@ class RequestHandler
 
         return Response::json($result);
     } // end handleDeleteAction
+    
+    protected function handleRestoreAction()
+    {
+        $idRow = $this->getRowID();
+        $this->checkEditPermission();
 
+        $result = $this->controller->query->restoreRow($idRow);
+
+        return Response::json($result);
+    } // end handleRestoreAction
+    
     protected function handleShowAddFormAction()
     {
         $result = $this->controller->view->showEditForm();

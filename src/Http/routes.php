@@ -25,7 +25,7 @@ Route::group(array('prefix' => config('jarboe.admin.uri'), 'before' => array('au
     Route::post('tb/menu/collapse', 'Yaro\Jarboe\Http\TBController@doSaveMenuPreference');
     
     // structure
-    Route::post('tb/structure/save-height', 'Yaro\Jarboe\Http\TBController@doSaveStructureHeight');
+    Route::post('tb/structure/save/height', 'Yaro\Jarboe\Http\TBController@doSaveStructureHeight');
     /*
     // FIXME: access permission check
     // users
@@ -59,6 +59,10 @@ Route::group(array('prefix' => config('jarboe.admin.uri'), 'before' => array('au
 Route::get('/login', 'Yaro\Jarboe\Http\TBController@showLogin');
 Route::post('/login', 'Yaro\Jarboe\Http\TBController@postLogin');
 
+
+Route::get('developed/by/yaro', function() {
+    return view('admin::welcome'); 
+});
 
 /*
 //

@@ -62,11 +62,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     
     private function registerConfigurations()
     {
-        foreach ($this->configs as $config) {
-            $this->mergeConfigFrom(
-                __DIR__ .'/../config/'. $config .'.php', 'jarboe.'. $config
-            );
-        }
+        $this->mergeConfigurations();
         
         $this->publishes([
             __DIR__ .'/../public' => public_path('packages/yaro/jarboe'),
@@ -86,6 +82,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function mergeConfigurations()
     {
         foreach ($this->configs as $config) {
+            if ($config == 'components') {
+                continue;
+            }
             $this->mergeConfigFrom(
                 __DIR__ .'/../config/'. $config .'.php', 'jarboe.'. $config
             );

@@ -294,3 +294,11 @@ div.table-page #edit_form .nav-tabs li a,
 div.table-page #create_form .nav-tabs li a {
     color: #333 !important;
 }
+
+/* tree structure */
+#fff div[role=content] {
+  border: 0;
+  height: 220px;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}

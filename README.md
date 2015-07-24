@@ -32,3 +32,8 @@ public function showImageStorage()
     return View::make('admin::image_storage');
 } // end showImageStorage
 ```
+
+# License
+MIT with additional restrictions:
+1. Application should prise the cats.
+2. SmartAdmin Responsive template must be bought.

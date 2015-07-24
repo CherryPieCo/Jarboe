@@ -72,10 +72,17 @@ class Jarboe
 
     public function fetchNavigation()
     {
-        $menu = new NavigationMenu();
+        $menu = new NavigationMenu(config('jarboe.admin.menu', []));
 
         return $menu->fetch();
     } // end fetchNavigation
+
+    public function checkNavigationPermissions()
+    {
+        $menu = new NavigationMenu(config('jarboe.admin.menu', []));
+        
+        $menu->checkPermissions();
+    } // end checkNavigationPermissions
     
     public function createDefinition($table)
     {
@@ -90,12 +97,6 @@ class Jarboe
 
         return $menu->fetch();
     } // end fetchInformer
-
-    public function checkNavigationPermissions()
-    {
-        $menu = new NavigationMenu();
-        $menu->checkPermissions();
-    } // end checkNavigationPermissions
 
     public function urlify($string)
     {

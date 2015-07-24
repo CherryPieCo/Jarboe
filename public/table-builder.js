@@ -805,6 +805,53 @@ var TableBuilder = {
 
         });
     }, // end doDelete
+    
+    doRestore: function(id, context)
+    {
+        jQuery.SmartMessageBox({
+            title : "Восстановить?",
+            content : "Запись будет восстановлена.",
+            buttons : '[Нет][Да]'
+        }, function(ButtonPressed) {
+            if (ButtonPressed === "Да") {
+                TableBuilder.showPreloader();
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: TableBuilder.getActionUrl(),
+                    data: { id: id, query_type: "restore_row", "__node": TableBuilder.getUrlParameter('node') },
+                    dataType: 'json',
+                    success: function(response) {
+
+                        if (response.status) {
+
+                            jQuery.smallBox({
+                                title : "Запись восстановлена",
+                                content : "",
+                                color : "#659265",
+                                iconSmall : "fa fa-check fa-2x fadeInRight animated",
+                                timeout : 4000
+                            });
+
+                            jQuery(context).parent().parent().remove();
+                        } else {
+                            jQuery.smallBox({
+                                title : "Что-то пошло не так, попробуйте позже",
+                                content : "",
+                                color : "#C46A69",
+                                iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                                timeout : 4000
+                            });
+                        }
+
+                        TableBuilder.hidePreloader();
+                    }
+                });
+
+            }
+
+        });
+    }, // end doRestore
 
     doEdit: function(id)
     {

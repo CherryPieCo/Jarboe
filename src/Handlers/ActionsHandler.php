@@ -26,6 +26,9 @@ class ActionsHandler
             case 'delete':
                 return $this->onDeleteButton($row);
                 
+            case 'restore':
+                return $this->onRestoreButton($row);
+                
             case 'custom':
                 return $this->onCustomButton($row, $buttonDefinition);
             
@@ -109,6 +112,27 @@ class ActionsHandler
         
         return $action;
     } // end onDeleteButton
+    
+    private function onRestoreButton($row)
+    {
+        if (!$this->isAllowed('restore')) {
+            return '';
+        }
+        
+        if ($this->controller->hasCustomHandlerMethod('onRestoreButtonFetch')) {
+            $res = $this->controller->getCustomHandler()->onRestoreButtonFetch($this->def['restore']);
+            if ($res) {
+                return $res;
+            }
+        }
+        
+        $action = \View::make('admin::tb.action.restore');
+        $action->row = $row;
+        $action->def = $this->def['restore'];
+        $action->definition = $this->controller->getDefinition();
+        
+        return $action;
+    } // end onRestoreButton
     
     public function isAllowed($type, $buttonDefinition = array())
     {

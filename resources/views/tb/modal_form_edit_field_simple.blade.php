@@ -1,21 +1,20 @@
 @foreach ($def['fields'] as $ident => $options)
 <?php $field = $controller->getField($ident); ?>
-                       
+    
+@if ($field->isHidden())
+    @continue
+@endif
+                   
 @if ($field->isPattern())
     @if ($is_blank)
-        {!! $field->render() !!}
+        {!! $field->renderForm() !!}
     @else
-        {!! $field->render($row) !!}
+        {!! $field->renderForm($row) !!}
     @endif
     
     @continue
 @endif
 
-
-
-@if ($field->isHidden())
-    @continue
-@endif
 
 @if (isset($options['tabs']))
     @if ($is_blank)

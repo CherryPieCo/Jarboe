@@ -5,26 +5,26 @@ $options = $def['fields'][$ident];
 $field = $controller->getField($ident); 
 ?>
 
+@if ($field->isHidden())
+    @continue
+@endif
+
 @if ($field->isPattern())
     @if ($is_blank)
-        {{ $field->render() }}
+        {!! $field->renderForm() !!}
     @else
-        {{ $field->render($row) }}
+        {!! $field->renderForm($row) !!}
     @endif
     
     @continue
 @endif
 
 
-@if ($field->isHidden())
-    @continue
-@endif
-
 @if (isset($options['tabs']))
     @if ($is_blank)
-        {{ $field->getTabbedEditInput() }}
+        {!! $field->getTabbedEditInput() !!}
     @else
-        {{ $field->getTabbedEditInput($row) }}
+        {!! $field->getTabbedEditInput($row) !!}
     @endif
     
     @continue
@@ -32,9 +32,9 @@ $field = $controller->getField($ident);
 
 @if ($options['type'] == 'checkbox')
     @if ($is_blank)
-        {{ $field->getEditInput() }}
+        {!! $field->getEditInput() !!}
     @else
-        {{ $field->getEditInput($row) }}
+        {!! $field->getEditInput($row) !!}
     @endif
     
     @continue
@@ -45,16 +45,16 @@ $field = $controller->getField($ident);
     <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
     <div style="position: relative;">
         <label class="{{ $field->getLabelClass() }}">
-        {{ $field->getEditInput() }}
-        {{ $field->getSubActions() }}
+        {!! $field->getEditInput() !!}
+        {!! $field->getSubActions() !!}
         </label>
     </div>
 @else
     <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
     <div style="position: relative;">
         <label class="{{ $field->getLabelClass() }}">
-        {{ $field->getEditInput($row) }}
-        {{ $field->getSubActions() }}
+        {!! $field->getEditInput($row) !!}
+        {!! $field->getSubActions() !!}
         </label>
     </div>
 @endif

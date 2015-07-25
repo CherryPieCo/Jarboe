@@ -25,6 +25,9 @@ foreach ($def['fields'] as $ident => $field) {
     @foreach ($def['fields'] as $ident => $field)
     <?php $field = $controller->getField($ident) ?>
     @if ($field->isPattern())
+        @if (!$field->getAttribute('hide_list'))
+            <td>{!! $field->renderList($row) !!}</td>
+        @endif
         @continue
     @endif
     

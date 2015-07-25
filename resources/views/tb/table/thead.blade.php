@@ -39,14 +39,16 @@
     @endif
     
     @foreach ($def['fields'] as $ident => $options)
-    <?php 
-    $field = $controller->getField($ident); 
-    if ($field->isPattern()) {
-        continue;
-    }
+    <?php $field = $controller->getField($ident); ?>
     
-    $order = Session::get('table_builder.'.$controller->getOption('def_name').'.order', array());
-    ?>
+    @if ($field->isPattern()) 
+        @if (!$field->getAttribute('hide_list')) 
+            <th>{{ $field->getAttribute('caption') }}</th>
+        @endif
+        @continue
+    @endif
+    
+    <?php $order = Session::get('table_builder.'.$controller->getOption('def_name').'.order', array()); ?>
     @if (!$field->getAttribute('hide_list'))
         @if ($field->getAttribute('is_sorting'))
             @if ($order && $order['field'] == $ident)
@@ -86,10 +88,18 @@
     @endif
     
     @foreach ($def['fields'] as $ident => $options)
-    <?php $field = $controller->getField($ident); ?>
-    @if (!$field->isPattern() && !$field->getAttribute('hide_list'))
-        <td>{!! $field->getFilterInput() !!}</td>
-    @endif
+        <?php $field = $controller->getField($ident); ?>
+        
+        @if ($field->isPattern()) 
+            @if (!$field->getAttribute('hide_list')) 
+                <td></td>
+            @endif
+            @continue
+        @endif
+        
+        @if (!$field->getAttribute('hide_list'))
+            <td>{!! $field->getFilterInput() !!}</td>
+        @endif
     @endforeach
 
     <td style="width:1%">

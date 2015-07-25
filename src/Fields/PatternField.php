@@ -27,18 +27,24 @@ class PatternField
         $this->handler = &$handler;
         
         $patternName = preg_replace('~^pattern\.~', '', $fieldName);
-        $path = base_path() .'/definitions/patterns/'. $patternName .'.php';
+        $path = base_path('resources/definitions/patterns/'. $patternName .'.php');
         if (!file_exists($path)) {
             throw new \RuntimeException("No pattern definition - [{$patternName}].");
         }
         $this->calls = require($path);
     } // end __construct
     
-    public function render($row = array())
+    public function renderForm(array $row = array())
     {
-        $view = $this->calls['view'];
+        $view = $this->calls['view']['form'];
         return $view($row);
-    } // end render
+    } // end renderForm
+    
+    public function renderList(array $row)
+    {
+        $view = $this->calls['view']['list'];
+        return $view($row);
+    } // end renderList
     
     public function update($values, $idRow)
     {
@@ -62,5 +68,21 @@ class PatternField
     {
         return true;
     } // end isPattern
+    
+    public function getAttribute($ident, $default = false)
+    {
+        return array_key_exists($ident, $this->attributes) ? $this->attributes[$ident] : $default;
+    } // end getAttribute
+    
+    public function isHidden()
+    {
+        return $this->getAttribute('hide');
+    } // end isHidden
+    
+    // HACK: for create from
+    public function isReadonly()
+    {
+        return false; 
+    } // end isReadonly
     
 }

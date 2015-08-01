@@ -127,16 +127,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function doCommandsRegister()
     {
+        /*
         $this->app['command.jarboe.prepare'] = $this->app->share(
             function ($app) {
                 return new PrepareArtisanCommand();
             }
         );
-        $this->app['command.jarboe.create_admin_user'] = $this->app->share(
-            function ($app) {
-                return new CreateAdminUserArtisanCommand();
-            }
-        );
+        */
         $this->app['command.jarboe.create_superuser'] = $this->app->share(
             function ($app) {
                 return new CreateSuperUserArtisanCommand();
@@ -155,10 +152,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->commands(array(
             'command.jarboe.component',
-            
-            
             'command.jarboe.prepare',
-            'command.jarboe.create_admin_user',
             'command.jarboe.create_superuser',
             'command.jarboe.create_definition',
         ));

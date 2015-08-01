@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class CreateDefinitionArtisanCommand extends Command 
 {
 
-    protected $name = 'tb:definition';
+    protected $name = 'jarboe:definition';
     protected $description = 'Create definition by table name.';
     
     private $table;
@@ -35,36 +35,21 @@ class CreateDefinitionArtisanCommand extends Command
     
     private function doGenerateMethods()
     {
-        $methodPostfix = ucfirst(camel_case(preg_replace('~2~', '_to_', $this->table)));
+        $methodPostfix = camel_case(preg_replace('~2~', '_to_', $this->table));
         $this->info('Routes:');
-        $getRoute = "Route::get('". $this->trimAdminPrefix($this->getRequestUri) 
-                  . "', 'TableAdminController@show". $methodPostfix ."');";
-        $postRoute = "Route::post('". $this->trimAdminPrefix($this->postRequestUri) 
-                  . "', 'TableAdminController@handle". $methodPostfix ."');";
-        $this->line($getRoute);
-        $this->line($postRoute);
+        $route = "Route::any('". $this->trimAdminPrefix($this->getRequestUri) 
+                  . "', 'TableAdminController@". $methodPostfix ."');";
+        $this->line($route);
         
         $this->info('Methods:');
         $showMethod = 'public function show'. $methodPostfix .'()'. PHP_EOL;
         $showMethod .= '{' . PHP_EOL;
         $showMethod .= '    $options = array(' . PHP_EOL;
-        $showMethod .= "        'url'      => '". $this->getRequestUri ."'," . PHP_EOL;
         $showMethod .= "        'def_name' => '". $this->definition ."'," . PHP_EOL;
         $showMethod .= '    );' . PHP_EOL;
-        $showMethod .= '    list($table, $form) = Jarboe::table($options);' . PHP_EOL . PHP_EOL;
-        $showMethod .= "    return View::make('admin::table', compact('table', 'form'));" . PHP_EOL;
+        $showMethod .= '    return Jarboe::table($options);' . PHP_EOL . PHP_EOL;
         $showMethod .= '} // end show'. $methodPostfix . PHP_EOL . PHP_EOL;
         echo $showMethod;
-        
-        $postMethod = 'public function handle'. $methodPostfix .'()'. PHP_EOL;
-        $postMethod .= '{' . PHP_EOL;
-        $postMethod .= '    $options = array(' . PHP_EOL;
-        $postMethod .= "        'url'      => '". $this->getRequestUri ."'," . PHP_EOL;
-        $postMethod .= "        'def_name' => '". $this->definition ."'," . PHP_EOL;
-        $postMethod .= '    );' . PHP_EOL . PHP_EOL;
-        $postMethod .= '    return Jarboe::table($options);' . PHP_EOL;
-        $postMethod .= '} // end handle'. $methodPostfix . PHP_EOL;
-        echo $postMethod;
     } // end doGenerateMethods
     
     private function trimAdminPrefix($uri)

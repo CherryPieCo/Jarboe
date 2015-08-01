@@ -1,4 +1,17 @@
+
 @foreach ($fields as $ident)
+<?php 
+// for input sizes
+$size = '';
+if (is_array($ident)) {
+    $idents = $ident;
+    $size = 12 / count($idents);
+} else {
+    $idents = [$ident];
+}
+?>
+<div class="tb-form-row">
+@foreach ($idents as $ident)
 <?php 
 $options = $def['fields'][$ident];
 $field = $controller->getField($ident); 
@@ -41,7 +54,7 @@ $field = $controller->getField($ident);
     @continue
 @endif
 
-<section>
+<section class="{{ $size ? 'col col-'. $size : '' }}" >
 @if ($is_blank)
     <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
     <div style="position: relative;">
@@ -60,4 +73,7 @@ $field = $controller->getField($ident);
     </div> 
 @endif
 </section>
+
+@endforeach
+</div>
 @endforeach

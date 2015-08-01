@@ -16,6 +16,3 @@
 
 @stop
 
-@section('table_form')
-    {!! $form !!}
-@stop

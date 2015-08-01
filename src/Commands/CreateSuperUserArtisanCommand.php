@@ -20,15 +20,15 @@ class CreateSuperUserArtisanCommand extends Command
     {
         $email = $this->ask('Email');
         $password = str_random(12);
-        if ($this->confirm('Generate password? [y|n]')) {
+        if ($this->confirm('Do you want your password?')) {
             $password = $this->ask('Password');
         }
         $firstName = $this->ask('First name');
         $lastName  = $this->ask('Last Name');
         
         $permissions = [];
-        if ($this->confirm('Is superuser? [y|n]')) {
-            $permissions['superuser'] = 1;
+        if ($this->confirm('Is superuser?')) {
+            $permissions['superuser'] = true;
         }
         
         $user = Sentinel::create(array(

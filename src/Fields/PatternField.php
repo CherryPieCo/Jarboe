@@ -9,6 +9,7 @@ class PatternField
 {
     
     protected $fieldName;
+    protected $patternName;
     protected $attributes;
     protected $options;
     protected $definition;
@@ -26,13 +27,18 @@ class PatternField
         
         $this->handler = &$handler;
         
-        $patternName = preg_replace('~^pattern\.~', '', $fieldName);
-        $path = base_path('resources/definitions/patterns/'. $patternName .'.php');
+        $this->patternName = preg_replace('~^pattern\.~', '', $fieldName);
+        $path = base_path('resources/definitions/patterns/'. $this->patternName .'.php');
         if (!file_exists($path)) {
-            throw new \RuntimeException("No pattern definition - [{$patternName}].");
+            throw new \RuntimeException("No pattern definition - [{$this->patternName}].");
         }
         $this->calls = require($path);
     } // end __construct
+    
+    private function getPatternValues($values)
+    {
+        return array_get($values, 'pattern.'. $this->patternName);
+    } // end getPatternValues
     
     public function renderForm(array $row = array())
     {
@@ -49,13 +55,13 @@ class PatternField
     public function update($values, $idRow)
     {
         $call = $this->calls['handle']['update'];
-        return $call($values, $idRow);
+        return $call($idRow, $this->getPatternValues($values), $values);
     } // end update    
     
     public function insert($values, $idRow)
     {
         $call = $this->calls['handle']['insert'];
-        return $call($values, $idRow);
+        return $call($idRow, $this->getPatternValues($values), $values);
     } // end insert    
     
     public function delete($idRow)

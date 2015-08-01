@@ -30,7 +30,7 @@ class TreeCatalogController
 
     public function handle()
     {
-        switch (Input::get('query_type')) {
+        switch (Input::get('__structure_query_type')) {
             
             case 'do_create_node':
                 return $this->doCreateNode();
@@ -239,8 +239,10 @@ class TreeCatalogController
                     'current' => $current,
                 )
             );
-            list($table, $form) = \Jarboe::table($options);
-            $content = View::make('admin::tree.content', compact('current', 'table', 'form', 'template'));
+            // HACK: get table template from view object
+            $tableView = \Jarboe::table($options);
+            $table = $tableView->table;
+            $content = View::make('admin::tree.content', compact('current', 'table', 'template'));
         } elseif (false && $current->isLeaf()) {
             $content = 'ama leaf';
         } else {

@@ -101,7 +101,7 @@ var Tree =
                     parent_id:        jQuery('#'+data.parent).data('id'),
                     left_sibling_id:  $current.prev().data('id'), 
                     right_sibling_id: $current.next().data('id'),
-                    query_type:       'do_change_position'
+                    __structure_query_type:       'do_change_position'
                 },
                 success: function(response) {
                     if (response.status) {
@@ -175,7 +175,7 @@ var Tree =
             data: { 
                 id: id,
                 is_active: isActive,
-                query_type: 'do_change_active_status'
+                __structure_query_type: 'do_change_active_status'
             },
             success: function(response) {
             }
@@ -190,7 +190,7 @@ var Tree =
         
         var data = $table.find(':input').serializeArray();
         data.push({ name: 'id', value: id });
-        data.push({ name: 'query_type', value: 'do_change_active_status' });
+        data.push({ name: '__structure_query_type', value: 'do_change_active_status' });
         
         console.table(data);
         
@@ -223,7 +223,7 @@ var Tree =
     doCreateNode: function()
     {
         var data = $('#tree-create-modal-form').serializeArray();
-        data.push({ name: 'query_type', value: 'do_create_node' });
+        data.push({ name: '__structure_query_type', value: 'do_create_node' });
         
         jQuery.ajax({
             url: window.location.href,
@@ -251,7 +251,7 @@ var Tree =
             type: 'POST',
             dataType: 'json',
             cache: false,
-            data: { id: id, query_type: 'get_edit_modal_form' },
+            data: { id: id, __structure_query_type: 'get_edit_modal_form' },
             success: function(response) {
                 if (response.status) {
                     
@@ -288,7 +288,7 @@ var Tree =
 
         var values = jQuery(TableBuilder.edit_form).serializeArray();
         values.push({ name: 'id', value: id });
-        values.push({ name: 'query_type', value: "do_edit_node" });
+        values.push({ name: '__structure_query_type', value: "do_edit_node" });
 
         // take values from temp storage (for images)
         jQuery.each(values, function(index, val) {
@@ -360,7 +360,7 @@ var Tree =
                 jQuery.ajax({
                     type: "POST",
                     url: window.location.href,
-                    data: { id: id, query_type: 'do_delete_node' },
+                    data: { id: id, __structure_query_type: 'do_delete_node' },
                     dataType: 'json',
                     success: function(response) {
 

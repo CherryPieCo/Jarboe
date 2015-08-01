@@ -2,7 +2,8 @@
 
 namespace Yaro\Jarboe;
 
-use Illuminate\Support\Facades\Session;
+use Session;
+use Request;
 use Yaro\Jarboe\Handlers\ViewHandler;
 use Yaro\Jarboe\Handlers\CacheHandler;
 use Yaro\Jarboe\Handlers\RequestHandler;
@@ -76,9 +77,16 @@ class JarboeController
         if (!isset($this->definition['db']['pagination']['uri'])) {
             $this->definition['db']['pagination']['uri'] = $this->options['url'];
         }
-        //if (!isset($this->definition['options']['action_url'])) {
-        //    $this->definition['options']['action_url'] = $this->options['url'];
-        //}
+        
+        //
+        if (!isset($this->definition['options']['action_url'])) {
+            $this->definition['options']['action_url'] = '/'. Request::path();
+            // for structure current node resolver
+            $requestValues = Request::only('node');
+            if ($requestValues['node']) {
+                $this->definition['options']['action_url'] .'?node='. $requestValues['node'];
+            }
+        }
     } // end doPrepareDefinition
 
     public function handle()
@@ -235,7 +243,7 @@ class JarboeController
     protected function getTableDefinition($table)
     {
         $table = preg_replace('~\.~', '/', $table);
-        $path = base_path('/resources/definitions/'. $table .'.php');
+        $path = base_path('resources/definitions/'. $table .'.php');
 
         if (!file_exists($path)) {
             throw new \RuntimeException("Definition \n[{$path}]\n does not exist.");

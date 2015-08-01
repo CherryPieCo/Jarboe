@@ -13,11 +13,11 @@ return array(
     }, // end view
     
     'handle' => array(
-        'insert' => function($values, $idRow) {
+        'insert' => function($idRow, $patternValues, $values) {
             
         }, // end insert
         
-        'update' => function($values, $idRow) {
+        'update' => function($idRow, $patternValues, $values) {
             //dr($values);
         }, // end update
         

@@ -26,10 +26,8 @@
                 data-widget-custombutton="false"
                 data-widget-collapsed="true"
                 data-widget-sortable="false"
-
                 -->
 
-            
 
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
@@ -52,7 +50,7 @@
                     <!-- widget content -->
                     <div class="widget-body no-padding">
 
-<form id="{{ $def['options']['table_ident'] }}" 
+<form id="def_options_table_ident" 
       action="{{ $def['options']['action_url'] }}" 
       method="post" 
       class="form-horizontal tb-table"
@@ -77,34 +75,15 @@
 </form> 
 
 
-
-
-
-
                     </div>
                     <!-- end widget content -->
-
-
                 </div>
                 <!-- end widget div -->
-
-
-                
-
-
-
             </div>
             <!-- end widget -->
-
         </article>
         <!-- WIDGET END -->
-
     </div>
-
     <!-- end row -->
-
-
-
-
 </section>
 <!-- end widget grid -->   

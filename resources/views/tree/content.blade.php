@@ -4,11 +4,7 @@
 
 @if ($current->hasTableDefinition())
 
-    @section('table_form')
-        {{ $form }}
-    @stop
-    
-    {{ $table }}
+    {!! $table !!}
     
 @else
 
@@ -18,11 +14,11 @@
         <thead>
             <tr>
                 <th>название</th>
-                <th width="1%">шаблон</th>
-                <th width="1%">слаг</th>
+                <th width="15%">шаблон</th>
+                <th width="10%">слаг</th>
                 <th width="1%">активный</th>
                 <th style="width: 1%; min-width: 105px;">
-                    <a href="javascript:void(0);" onclick="Tree.showCreateForm('{{$current->id}}');" style="min-width: 70px;" class="btn btn-default btn-sm">создать</a>
+                    <a href="javascript:void(0);" onclick="Tree.showCreateForm('{{$current->id}}');" style="min-width: 70px; width: 100%;" class="btn btn-default btn-sm">создать</a>
                 </th>
             </tr>
         </thead>
@@ -87,3 +83,4 @@
 @endif
     
 </div>
+ 

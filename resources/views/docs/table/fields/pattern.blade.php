@@ -42,11 +42,11 @@ return array(
     
     // обработчики паттерна. в $values находятся все значения формы
     'handle' => array(
-        'insert' => function($values, $idRow) {
+        'insert' => function($idRow, $patternValues, $values) {
             
         }, // end insert
         
-        'update' => function($values, $idRow) {
+        'update' => function($idRow, $patternValues, $values) {
             // dr($values);
         }, // end update
         

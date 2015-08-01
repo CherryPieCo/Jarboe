@@ -21,15 +21,23 @@ div.modal div.tb-modal-fullscreen div.modal-content {
 
 
 
-.table>tbody>tr>td,
-.table>thead>tr>th {
-    vertical-align: middle;
-    text-align: center;
+.table-builder .table>tbody>tr>td,
+.table-builder .table>thead>tr>th {
+    vertical-align: middle !important;
+    text-align: center !important;
 }
 
 .tb-table thead tr th.e-insert_button-cell {
+    width: 1%;
     padding-right: 10px;
 }
+.tb-table thead tr th.e-insert_button-cell a {
+    width: 100%;
+}
+.tb-table tbody tr td.col-action {
+    white-space: nowrap;
+}
+
 
 div.smoke_lol {
     display: none;
@@ -302,3 +310,23 @@ div.table-page #create_form .nav-tabs li a {
   overflow-x: hidden;
   overflow-y: auto !important;
 }
+.tb-tree-content-inner .table thead th {
+    vertical-align: middle;
+}
+
+
+/* form fields */
+.tb-form-row .col.col-6:first-child { 
+    padding: 0 2% 0 0;
+}
+.tb-form-row .col.col-6:last-child { 
+    padding: 0 0 0 2%; 
+}
+.tb-form-row {
+    clear: both;
+}
+
+
+
+
+

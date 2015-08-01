@@ -1,4 +1,4 @@
-<div id="{{ $def['options']['ident'] }}" class="widget-box table-builder dataTables_wrapper">
+<div id="def_options_ident" class="widget-box table-builder dataTables_wrapper">
     {{--
     <div class="widget-title">
         <span class="icon">
@@ -22,9 +22,9 @@
 <script type="text/javascript">
 //jQuery(document).ready(function() {
     TableBuilder.init({
-        ident: '{{ $def['options']['ident'] }}',
-        table_ident: '{{ $def['options']['table_ident'] }}',
-        form_ident: '{{ $def['options']['form_ident'] }}',
+        ident: 'def_options_ident',
+        table_ident: 'def_options_table_ident',
+        form_ident: 'def_options_form_ident',
         action_url: '{{ $def['options']['action_url'] }}',
         onSearchResponse: function() {
             //Dashboard.initTooltips();

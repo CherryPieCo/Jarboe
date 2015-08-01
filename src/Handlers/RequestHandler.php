@@ -488,9 +488,8 @@ class RequestHandler
     protected function handleShowList()
     {
         $table = $this->controller->view->showList();
-        $form = $this->controller->view->showEditForm();
             
-        return view('admin::table', compact('table', 'form'));
+        return view('admin::table', compact('table'));
     } // end handleShowList
     
     protected function handleShowEditFormPageAction($id = false)

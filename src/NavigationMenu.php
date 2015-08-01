@@ -15,19 +15,7 @@ class NavigationMenu
     public function __construct($definition)
     {
         $this->definition = $definition;
-
-        foreach (config('jarboe.components', []) as $component) {
-            $util = 'Jarboe\Component\\'. $component .'\Util';
-            $util::onNavigationMenu($this);
-        } 
     } // end __contruct
-    
-    public function addItem($data, $path = false)
-    {
-        if (!$path) {
-            $this->definition[] = $data;
-        }
-    } // end addItem
 
     public function fetch()
     {

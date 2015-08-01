@@ -2,15 +2,16 @@
 
 namespace Yaro\Jarboe;
 
+use Response;
+use Config;
+use DB;
+use Input;
 use Yaro\Jarboe\Helpers\URLify;
 use Yaro\Jarboe\Helpers\Registry;
 use Yaro\Jarboe\NavigationMenu;
 use Yaro\Jarboe\DefinitionMaker;
 use Yaro\Jarboe\TreeController;
 use Yaro\Jarboe\Exceptions\JarboeValidationException;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Yandex\Translate\Translator;
 use Yandex\Translate\Exception;
 
@@ -119,8 +120,12 @@ class Jarboe
     public function tree($model, $options = array())
     {
         $controller = new TreeCatalogController($model, $options);
-
-        return $controller;
+        
+        // HACK: if query_type, so its requested table bilder functionality
+        if (Input::has('query_type')) {
+            return $controller->process();
+        }
+        return $controller->handle();
     } // end tree
 
     public function addAsset($type, $src)

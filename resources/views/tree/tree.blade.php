@@ -53,12 +53,10 @@
 <style type="text/css" media="screen">
 .tb-tree-content-inner .table-bordered>tbody>tr>td {
     text-align: left;
+    vertical-align: middle;
 }
 </style>
 
-<style type="text/css">
-
-</style>
 
 
 <div id="tb-tree" class="demo">

@@ -29,7 +29,7 @@ class TBController extends Controller
             return \Redirect::to(config('jarboe.admin.uri'));
         }
         
-        return view('admin::vis-login');
+        return view('admin::login');
     } // end showLogin
  
     public function postLogin()

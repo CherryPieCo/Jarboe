@@ -1,6 +1,6 @@
 <?php 
 
-namespace Yaro\Jarboe\Http;
+namespace Yaro\Jarboe\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 

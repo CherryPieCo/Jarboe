@@ -1,6 +1,6 @@
 <?php
 
-namespace Yaro\Jarboe;
+namespace Yaro\Jarboe\Models;
 
 
 class ImageCatalog extends \Baum\Node 

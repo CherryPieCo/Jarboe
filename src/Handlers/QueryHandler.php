@@ -454,9 +454,11 @@ class QueryHandler
     {
         unset($values['id']);
         unset($values['query_type']);
-        unset($values['__field_type']);
 
         foreach ($values as $key => $val) {
+            if (preg_match('~^__~', $key)) {
+                unset($values[$key]);
+            }
             if (preg_match('~^many2many~', $key)) {
                 unset($values[$key]);
             }
@@ -466,8 +468,7 @@ class QueryHandler
         unset($values['pattern']);
 
         // for tree
-        unset($values['node']);
-        unset($values['__node']);
+        unset($values['node']); // with __node
 
         return $values;
     } // end _unsetFutileFields

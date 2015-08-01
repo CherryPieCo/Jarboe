@@ -23,7 +23,7 @@ class Translate
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = new self(\config('jarboe::translate.locales'));
+            self::$instance = new self(config('jarboe.translate.locales'));
         }
 
         return self::$instance;
@@ -62,9 +62,9 @@ class Translate
             return $this->translates[$locale][$namespace][$ident];
         }
         
-        $translateFrom = \config('jarboe::translate.auto_translate_from');
-        $adminUriTemplate = ltrim(\config('jarboe::admin.uri') .'/*', '/');
-        $adminDashboardUriTemplate = ltrim(\config('jarboe::admin.uri'), '/');
+        $translateFrom = config('jarboe.translate.auto_translate_from');
+        $adminUriTemplate = ltrim(config('jarboe.admin.uri') .'/*', '/');
+        $adminDashboardUriTemplate = ltrim(config('jarboe.admin.uri'), '/');
         if (\Request::is($adminUriTemplate) || \Request::is($adminDashboardUriTemplate)) {
             $translateFrom = 'ru';
         }
@@ -117,9 +117,9 @@ class Translate
 
     private function isAutotranslate($locale)
     {
-        $isAutotranslate = \config('jarboe::translate.is_auto_translate');
+        $isAutotranslate = config('jarboe.translate.is_auto_translate');
 
-        return $isAutotranslate; //  && (\config('jarboe::translate.auto_translate_from') != $locale)
+        return $isAutotranslate; //  && (config('jarboe.translate.auto_translate_from') != $locale)
     } // end
 
     protected function hasTranslate($ident, $locale, $namespace)

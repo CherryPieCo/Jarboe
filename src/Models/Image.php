@@ -1,6 +1,10 @@
 <?php
 
-namespace Yaro\Jarboe;
+namespace Yaro\Jarboe\Models;
+
+use App;
+use Cache;
+use Session;
 
 
 class Image extends AbstractImageStorage
@@ -10,7 +14,7 @@ class Image extends AbstractImageStorage
     
     public static function flushCache()
     {
-        \Cache::tags('j_images')->flush();
+        Cache::tags('j_images')->flush();
     } // end flushCache
     
     public function scopePriority($query, $direction = 'asc')
@@ -35,14 +39,14 @@ class Image extends AbstractImageStorage
     
     public function tags()
     {
-        $model = \config('jarboe::images.models.tag');
+        $model = config('jarboe.images.models.tag');
         
         return $this->belongsToMany($model, 'j_images2tags', 'id_image', 'id_tag');
     } // end tags
     
     public function get($ident, $localePostfix = false)
     {
-        $postfix = $localePostfix ? '_'. \App::getLocale() : '';
+        $postfix = $localePostfix ? '_'. App::getLocale() : '';
         $ident = $ident . $postfix;
         
         $info = json_decode($this->info, true);
@@ -56,7 +60,7 @@ class Image extends AbstractImageStorage
     
     public function scopeSearch($query)
     {
-        $search = \Session::get('_jsearch_images', array());
+        $search = Session::get('_jsearch_images', array());
         foreach ($search as $column => $value) {
             if (!$value) {
                 continue;

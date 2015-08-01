@@ -2,12 +2,12 @@
 
 namespace Yaro\Jarboe\Storage;
 
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\DB;
+use Response;
+use Input;
+use View;
+use Config;
+use URL;
+use DB;
 
 
 class File 
@@ -41,7 +41,7 @@ class File
     
     private function doSaveFileInfo()
     {
-        $model = '\\' . config('jarboe::files.models.file');
+        $model = '\\' . config('jarboe.files.models.file');
         $file = $model::find(Input::get('id')); 
         
         $values = $this->getSanitizedValues(Input::all());
@@ -68,8 +68,8 @@ class File
     
     private function getFileEditForm()
     {
-        $fields = config('jarboe::images.image.fields');
-        $model = '\\' . config('jarboe::files.models.file');
+        $fields = config('jarboe.images.image.fields');
+        $model = '\\' . config('jarboe.files.models.file');
         $file = $model::find(Input::get('id'));
         $html = View::make('admin::tb.storage.file.edit_form', compact('file', 'fields'))->render();
         
@@ -81,7 +81,7 @@ class File
     
     private function doDeleteFile()
     {
-        $model = '\\' . config('jarboe::files.models.file');
+        $model = '\\' . config('jarboe.files.models.file');
         $model::destroy(Input::get('id'));
         
         return Response::json(array(
@@ -101,7 +101,7 @@ class File
     
     private function doUploadFile()
     {
-        $model = '\\' . config('jarboe::files.models.file');
+        $model = '\\' . config('jarboe.files.models.file');
         
         $html = '';
         $files = Input::file('files');
@@ -155,7 +155,7 @@ class File
     
     private function doReuploadFile()
     {
-        $model = '\\' . config('jarboe::files.models.file');
+        $model = '\\' . config('jarboe.files.models.file');
         
         $file = Input::file('file');
         

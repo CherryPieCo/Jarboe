@@ -256,7 +256,7 @@ class JarboeController
         }
 
         $definition['is_searchable'] = $this->_isSearchable($definition);
-        $definition['options']['admin_uri'] = \config('jarboe::admin.uri');
+        $definition['options']['admin_uri'] = config('jarboe.admin.uri');
 
         return $definition;
     } // end getTableDefinition

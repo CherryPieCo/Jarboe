@@ -2,14 +2,16 @@
 
 namespace Yaro\Jarboe\Helpers\Traits;
 
+use Cache;
+
 
 trait ImageStorageTrait
 {
 
     public function doImagesParse($value)
     {
-        $model = \config('jarboe::images.models.image');
-        $images = \Cache::tags('j_images', 'jarboe')->rememberForever('j_images', function() use($model) {
+        $model = config('jarboe.images.models.image');
+        $images = Cache::tags('j_images', 'jarboe')->rememberForever('j_images', function() use($model) {
             return $model::all(); 
         });
         
@@ -32,7 +34,7 @@ trait ImageStorageTrait
     
     public function fetchImage($image, $htmlOrigin = false)
     {
-        $wysiwygSource = \config('jarboe::images.wysiwyg_image_type');
+        $wysiwygSource = config('jarboe.images.wysiwyg_image_type');
         $html = '<img class="j-image" src="'. asset($image->$wysiwygSource) 
               . '" data-source="'. asset($image->source) .'"';
 

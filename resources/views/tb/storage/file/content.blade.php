@@ -69,7 +69,7 @@ div.superbox-imageinfo {
 
 
 <script>
-    Superbox.fields.image = {{ json_encode(\config('jarboe::images.image.fields') ? : array()) }};
+    Superbox.fields.image = {{ json_encode(config('jarboe.images.image.fields') ? : array()) }};
     Superbox.init();
 </script>
 

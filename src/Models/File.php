@@ -1,16 +1,19 @@
 <?php
 
-namespace Yaro\Jarboe;
+namespace Yaro\Jarboe\Models;
+
+use App;
+use Eloquent;
 
 
-class File extends \Eloquent
+class File extends Eloquent
 {
     
     protected $table = 'j_files';
     
     public function get($ident, $localePostfix = false)
     {
-        $postfix = $localePostfix ? '_'. \App::getLocale() : '';
+        $postfix = $localePostfix ? '_'. App::getLocale() : '';
         $ident = $ident . $postfix;
         
         $info = json_decode($this->info, true);

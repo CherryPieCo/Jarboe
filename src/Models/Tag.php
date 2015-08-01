@@ -1,6 +1,8 @@
 <?php
 
-namespace Yaro\Jarboe;
+namespace Yaro\Jarboe\Models;
+
+use Cache;
 
 
 class Tag extends AbstractImageStorage
@@ -11,19 +13,19 @@ class Tag extends AbstractImageStorage
     
     public static function flushCache()
     {
-        \Cache::tags('j_tags')->flush();
+        Cache::tags('j_tags')->flush();
     } // end flushCache
     
     public function images()
     {
-        $model = \config('jarboe::images.models.image');
+        $model = config('jarboe.images.models.image');
         
         return $this->belongsToMany($model, 'j_images2tags', 'id_tag', 'id_image');
     } // end images
     
     public function galleries()
     {
-        $model = \config('jarboe::images.models.gallery');
+        $model = config('jarboe.images.models.gallery');
         
         return $this->belongsToMany($model, 'j_galleries2tags', 'id_tag', 'id_gallery');
     } // end galleries

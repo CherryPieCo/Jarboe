@@ -1,9 +1,11 @@
 <?php
 
-namespace Yaro\Jarboe;
+namespace Yaro\Jarboe\Models;
+
+use Eloquent;
 
 
-class AbstractImageStorage extends \Eloquent
+class AbstractImageStorage extends Eloquent
 {
     
     public function isImage()

@@ -13,7 +13,7 @@ class Informer
             return '';
         }
         
-        return \View::make('admin::informer.main', compact('total', 'tabs'));
+        return view('admin::informer.main', compact('total', 'tabs'));
     } // end fetch
     
     public function getContentByIndex($index)
@@ -37,7 +37,7 @@ class Informer
     
     protected function getPreparedTabs()
     {
-        $tabs = \config('jarboe::informer.tabs', array());
+        $tabs = config('jarboe.informer.tabs', array());
         $prepared = array();
         $total = 0;
         foreach ($tabs as $tab) {

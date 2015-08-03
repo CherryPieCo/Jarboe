@@ -152,7 +152,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->commands(array(
             'command.jarboe.component',
-            'command.jarboe.prepare',
+            //'command.jarboe.prepare',
             'command.jarboe.create_superuser',
             'command.jarboe.create_definition',
         ));

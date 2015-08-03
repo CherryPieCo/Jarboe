@@ -28,6 +28,6 @@
             "src/view_composers.php"
         ]
     },
-    "license": "see LICENSE file",
+    "license": "proprietary",
     "minimum-stability": "stable"
 }

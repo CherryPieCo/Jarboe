@@ -2,9 +2,7 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Image;
 use View;
-use URL;
 use Jarboe;
 
 

@@ -3,7 +3,6 @@
 namespace Yaro\Jarboe\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 
@@ -66,7 +65,7 @@ class ComponentCommand extends Command
     protected function getOptions()
     {
         return array(
-            //array('pass', null, InputOption::VALUE_OPTIONAL, 'User password.'),
+            //
         );
     } // end getOptions
       

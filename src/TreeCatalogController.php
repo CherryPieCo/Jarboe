@@ -4,7 +4,6 @@ namespace Yaro\Jarboe;
 
 use Input;
 use View;
-use DB;
 use Response;
 use Config;
 use URL;

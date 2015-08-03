@@ -10,10 +10,8 @@ use Yaro\Jarboe\Helpers\URLify;
 use Yaro\Jarboe\Helpers\Registry;
 use Yaro\Jarboe\NavigationMenu;
 use Yaro\Jarboe\DefinitionMaker;
-use Yaro\Jarboe\TreeController;
 use Yaro\Jarboe\Exceptions\JarboeValidationException;
 use Yandex\Translate\Translator;
-use Yandex\Translate\Exception;
 
 
 class Jarboe 

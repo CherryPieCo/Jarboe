@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe;
 
-use Session;
 use Request;
 use Yaro\Jarboe\Handlers\ViewHandler;
 use Yaro\Jarboe\Handlers\CacheHandler;

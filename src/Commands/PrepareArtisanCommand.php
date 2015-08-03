@@ -4,8 +4,6 @@ namespace Yaro\Jarboe\Commands;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 
 class PrepareArtisanCommand extends Command 

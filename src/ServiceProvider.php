@@ -3,7 +3,6 @@
 namespace Yaro\Jarboe;
 
 use Yaro\Jarboe\Commands\PrepareArtisanCommand;
-use Yaro\Jarboe\Commands\CreateAdminUserArtisanCommand;
 use Yaro\Jarboe\Commands\CreateSuperUserArtisanCommand;
 use Yaro\Jarboe\Commands\CreateDefinitionArtisanCommand;
 use Yaro\Jarboe\Commands\ComponentCommand;

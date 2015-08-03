@@ -6,9 +6,7 @@ use Yaro\Jarboe\JarboeController;
 use Yaro\Jarboe\Exceptions\JarboeValidationException as JarboeValidationException;
 use Yaro\Jarboe\Exceptions\JarboePreValidationException as JarboePreValidationException;
 use DB;
-use Input;
 use Session;
-use Request;
 
 
 class QueryHandler 

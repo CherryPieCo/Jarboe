@@ -3,11 +3,10 @@
 namespace Yaro\Jarboe\Handlers;
 
 use Yaro\Jarboe\JarboeController;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
+use Response;
+use Input;
+use Session;
+use URL;
 
 
 class RequestHandler 

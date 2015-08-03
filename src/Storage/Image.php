@@ -6,7 +6,6 @@ use Response;
 use Input;
 use View;
 use Config;
-use URL;
 use DB;
 use Session;
 

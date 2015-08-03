@@ -3,8 +3,6 @@
 namespace Yaro\Jarboe\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Sentinel;
 use Activation;
 
@@ -59,14 +57,14 @@ class CreateSuperUserArtisanCommand extends Command
     protected function getArguments()
     {
         return array(
-            //array('email', InputArgument::REQUIRED, 'User email.'),
+            //
         );
     } // end getArguments
     
     protected function getOptions()
     {
         return array(
-            //array('pass', null, InputOption::VALUE_OPTIONAL, 'User password.'),
+            //
         );
     } // end getOptions
       

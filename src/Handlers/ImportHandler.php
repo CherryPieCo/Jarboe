@@ -3,9 +3,8 @@
 namespace Yaro\Jarboe\Handlers;
 
 use Yaro\Jarboe\Exceptions\JarboeValidationException;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\DB;
+use View;
+use DB;
 
 
 class ImportHandler 

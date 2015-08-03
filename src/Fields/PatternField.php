@@ -2,8 +2,6 @@
 
 namespace Yaro\Jarboe\Fields;
 
-use Illuminate\Support\Facades\View;
-
 
 class PatternField 
 {

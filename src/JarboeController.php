@@ -42,7 +42,7 @@ class JarboeController
 
     public function __construct($options)
     {
-        $this->options = $options; //$this->getPreparedOptions($options);
+        $this->options = $options;
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
         $this->doPrepareDefinition();
 
@@ -105,15 +105,6 @@ class JarboeController
     {
         return in_array($id, $this->allowedIds);
     } // end isAllowedID
-    
-    protected function getPreparedOptions($opt)
-    {
-        // TODO:
-        $options = $opt;
-        $options['def_path'] = app_path(). $opt['def_path'];
-
-        return $options;
-    } // end getPreparedOptions
 
     protected function createCustomHandlerInstance()
     {

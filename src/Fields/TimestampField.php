@@ -50,9 +50,8 @@ class TimestampField extends AbstractField
             }
         }
 
-        // FIMXE: MariaDB wtf
+        // FIMXE: MariaDB wtf | return $this->getTimestamp($value);
         return date('Y-m-d H:i:s', $this->getTimestamp($value)) . '.000000';
-        // return $this->getTimestamp($value);
     } // end prepareQueryValue
     
     private function getTimestamp($date)

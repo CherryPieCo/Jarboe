@@ -99,17 +99,6 @@ class PrepareArtisanCommand extends Command
             });
         }
 
-        /*
-        if ($this->confirm('Create `ip_geo_locations` table? [y|n]')) {
-            \Schema::create('ip_geo_locations', function($table) {
-                $table->increments('id')->unsigned();
-                $table->char('ip', 32)->unique();
-                $table->char('town', 60);
-                $table->decimal('longitude', 10, 7);
-                $table->decimal('latitude', 10, 7);
-            });
-        }
-        */
         if ($this->confirm('Replace global.php? [y|n]')) {
             $res = unlink(app_path() . '/start/global.php');
             if ($res) {
@@ -167,64 +156,6 @@ class PrepareArtisanCommand extends Command
         }
 
         $this->info('ok');
-
-        /*
-        if ($this->confirm('Prepare Sentry package? [y|n]')) {
-            $this->doPrepareSentry();
-        }
-        
-        if ($this->confirm('Prepare Intervention package? [y|n]')) {
-            $this->doPrepareIntervention();
-        }
-        */
-        //$this->doPrepareMisc();
     } // end fire
     
-    private function doPrepareMisc()
-    {
-        $this->info('Add following in app/config/app.php');
-        $msg = "providers:\n"
-             . "'Radic\BladeExtensions\BladeExtensionsServiceProvider',\n"
-             . "'Yaro\Jarboe\JarboeServiceProvider',\n\n"
-             . "aliases:\n"
-             . "'Jarboe'  => 'Yaro\Jarboe\Facades\Jarboe',\n"
-             . "'Settings'      => 'Yaro\Jarboe\Helpers\Settings',";
-            
-        $this->comment($msg);
-        $this->ask('Done? ');
-        $this->info('bb gl');
-    } // end doPrepareMisc
-    
-    private function doPrepareIntervention()
-    {
-        $this->info('Add following in app/config/app.php');
-        $this->comment("providers: 'Intervention\Image\ImageServiceProvider',\naliases: 'Image' => 'Intervention\Image\Facades\Image',");
-        
-        if ($this->confirm('Done? [y|n]')) {
-            $this->info('publising config...');
-            $this->call('config:publish', array('package' => 'intervention/image'));
-            $this->info('ok');
-        } else {
-            $this->error('Intervention package install aborting');
-        }
-    } // end doPrepareIntervention
-    
-    private function doPrepareSentry()
-    {
-        $this->info('Add following in app/config/app.php');
-        $this->comment("providers: 'Cartalyst\Sentry\SentryServiceProvider',\naliases: 'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',");
-        
-        if ($this->confirm('Done? [y|n]')) {
-            $this->info('migrating...');
-            $this->call('migrate', array('--package' => 'cartalyst/sentry'));
-            $this->info('ok');
-            
-            $this->info('publising config...');
-            $this->call('config:publish', array('package' => 'cartalyst/sentry'));
-            $this->info('ok');
-        } else {
-            $this->error('Sentry package install aborting');
-        }
-    } // end doPrepareSentry
-
 }

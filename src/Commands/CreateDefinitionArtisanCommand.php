@@ -153,7 +153,7 @@ class CreateDefinitionArtisanCommand extends Command
         $m2mTable = $this->ask('many2many table name? (i.e. this_table2other_table)');
         $m2mKeyField = $this->ask('many2many table foreign column to this_table? (i.e. id_this_table)');
         $m2mExternalTable = $this->ask('other_table name? (i.e. other_table)');
-        $m2mExternalForeignKeyField = 'id';//$this->ask('Column that previous column referenced to? (id in most cases)');
+        $m2mExternalForeignKeyField = 'id';
         $m2mExternalKeyField = $this->ask('many2many table foreign column to other_table? (i.e. id_other_table)');
         $m2mExternalValueField = $this->ask('Which column to display from other_table? (i.e. name)');
         
@@ -241,9 +241,6 @@ class CreateDefinitionArtisanCommand extends Command
         if ($this->confirm('Hide in list? [y|n]')) {
             $typeTemplate .= "            'hide_list' => true,\n";
         }
-        //if ($this->confirm('Hide in form? [y|n]')) {
-        //    $typeTemplate .= "            'hide_form' => true,\n";
-        //}
         
         return $typeTemplate;
     } // end 

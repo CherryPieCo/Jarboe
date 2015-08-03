@@ -501,8 +501,9 @@ class RequestHandler
     {
         $this->_prepareSearchFilters();
 
+        // FIXME: location.reload() handle it mb
         $response = array(
-            'url' => $this->controller->getOption('url') .'?catalog='. Input::get('catalog') // HACK: FIXME:
+            'url' => $this->controller->getOption('url')
         );
         return Response::json($response);
     } // end handleSearchAction

@@ -91,14 +91,12 @@ class ImportHandler
         }
         
         return true;
-        //$this->doCheckFields();
     } // end doImportCsv
     
     public function doCsvTemplateDownload()
     {
         $this->doCheckPermission();
         
-        // FIXME: move default to options
         $delimiter = ',';
         if (isset($this->def['files']['csv']['delimiter'])) {
             $delimiter = $this->def['files']['csv']['delimiter'];

@@ -87,7 +87,6 @@ class QueryHandler
             $pagination = $this->getOptionDB('pagination');
             $perPage = $this->getPerPageAmount($pagination['per_page']);
             $paginator = $this->db->paginate($perPage);
-            //$paginator->setPath($pagination['uri']);
             return $paginator;
         }
         return $this->db->get();
@@ -376,13 +375,6 @@ class QueryHandler
 
     private function doValidate($values)
     {
-        // FIXME:
-        /*
-        foreach ($values as $ident => $value) {
-            $field = $this->controller->getField($ident);
-            $field->doValidate($value);
-        }
-        */
         $errors = array();
 
         $definition = $this->controller->getDefinition();
@@ -420,12 +412,6 @@ class QueryHandler
     private function _getRowQueryValues($values)
     {
         $values = $this->_unsetFutileFields($values);
-        /*
-        array_walk($values, function(&$value, $ident) {
-            $field = $this->controller->getField($ident);
-            $value = $field->prepareQueryValue($value);
-        });
-        */
         $definition = $this->controller->getDefinition();
         $fields = $definition['fields'];
         foreach ($fields as $ident => $options) {

@@ -70,7 +70,7 @@ class SetField extends AbstractField
     public function doSaveInlineEditForm($idRow, $values)
     {
         if (!$this->isInlineEdit()) {
-            throw new RuntimeException('No inline editing is allowed for ['. $this->getFieldName() .']');
+            throw new \RuntimeException('No inline editing is allowed for ['. $this->getFieldName() .']');
         }
         
         $errors = array();

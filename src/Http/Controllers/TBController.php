@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Yaro\Jarboe\Informer;
 
 
 class TBController extends Controller

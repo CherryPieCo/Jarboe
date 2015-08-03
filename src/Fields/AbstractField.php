@@ -358,7 +358,7 @@ abstract class AbstractField
     public function doSaveInlineEditForm($idRow, $values)
     {
         // FIXME:
-        throw new RuntimeException('AHAHAHAHAHAHAHAHA');
+        throw new \RuntimeException('AHAHAHAHAHAHAHAHA');
     } // end doSaveInlineEditForm
     
 }

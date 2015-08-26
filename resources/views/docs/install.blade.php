@@ -15,33 +15,6 @@
 </pre>
 </li>
 
-<li>
-    В <code>app/config/app.php</code> вписать следующее:<br>
-<pre>
-<code class="php">
-//
-'providers' => array(
-    // ...
-    'Cartalyst\Sentry\SentryServiceProvider',
-    'Intervention\Image\ImageServiceProvider',
-    'Radic\BladeExtensions\BladeExtensionsServiceProvider',
-    'Spatie\Glide\GlideServiceProvider',
-    'Yaro\Mecha\MechaServiceProvider',
-    // ...
-),
-'aliases' => array(
-    // ...
-    'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
-    'Image' => 'Intervention\Image\Facades\Image',
-    'GlideImage' => 'Spatie\Glide\GlideImageFacade',
-    'Mecha' => 'Yaro\Mecha\Facades\Mecha',
-    // ...
-),
-//
-</code>
-</pre>
-
-</li>
 
 <li>
     Запустить артизаном:<br>
@@ -62,22 +35,6 @@ php artisan asset:publish --path="workbench/yaro/jarboe/vendor/yaro/mecha/public
 </pre>
 </li>
 
-<li>
-    Правим конфиг <code>app/config/packages/spatie/laravel-glide/config.php</code><br>
-<pre>
-<code class="php">
-//...
-'source' => [
-    'path' => public_path(),
-],
-//...
-'cache' => [
-    'path' => public_path() .'/glidecache',
-],
-//...
-</code>
-</pre>
-</li>
 
 <li>
     Потом это артизаном (на все соглашаемся, если чистая лара):<br>
@@ -112,21 +69,6 @@ include app_path() .'/routes_backend.php';
 </code>
 </li>
 
-<li>
-    Если ставили дерево, то идем в <code>HomeController.php</code> и экстендим его (как и все классы, в которых нужны ноды дерева):<br>
-<pre>
-<code class="php">
-&lt;?php
-
-class HomeController extends Yaro\Jarboe\TreeController 
-{
-    public function showPage()
-    {
-        return $this->node->title .' @ '. $this->node->getUrl();
-    } // end showPage
-}
-</code>
-</li>
 
 </ol>  
 

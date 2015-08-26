@@ -8,6 +8,7 @@
 'db' => array(
     'table' => 'products',
     'select_all' => true,
+    'soft_delete' => true,
     'order' => array(
         'id' => 'DESC',
     ),
@@ -24,6 +25,8 @@
   <dd>Таблица из которой берутся/заносятся данные. <span class="label bg-color-red pull-right">обязательно</span></dd>
   <dt>select_all</dt>
   <dd>Выбирать ли все данные по текущей таблице. <span class="label bg-color-blueLight pull-right">false</span></dd>
+  <dt>soft_delete</dt>
+  <dd>Использовать ли софтовое удаление для таблицы. <span class="label bg-color-blueLight pull-right">false</span></dd>
   <dt>order</dt>
   <dd>Первичная сортировка отображаемых данных. <span class="label bg-color-blueLight pull-right">без сортировки</span></dd>
   <dt>pagination.per_page</dt>
@@ -45,6 +48,20 @@
         20 => '20', 
         99999999 => 'Я ХОЧУ ПОВЕСИТЬ БД'
     ),
+),
+</code>
+</pre> 
+
+<br>
+
+<p>Чтобы увидеть удаленные записи при <code>soft_delete</code> необходимо создать дефинишн нужной таблицы с добавить экшн <code>restore</code> по восстановлению.</p>
+<pre>
+<code class="php">
+'restore' => array(
+    'caption' => 'Restore',
+    'check' => function() {
+        return true;
+    }
 ),
 </code>
 </pre> 
@@ -189,6 +206,12 @@
     'delete' => array(
         'check' => function() {
             return false;
+        }
+    ),
+    'restore' => array(
+        'caption' => 'Restore',
+        'check' => function() {
+            return true;
         }
     ),
 ),

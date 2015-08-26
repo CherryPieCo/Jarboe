@@ -69,11 +69,11 @@
                     return false;   //disable this method
                 },
                 success: function(response, newValue) {
-                    $(this).html('$' + newValue);
+                    $(this).html(newValue);
                 },
                 params: function(params) {
                     //originally params contain pk, name and value
-                    params.query_type = 'do_update_node';
+                    params.__structure_query_type = 'do_update_node';
                     return params;
                 }
             });

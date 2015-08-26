@@ -142,6 +142,10 @@ class QueryHandler
             // FIXME: changeable field name
             $this->db->addSelect($this->getOptionDB('table') .'.priority');
         }
+        
+        if (isset($def['options']['select_all']) && $def['options']['select_all']) {
+            $this->db->addSelect($this->getOptionDB('table') .'.*');
+        }
 
         $fields = $this->controller->getFields();
         foreach ($fields as $name => $field) {

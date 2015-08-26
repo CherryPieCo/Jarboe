@@ -2,6 +2,8 @@
 
 namespace Yaro\Jarboe\Component;
 
+use File;
+
 
 abstract class AbstractUtil
 {
@@ -37,5 +39,23 @@ abstract class AbstractUtil
     {
         
     } // end getNavigationMenuItem
+    
+    /*
+     * Helper for copying files.
+     */
+    protected static function copyIfNotExist($command, $path, $filePath)
+    {
+        $folders = explode('/', $path);
+        // remove file in path
+        array_pop($folders);
+        File::makeDirectory(base_path(implode('/', $folders)), 0775, true, true);
+
+        if (File::exists(base_path($path))) {
+            $command->info(' - ['. $path .'] exists. Skip copying.');
+        } else {
+            File::copy($filePath .'/'. $path, base_path($path));
+            $command->info(' - ['. $path .'] copied.');
+        }
+    } // end copyIfNotExist
      
 }

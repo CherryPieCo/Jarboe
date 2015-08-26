@@ -7,6 +7,7 @@
 <code class="php">
 'db' => array(
     'table' => 'products',
+    'select_all' => true,
     'order' => array(
         'id' => 'DESC',
     ),
@@ -21,6 +22,8 @@
 <dl class="dl-horizontal">
   <dt>table</dt>
   <dd>Таблица из которой берутся/заносятся данные. <span class="label bg-color-red pull-right">обязательно</span></dd>
+  <dt>select_all</dt>
+  <dd>Выбирать ли все данные по текущей таблице. <span class="label bg-color-blueLight pull-right">false</span></dd>
   <dt>order</dt>
   <dd>Первичная сортировка отображаемых данных. <span class="label bg-color-blueLight pull-right">без сортировки</span></dd>
   <dt>pagination.per_page</dt>

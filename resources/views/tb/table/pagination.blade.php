@@ -2,8 +2,8 @@
 <div class="row tb-pagination">
     <div class="col-sm-4">
         <div class="tb-pagination-info">
-            Показано: {{ $rows->firstItem() }} по {{ $rows->lastItem() }} <br>
-            Всего: {{ $rows->count() }}
+            Показано: {{ $rows->isEmpty() ? 0 : $rows->firstItem() }} по {{ $rows->lastItem() }} <br>
+            Всего: {{ $rows->total() }}
         </div>
     </div>
     <div class="col-sm-8 text-right">

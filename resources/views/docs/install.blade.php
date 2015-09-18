@@ -20,17 +20,10 @@
     Запустить артизаном:<br>
 <pre>
 <code class="shell">
-php artisan migrate --package=cartalyst/sentry
-php artisan config:publish cartalyst/sentry
-php artisan config:publish intervention/image
-php artisan config:publish yaro/laravel-glide
-php artisan asset:publish yaro/mecha
-// или если сабмодуль
-php artisan migrate --path="workbench/yaro/jarboe/vendor/cartalyst/sentry/src/migrations"  --package=cartalyst/sentry
-php artisan config:publish --path="workbench/yaro/jarboe/vendor/cartalyst/sentry/src/config" cartalyst/sentry
-php artisan config:publish --path="workbench/yaro/jarboe/vendor/intervention/image/src/config" intervention/image
-php artisan config:publish --path="workbench/yaro/jarboe/vendor/yaro/laravel-glide/src/config" spatie/laravel-glide
-php artisan asset:publish --path="workbench/yaro/jarboe/vendor/yaro/mecha/public" yaro/mecha
+php artisan vendor:publish --provider="Cartalyst\Sentinel\Laravel\SentinelServiceProvider"
+php artisan vendor:publish --provider="Yaro\Cropp\ServiceProvider"
+php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravel5"
+php artisan migrate
 </code>
 </pre>
 </li>
@@ -40,7 +33,7 @@ php artisan asset:publish --path="workbench/yaro/jarboe/vendor/yaro/mecha/public
     Потом это артизаном (на все соглашаемся, если чистая лара):<br>
 <pre>
 <code class="shell">
-php artisan tb:prepare
+php artisan jarboe:install
 </code>
 </li>
 
@@ -48,8 +41,7 @@ php artisan tb:prepare
     Потом делаем себе юзера (или суперюзера) для входа в админ-панель:<br>
 <pre>
 <code class="shell">
-php artisan tb:create-admin-user
-php artisan tb:create-superuser
+php artisan jarboe:create-user
 </code>
 </li>
 

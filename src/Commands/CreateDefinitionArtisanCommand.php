@@ -21,7 +21,7 @@ class CreateDefinitionArtisanCommand extends Command
     public function fire()
     {
         $this->table = $this->argument('table');
-        $this->stub  = file_get_contents(__DIR__ .'/../stubs/definition.stub');
+        $this->stub  = file_get_contents(__DIR__ .'/../../stubs/definition.stub');
         
         $fields = \DB::select(\DB::raw('SHOW FULL COLUMNS FROM '. $this->table));
         $this->doFillStub($fields);
@@ -33,7 +33,7 @@ class CreateDefinitionArtisanCommand extends Command
     
     private function doGenerateMethods()
     {
-        $methodPostfix = camel_case(preg_replace('~2~', '_to_', $this->table));
+        $methodPostfix = camel_case('show_'. preg_replace('~2~', '_to_', $this->table));
         $this->info('Routes:');
         $route = "Route::any('". $this->trimAdminPrefix($this->getRequestUri) 
                   . "', 'TableAdminController@". $methodPostfix ."');";
@@ -246,13 +246,13 @@ class CreateDefinitionArtisanCommand extends Command
     private function doSaveStub()
     {
         $postfix = '';
-        if (file_exists(app_path() .'/tb-definitions/'. $this->table .'.php')) {
+        if (file_exists(base_path() .'/resources/definitions/'. $this->table .'.php')) {
             $postfix = '_'. time();
         }
         
         $this->definition = $this->table . $postfix;
         
-        $path = app_path() .'/tb-definitions/'. $this->definition .'.php';
+        $path = base_path() .'/resources/definitions/'. $this->definition .'.php';
         file_put_contents($path, $this->stub);
     } // end doSaveStub
     

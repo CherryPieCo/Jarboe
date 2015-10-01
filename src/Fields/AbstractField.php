@@ -48,6 +48,11 @@ abstract class AbstractField
         return false;
     } // end isPattern
     
+    public function isShowRawListValue()
+    {
+        return false;
+    } // end isShowRawListValue
+    
     public function isInlineEdit()
     {
         return $this->getAttribute('is_inline');
@@ -352,13 +357,16 @@ abstract class AbstractField
     {
         return '';
     } // end getRowColor
+    
+    public function afterInsert($id, $values) {} // end afterInsert
+    
+    public function afterUpdate($id, $values) {} // end afterUpdate
 
     abstract public function onSearchFilter(&$db, $value);
     
     public function doSaveInlineEditForm($idRow, $values)
     {
-        // FIXME:
-        throw new \RuntimeException('AHAHAHAHAHAHAHAHA');
+        throw new \RuntimeException('Not implemented yet');
     } // end doSaveInlineEditForm
     
 }

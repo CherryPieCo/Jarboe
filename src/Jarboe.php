@@ -22,6 +22,7 @@ class Jarboe
 
     protected function onInit($options)
     {
+        Config::set('app.debug', true);
         $this->controller = new JarboeController($options);
 
         $this->default = array(

@@ -15,6 +15,7 @@ class PrepareArtisanCommand extends Command
 
     public function fire()
     {
+        // public/storage/jarboe-temp
         if (is_dir(app_path() . '/tb-definitions')) {
             $this->info('Folder /app/tb-definitions is existing. Use it to store your table definitions.');
         } else {

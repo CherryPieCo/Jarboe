@@ -8,22 +8,15 @@
 
 <pre>
 <code class="php">
-$ident = 'original'; // идентификатор изображения
+// методы трейта
+::getImage($ident, $field = 'image');
+::getImages($field = 'images');
+::getFirstImage($ident, $field = 'images');
+::getImagesCount($field = 'images');
 
-// поле единичной загрузки изображения
-getImage($ident, $field = 'image');
-getImageAlt($field = 'image');
-getImageTitle($field = 'image');
-getImageSource($ident, $field = 'image', $default = '');
-
-// поле множественной загрузки изображений
-getFirstImage($ident, $field = 'images');
-getFirstImageAlt($field = 'images');
-getFirstImageTitle($field = 'images');
-getFirstImageSource($ident, $field = 'images', $default = '');
-getImages($field = 'images');
-getImagesCount($field = 'images');
-
+// дальше получаем объект изображения
+::src($ident = 'original', $default = null)
+::info($ident, $container = null, $default = null) // $container по дефолту локаль
 </code>
 </pre>            
 

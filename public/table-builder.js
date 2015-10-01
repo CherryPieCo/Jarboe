@@ -31,8 +31,12 @@ var TableBuilder = {
         TableBuilder.initDoubleClickEditor();
         TableBuilder.initSearchOnEnterPressed();
         TableBuilder.initSelect2Hider();
-        //TableBuilder.initImageEditable();
     }, // end init
+    
+    initMultipleImagesSortable: function()
+    {
+        $(".tb-uploaded-image-container ul").sortable().disableSelection();
+    }, // end initMultipleImagesSortable
     
     getActionUrl: function()
     { 
@@ -40,238 +44,7 @@ var TableBuilder = {
         return !!TableBuilder.options ? TableBuilder.options.action_url : '/admin/handle/tree';
     }, // end getActionUrl
 
-    initImageEditable: function()
-    {
-        TableBuilder.initSeveralImageEditable();
-        return;
-        (function (e) {
-            "use strict";
-            var t = function (e) {
-                this.init("image", e, t.defaults)
-            };
-            e.fn.editableutils.inherit(t, e.fn.editabletypes.abstractinput);
-            e.extend(t.prototype, {
-                render: function () {
-                    this.$input = this.$tpl.find("input")
-                },
-                value2html: function (t, n) {
-                    if (!t) {
-                        e(n).empty();
-                        return
-                    }
-                    var r = e("<div>").text(t.tbalt).html() + "" + e("<div>").text(t.tbtitle).html() +
-                            "" + e("<div>").text(t.tbident).html();
-                    e(n).html(r)
-                },
-                html2value: function (e) {
-                    return null
-                },
-                value2str: function (e) {
-                    var t = "";
-                    if (e)
-                        for (var n in e)
-                            t = t + n + ":" + e[n] + ";";
-                    return t
-                },
-                str2value: function (e) {
-                    return e
-                },
-                value2input: function (e) {
-                    if (!e)
-                        return;
-                    this.$input.filter('[name="tbalt"]').val(e.tbalt);
-                    this.$input.filter('[name="tbtitle"]').val(e.tbtitle);
-                    this.$input.filter('[name="tbident"]').val(e.tbident);
-                },
-                input2value: function () {
-                    return {
-                        tbalt:   this.$input.filter('[name="tbalt"]').val(),
-                        tbtitle: this.$input.filter('[name="tbtitle"]').val(),
-                        tbident: this.$input.filter('[name="tbident"]').val()
-                    };
-                },
-                activate: function () {
-                    this.$input.filter('[name="tbalt"]').focus()
-                },
-                autosubmit: function () {
-                    this.$input.keydown(function (t) {
-                        t.which === 13 && e(this).closest("form").submit()
-                    })
-                }
-            });
-            t.defaults = e.extend({}, e.fn.editabletypes.abstractinput.defaults, {
-                tpl: '<div class="editable-image"><label><span>Alt: </span><input type="text" name="tbalt" class="input-editable"></label></div><div class="editable-image"><label><span>Title: </span><input type="text" name="tbtitle" class="input-editable"></label></div><div><input type="hidden" name="tbident"></div>',
-                inputclass: ""
-            });
-            e.fn.editabletypes.image = t
-        })(window.jQuery);
-    }, // end initImageEditable
 
-    initSeveralImageEditable: function()
-    {
-        if (typeof $.fn.editableutils === 'undefined') {
-            return;
-        }
-        
-        (function (e) {
-            "use strict";
-            var t = function (e) {
-                this.init("image", e, t.defaults)
-            };
-            e.fn.editableutils.inherit(t, e.fn.editabletypes.abstractinput);
-            e.extend(t.prototype, {
-                render: function () {
-                    this.$input = this.$tpl.find("input")
-                },
-                value2html: function (t, n) {
-                    if (!t) {
-                        e(n).empty();
-                        return
-                    }
-                    var r = e("<div>").text(t.tbalt).html() + "" + e("<div>").text(t.tbtitle).html() +
-                            "" + e("<div>").text(t.tbident).html() +
-                            "" + e("<div>").text(t.tbnum).html();
-                    e(n).html(r)
-                },
-                html2value: function (e) {
-                    return null
-                },
-                value2str: function (e) {
-                    var t = "";
-                    if (e)
-                        for (var n in e)
-                            t = t + n + ":" + e[n] + ";";
-                    return t
-                },
-                str2value: function (e) {
-                    return e
-                },
-                value2input: function (e) {
-                    if (!e)
-                        return;
-                    this.$input.filter('[name="tbnum"]').val(e.tbnum);
-                    this.$input.filter('[name="tbalt"]').val(e.tbalt);
-                    this.$input.filter('[name="tbtitle"]').val(e.tbtitle);
-                    this.$input.filter('[name="tbident"]').val(e.tbident);
-                },
-                input2value: function () {
-                    return {
-                        tbnum:   this.$input.filter('[name="tbnum"]').val(),
-                        tbalt:   this.$input.filter('[name="tbalt"]').val(),
-                        tbtitle: this.$input.filter('[name="tbtitle"]').val(),
-                        tbident: this.$input.filter('[name="tbident"]').val()
-                    };
-                },
-                activate: function () {
-                    this.$input.filter('[name="tbalt"]').focus()
-                },
-                autosubmit: function () {
-                    this.$input.keydown(function (t) {
-                        t.which === 13 && e(this).closest("form").submit()
-                    })
-                }
-            });
-            t.defaults = e.extend({}, e.fn.editabletypes.abstractinput.defaults, {
-                tpl: '<div class="editable-image"><label><span>Alt: </span><input type="text" name="tbalt" class="input-editable"></label></div><div class="editable-image"><label><span>Title: </span><input type="text" name="tbtitle" class="input-editable"></label></div><div><input type="hidden" name="tbident"></div><div><input type="hidden" name="tbnum"></div>',
-                inputclass: ""
-            });
-            e.fn.editabletypes.image = t
-        })(window.jQuery);
-    }, // end initSeveralImageEditable
-
-    initSingleImageEditable: function()
-    {
-        TableBuilder.initImageEditable();
-        //
-        var images = jQuery('div.tb-uploaded-image-container img.image-attr-editable, div.tb-uploaded-image-container img.images-attr-editable');
-        jQuery.each(images, function(key, img) {
-            var $img = jQuery(img);
-            $img.editable({
-                type: 'image',
-                showbuttons: 'bottom',
-                url: function(params) {
-                    var vals = params.value;
-
-                    // single image doesnt have tbnum
-                    if (vals.tbnum === "") {
-                        console.log('s');
-                        TableBuilder.storage[vals.tbident].alt   = vals.tbalt;
-                        TableBuilder.storage[vals.tbident].title = vals.tbtitle;
-                    } else {
-                        console.log('m');
-                        console.log(TableBuilder.storage[vals.tbident]);
-                        TableBuilder.storage[vals.tbident][vals.tbnum].alt = vals.tbalt;
-                        TableBuilder.storage[vals.tbident][vals.tbnum].title = vals.tbtitle;
-                        console.log(TableBuilder.storage[vals.tbident][vals.tbnum]);
-                    }
-                },
-                value: {
-                    tbalt:   $img.data('tbalt'),
-                    tbtitle: $img.data('tbtitle'),
-                    tbident: $img.data('tbident'),
-                    tbnum:   $img.data('tbnum')
-                },
-                display: function (value) {
-                    if (!value) {
-                        $(this).empty();
-                        return;
-                    }
-                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, '
-                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, '
-                             + jQuery('<div>').text(value.tbident).html() + '</b>, '
-                             + jQuery('<div>').text(value.tbnum).html();
-                    jQuery(this).html(html);
-                }
-            });
-        });
-    }, // end initSingleImageEditable
-
-    initMultipleImageEditable: function()
-    {
-        TableBuilder.initSeveralImageEditable();
-        //
-        var images = jQuery('div.tb-uploaded-image-container img.images-attr-editable');
-        jQuery.each(images, function(key, img) {
-            var $img = jQuery(img);
-            $img.editable({
-                type: 'image',
-                showbuttons: 'bottom',
-                url: function(params) {
-                    var vals = params.value;
-
-                    // single image doesnt have tbnum
-                    if (vals.tbnum === "") {
-                        console.log('s');
-                        TableBuilder.storage[vals.tbident].alt   = vals.tbalt;
-                        TableBuilder.storage[vals.tbident].title = vals.tbtitle;
-                    } else {
-                        console.log('m');
-                        console.log(TableBuilder.storage[vals.tbident]);
-                        TableBuilder.storage[vals.tbident][vals.tbnum].alt = vals.tbalt;
-                        TableBuilder.storage[vals.tbident][vals.tbnum].title = vals.tbtitle;
-                        console.log(TableBuilder.storage[vals.tbident][vals.tbnum]);
-                    }
-                },
-                value: {
-                    tbnum:   $img.data('tbnum'),
-                    tbalt:   $img.data('tbalt'),
-                    tbtitle: $img.data('tbtitle'),
-                    tbident: $img.data('tbident')
-                },
-                display: function (value) {
-                    if (!value) {
-                        $(this).empty();
-                        return;
-                    }
-                    var html = '<b>' + jQuery('<div>').text(value.tbalt).html() + '</b>, '
-                             + jQuery('<div>').text(value.tbtitle).html() + '</b>, '
-                             + jQuery('<div>').text(value.tbident).html() + '</b>, '
-                             + jQuery('<div>').text(value.tbnum).html();
-                    jQuery(this).html(html);
-                }
-            });
-        });
-    }, // end initMultipleImageEditable
 
     initSearchOnEnterPressed: function()
     {
@@ -541,18 +314,10 @@ var TableBuilder = {
                         $input.mask($input.attr('data-mask'));
                     });
 
-                    TableBuilder.initSingleImageEditable();
-                    TableBuilder.initMultipleImageEditable();
                     TableBuilder.initSummernoteFullscreen();
                     TableBuilder.initSelect2Hider();
                 } else {
-                    jQuery.smallBox({
-                        title : "Что-то пошло не так, попробуйте позже",
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showErrorNotification("Что-то пошло не так, попробуйте позже");
                 }
 
                 TableBuilder.hidePreloader();
@@ -606,22 +371,15 @@ var TableBuilder = {
 
                     jQuery(context).parent().parent().attr('data-editing', 'true');
 
-                    TableBuilder.initSingleImageEditable();
-                    TableBuilder.initMultipleImageEditable();
                     TableBuilder.initSummernoteFullscreen();
                     TableBuilder.initSelect2Hider();
+                    TableBuilder.initMultipleImagesSortable();
 
                     if (TableBuilder.afterGetEditForm) {
                         TableBuilder.afterGetEditForm();
                     }
                 } else {
-                    jQuery.smallBox({
-                        title : "Что-то пошло не так, попробуйте позже",
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showErrorNotification("Что-то пошло не так, попробуйте позже");
                 }
 
                 TableBuilder.hidePreloader();
@@ -680,6 +438,7 @@ var TableBuilder = {
         });
     }, //saveEditForm
 
+    // @deprecated ?
     insert: function()
     {
         TableBuilder.showProgressBar();
@@ -709,6 +468,7 @@ var TableBuilder = {
         });
     }, // end insert
 
+    // @deprecated ?
     saveInsertForm: function()
     {
         TableBuilder.showProgressBar();
@@ -733,6 +493,7 @@ var TableBuilder = {
         });
     }, //saveInsertForm
 
+    // @deprecated ?
     delete: function(id)
     {
         TableBuilder.showProgressBar();
@@ -777,24 +538,11 @@ var TableBuilder = {
                     success: function(response) {
 
                         if (response.status) {
-
-                            jQuery.smallBox({
-                                title : "Поле удалено успешно",
-                                content : "",
-                                color : "#659265",
-                                iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
+                            TableBuilder.showSuccessNotification("Поле удалено успешно");
 
                             jQuery(context).parent().parent().remove();
                         } else {
-                            jQuery.smallBox({
-                                title : "Что-то пошло не так, попробуйте позже",
-                                content : "",
-                                color : "#C46A69",
-                                iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
+                            TableBuilder.showErrorNotification("Что-то пошло не так, попробуйте позже");
                         }
 
                         TableBuilder.hidePreloader();
@@ -824,24 +572,11 @@ var TableBuilder = {
                     success: function(response) {
 
                         if (response.status) {
-
-                            jQuery.smallBox({
-                                title : "Запись восстановлена",
-                                content : "",
-                                color : "#659265",
-                                iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
+                            TableBuilder.showSuccessNotification("Запись восстановлена");
 
                             jQuery(context).parent().parent().remove();
                         } else {
-                            jQuery.smallBox({
-                                title : "Что-то пошло не так, попробуйте позже",
-                                content : "",
-                                color : "#C46A69",
-                                iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
+                            TableBuilder.showErrorNotification("Что-то пошло не так, попробуйте позже");
                         }
 
                         TableBuilder.hidePreloader();
@@ -862,17 +597,6 @@ var TableBuilder = {
         values.push({ name: 'id', value: id });
         values.push({ name: 'query_type', value: "save_edit_form" });
         values.push({ name: "__node", value: TableBuilder.getUrlParameter('node') });
-
-        // take values from temp storage (for images)
-        jQuery.each(values, function(index, val) {
-            if (typeof TableBuilder.storage[val.name] !== 'undefined') {
-                var json = JSON.stringify(TableBuilder.storage[val.name]);
-                values[index] = {
-                    name:  val.name,
-                    value: json
-                };
-            }
-        });
 
         // FIXME:
         if (TableBuilder.onDoEdit) {
@@ -908,13 +632,7 @@ var TableBuilder = {
                 TableBuilder.hideFormPreloader(TableBuilder.form_edit);
 
                 if (response.id) {
-                    jQuery.smallBox({
-                        title : "Поле обновлено успешно",
-                        content : "",
-                        color : "#659265",
-                        iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showSuccessNotification("Поле обновлено успешно");
                     if (TableBuilder.options.is_page_form) {
                         //window.location.href = TableBuilder.options.list_url;
                         window.history.back();
@@ -926,54 +644,17 @@ var TableBuilder = {
                     jQuery('#wid-id-1').find('tr[data-editing="true"]').replaceWith(response.html);
 
                 } else {
-                    /*
-                     jQuery.smallBox({
-                     title : response.error, // "Что-то пошло не так, попробуйте позже"
-                     content : "",
-                     color : "#C46A69",
-                     iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                     timeout : 4000
-                     });
-                     */
                     var errors = '';
                     jQuery(response.errors).each(function(key, val) {
                         errors += val +'<br>';
                     });
-
-                    jQuery.bigBox({
-                        //title : "Big Information box",
-                        content : errors,
-                        color : "#C46A69",
-                        //timeout: 6000,
-                        icon : "fa fa-warning shake animated",
-                        //number : "1",
-                    });
+                    TableBuilder.showBigErrorNotification(errors);
                 }
 
                 TableBuilder.hidePreloader();
             }
         });
     }, // end doEdit
-
-    removeInputValues: function(context)
-    {
-        jQuery(':input', context)
-            .removeAttr('checked')
-            .removeAttr('selected')
-            .not(':button, :submit, :reset, input[type="hidden"], :radio, :checkbox')
-            .val('');
-        jQuery('textarea', context).text('');
-        
-        // summernote
-        if (jQuery('div[id$="-wysiwyg"]', context).length) {
-            jQuery('div[id$="-wysiwyg"]', context).code('');
-        }
-        // redactor
-        jQuery('textarea[id$="-wysiwyg"]').redactor('code.set', '');
-        
-        jQuery('input, textarea', context).removeClass('valid').removeClass('invalid');
-        jQuery('.state-success, .state-error', context).removeClass('state-success').removeClass('state-error');
-    }, // end removeInputValues
 
     doCreate: function()
     {
@@ -984,17 +665,6 @@ var TableBuilder = {
         values.push({ name: "query_type", value: "save_add_form" });
         values.push({ name: "__node", value: TableBuilder.getUrlParameter('node') });
 
-        // take values from temp storage (for images)
-        jQuery.each(values, function(index, val) {
-            if (typeof TableBuilder.storage[val.name] !== 'undefined') {
-                var json = JSON.stringify(TableBuilder.storage[val.name]);
-                values[index] = {
-                    name:  val.name,
-                    value: json
-                };
-            }
-        });
-        
         var selectMultiple = [];
         jQuery(TableBuilder.create_form).find('select[multiple="multiple"]').each(function(i, value) {
             if (!$(this).val()) {
@@ -1009,7 +679,7 @@ var TableBuilder = {
         if (TableBuilder.onDoCreate) {
             values = TableBuilder.onDoCreate(values);
         }
-console.log(values);
+        console.log(values);
         /* Because serializeArray() ignores unset checkboxes and radio buttons: */
         values = values.concat(
             jQuery(TableBuilder.create_form).find('input[type=checkbox]:not(:checked)')
@@ -1028,13 +698,7 @@ console.log(values);
                 TableBuilder.hideFormPreloader(TableBuilder.form);
 
                 if (response.id) {
-                    jQuery.smallBox({
-                        title : "Новое поле создано успешно",
-                        content : "",
-                        color : "#659265",
-                        iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showSuccessNotification("Новое поле создано успешно");
                     if (TableBuilder.options.is_page_form) {
                         //window.location.href = TableBuilder.options.list_url;
                         window.history.back();
@@ -1043,19 +707,9 @@ console.log(values);
                     
                     jQuery('#wid-id-1').find('tbody').first().prepend(response.html);
 
-                    TableBuilder.removeInputValues(TableBuilder.form);
                     jQuery(TableBuilder.form).modal('hide');
 
                 } else {
-                    /*
-                    jQuery.smallBox({
-                        title : "Что-то пошло не так, попробуйте позже",
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
-                    */
                     var errors = '';
                     jQuery(response.errors).each(function(key, val) {
                         errors += val +'<br>';
@@ -1134,43 +788,13 @@ console.log(values);
             processData: false,
             success: function(response) {
                 if (response.status) {
-                    //jQuery(context).parent().next().val(response.short_link);
                     $progress.width('0%');
                     
-                    
-                    TableBuilder.storage[ident] = {
-                        'alt'  : '',
-                        'title': '',
-                        'sizes': response.data.sizes
-                    };
-
-                    var html = '<div style="position: relative; display: inline-block;">';
-                    html += '<img class="image-attr-editable" ';
-                    html +=      'data-tbalt="" ';
-                    html +=      'data-tbtitle="" ';
-                    html +=      'data-tbident="'+ ident +'" ';
-                    html +=      'height="80px" src="'+ response.link +'" />';
-                    html += ' <div class="tb-btn-delete-wrap">';
-                    html += '    <button class="btn btn-default btn-sm tb-btn-image-delete" ';
-                    html += '            type="button" ';
-                    html += '            onclick="TableBuilder.deleteSingleImage(\''+ ident +'\', this);">';
-                    html += '        <i class="fa fa-times"></i>';
-                    html += '    </button>';
-                    html += ' </div>';
-                    html += '</div>';
-
-                    // FIXME: too ugly to execute
-                    jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').html(html);
-
-                    TableBuilder.initSingleImageEditable();
+                    jQuery(context).parent().parent().parent().parent()
+                        .find('.tb-uploaded-image-container')
+                        .html(response.html);
                 } else {
-                    jQuery.smallBox({
-                        title : "Ошибка при загрузке изображения",
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showErrorNotification("Ошибка при загрузке изображения");
                 }
             }
         });
@@ -1186,7 +810,7 @@ console.log(values);
         
         var $progress = jQuery(context).parent().parent().parent().parent().parent().find('.progress-bar');
         
-
+/*
         var num = 0;
         if (typeof TableBuilder.storage[ident] !== 'undefined') {
             num = TableBuilder.storage[ident].length;
@@ -1194,7 +818,7 @@ console.log(values);
         console.log(TableBuilder.storage[ident]);
         console.log(num);
         data.append('num', num);
-
+*/
         jQuery.ajax({
             xhr: function() {
                 var xhr = new window.XMLHttpRequest();
@@ -1230,60 +854,37 @@ console.log(values);
             processData: false,
             success: function(response) {
                 if (response.status) {
-                
                     $progress.width('0%');
                     
-                    if (!num) {
-                        TableBuilder.storage[ident] = [];
-                    }
-                    TableBuilder.storage[ident].push({
-                        'alt'  : '',
-                        'title': '',
-                        'sizes': response.data.sizes
-                    });
-console.log(num);
-                    var html = '';
-                    html += '<li>';
-                    html += '<img src="'+ response.link +'" class="images-attr-editable" '+
-                                 'data-tbnum="'+ num +'" '+
-                                 'data-tbalt="" '+
-                                 'data-tbtitle="" '+
-                                 'data-tbident="'+ ident +'" />';
-                    html += '<div class="tb-btn-delete-wrap">';
-                    html +=   '<button class="btn btn-default btn-sm tb-btn-image-delete" '
-                    html +=         'type="button" '
-                    html +=         "onclick=\"TableBuilder.deleteImage('"+num+"','"+ident+"', this);\">"
-                    html +=     '<i class="fa fa-times"></i>'
-                    html += '</button>'
-                    html += '</div>';
-                    html += '</li>';
-
-                    // FIXME: too ugly to execute
-                    jQuery(context).parent().parent().parent().parent().find('.tb-uploaded-image-container').children().append(html);
-
-                    TableBuilder.initMultipleImageEditable();
+                    jQuery(context).parent().parent().parent().parent()
+                        .find('.tb-uploaded-image-container').children()
+                        .append('<li>'+ response.html +'</li>');
+                    
+                    TableBuilder.initMultipleImagesSortable();
                 } else {
-                    jQuery.smallBox({
-                        title : "Ошибка при загрузке изображения",
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showErrorNotification("Ошибка при загрузке изображения");
                 }
             }
         });
     }, // end uploadMultipleImages
+    
+    toggleImagePopover: function(context)
+    {
+        var $popover = $(context).parent().find('.tb-img-popover').addClass('super-img-popover-hack-class');
+        setTimeout(function(){
+            $popover.removeClass('super-img-popover-hack-class').toggleClass('hidden'); 
+        }, 12);
+    }, // end toggleImagePopover
 
-    deleteImage: function(num, ident, context)
+    deleteImage: function(ident, context)
     {
         var $li = jQuery(context).parent().parent();
-        $li.hide();
+        $li.remove();
 
         // remove deleted image from storage
-        TableBuilder.storage[ident][num].remove = true;
+        //TableBuilder.storage[ident][num].remove = true;
     }, // end deleteImage
-    
+    /*
     deleteSingleImage: function(ident, context)
     {
         var $imageWrapper = jQuery(context).parent().parent();
@@ -1292,7 +893,7 @@ console.log(num);
         // remove deleted image from storage
         TableBuilder.storage[ident].remove = true;
     }, // end deleteSingleImage
-
+    */
     uploadImageFromWysiwygSummertime: function(files, editor, $editable)
     {
         if (files.length < 1) {
@@ -1315,13 +916,7 @@ console.log(num);
                 if (response.status) {
                     editor.insertImage($editable, response.link);
                 } else {
-                    jQuery.smallBox({
-                        title : "Ошибка при загрузке изображения",
-                        content : "",
-                        color : "#C46A69",
-                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                        timeout : 4000
-                    });
+                    TableBuilder.showErrorNotification("Ошибка при загрузке изображения");
                 }
             }
         });
@@ -1470,9 +1065,10 @@ console.log(num);
         TableBuilder.hidePreloader();
     }, // end doExport
 
+    // @deprecated
     flushStorage: function()
     {
-        TableBuilder.storage = {};
+        //TableBuilder.storage = {};
     }, // end flushStorage
 
     showBigErrorNotification: function(errors)

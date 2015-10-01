@@ -5,17 +5,17 @@ namespace Yaro\Jarboe\Fields;
 use Image;
 use View;
 use URL;
+use DB;
 use Jarboe;
 
 
 class ImageField extends AbstractField 
 {
   
-    protected function onAssets()
+    public function isShowRawListValue()
     {
-        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/x-editable/moment.min.js');
-        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/x-editable/x-editable.min.js');
-    } // end onAssets
+        return true;
+    } // end isShowRawListValue
     
     public function isEditable()
     {
@@ -44,17 +44,13 @@ class ImageField extends AbstractField
             return '';
         }
         
-        $source = json_decode($this->getValue($row), true);
-        
-        $src = $this->getAttribute('before_link')
-              . $source['sizes']['original']
-              . $this->getAttribute('after_link');
-              
+        $image = json_decode($this->getValue($row), true);
+
+        $src = $image['sizes']['original'];
+        $src = $this->getAttribute('cropp', true) ? cropp($src)->fit(50, 50)->src() : asset($src);
         // FIXME: move to template
-        $src = $this->getAttribute('is_remote') ? $src : URL::asset($src);
-        $html = '<img height="'.$this->getAttribute('img_height', '50px').'" src="'
-              . $src
-              . '" />';
+        $html = '<img height="50px" width="50px" src="'. $src .'" />';
+              
         return $html;
     } // end getListSingle    
     
@@ -66,21 +62,15 @@ class ImageField extends AbstractField
         
         $images = json_decode($this->getValue($row), true);
         
-        // FIXME: fix fixfix
-        $html = '<div style="cursor:pointer;height: 50px;overflow: hidden;" onclick="$(this).css(\'height\', \'auto\').css(\'overflow\', \'auto\');">';
+        $html = '<ul>';
         foreach ($images as $source) {
-            $src = $this->getAttribute('before_link')
-                  . $source['sizes']['original']
-                  . $this->getAttribute('after_link');
-                  
-            // FIXME: move to template
-            $src = $this->getAttribute('is_remote') ? $src : URL::asset($src);
-            $html .= '<img height="'. $this->getAttribute('img_height', '50px') .'" src="'
-                  . $src
-                  . '" /><br>';
+            $src = $source['sizes']['original'];
+            $src = $this->getAttribute('cropp', true) ? cropp($src)->fit(50, 50)->src() : asset($src);
+            
+            $html .= '<li style="display: inline; margin: 2px;">';
+            $html .= '<img height="50px" width="50px" src="'. $src .'" /></li>';
         }
-
-        $html .= '</div>';
+        $html .= '</ul>';
 
         return $html;
     } // end getListMultiple
@@ -99,19 +89,17 @@ class ImageField extends AbstractField
             }
         }
         
-        if (!$this->getAttribute('is_upload')) {
-            return parent::getEditInput($row);
-        }
-        
         // TODO: review
         // FIXME: separate templates
         $input = View::make('admin::tb.input.image_upload');
         $input->value   = $this->getValue($row);
         $input->source  = json_decode($this->getValue($row), true);
+        $input->attributes = $this->getAttribute('img_attributes', array());
         $input->name    = $this->getFieldName();
         $input->caption = $this->getAttribute('caption');
         $input->is_multiple = $this->getAttribute('is_multiple');
         $input->delimiter   = $this->getAttribute('delimiter');
+        
 
         return $input->render();
     } // end getEditInput
@@ -123,10 +111,7 @@ class ImageField extends AbstractField
         $fileName = $rawFileName .'.'. $extension;
         
         $definitionName = $this->getOption('def_name');
-        $prefixPath = 'storage/tb-'.$definitionName.'/';
-        // FIXME: generate path by hash
-        $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
-        $destinationPath = $prefixPath . $postfixPath;
+        $destinationPath = 'storage/jarboe-temp/';
         
         $status = $file->move($destinationPath, $fileName);
         
@@ -146,8 +131,16 @@ class ImageField extends AbstractField
             $data['sizes'][$type] = $path;
         }
         
+        $html = view('admin::tb.input.image_upload_image')
+                    ->with('is_multiple', $this->getAttribute('is_multiple'))
+                    ->with('data', $data)
+                    ->with('name', $this->getFieldName())
+                    ->with('attributes', $this->getAttribute('img_attributes', array()))
+                    ->render();
+        
         $response = array(
             'data'       => $data,
+            'html'       => $html,
             'status'     => $status,
             'link'       => URL::asset($destinationPath . $fileName),
             'short_link' => $destinationPath . $fileName,
@@ -159,22 +152,65 @@ class ImageField extends AbstractField
     
     public function prepareQueryValue($value)
     {
-        $vals = json_decode($value, true);
-        if ($vals && $this->getAttribute('is_multiple')) {
-            foreach ($vals as $key => $image) {
-                if (isset($image['remove']) && $image['remove']) {
-                    unset($vals[$key]);
+        if (!$value) {
+            return '';
+        }
+
+        if ($this->getAttribute('is_multiple')) {
+            $value = array_values($value);
+        }
+        
+        return json_encode($value);
+    } // end prepareQueryValue
+    
+    public function afterInsert($id, $values) 
+    {
+        $this->moveImagesFromTempDir($id, $values);
+    } // end afterInsert
+    
+    public function afterUpdate($id, $values) 
+    {
+        $this->moveImagesFromTempDir($id, $values);
+    } // end afterUpdate
+    
+    private function moveImagesFromTempDir($id, $values) 
+    {
+        if (!$this->getValue($values)) {
+            return;
+        }
+        
+        $images = json_decode($this->getValue($values), true);
+        
+        if (!$this->getAttribute('is_multiple')) {
+            $images = [$images];
+        }
+        
+        $prefixPath = 'storage/tb-'. $this->getOption('def_name') .'/';
+        foreach ($images as &$image) {
+            foreach ($image['sizes'] as &$path) {
+                if (preg_match('~storage/jarboe-temp/~', $path)) {
+                    $newPath = $prefixPath . get_path_by_id($id);
+                    if (!is_dir(public_path($newPath))) {
+                        mkdir(public_path($newPath), 0755, true);
+                    }
+                    
+                    $pathSegments = explode('/', $path);
+                    $fileName = end($pathSegments);
+                    
+                    rename(public_path($path), public_path($newPath . $fileName));
+                    
+                    $path = $newPath . $fileName;
                 }
-            }
-            // HACK: cuz we have object instead of array
-            $value = json_encode(array_values($vals));
-        } elseif ($vals) {
-            if (isset($vals['remove']) && $vals['remove']) {
-                $value = '';
             }
         }
         
-        return $value;
-    } // end prepareQueryValue
+        if (!$this->getAttribute('is_multiple')) {
+            $images = $images[0];
+        }
+        
+        DB::table($this->definition['db']['table'])->where('id', $id)->update(array(
+            $this->getFieldName() => json_encode($images)
+        ));
+    } // end moveImagesFromTempDir
 
 }

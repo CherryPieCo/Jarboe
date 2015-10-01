@@ -218,25 +218,29 @@ class QueryHandler
 
         $this->db->where('id', $values['id'])->update($updateData);
 
-        // FIXME: patterns
+        // patterns
         foreach ($this->controller->getPatterns() as $pattern) {
             $pattern->update($values, $values['id']);
         }
         
-        // FIXME:
+        // m2m
         $fields = $this->controller->getFields();
         foreach ($fields as $field) {
             if (preg_match('~^many2many~', $field->getFieldName())) {
                 $this->onManyToManyValues($field->getFieldName(), $values, $values['id']);
             }
         }
-
+        
         $res = array(
             'id'     => $values['id'],
             'values' => $updateData
         );
         if ($this->controller->hasCustomHandlerMethod('onUpdateRowResponse')) {
             $this->controller->getCustomHandler()->onUpdateRowResponse($res);
+        }
+            
+        foreach ($fields as $field) {
+            $field->afterUpdate($values['id'], $updateData);
         }
             
         $this->controller->cache->flush();
@@ -341,12 +345,12 @@ class QueryHandler
             $id = $this->db->insertGetId($insertData);
         }
         
-        // FIXME: patterns
+        // patterns
         foreach ($this->controller->getPatterns() as $pattern) {
             $pattern->insert($values, $id);
         }
 
-        // FIXME:
+        // m2m
         $fields = $this->controller->getFields();
         foreach ($fields as $field) {
             if (preg_match('~^many2many~', $field->getFieldName())) {
@@ -355,11 +359,15 @@ class QueryHandler
         }
 
         $res = array(
-            'id' => $id,
+            'id'     => $id,
             'values' => $insertData
         );
         if ($this->controller->hasCustomHandlerMethod('onInsertRowResponse')) {
             $this->controller->getCustomHandler()->onInsertRowResponse($res);
+        }
+        
+        foreach ($fields as $field) {
+            $field->afterInsert($id, $insertData);
         }
             
         $this->controller->cache->flush();

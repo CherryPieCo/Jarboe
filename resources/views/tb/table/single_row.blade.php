@@ -39,7 +39,11 @@ foreach ($def['fields'] as $ident => $field) {
                 {!! $field->getInlineEditInput($row) !!}
             </div>
         @else
-            <span>{{ $field->getListValue($row) }}</span>
+            @if ($field->isShowRawListValue())
+                {!! $field->getListValue($row) !!}
+            @else 
+                <span>{{ $field->getListValue($row) }}</span>
+            @endif
         @endif
     </td>
 

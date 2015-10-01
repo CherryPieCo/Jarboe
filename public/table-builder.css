@@ -85,11 +85,12 @@ div.tb-uploaded-image-container ul li {
 div.tb-uploaded-image-container ul li img {
     height: 80px;
     margin-right: 5px;
+    margin-top: 5px;
 }
 
 div.tb-uploaded-image-container div.tb-btn-delete-wrap {
     position: absolute;
-    right: 8px;
+    right: 4px;
     top: 2px;
 }
 div.tb-uploaded-image-container button.tb-btn-image-delete {
@@ -325,8 +326,4 @@ div.table-page #create_form .nav-tabs li a {
 .tb-form-row {
     clear: both;
 }
-
-
-
-
 

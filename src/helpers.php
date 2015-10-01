@@ -211,3 +211,15 @@ if (!function_exists('filesize_format'))
     } // end filesize_format
 }
 
+
+if (!function_exists('get_path_by_id'))
+{
+    function get_path_by_id($id, $pad = 6)
+    {
+        $id = str_pad($id, $pad, '0', STR_PAD_LEFT);
+        $chunks = str_split($id, 2);
+    
+        return implode('/', $chunks) .'/';
+    } // end get_path_by_id
+}
+

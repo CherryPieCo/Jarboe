@@ -28,7 +28,7 @@ class PatternField
         $this->patternName = preg_replace('~^pattern\.~', '', $fieldName);
         $path = base_path('resources/definitions/patterns/'. $this->patternName .'.php');
         if (!file_exists($path)) {
-            throw new \RuntimeException("No pattern definition - [{$this->patternName}].");
+            throw new \RuntimeException(sprintf('No pattern definition - [%s].', $this->patternName));
         }
         $this->calls = require($path);
     } // end __construct

@@ -6,6 +6,7 @@ var Tree =
     parent_id: 1,
     node: 1,
     tree_height: '',
+    permissions: {},
     
     setdbl: function() {
         return false;
@@ -45,7 +46,7 @@ var Tree =
             },
             "contextmenu": {
                 "items": function ($node) {
-                    return {
+                   var items = {
                         "Open": {
                             "label": "Открыть",
                             "action": function (obj) {
@@ -56,7 +57,6 @@ var Tree =
                         "Create": {
                             "label": "Добавить",
                             "action": function (obj) {
-                                console.log($(obj.reference[0].parentElement).data('id'));
                                 Tree.showCreateForm($(obj.reference[0].parentElement).data('id'));
                             }
                         },
@@ -83,13 +83,15 @@ var Tree =
                             "separator_before" : true
                         }
                     };
+                    
+                    if (!Tree.permissions.create) {
+                        delete items.Create;
+                    }
+                    return items;
                 }
             },
             "plugins" : [ "dnd", "search", "contextmenu" ]
         }).bind("move_node.jstree", function(e, data) {
-           //console.log(data);
-           //console.log($('#'+data.node.id).prev());
-           
            var $current = jQuery('#'+data.node.id);
            jQuery.ajax({
                 url: window.location.href,

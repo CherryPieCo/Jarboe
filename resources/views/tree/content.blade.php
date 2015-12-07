@@ -18,7 +18,9 @@
                 <th width="10%">слаг</th>
                 <th width="1%">активный</th>
                 <th style="width: 1%; min-width: 105px;">
+                @if (config('jarboe.c.structure.permissions.create'))
                     <a href="javascript:void(0);" onclick="Tree.showCreateForm('{{$current->id}}');" style="min-width: 70px; width: 100%;" class="btn btn-default btn-sm">создать</a>
+                @endif
                 </th>
             </tr>
         </thead>
@@ -57,6 +59,8 @@
     <script>
     // FIXME: move to js file
         $(document).ready(function(){
+            Tree.permissions = {!! json_encode(config('jarboe.c.structure.permissions')) !!};
+            
             $('.tpl-editable').editable({
                 url: window.location.href,
                 source: [

@@ -1,4 +1,4 @@
-# Summary
+# Содержание
 
-* [First Chapter m](chapters/1.md)
+- [1. Quick start](chapters/1.md)
 

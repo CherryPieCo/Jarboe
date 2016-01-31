@@ -1,7 +1,12 @@
 <?php
 
+/*
+ * List of active components.
+ */
 return array(
 
-    'Structure'
+    //'Structure',
+    //'Users',
+    //'Logs',
 
 );

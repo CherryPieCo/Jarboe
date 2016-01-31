@@ -20,16 +20,6 @@
 </div>
 
 <script type="text/javascript">
-//jQuery(document).ready(function() {
-    TableBuilder.init({
-        ident: 'def_options_ident',
-        table_ident: 'def_options_table_ident',
-        form_ident: 'def_options_form_ident',
-        action_url: '{{ $def['options']['action_url'] }}',
-        onSearchResponse: function() {
-            //Dashboard.initTooltips();
-        },
-    });
-    TableBuilder.admin_prefix = '{{ $def['options']['admin_uri'] }}';
-//});
+TableBuilder.init({!! json_encode($def['options']) !!});
+TableBuilder.admin_prefix = '{{ $def['options']['admin_uri'] }}';
 </script>

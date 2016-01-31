@@ -61,14 +61,17 @@ class ImageField extends AbstractField
         }
         
         $images = json_decode($this->getValue($row), true);
+        $isCropp = $this->getAttribute('cropp', true);
+        $imgHeight = $this->getAttribute('height', '50px');
+        $imgWidth = $this->getAttribute('width', '50px');
         
         $html = '<ul>';
         foreach ($images as $source) {
             $src = $source['sizes']['original'];
-            $src = $this->getAttribute('cropp', true) ? cropp($src)->fit(50, 50)->src() : asset($src);
+            $src = $isCropp ? cropp($src)->fit(50, 50)->src() : asset($src);
             
             $html .= '<li style="display: inline; margin: 2px;">';
-            $html .= '<img height="50px" width="50px" src="'. $src .'" /></li>';
+            $html .= '<img height="'. $imgHeight .'" width="'. $imgWidth .'" src="'. $src .'" /></li>';
         }
         $html .= '</ul>';
 

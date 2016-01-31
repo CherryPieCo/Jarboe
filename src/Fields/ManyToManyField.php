@@ -12,7 +12,7 @@ class ManyToManyField extends AbstractField
 
     protected function onAssets()
     {
-        if ($this->getAttribute('show_type') == 'select2') {
+        if (in_array($this->getAttribute('show_type'), ['select2', 'extra'])) {
             Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/select2/select2.min.js');
         }
     } // end onAssets

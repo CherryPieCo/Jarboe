@@ -269,8 +269,6 @@ var Tree =
                     });
 
 
-                    TableBuilder.initSingleImageEditable();
-                    TableBuilder.initMultipleImageEditable();
                     TableBuilder.initSummernoteFullscreen();
                     TableBuilder.initSelect2Hider();
                     

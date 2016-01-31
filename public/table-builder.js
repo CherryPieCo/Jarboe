@@ -40,11 +40,8 @@ var TableBuilder = {
     
     getActionUrl: function()
     { 
-        // FIXME:
-        return !!TableBuilder.options ? TableBuilder.options.action_url : '/admin/handle/tree';
+        return TableBuilder.options.action_url;
     }, // end getActionUrl
-
-
 
     initSearchOnEnterPressed: function()
     {
@@ -60,13 +57,13 @@ var TableBuilder = {
     }, // end initSearchOnEnterPressed
 
     getOptions: function(options) {
+        // review
         var defaultOptions = {
             lang: {},
             ident: null,
-            table_ident: null,
-            form_ident: null,
-            action_url: null,
-            list_url: null,
+            table_ident: 'jarboe_table_ident',
+            form_ident: 'jarboe_form_ident',
+            action_url: window.location.pathname,
             is_page_form: false,
             onSearchResponse: null,
             onFastEditResponse: null,
@@ -634,7 +631,6 @@ var TableBuilder = {
                 if (response.id) {
                     TableBuilder.showSuccessNotification("Поле обновлено успешно");
                     if (TableBuilder.options.is_page_form) {
-                        //window.location.href = TableBuilder.options.list_url;
                         window.history.back();
                         return;
                     }
@@ -700,7 +696,6 @@ var TableBuilder = {
                 if (response.id) {
                     TableBuilder.showSuccessNotification("Новое поле создано успешно");
                     if (TableBuilder.options.is_page_form) {
-                        //window.location.href = TableBuilder.options.list_url;
                         window.history.back();
                         return;
                     }

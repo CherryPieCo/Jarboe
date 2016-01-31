@@ -26,12 +26,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private $configs = [
         'admin', 
         'components', 
-        'files',
-        'images', 
-        'informer', 
+        //'files',
+        //'images', 
+        //'informer', 
         'login', 
-        'translate', 
-        'users', 
+        //'translate', 
     ];
 
     /**

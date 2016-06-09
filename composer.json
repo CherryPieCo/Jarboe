@@ -22,10 +22,7 @@
             "Yaro\\Jarboe\\": "src/"
         },
         "files": [
-            "src/helpers.php",
-            "src/filters.php",
-            "src/Http/routes.php",
-            "src/view_composers.php"
+            "src/helpers.php"
         ]
     },
     "license": "proprietary",

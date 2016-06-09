@@ -40,6 +40,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
+        include __DIR__.'/filters.php';
+        include __DIR__.'/Http/routes.php';
+        include __DIR__.'/view_composers.php';
+        
         $this->registerConfigurations();
         $this->registerAliases();
     } // end boot
@@ -96,6 +100,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
+        
         $this->mergeConfigurations();
         
         $this->registerServiceProviders();

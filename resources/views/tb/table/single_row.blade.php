@@ -42,7 +42,7 @@ foreach ($def['fields'] as $ident => $field) {
             @if ($field->isShowRawListValue())
                 {!! $field->getListValue($row) !!}
             @else 
-                <span>{{ $field->getListValue($row) }}</span>
+                <span>{!! $field->getListValue($row) !!}</span>
             @endif
         @endif
     </td>

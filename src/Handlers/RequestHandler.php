@@ -265,7 +265,7 @@ class RequestHandler
         Session::put($sessionPath, $perPage);
         
         $response = array(
-            'url' => $this->controller->getOption('url')
+            'status' => true,
         );
         return Response::json($response);
     } // end handleSetPerPageAmountAction
@@ -282,7 +282,7 @@ class RequestHandler
         Session::put($sessionPath, $order);
 
         $response = array(
-            'url' => $this->controller->getOption('url')
+            'status' => true,
         );
         return Response::json($response);
     } // end handleChangeDirection
@@ -502,7 +502,6 @@ class RequestHandler
 
         $response = array(
             'status' => true,
-            //'url' => $this->controller->getOption('url')
         );
         return Response::json($response);
     } // end handleSearchAction

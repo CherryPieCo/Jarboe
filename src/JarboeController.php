@@ -77,6 +77,8 @@ class JarboeController
             $this->definition['db']['pagination']['uri'] = $this->options['url'];
         }
         
+        $this->definition['options']['table_ident'] = 'def_options_table_ident';
+        
         //
         if (!isset($this->definition['options']['action_url'])) {
             $this->definition['options']['action_url'] = '/'. Request::path();

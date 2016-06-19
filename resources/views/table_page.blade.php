@@ -62,7 +62,7 @@
 //jQuery(document).ready(function() {
     TableBuilder.init({
         ident: '{{ $definition['options']['ident'] }}',
-        table_ident: '{{ $definition['options']['table_ident'] }}',
+        table_ident: 'def_options_table_ident',
         form_ident: '{{ $definition['options']['form_ident'] }}',
         action_url: '{{ $definition['options']['action_url'] }}',
         list_url: '{{ $definition['db']['pagination']['uri'] }}',

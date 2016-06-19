@@ -104,8 +104,7 @@ var TableBuilder = {
     {
         TableBuilder.showProgressBar();
 
-        var $form = jQuery('#'+ TableBuilder.options.table_ident);
-
+        var $form = jQuery('#'+TableBuilder.options.table_ident);
         var data = $form.serializeArray();
         data.push({ name: "query_type", value: "search" });
         data.push({ name: "__node", value: TableBuilder.getUrlParameter('node') });
@@ -119,30 +118,9 @@ var TableBuilder = {
         );
         
         var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
-
         $posting.done(function(response) {
             window.location.replace(window.location.origin + window.location.pathname + window.location.search);
-            //window.location.replace(response.url);
-            /*
-             TableBuilder.hideProgressBar();
-
-             $form.find('tbody')
-             .fadeOut("fast")
-             .html(response.tbody)
-             .fadeIn("fast");
-
-             $form.find('.tb-pagination')
-             .fadeOut("fast")
-             .html(response.pagination)
-             .fadeIn("fast");
-
-             if (jQuery.isFunction(TableBuilder.options.onSearchResponse)) {
-             TableBuilder.options.onSearchResponse(response);
-             }
-             TableBuilder.initDoubleClickEditor();
-             */
         });
-
     }, // end search
 
     showProgressBar: function()

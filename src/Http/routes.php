@@ -1,27 +1,33 @@
 <?php
 
-Route::group(array('prefix' => config('jarboe.admin.uri'), 'before' => array('auth_admin', 'check_permissions')), function() {
+Route::group([
+    'prefix' => config('jarboe.admin.uri'), 
+    'middleware' => [
+        Yaro\Jarboe\Http\Middleware\AuthAdmin::class, 
+        Yaro\Jarboe\Http\Middleware\CheckPermissions::class,
+    ]], function() {
 
-    // docs page
-    Route::get('/', 'Yaro\Jarboe\Http\Controllers\TBController@showDashboard');
-
-    // logout
-    Route::get('logout', 'Yaro\Jarboe\Http\Controllers\TBController@doLogout');
-
-    // TODO: move to plugins
-    // wysiwyg helpers
-    Route::post('tb/get-html-by-url', 'Yaro\Jarboe\Http\Controllers\TBController@fetchByUrl');
-    Route::post('tb/embed-to-text', 'Yaro\Jarboe\Http\Controllers\TBController@doEmbedToText');
+        // docs page
+        Route::get('/', 'Yaro\Jarboe\Http\Controllers\TBController@showDashboard');
     
-    // informer
-    Route::post('tb/informer/get-notification', 'Yaro\Jarboe\Http\Controllers\TBController@getInformNotification');
-    Route::post('tb/informer/get-notification-counts', 'Yaro\Jarboe\Http\Controllers\TBController@getInformNotificationCounts');
+        Route::get('logout', 'Yaro\Jarboe\Http\Controllers\TBController@doLogout');
     
-    // menu
-    Route::post('tb/menu/collapse', 'Yaro\Jarboe\Http\Controllers\TBController@doSaveMenuPreference');
+        // wysiwyg helpers
+        Route::post('tb/get-html-by-url', 'Yaro\Jarboe\Http\Controllers\TBController@fetchByUrl');
+        Route::post('tb/embed-to-text', 'Yaro\Jarboe\Http\Controllers\TBController@doEmbedToText');
+        
+        // informer
+        Route::post('tb/informer/get-notification', 'Yaro\Jarboe\Http\Controllers\TBController@getInformNotification');
+        Route::post('tb/informer/get-notification-counts', 'Yaro\Jarboe\Http\Controllers\TBController@getInformNotificationCounts');
+        
+        // menu
+        Route::post('tb/menu/collapse', 'Yaro\Jarboe\Http\Controllers\TBController@doSaveMenuPreference');
+        
+        // structure
+        Route::post('tb/structure/save/height', 'Yaro\Jarboe\Http\Controllers\TBController@doSaveStructureHeight');
     
-    // structure
-    Route::post('tb/structure/save/height', 'Yaro\Jarboe\Http\Controllers\TBController@doSaveStructureHeight');
+        Route::any('users/users', 'Yaro\Jarboe\Http\Controllers\UsersController@users');
+        Route::any('users/groups', 'Yaro\Jarboe\Http\Controllers\UsersController@groups');
     
 });
 
@@ -30,7 +36,7 @@ Route::get('/login', 'Yaro\Jarboe\Http\Controllers\TBController@showLogin');
 Route::post('/login', 'Yaro\Jarboe\Http\Controllers\TBController@postLogin');
 
 
-Route::get('developed/by/yaro', function() {
+Route::get('powered/by', function() {
     return view('admin::welcome'); 
 });
 

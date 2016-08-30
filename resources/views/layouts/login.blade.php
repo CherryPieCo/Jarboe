@@ -2,18 +2,11 @@
 <html lang="en-us">
     <head>
         <meta charset="utf-8">
-        <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
         <title>{{{ config('jarboe.admin.caption') }}}</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <!-- Use the correct meta names below for your web application
-             Ref: http://davidbcalhoun.com/2010/viewport-metatag 
-             
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">-->
-        
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- Basic Styles -->
@@ -24,8 +17,6 @@
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/smartadmin-production.css')}}">
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/smartadmin-skins.css')}}">  
         
-        <!-- SmartAdmin RTL Support is under construction
-            <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.css"> -->
         
         <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
         <link rel="stylesheet" type="text/css" media="screen" href="{{asset('packages/yaro/jarboe/css/demo.css')}}">
@@ -37,17 +28,30 @@
         <!-- GOOGLE FONT -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
         
-        <script src="http://d3js.org/d3.v3.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/trianglify/0.1.5/trianglify.min.js"></script>
-        
         <style>
-            {{--
-            body#login {
-                background: url('/packages/yaro/jarboe/img/backs/{{rand(1,18)}}.png') #f4f4f4;
+            #login #main {
+                background: #667;
             }
-            --}}
+            body#login {
+                padding: 0 !important;
+            }
+            div.b-login {
+                background: #fff;
+                opacity: 0.9;
+                position: fixed;
+                height: 100%;
+                right: 0;
+                top: 0;
+                min-height: 480px;
+            }
             div#main {
-                background: none !important;
+                min-height: 100%;
+                background-image: url('<?php $bg = config('jarboe.login.background_url'); echo $bg(); ?>') !important;
+                background-size: cover !important;
+            }
+            div#content {
+                margin-right: 0;
+                padding: 0;
             }
             #login #header #logo {
                 font-size: 34px;
@@ -55,18 +59,60 @@
                 line-height: 30px;
                 font-weight: 300;
             }
+            .client-form header {
+                border-bottom-style: solid;
+                background: #fff;
+            }
+            .well {
+                border: none;
+                box-shadow: none;
+                margin-top: 80px;
+            }
+            .smart-form footer {
+                background: #fff;
+            }
+            form.smart-form{
+                padding: 0 15px;
+            }
+            .b-top {
+                position: absolute;
+                z-index: 9;
+                top: 25px;
+                right: 0px;
+                width: 100%;
+                padding: 0 40px;
+                line-height: 12px;
+            }
+            .b-bottom {
+                position: absolute;
+                z-index: 9;
+                right: 0px;
+                bottom: 10px;
+                z-index: 6;
+                width: 100%;
+                padding: 0 40px;
+                line-height: 12px;
+            }
+            .smart-form .btn.submit_button {
+                float: left;
+                margin-left: 0;
+            }
+            
+            @media(min-width:1200px){
+                .col-lg-4 {
+                    width: 29%;
+                }
+                .well {
+                    margin-top: 130px;
+                }
+            }
         </style>
     </head>
     
-    <body id="login" class="animated fadeInDown">
+    <body id="login" class="">
 
         @yield('main')
         
-        <script>
-            var t = new Trianglify();
-            var pattern = t.generate(document.body.clientWidth + 200, document.body.clientHeight + 200);
-            document.body.setAttribute('style', 'background-image: '+pattern.dataUrl);
-        </script>
         <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script> if (!window.jQuery) { document.write('<script src="{{asset('packages/yaro/jarboe/js/libs/jquery-2.0.2.min.js')}}"><\/script>');} </script>
@@ -118,4 +164,3 @@
         
     </body>
 </html>
-

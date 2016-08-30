@@ -18,7 +18,6 @@ use Yaro\Jarboe\Storage\File  as FileStorage;
 class JarboeController 
 {
 
-
     protected $options;
     protected $definition;
 
@@ -39,9 +38,10 @@ class JarboeController
 
     protected $allowedIds;
 
-    public function __construct($options)
+    public function __construct(string $definitionClass)
     {
-        $this->options = $options;
+        $this->options = new $definitionClass();
+        
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
         $this->doPrepareDefinition();
 

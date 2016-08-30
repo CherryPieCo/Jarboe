@@ -30,7 +30,6 @@ class Jarboe
             'fetch' => config('database.fetch')
         );
         Config::set('view.pagination', 'admin::tb.pagination');
-        Config::set('database.fetch', \PDO::FETCH_ASSOC);
     } // end onInit
 
     protected function onFinish()

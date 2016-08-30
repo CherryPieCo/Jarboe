@@ -25,7 +25,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     private $configs = [
         'admin', 
-        'components', 
+        'users', 
         //'files',
         //'images', 
         //'informer', 
@@ -40,7 +40,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-        include __DIR__.'/filters.php';
         include __DIR__.'/Http/routes.php';
         include __DIR__.'/view_composers.php';
         
@@ -79,14 +78,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->publishes([
              __DIR__ .'/../config/'. $ident .'.php' => config_path('jarboe/'. $ident .'.php'),
         ]);
-    } // end onSingleConfigRegister
+    } // end onSingleConfigRegister 
 
     private function mergeConfigurations()
     {
         foreach ($this->configs as $config) {
-            if ($config == 'components') {
-                continue;
-            }
+            $this->onSingleConfigRegister($config);
             $this->mergeConfigFrom(
                 __DIR__ .'/../config/'. $config .'.php', 'jarboe.'. $config
             );

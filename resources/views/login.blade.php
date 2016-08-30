@@ -1,4 +1,4 @@
-@extends('admin::layouts.vis-login')
+@extends('admin::layouts.login')
 
 
 @section('header')
@@ -45,7 +45,6 @@
                         <form action="{{url('login')}}" id="login-form" class="smart-form client-form" method="post" {{ config('jarboe.login.is_active_autocomplete') ?: 'readonly onfocus="this.removeAttribute(\'readonly\');"' }} >
                             <header>
                                 {{trans('jarboe::login.sign_in')}}
-                                <img class="tbfavicon pull-right" style="height:25px;" src="<?php $faviconUrl = config('jarboe.login.favicon_url'); echo $faviconUrl(); ?>" />
                             </header>
     
                             <fieldset>

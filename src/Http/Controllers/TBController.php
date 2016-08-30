@@ -4,6 +4,8 @@ namespace Yaro\Jarboe\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Yaro\Jarboe\Informer;
+use Illuminate\Http\Request;
+use Sentinel;
 
 
 class TBController extends Controller
@@ -11,12 +13,6 @@ class TBController extends Controller
 
     public function __construct()
     {
-        $params = array(
-            'only' => array(
-                'postLogin',
-            )
-        );
-        $this->beforeFilter('csrf', $params);
     } // end __construct
 
     public function showDashboard()
@@ -26,36 +22,36 @@ class TBController extends Controller
 
     public function showLogin()
     {
-        if (\Sentinel::check()) {
+        if (Sentinel::check()) {
             return \Redirect::to(config('jarboe.admin.uri'));
         }
         
         return view('admin::login');
     } // end showLogin
  
-    public function postLogin()
+    public function postLogin(Request $request)
     {
         try {
-            \Sentinel::authenticate(
+            Sentinel::authenticate(
                 array(
-                    'email'    => \Input::get('email'), 
-                    'password' => \Input::get('password')
+                    'email'    => $request->get('email'), 
+                    'password' => $request->get('password')
                 ), 
-                \Input::has('rememberme')
+                $request->has('rememberme')
             );
             
             $onLogin = config('jarboe.login.on_login'); 
             $onLogin();
             
-            if (\Input::has('is_from_locked_screen')) {
+            if ($request->has('is_from_locked_screen')) {
                 return \Response::json(array(
                     'status' => true
                 ));
             }
-            return \Redirect::intended(config('jarboe.admin.uri'));
+            return redirect()->intended(config('jarboe.admin.uri'));
             
         } catch (\Cartalyst\Sentinel\Users\UserNotFoundException $e) {
-            if (\Input::has('is_from_locked_screen')) {
+            if ($request->has('is_from_locked_screen')) {
                 return \Response::json(array(
                     'status' => false,
                     'error'  => trans('jarboe::login.not_found')

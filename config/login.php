@@ -16,15 +16,9 @@ return array(
      * Background image on login page.
      */
     'background_url' => function() {
-        return asset('packages/yaro/jarboe/img/login-bg.jpg');
+        return asset('packages/yaro/jarboe/img/loginbg.png');
     },
     
-    /*
-     * Image on the top right corner of form.
-     */
-    'favicon_url' => function() {
-        return asset('packages/yaro/jarboe/img/c-c-cat.gif');
-    },
     
     /*
      * Displays content over the form.

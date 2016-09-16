@@ -48,7 +48,7 @@
                             </header>
     
                             <fieldset>
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}" {{ config('jarboe.login.is_active_autocomplete') ?: 'readonly onfocus="this.removeAttribute(\'readonly\');"' }} >
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <section>
                                     <label class="label">{{trans('jarboe::login.email')}}</label>
                                     <label class="input"> <i class="icon-append fa fa-user"></i>

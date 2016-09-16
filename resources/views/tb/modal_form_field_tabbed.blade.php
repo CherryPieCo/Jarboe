@@ -13,8 +13,7 @@ if (is_array($ident)) {
 <div class="tb-form-row">
 @foreach ($idents as $ident)
 <?php 
-$options = $def['fields'][$ident];
-$field = $controller->getField($ident); 
+$field = $controller->getDefinition()->getField($ident); 
 ?>
 
                             
@@ -34,7 +33,7 @@ $field = $controller->getField($ident);
         
 
 
-@if (isset($options['tabs']))
+@if ($field->getAttribute('tabs'))
     @if ($is_blank)
         {!! $field->getTabbedEditInput() !!}
     @else
@@ -44,7 +43,7 @@ $field = $controller->getField($ident);
     @continue
 @endif
 
-@if ($options['type'] == 'checkbox')
+@if ($field->getAttribute('type') == 'checkbox')
     @if ($is_blank)
         {!! $field->getEditInput() !!}
     @else
@@ -56,7 +55,7 @@ $field = $controller->getField($ident);
 
 <section class="{{ $size ? 'col col-'. $size : '' }}" >
 @if ($is_blank)
-    <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
+    <label class="label" for="{{$ident}}">{{$field->getAttribute('caption')}}</label>
     <div style="position: relative;">
         <label class="{{ $field->getLabelClass() }}">
         {!! $field->getEditInput() !!}
@@ -64,7 +63,7 @@ $field = $controller->getField($ident);
         </label>
     </div>
 @else
-    <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
+    <label class="label" for="{{$ident}}">{{$field->getAttribute('caption')}}</label>
     <div style="position: relative;">
         <label class="{{ $field->getLabelClass() }}">
         {!! $field->getEditInput($row) !!}

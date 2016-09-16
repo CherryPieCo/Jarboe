@@ -7,6 +7,6 @@
     
 @else
     <tr>
-        <td colspan="100%">{{ $def['options']['not_found'] or 'No data found' }}</td>
+        <td colspan="100%">No data found</td>
     </tr>
 @endif

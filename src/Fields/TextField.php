@@ -15,7 +15,7 @@ class TextField extends AbstractField
 
     public function onSearchFilter(&$db, $value)
     {
-        $table = $this->definition['db']['table'];
+        $table = $this->definition->getDatabaseOption('table');
         $tabs = $this->getAttribute('tabs');
         if ($tabs) {
             $field = $table .'.'. $this->getFieldName();

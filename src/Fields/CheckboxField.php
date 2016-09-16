@@ -27,7 +27,7 @@ class CheckboxField extends AbstractField
     
     public function onSearchFilter(&$db, $value)
     {
-        $table = $this->definition['db']['table'];
+        $table = $this->definition->getDbOption('table');
         $db->where($table .'.'. $this->getFieldName(), '=', $value);
     } // end onSearchFilter
 
@@ -37,11 +37,11 @@ class CheckboxField extends AbstractField
             return '';
         }
 
-        $definitionName = $this->getOption('def_name');
+        $definitionName = $this->definition->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
-        $filter = Session::get($sessionPath, '');
+        $filter = session()->get($sessionPath, '');
 
-        $table = View::make('admin::tb.filter.checkbox');
+        $table = view('admin::tb.filter.checkbox');
         $table->filter = $filter;
         $table->name  = $this->getFieldName();
         $table->options = $this->getAttribute('options');
@@ -58,7 +58,7 @@ class CheckboxField extends AbstractField
             }
         }
 
-        $table = View::make('admin::tb.input.checkbox');
+        $table = view('admin::tb.input.checkbox');
         $table->value = $this->getValue($row);
         $table->name  = $this->getFieldName();
         $table->caption = $this->getAttribute('caption');
@@ -75,7 +75,7 @@ class CheckboxField extends AbstractField
             }
         }
         
-        return View::make('admin::tb.input.checkbox_list')->with('is_checked', $this->getValue($row));
+        return view('admin::tb.input.checkbox_list')->with('is_checked', $this->getValue($row));
     } // end getListValue
     
         
@@ -88,7 +88,9 @@ class CheckboxField extends AbstractField
             }
         }
 
-        $value = (isset($row[$this->getFieldName()]) && $row[$this->getFieldName()]) ? '1' : '0';
+        $fieldName = $this->getFieldName();
+        $value = ($row && $row->$fieldName) ? '1' : '0';
+        
         return $value;
     } // end getValue
     

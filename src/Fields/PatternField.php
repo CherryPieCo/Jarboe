@@ -11,12 +11,12 @@ class PatternField
     protected $attributes;
     protected $options;
     protected $definition;
-    protected $calls;
+    protected $pattern;
 
     protected $handler;
 
 
-    public function __construct($fieldName, $attributes, $options, $definition, $handler)
+    public function __construct($fieldName, $attributes, $options, $definition, $handler, $patternsNamespace)
     {
         $this->attributes = $attributes;
         $this->options    = $options;
@@ -26,46 +26,59 @@ class PatternField
         $this->handler = &$handler;
         
         $this->patternName = preg_replace('~^pattern\.~', '', $fieldName);
-        $path = base_path('resources/definitions/patterns/'. $this->patternName .'.php');
-        if (!file_exists($path)) {
-            throw new \RuntimeException(sprintf('No pattern definition - [%s].', $this->patternName));
-        }
-        $this->calls = require($path);
+        $patternClass = $patternsNamespace .'\\'. ucfirst(camel_case($this->patternName));
+        $this->pattern = new $patternClass($this->definition);
     } // end __construct
+    
+    public function getFieldName()
+    {
+        return $this->fieldName;
+    } // end getFieldName
+    
+    /*
+     * Dummy
+     */
+    public function afterInsert()
+    {
+        
+    } // end afterInsert
+    
+    /*
+     * Dummy
+     */
+    public function afterUpdate()
+    {
+        
+    } // end afterUpdate
     
     private function getPatternValues($values)
     {
         return array_get($values, 'pattern.'. $this->patternName);
     } // end getPatternValues
     
-    public function renderForm(array $row = array())
+    public function renderForm($row = false)
     {
-        $view = $this->calls['view']['form'];
-        return $view($row);
+        return $this->pattern->viewForm($row);
     } // end renderForm
     
-    public function renderList(array $row)
+    public function renderList($row)
     {
-        $view = $this->calls['view']['list'];
-        return $view($row);
+        return $this->pattern->viewList($row);
     } // end renderList
     
     public function update($values, $idRow)
     {
-        $call = $this->calls['handle']['update'];
-        return $call($idRow, $this->getPatternValues($values), $values);
+        return $this->pattern->handleUpdate($idRow, $this->getPatternValues($values), $values);
     } // end update    
     
     public function insert($values, $idRow)
     {
-        $call = $this->calls['handle']['insert'];
-        return $call($idRow, $this->getPatternValues($values), $values);
+        return $this->pattern->handleInsert($idRow, $this->getPatternValues($values), $values);
     } // end insert    
     
     public function delete($idRow)
     {
-        $call = $this->calls['handle']['delete'];
-        return $call($idRow);
+        return $this->pattern->handleDelete($idRow);
     } // end delete
     
     public function isPattern()

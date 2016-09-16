@@ -23,7 +23,7 @@ class TBController extends Controller
     public function showLogin()
     {
         if (Sentinel::check()) {
-            return \Redirect::to(config('jarboe.admin.uri'));
+            return redirect(config('jarboe.admin.uri'));
         }
         
         return view('admin::login');
@@ -44,9 +44,9 @@ class TBController extends Controller
             $onLogin();
             
             if ($request->has('is_from_locked_screen')) {
-                return \Response::json(array(
+                return response()->json([
                     'status' => true
-                ));
+                ]);
             }
             return redirect()->intended(config('jarboe.admin.uri'));
             
@@ -59,7 +59,7 @@ class TBController extends Controller
             }
             
             \Session::put('tb_login_not_found', trans('jarboe::login.not_found'));
-            return \Redirect::to(config('jarboe.admin.uri'));
+            return redirect(config('jarboe.admin.uri'));
         }
     } // end 
  

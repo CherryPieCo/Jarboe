@@ -3,11 +3,6 @@
 namespace Yaro\Jarboe\Handlers;
 
 use Yaro\Jarboe\JarboeController;
-use Response;
-use Input;
-use Session;
-use URL;
-
 
 class RequestHandler 
 {
@@ -22,124 +17,63 @@ class RequestHandler
 
     public function handle()
     {
-        if (Input::get('edit')) {
-            return $this->handleShowEditFormPageAction(Input::get('edit'));
-        } elseif (Input::has('make')) {
-            return $this->handleShowEditFormPageAction();
+        if (request()->get('edit')) {
+            return $this->handleShowEditFormPage(request()->get('edit'));
+        } elseif (request()->has('make')) {
+            return $this->handleShowEditFormPage();
         }
         
-        
-        switch (Input::get('query_type')) {
-            case 'image_storage':
-                return $this->controller->imageStorage->handle();
-                
-            case 'file_storage':
-                return $this->controller->fileStorage->handle();
-                
-            case 'search':
-                return $this->handleSearchAction();
-                
-            case 'change_order':
-                return $this->handleChangeOrderAction();
-                
-            case 'multi_action':
-                return $this->handleMultiAction();
-                
-            case 'multi_action_with_option':
-                return $this->handleMultiActionWithOption();
-            
-            case 'import':
-                return $this->handleImport();
-                
-            case 'get_import_template':
-                return $this->handleImportTemplateDownload();
-                
-            case 'export':
-                return $this->handleExport();
-                
-            case 'set_per_page':
-                return $this->handleSetPerPageAmountAction();
-                
-            case 'save_inline_form':
-                return $this->handleSaveInlineFormAction();
-
-            case 'show_create_form':
-                return $this->handleShowCreateFormAction();
-
-            case 'show_edit_form':
-                return $this->handleShowEditFormAction();
-
-            case 'save_edit_form':
-                return $this->handleSaveEditFormAction();
-
-            case 'show_add_form':
-                return $this->handleShowAddFormAction();
-
-            case 'save_add_form':
-                return $this->handleSaveAddFormAction();
-
-            case 'delete_row':
-                return $this->handleDeleteAction();
-                
-            case 'restore_row':
-                return $this->handleRestoreAction();
-                
-            case 'upload_photo':
-                return $this->handlePhotoUpload();
-            
-            case 'upload_photo_wysiwyg':
-                return $this->handlePhotoUploadFromWysiwyg();
-                
-            case 'redactor_image_upload':
-                return $this->handlePhotoUploadFromWysiwygRedactor();
-                
-            case 'change_direction':
-                return $this->handleChangeDirection();
-                
-            case 'upload_file':
-                return $this->handleFileUpload();
-                
-            case 'many_to_many_ajax_search':
-                return $this->handleManyToManyAjaxSearch();
-                
-            default:
-                return $this->handleShowList();
+        $method = camel_case('handle_'. request()->get('query_type'));
+        if (method_exists($this, $method) && $method != 'handle') {
+            return $this->$method();
         }
+        
+        return $this->handleShowList();
     } // end handle
     
-    private function handleSaveInlineFormAction()
+    private function handleFileStorage()
+    {
+        return $this->controller->fileStorage->handle();
+    } // end handleFileStorage
+    
+    private function handleImageStorage()
+    {
+        return $this->controller->imageStorage->handle();
+    } // end handleImageStorage
+    
+    private function handleSaveInlineForm()
     {
         $this->checkEditPermission();
         
         $idRow = $this->getRowID();
-        $fieldType = Input::get('__field_type');
+        $fieldType = request()->get('__field_type');
         
         $field = $this->controller->getField($fieldType);
-        $errors = $field->doSaveInlineEditForm($idRow, Input::all());
+        $errors = $field->doSaveInlineEditForm($idRow, request()->all());
         
-        return Response::json(array(
+        return response()->json(array(
             'status' => empty($errors),
             'errors' => $errors,
         ));
-    } // end handleSaveInlineFormAction
+    } // end handleSaveInlineForm
     
     protected function handleManyToManyAjaxSearch()
     {
-        $query = Input::get('q');
-        $limit = Input::get('limit');
-        $page  = Input::get('page');
-        $ident = Input::get('ident');
+        $query = request()->get('q');
+        $limit = request()->get('limit');
+        $page  = request()->get('page');
+        $ident = request()->get('ident');
         
         $field = $this->controller->getField($ident);
         
         $data = $field->getAjaxSearchResult($query, $limit, $page);
         
-        return Response::json($data);
+        return response()->json($data);
     } // end handleManyToManyAjaxSearch
     
-    protected function handleChangeOrderAction()
+    protected function handleChangeOrder()
     {
-        parse_str(Input::get('order'), $order);
+        parse_str(request()->get('order'), $order);
         $order = $order['sort'];
         
         $definition = $this->controller->getDefinition();
@@ -148,7 +82,7 @@ class RequestHandler
         if (is_array($info)) {
             $definitionName = $this->controller->getOption('def_name');
             $sessionPath = 'table_builder.'.$definitionName.'.per_page';
-            $perPage = Session::get($sessionPath);
+            $perPage = session()->get($sessionPath);
             if (!$perPage) {
                 $keys = array_keys($info);
                 $perPage = $keys[0];
@@ -158,7 +92,7 @@ class RequestHandler
         }
         
         // FIXME: make page param available
-        $lowest = (Input::get('page', 1) * $perPage) - $perPage;
+        $lowest = (request()->get('page', 1) * $perPage) - $perPage;
         
         foreach ($order as $id) {
             ++$lowest;
@@ -167,17 +101,17 @@ class RequestHandler
             ));
         }
         
-        return Response::json(array(
+        return response()->json(array(
             'status' => true
         ));
-    } // end handleChangeOrderAction
+    } // end handleChangeOrder
     
     protected function handleMultiAction()
     {
         // FIXME: move to separate class
         $def = $this->controller->getDefinition();
         
-        $type = Input::get('type');
+        $type = request()->get('type');
         $action = $def['multi_actions'][$type];
         
         $isAllowed = $action['check'];
@@ -185,7 +119,7 @@ class RequestHandler
             throw new \RuntimeException('Multi action not allowed: '. $type);
         }
         
-        $ids = Input::get('multi_ids', array());
+        $ids = request()->get('multi_ids', array());
         $handlerClosure = $action['handle'];
         $data = $handlerClosure($ids);
         
@@ -195,7 +129,7 @@ class RequestHandler
             $data['is_hide_rows'] = $action['is_hide_rows'];
         }
         
-        return Response::json($data);
+        return response()->json($data);
     } // end handleMultiAction
     
     protected function handleMultiActionWithOption()
@@ -203,8 +137,8 @@ class RequestHandler
         // FIXME: move to separate class
         $def = $this->controller->getDefinition();
         
-        $type = Input::get('type');
-        $option = Input::get('option');
+        $type = request()->get('type');
+        $option = request()->get('option');
         $action = $def['multi_actions'][$type];
         
         $isAllowed = $action['check'];
@@ -212,7 +146,7 @@ class RequestHandler
             throw new \RuntimeException('Multi action not allowed: '. $type);
         }
         
-        $ids = Input::get('multi_ids', array());
+        $ids = request()->get('multi_ids', array());
         $handlerClosure = $action['handle'];
         $data = $handlerClosure($ids, $option);
         
@@ -222,21 +156,21 @@ class RequestHandler
             $data['is_hide_rows'] = $action['is_hide_rows'];
         }
         
-        return Response::json($data);
+        return response()->json($data);
     } // end handleMultiActionWithOption
     
-    protected function handleImportTemplateDownload()
+    protected function handleGetImportTemplate()
     {
-        $type = Input::get('type');
+        $type = request()->get('type');
         $method = 'do'. ucfirst($type) .'TemplateDownload';
         
         $this->controller->import->$method();
-    } // end handleImportTemplateDownload
+    } // end handleGetImportTemplate
     
     protected function handleImport()
     {
-        $file   = Input::file('file');
-        $type   = Input::get('type');
+        $file   = request()->file('file');
+        $type   = request()->get('type');
         $method = 'doImport'. ucfirst($type);
         
         $res = $this->controller->import->$method($file);
@@ -244,53 +178,53 @@ class RequestHandler
         $response = array(
             'status' => $res
         );
-        return Response::json($response);
+        return response()->json($response);
     } // end handleImport
     
     protected function handleExport()
     {
-        $type   = Input::get('type');
+        $type   = request()->get('type');
         $method = 'doExport'. ucfirst($type);
-        $idents = array_keys(Input::get('b', array()));
+        $idents = array_keys(request()->get('b', array()));
         
         $this->controller->export->$method($idents);
     } // end handleExport
 
-    protected function handleSetPerPageAmountAction()
+    protected function handleSetPerPage()
     {
-        $perPage = Input::get('per_page');
+        $perPage = request()->get('per_page');
         
         $definitionName = $this->controller->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.per_page';
-        Session::put($sessionPath, $perPage);
+        session()->put($sessionPath, $perPage);
         
         $response = array(
             'status' => true,
         );
-        return Response::json($response);
-    } // end handleSetPerPageAmountAction
+        return response()->json($response);
+    } // end handleSetPerPage
     
     protected function handleChangeDirection()
     {
         $order = array(
-            'direction' => Input::get('direction'),
-            'field' => Input::get('field')
+            'direction' => request()->get('direction'),
+            'field' => request()->get('field')
         );
         
         $definitionName = $this->controller->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.order';
-        Session::put($sessionPath, $order);
+        session()->put($sessionPath, $order);
 
         $response = array(
             'status' => true,
         );
-        return Response::json($response);
+        return response()->json($response);
     } // end handleChangeDirection
     
-    protected function handleFileUpload()
+    protected function handleUploadFile()
     {
         // FIXME:
-        $file = Input::file('file');
+        $file = request()->file('file');
         
         if ($this->controller->hasCustomHandlerMethod('onFileUpload')) {
             $res = $this->controller->getCustomHandler()->onFileUpload($file);
@@ -311,18 +245,18 @@ class RequestHandler
         
         $data = array(
             'status' => $status,
-            'link'   => URL::to($destinationPath . $fileName),
+            'link'   => url($destinationPath . $fileName),
             'short_link' => $destinationPath . $fileName,
         );
-        return Response::json($data);
-    } // end handleFileUpload
+        return response()->json($data);
+    } // end handleUploadFile
     
-    protected function handlePhotoUpload()
+    protected function handleUploadPhoto()
     {
         // FIXME:
-        $ident = Input::get('ident');
-        $file  = Input::file('image');
-        $num   = Input::get('num');
+        $ident = request()->get('ident');
+        $file  = request()->file('image');
+        $num   = request()->get('num');
         
         $field = $this->controller->getField($ident);
         
@@ -339,13 +273,13 @@ class RequestHandler
             $data['num'] = $data;
         }
         
-        return Response::json($data);
-    } // end handlePhotoUpload
+        return response()->json($data);
+    } // end handleUploadPhoto
     
-    protected function handlePhotoUploadFromWysiwyg()
+    protected function handleUploadPhotoWysiwyg()
     {
         // FIXME:
-        $file = Input::file('image');
+        $file = request()->file('image');
         
         if ($this->controller->hasCustomHandlerMethod('onPhotoUploadFromWysiwyg')) {
             $res = $this->controller->getCustomHandler()->onPhotoUploadFromWysiwyg($file);
@@ -366,15 +300,15 @@ class RequestHandler
         
         $data = array(
             'status' => $status,
-            'link'   => URL::to($destinationPath . $fileName)
+            'link'   => url($destinationPath . $fileName)
         );
-        return Response::json($data);
-    } // end handlePhotoUploadFromWysiwyg
+        return response()->json($data);
+    } // end handleUploadPhotoWysiwyg
     
-    protected function handlePhotoUploadFromWysiwygRedactor()
+    protected function handleRedactorImageUpload()
     {
         // FIXME:
-        $file = Input::file('file');
+        $file = request()->file('file');
         
         if ($this->controller->hasCustomHandlerMethod('onPhotoUploadFromWysiwyg')) {
             $res = $this->controller->getCustomHandler()->onPhotoUploadFromWysiwyg($file);
@@ -394,57 +328,57 @@ class RequestHandler
         $file->move($destinationPath, $fileName);
         
         $data = array(
-            'filelink'   => URL::to($destinationPath . $fileName)
+            'filelink' => url($destinationPath . $fileName)
         );
-        return Response::json($data);
-    } // end handlePhotoUploadFromWysiwygRedactor
+        return response()->json($data);
+    } // end handleRedactorImageUpload
     
-    protected function handleDeleteAction()
+    protected function handleDeleteRow()
     {
         $idRow = $this->getRowID();
         $this->checkEditPermission();
 
         $result = $this->controller->query->deleteRow($idRow);
 
-        return Response::json($result);
-    } // end handleDeleteAction
+        return response()->json($result);
+    } // end handleDeleteRow
     
-    protected function handleRestoreAction()
+    protected function handleRestoreRow()
     {
         $idRow = $this->getRowID();
         $this->checkEditPermission();
 
         $result = $this->controller->query->restoreRow($idRow);
 
-        return Response::json($result);
-    } // end handleRestoreAction
+        return response()->json($result);
+    } // end handleRestoreRow
     
-    protected function handleShowAddFormAction()
+    protected function handleShowAddForm()
     {
         $result = $this->controller->view->showEditForm();
 
-        return Response::json($result);
-    } // end handleShowAddFormAction
+        return response()->json($result);
+    } // end handleShowAddForm
 
-    protected function handleSaveAddFormAction()
+    protected function handleSaveAddForm()
     {
-        $result = $this->controller->query->insertRow(Input::all());
+        $result = $this->controller->query->insertRow(request()->all());
         $result['html'] = $this->controller->view->getRowHtml($result);
 
-        return Response::json($result);
-    } // end handleSaveAddFormAction
+        return response()->json($result);
+    } // end handleSaveAddForm
 
-    protected function handleSaveEditFormAction()
+    protected function handleSaveEditForm()
     {
         $this->checkEditPermission();
 
-        $result = $this->controller->query->updateRow(Input::all());
+        $result = $this->controller->query->updateRow(request()->all());
         $result['html'] = $this->controller->view->getRowHtml($result);
 
-        return Response::json($result);
-    } // end handleSaveEditFormAction
+        return response()->json($result);
+    } // end handleSaveEditForm
 
-    protected function handleShowEditFormAction()
+    protected function handleShowEditForm()
     {
         $idRow = $this->getRowID();
         $this->checkEditPermission();
@@ -455,10 +389,10 @@ class RequestHandler
             'status' => true
         );
 
-        return Response::json($data);
-    } // end handleShowEditFormAction
+        return response()->json($data);
+    } // end handleShowEditForm
     
-    protected function handleShowCreateFormAction()
+    protected function handleShowCreateForm()
     {
         $html = $this->controller->view->showEditForm();
         $data = array(
@@ -466,8 +400,8 @@ class RequestHandler
             'status' => true
         );
 
-        return Response::json($data);
-    } // end handleShowCreateFormAction
+        return response()->json($data);
+    } // end handleShowCreateForm
     
     protected function checkEditPermission()
     {
@@ -478,8 +412,8 @@ class RequestHandler
 
     private function getRowID()
     {
-        if (Input::has('id')) {
-            return Input::get('id');
+        if (request()->has('id')) {
+            return request()->get('id');
         }
         throw new \RuntimeException("Undefined row id for action.");
     } // end getRowID
@@ -491,24 +425,23 @@ class RequestHandler
         return view('admin::table', compact('table'));
     } // end handleShowList
     
-    protected function handleShowEditFormPageAction($id = false)
+    protected function handleShowEditFormPage($id = false)
     {
         return $this->controller->view->showEditFormPage($id);
     } // end handleShowAddFormPageAction
 
-    protected function handleSearchAction()
+    protected function handleSearch()
     {
         $this->_prepareSearchFilters();
 
-        $response = array(
+        return response()->json([
             'status' => true,
-        );
-        return Response::json($response);
-    } // end handleSearchAction
+        ]);
+    } // end handleSearch
 
     private function _prepareSearchFilters()
     {
-        $filters = Input::get('filter', array());
+        $filters = request()->get('filter', array());
 
         $newFilters = array();
         foreach ($filters as $key => $value) {
@@ -532,7 +465,7 @@ class RequestHandler
 
         $definitionName = $this->controller->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.filters';
-        Session::put($sessionPath, $newFilters);
+        session()->put($sessionPath, $newFilters);
     } // end _prepareSearchFilters
     
 

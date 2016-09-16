@@ -28,7 +28,7 @@
                 });
                 return html;
             },
-            imageUpload: '{{ url($action) }}?query_type=redactor_image_upload',
+            imageUpload: '{!! url($action) !!}?query_type=redactor_image_upload',
             imageUploadCallback: function(image, json) {
                 console.log(this);
                 console.log(image);
@@ -36,7 +36,7 @@
                 //TableBuilder.uploadImageFromWysiwygSummertime(files, editor, $editable);
             },
             <?php // FIXME: ?>
-            imageManagerJson: '{{ url($action) }}?query_type=image_storage&storage_type=get_redactor_images_list&__node={{ \Input::get('__node', 1) }}',
+            imageManagerJson: '{!! url($action) !!}?query_type=image_storage&storage_type=get_redactor_images_list&__node={!! request()->get('__node', 1) !!}',
             plugins: ['imagemanager', 'table']
         });
     });

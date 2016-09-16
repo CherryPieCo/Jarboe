@@ -20,6 +20,6 @@
 </div>
 
 <script type="text/javascript">
-TableBuilder.init({!! json_encode($def['options']) !!});
-TableBuilder.admin_prefix = '{{ $def['options']['admin_uri'] }}';
+TableBuilder.init({!! json_encode($def->getOptions()) !!});
+TableBuilder.admin_prefix = '{{ config('jarboe.admin.uri') }}';
 </script>

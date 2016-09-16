@@ -6,7 +6,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 ×
             </button>
-            <h4 class="modal-title" id="myModalLabel">Создать ноду</h4>
+            <h4 class="modal-title" id="myModalLabel">Create node</h4>
         </div>
         <div class="modal-body">
             <form id="tree-create-modal-form">
@@ -20,10 +20,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="cf-template">Шаблон</label>
+                        <label for="cf-template">Template</label>
                         <select class="form-control" id="cf-template" name="template">
-                            <option value="">Выберите шаблон</option>
-                            <?php /* FIXME: */ $tpls = config('jarboe.c.structure.templates', array()); ?>
+                            <option value="">Choose template</option>
+                            <?php /* FIXME: */ $tpls = $current->getTemplates(); ?>
                             @foreach ($tpls as $capt => $tpl)
                                 <option value="{{ $capt }}">{{ $capt }}</option>
                             @endforeach
@@ -42,10 +42,10 @@
         </div>
         <div class="modal-footer">
             <a onclick="Tree.doCreateNode();" href="javascript:void(0);" class="btn btn-success btn-sm">
-                <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
+                <span class="glyphicon glyphicon-floppy-disk"></span> Save
             </a>
             <a href="javascript:void(0);" class="btn btn-default" data-dismiss="modal">
-                Отмена
+                Cancel
             </a>
         </div>
     </div><!-- /.modal-content -->

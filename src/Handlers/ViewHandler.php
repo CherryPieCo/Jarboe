@@ -117,12 +117,13 @@ class ViewHandler
         return $row->render();
     } // end getRowHtml
     
-    public function fetchActions(array $row)
+    public function fetchActions($row)
     {
-        $actions = View::make('admin::tb.table.single_row_actions');
-        $actions->row = $row;
-        $actions->def = $this->controller->getDefinition();
-        $actions->actions = $this->controller->actions;
+        $actions = view('admin::tb.table.single_row_actions', [
+            'row' => $row,
+            'def' => $this->controller->getDefinition(),
+            'actions' => $this->controller->actions,
+        ]);
         
         return $actions->render();
     } // end fetchActions

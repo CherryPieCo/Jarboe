@@ -2,8 +2,7 @@
 jQuery(document).ready(function() {
     var $validator = jQuery("#create_form").validate({
         rules: {
-            @foreach ($def['fields'] as $ident => $options)
-                <?php $field = $controller->getField($ident); ?>
+            @foreach ($def->getFields() as $field)
                 @if ($field->isPattern())
                     @continue
                 @endif
@@ -12,8 +11,7 @@ jQuery(document).ready(function() {
             @endforeach
         },
         messages: {
-            @foreach ($def['fields'] as $ident => $options)
-                <?php $field = $controller->getField($ident); ?>
+            @foreach ($def->getFields() as $field)
                 @if ($field->isPattern())
                     @continue
                 @endif

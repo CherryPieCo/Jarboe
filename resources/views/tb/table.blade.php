@@ -31,10 +31,10 @@
 
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>{{ $def['options']['caption'] }}</h2>
+                    <h2>{{ $def->getOption('caption') }}</h2>
                     
-                    {!! $controller->import->fetch() !!}
-                    {!! $controller->export->fetch() !!}
+                    $controller->import->fetch()
+                    $controller->export->fetch()
                 </header>
 
                 <!-- widget div-->
@@ -51,7 +51,7 @@
                     <div class="widget-body no-padding">
 
 <form id="def_options_table_ident" 
-      action="{{ $def['options']['action_url'] }}" 
+      action="$def['options']['action_url']" 
       method="post" 
       class="form-horizontal tb-table"
       target="submiter" >

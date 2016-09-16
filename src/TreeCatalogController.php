@@ -29,7 +29,7 @@ class TreeCatalogController
 
     public function handle()
     {
-        switch (Input::get('__structure_query_type')) {
+        switch (request()->get('__structure_query_type')) {
             
             case 'do_create_node':
                 return $this->doCreateNode();
@@ -61,10 +61,10 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        switch (Input::get('name')) {
+        switch (request()->get('name')) {
             case 'template':
-                $node = $model::find(Input::get('pk'));
-                $node->template = Input::get('value');
+                $node = $model::find(request()->get('pk'));
+                $node->template = request()->get('value');
                 $node->save();
                 break;
             
@@ -77,20 +77,20 @@ class TreeCatalogController
         
     public function doCreateNode()
     {
-        $activeField = config('jarboe.c.structure.node_active_field.field');
-        $options = config('jarboe.c.structure.node_active_field.options', false);
         $model = $this->model;
-        
-        $root = $model::find(Input::get('node', 1));
+        $root = $model::find(request()->get('node', 1));
         
         $node = new $model();
-        $node->parent_id = Input::get('node', 1);
-        $node->title     = Input::get('title');
-        $node->template  = Input::get('template');
+        $activeField = $node->getNodeActiveField();
+        $options = $node->getNodeActiveFieldOptions();
+        
+        $node->parent_id = request()->get('node', 1);
+        $node->title     = request()->get('title');
+        $node->template  = request()->get('template');
         $node->$activeField = $options ? '' : '0';
         $node->save();
         
-        $node->slug = Input::get('slug') ? : Input::get('title');
+        $node->slug = request()->get('slug') ? : request()->get('title');
         $node->save();
         
         $node->makeChildOf($root);
@@ -105,15 +105,16 @@ class TreeCatalogController
     
     public function doChangeActiveStatus()
     {
-        $activeField = config('jarboe.c.structure.node_active_field.field');
-        $options = config('jarboe.c.structure.node_active_field.options', array());
         $model = $this->model;
         
-        $node = $model::find(Input::get('id'));
+        $node = $model::find(request()->get('id'));
         
-        $value = Input::get('is_active');
+        $activeField = $node->getNodeActiveField();
+        $options = $node->getNodeActiveFieldOptions();
+        
+        $value = request()->get('is_active');
         if ($options) {
-            $value = implode(array_filter(array_keys(Input::get('onoffswitch', array()))), ',');
+            $value = implode(array_filter(array_keys(request()->get('onoffswitch', array()))), ',');
         }
         $node->$activeField = $value;
         
@@ -130,10 +131,10 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $id = Input::get('id');
-        $idParent = Input::get('parent_id', 1);
-        $idLeftSibling  = Input::get('left_sibling_id');
-        $idRightSibling = Input::get('right_sibling_id');
+        $id = request()->get('id');
+        $idParent = request()->get('parent_id', 1);
+        $idLeftSibling  = request()->get('left_sibling_id');
+        $idRightSibling = request()->get('right_sibling_id');
         
         $item = $model::find($id);
         $root = $model::find($idParent);
@@ -170,7 +171,7 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $idNode  = Input::get('__node', Input::get('node', 1));
+        $idNode  = request()->get('__node', request()->get('node', 1));
         $current = $model::find($idNode);
 
         $templates = config('jarboe.c.structure.templates');
@@ -198,7 +199,7 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $status = $model::destroy(Input::get('id'));
+        $status = $model::destroy(request()->get('id'));
         $model::flushCache();
         
         return Response::json(array(
@@ -215,7 +216,7 @@ class TreeCatalogController
         
         $tree = $model::all()->toHierarchy();
         
-        $idNode  = Input::get('node', 1);
+        $idNode  = request()->get('node', 1);
         $current = $model::find($idNode);
 
         $parentIDs = array();
@@ -255,7 +256,7 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $idNode = Input::get('id');
+        $idNode = request()->get('id');
         $current = $model::find($idNode);
         $templates = config('jarboe.c.structure.templates');
         $template = config('jarboe.c.structure.default');
@@ -285,9 +286,9 @@ class TreeCatalogController
     {
         $model = $this->model;
         
-        $idNode    = Input::get('id');
+        $idNode    = request()->get('id');
         $current   = $model::find($idNode);
-        $templates = config('jarboe.c.structure.templates');
+        $templates = $model::getTemplates();
         $template  = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
@@ -304,13 +305,13 @@ class TreeCatalogController
         $controller = new JarboeController($options);
         
         
-        $result = $controller->query->updateRow(Input::all());
+        $result = $controller->query->updateRow(request()->all());
         $model::flushCache();
         
         $item = $model::find($idNode);
         $result['html'] = View::make('admin::tree.content_row', compact('item'))->render();
 
-        return Response::json($result);   
+        return response()->json($result);   
     } // end doEditNode
 
 }

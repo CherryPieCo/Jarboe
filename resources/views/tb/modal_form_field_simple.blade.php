@@ -1,6 +1,4 @@
-@foreach ($def['fields'] as $ident => $options)
-<?php $field = $controller->getField($ident); ?>
-         
+@foreach ($def->getFields() as $field)
                                      
 @if ($field->isHidden() || $field->isReadonly())
     @continue
@@ -18,7 +16,7 @@
    
    
 
-@if (isset($options['tabs']))
+@if ($field->getAttribute('tabs'))
     @if ($is_blank)
         {!! $field->getTabbedEditInput() !!}
     @else
@@ -28,7 +26,7 @@
     @continue
 @endif
 
-@if ($options['type'] == 'checkbox')
+@if ($field->getAttribute('type') == 'checkbox')
     @if ($is_blank)
         {!! $field->getEditInput() !!}
     @else
@@ -40,7 +38,7 @@
 
 <section>
 @if ($is_blank)
-    <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
+    <label class="label" for="{{$field->getFieldName()}}">{{$field->getAttribute('caption')}}</label>
     <div style="position: relative;">
         <label class="{{ $field->getLabelClass() }}">
         {!! $field->getEditInput() !!}
@@ -48,7 +46,7 @@
         </label>
     </div>
 @else
-    <label class="label" for="{{$ident}}">{{$options['caption']}}</label>
+    <label class="label" for="{{$field->getFieldName()}}">{{$field->getAttribute('caption')}}</label>
     <div style="position: relative;">
         <label class="{{ $field->getLabelClass() }}">
         {!! $field->getEditInput($row) !!}

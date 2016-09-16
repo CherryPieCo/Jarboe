@@ -61,15 +61,15 @@ class WysiwygField extends AbstractField
 
         $wysiwyg = $this->getAttribute('wysiwyg', 'redactor');
 
-        $input = \View::make('admin::tb.input.wysiwyg' .'_'. $wysiwyg);
+        $input = view('admin::tb.input.wysiwyg' .'_'. $wysiwyg);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
         $input->extraOptions = $this->getWysiwygOptions();
         
-        $action = $this->definition['options']['action_url'];
-        if (isset($this->definition['options']['action_url_tree'])) {
-            $action = $this->definition['options']['action_url_tree'];
+        $action = $this->definition->getOption('action_url') ?: request()->url();
+        if ($this->definition->getOption('action_url_tree')) {
+            $action = $this->definition->getOption('action_url_tree');
         }
         $input->action = $action;
 
@@ -124,7 +124,7 @@ class WysiwygField extends AbstractField
         
         $wysiwyg = $this->getAttribute('wysiwyg', 'redactor');
         
-        $input = \View::make('admin::tb.tab_input_wysiwyg' .'_'. $wysiwyg);
+        $input = view('admin::tb.tab_input_wysiwyg' .'_'. $wysiwyg);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->options = $this->getWysiwygOptions();
@@ -132,9 +132,9 @@ class WysiwygField extends AbstractField
         $input->tabs = $this->getPreparedTabs($row);
         $input->caption = $this->getAttribute('caption');
         
-        $action = $this->definition['options']['action_url'];
-        if (isset($this->definition['options']['action_url_tree'])) {
-            $action = $this->definition['options']['action_url_tree'];
+        $action = $this->definition->getOption('action_url') ?: request()->url();
+        if ($this->definition->getOption('action_url_tree')) {
+            $action = $this->definition->getOption('action_url_tree');
         }
         $input->action = $action;
         // HACK: for tabs right behaviour in edit-create modals
@@ -146,7 +146,7 @@ class WysiwygField extends AbstractField
 
     public function onSearchFilter(&$db, $value)
     {
-        $table = $this->definition['db']['table'];
+        $table = $this->definition->getDbOption('table');
         $tabs = $this->getAttribute('tabs');
         if ($tabs) {
             $field = $table .'.'. $this->getFieldName();

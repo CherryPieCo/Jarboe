@@ -94,7 +94,7 @@ class ImageField extends AbstractField
         
         // TODO: review
         // FIXME: separate templates
-        $input = View::make('admin::tb.input.image_upload');
+        $input = view('admin::tb.input.image_upload');
         $input->value   = $this->getValue($row);
         $input->source  = json_decode($this->getValue($row), true);
         $input->attributes = $this->getAttribute('img_attributes', array());
@@ -113,7 +113,7 @@ class ImageField extends AbstractField
         $rawFileName = md5_file($file->getRealPath()) .'_'. time();
         $fileName = $rawFileName .'.'. $extension;
         
-        $definitionName = $this->getOption('def_name');
+        $definitionName = $this->definition->getOption('def_name');
         $destinationPath = 'storage/jarboe-temp/';
         
         $status = $file->move($destinationPath, $fileName);
@@ -145,7 +145,7 @@ class ImageField extends AbstractField
             'data'       => $data,
             'html'       => $html,
             'status'     => $status,
-            'link'       => URL::asset($destinationPath . $fileName),
+            'link'       => asset($destinationPath . $fileName),
             'short_link' => $destinationPath . $fileName,
             // FIXME: naughty hack
             'delimiter' => ','
@@ -188,13 +188,14 @@ class ImageField extends AbstractField
             $images = [$images];
         }
         
-        $prefixPath = 'storage/tb-'. $this->getOption('def_name') .'/';
+        $prefixPath = 'storage/'. preg_replace('~\\\~', '_', $this->definition->getName()) .'/';
         foreach ($images as &$image) {
             foreach ($image['sizes'] as &$path) {
                 if (preg_match('~storage/jarboe-temp/~', $path)) {
                     $newPath = $prefixPath . get_path_by_id($id);
+                    
                     if (!is_dir(public_path($newPath))) {
-                        mkdir(public_path($newPath), 0755, true);
+                        mkdir(public_path($newPath), 0766, true); 
                     }
                     
                     $pathSegments = explode('/', $path);
@@ -211,7 +212,8 @@ class ImageField extends AbstractField
             $images = $images[0];
         }
         
-        DB::table($this->definition['db']['table'])->where('id', $id)->update(array(
+        // FIXME:
+        DB::table($this->definition->getDatabaseOption('table'))->where('id', $id)->update(array(
             $this->getFieldName() => json_encode($images)
         ));
     } // end moveImagesFromTempDir

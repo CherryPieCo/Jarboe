@@ -1,6 +1,6 @@
 <td class="col-action">
     
-    @if (isset($def['actions']['custom']))
+    @if (isset($def->getActions()['custom']))
         @foreach ($def['actions']['custom'] as $button)
         
             {!! $actions->fetch('custom', $row, $button) !!}

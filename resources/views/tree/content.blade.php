@@ -13,14 +13,12 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>название</th>
-                <th width="15%">шаблон</th>
-                <th width="10%">слаг</th>
-                <th width="1%">активный</th>
+                <th>Title</th>
+                <th width="15%">Template</th>
+                <th width="10%">Slug</th>
+                <th width="1%">Active</th>
                 <th style="width: 1%; min-width: 105px;">
-                @if (config('jarboe.c.structure.permissions.create'))
-                    <a href="javascript:void(0);" onclick="Tree.showCreateForm('{{$current->id}}');" style="min-width: 70px; width: 100%;" class="btn btn-default btn-sm">создать</a>
-                @endif
+                    <a href="javascript:void(0);" onclick="Tree.showCreateForm('{{$current->id}}');" style="min-width: 70px; width: 100%;" class="btn btn-default btn-sm">Create</a>
                 </th>
             </tr>
         </thead>
@@ -64,7 +62,7 @@
             $('.tpl-editable').editable({
                 url: window.location.href,
                 source: [
-                <?php /* FIXME: */ $tpls = config('jarboe.c.structure.templates', array()); ?>
+                <?php /* FIXME: */ $tpls = $current->getTemplates(); ?>
                 @foreach ($tpls as $capt => $tpl)
                     { value: '{{$capt}}', text: '{{$capt}}' }, 
                 @endforeach

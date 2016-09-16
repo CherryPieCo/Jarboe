@@ -100,6 +100,10 @@ abstract class AbstractField
 
     public function getValue($row, $postfix = '')
     {
+        if (!is_object($row)) {
+            $row = (object) $row;
+        }
+        
         if ($this->hasCustomHandlerMethod('onGetValue')) {
             $res = $this->handler->onGetValue($this, $row, $postfix);
             if ($res) {
@@ -114,7 +118,7 @@ abstract class AbstractField
             $tabs = $this->getAttribute('tabs');
             $fieldName = $fieldName . $tabs[0]['postfix'];
         }
-        $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
+        $value = isset($row->$fieldName) ? $row->$fieldName : '';
         
         return $value;
     } // end getValue
@@ -158,7 +162,7 @@ abstract class AbstractField
 
         $type = $this->getAttribute('type');
 
-        $input = View::make('admin::tb.input.'. $type);
+        $input = view('admin::tb.input.'. $type);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->rows  = $this->getAttribute('rows');
@@ -184,7 +188,7 @@ abstract class AbstractField
         
         $type = $this->getAttribute('type');
         
-        $input = View::make('admin::tb.input.tab.'. $type);
+        $input = view('admin::tb.input.tab.'. $type);
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->rows  = $this->getAttribute('rows');
@@ -225,13 +229,14 @@ abstract class AbstractField
             return '';
         }
 
-        $definitionName = $this->getOption('def_name');
+        // FIXME: def_name
+        $definitionName = $this->definition->getName();
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
-        $filter = Session::get($sessionPath, '');
+        $filter = session()->get($sessionPath, '');
 
         $type = $this->getAttribute('filter');
 
-        $input = View::make('admin::tb.filter.'. $type);
+        $input = view('admin::tb.filter.'. $type);
         $input->name = $this->getFieldName();
         $input->value = $filter;
 
@@ -270,7 +275,7 @@ abstract class AbstractField
                 $db->addSelect($name);
             }
         } else {
-            $db->addSelect($this->definition['db']['table'] .'.'. $this->getFieldName());
+            $db->addSelect($this->definition->getDatabaseOption('table') .'.'. $this->getFieldName());
         }
     } // end onSelectValue
     

@@ -15,30 +15,28 @@ class QueryHandler
     protected $controller;
 
     protected $db;
-    protected $dbOptions;
+    protected $definition;
 
     public function __construct(JarboeController $controller)
     {
         $this->controller = $controller;
 
-        $definition = $controller->getDefinition();
-
-        $this->dbOptions = $definition['db'];
+        $this->definition = $controller->getDefinition();
     } // end __construct
 
-    protected function getOptionDB($ident)
+    protected function getDatabaseOption($ident)
     {
-        return $this->dbOptions[$ident];
-    } // end getOptionDB
+        return $this->definition->getDatabaseOption($ident);
+    } // end getDatabaseOption
 
-    protected function hasOptionDB($ident)
+    protected function hasDatabaseOption($ident)
     {
-        return isset($this->dbOptions[$ident]);
-    } // end hasOptionDB
+        return $this->definition->hasDatabaseOption($ident);
+    } // end hasDatabaseOption
 
     public function getRows($isPagination = true, $isUserFilters = true, $betweenWhere = array(), $isSelectAll = false)
     {
-        $this->db = DB::table($this->dbOptions['table']);
+        $this->db = DB::table($this->getDatabaseOption('table'));
         
         $isSoftDelete = $this->controller->getDefinitionOption('db.soft_delete', false);
         if ($isSoftDelete) {
@@ -51,7 +49,7 @@ class QueryHandler
 
         $this->prepareSelectValues();
         if ($isSelectAll) {
-            $this->db->addSelect($this->getOptionDB('table') .'.*');
+            $this->db->addSelect($this->getDatabaseOption('table') .'.*');
         }
         
         $this->prepareFilterValues();
@@ -64,11 +62,11 @@ class QueryHandler
         $sessionPath = 'table_builder.'.$definitionName.'.order';
         $order = Session::get($sessionPath, array());
         if ($order && $isUserFilters) {
-            $this->db->orderBy($this->getOptionDB('table') .'.'. $order['field'], $order['direction']);
-        } else if ($this->hasOptionDB('order')) {
-            $order = $this->getOptionDB('order');
+            $this->db->orderBy($this->getDatabaseOption('table') .'.'. $order['field'], $order['direction']);
+        } else if ($this->hasDatabaseOption('order')) {
+            $order = $this->getDatabaseOption('order');
             foreach ($order as $field => $direction) {
-                $this->db->orderBy($this->getOptionDB('table') .'.'. $field, $direction);
+                $this->db->orderBy($this->getDatabaseOption('table') .'.'. $field, $direction);
             }
         }
 
@@ -81,9 +79,8 @@ class QueryHandler
         }
 
 
-        if ($this->hasOptionDB('pagination') && $isPagination) {
-            $pagination = $this->getOptionDB('pagination');
-            $perPage = $this->getPerPageAmount($pagination['per_page']);
+        if ($this->hasDatabaseOption('paginate') && $isPagination) {
+            $perPage = $this->getPerPageAmount($this->getDatabaseOption('paginate'));
             $paginator = $this->db->paginate($perPage);
             return $paginator;
         }
@@ -110,7 +107,7 @@ class QueryHandler
     protected function prepareFilterValues()
     {
         $definition = $this->controller->getDefinition();
-        $filters = isset($definition['filters']) ? $definition['filters'] : array();
+        $filters = $definition->getFilters();
         if (is_callable($filters)) {
             $filters($this->db);
             return;
@@ -124,7 +121,7 @@ class QueryHandler
     protected function doPrependFilterValues(&$values)
     {
         $definition = $this->controller->getDefinition();
-        $filters = isset($definition['filters']) ? $definition['filters'] : array();
+        $filters = $definition->getFilters();
         if (is_callable($filters)) {
             return;
         }
@@ -136,37 +133,39 @@ class QueryHandler
 
     protected function prepareSelectValues()
     {
-        $this->db->select($this->getOptionDB('table') .'.id');
-        $def = $this->controller->getDefinition();
-        if (isset($def['options']['is_sortable']) && $def['options']['is_sortable']) {
+        $this->db->select($this->getDatabaseOption('table') .'.id');
+        if ($this->definition->getOption('is_sortable')) {
             // FIXME: changeable field name
-            $this->db->addSelect($this->getOptionDB('table') .'.priority');
+            $this->db->addSelect($this->getDatabaseOption('table') .'.priority');
         }
         
         if (isset($def['options']['select_all']) && $def['options']['select_all']) {
-            $this->db->addSelect($this->getOptionDB('table') .'.*');
+            $this->db->addSelect($this->getDatabaseOption('table') .'.*');
         }
 
         $fields = $this->controller->getFields();
         foreach ($fields as $name => $field) {
+            if ($field->isPattern()) {
+                continue;
+            }
             $field->onSelectValue($this->db);
         }
     } // end prepareSelectValues
 
     public function getRow($id)
     {
-        $this->db = DB::table($this->getOptionDB('table'));
+        $this->db = DB::table($this->getDatabaseOption('table'));
 
         $this->prepareSelectValues();
 
-        $this->db->where($this->getOptionDB('table').'.id', $id);
+        $this->db->where($this->getDatabaseOption('table').'.id', $id);
 
         return $this->db->first();
     } // end getRow
 
     public function getTableAllowedIds()
     {
-        $this->db = DB::table($this->getOptionDB('table'));
+        $this->db = DB::table($this->getDatabaseOption('table'));
 
         $this->prepareFilterValues();
 
@@ -219,8 +218,10 @@ class QueryHandler
         $this->db->where('id', $values['id'])->update($updateData);
 
         // patterns
-        foreach ($this->controller->getPatterns() as $pattern) {
-            $pattern->update($values, $values['id']);
+        foreach ($this->controller->getFields() as $field) {
+            if ($field->isPattern()) {
+                $field->update($values, $values['id']);
+            }
         }
         
         // m2m
@@ -238,7 +239,8 @@ class QueryHandler
         if ($this->controller->hasCustomHandlerMethod('onUpdateRowResponse')) {
             $this->controller->getCustomHandler()->onUpdateRowResponse($res);
         }
-            
+        
+        
         foreach ($fields as $field) {
             $field->afterUpdate($values['id'], $updateData);
         }
@@ -346,8 +348,10 @@ class QueryHandler
         }
         
         // patterns
-        foreach ($this->controller->getPatterns() as $pattern) {
-            $pattern->insert($values, $id);
+        foreach ($this->controller->getFields() as $field) {
+            if ($field->isPattern()) {
+                $field->insert($values, $id);
+            }
         }
 
         // m2m
@@ -388,10 +392,8 @@ class QueryHandler
         $errors = array();
 
         $definition = $this->controller->getDefinition();
-        $fields = $definition['fields'];
-        foreach ($fields as $ident => $options) {
+        foreach ($definition->getFields() as $field) {
             try {
-                $field = $this->controller->getField($ident);
                 if ($field->isPattern()) {
                     continue;
                 }
@@ -399,12 +401,12 @@ class QueryHandler
                 $tabs = $field->getAttribute('tabs');
                 if ($tabs) {
                     foreach ($tabs as $tab) {
-                        $fieldName = $ident . $tab['postfix'];
+                        $fieldName = $field->getFieldName() . $tab['postfix'];
                         $field->doValidate($values[$fieldName]);
                     }
                 } else {
-                    if (isset($values[$ident])) {
-                        $field->doValidate($values[$ident]);
+                    if (isset($values[$field->getFieldName()])) {
+                        $field->doValidate($values[$field->getFieldName()]);
                     }
                 }
             } catch (JarboePreValidationException $e) {
@@ -423,9 +425,7 @@ class QueryHandler
     {
         $values = $this->_unsetFutileFields($values);
         $definition = $this->controller->getDefinition();
-        $fields = $definition['fields'];
-        foreach ($fields as $ident => $options) {
-            $field = $this->controller->getField($ident);
+        foreach ($definition->getFields() as $field) {
             if ($field->isPattern()) {
                 continue;
             }
@@ -433,12 +433,12 @@ class QueryHandler
             $tabs = $field->getAttribute('tabs');
             if ($tabs) {
                 foreach ($tabs as $tab) {
-                    $fieldName = $ident . $tab['postfix'];
+                    $fieldName = $field->getFieldName() . $tab['postfix'];
                     $values[$fieldName] = $field->prepareQueryValue($values[$fieldName]);
                 }
             } else {
-                if (isset($values[$ident])) {
-                    $values[$ident] = $field->prepareQueryValue($values[$ident]);
+                if (isset($values[$field->getFieldName()])) {
+                    $values[$field->getFieldName()] = $field->prepareQueryValue($values[$field->getFieldName()]);
                 }
             }
         }
@@ -472,9 +472,7 @@ class QueryHandler
     private function _checkFields($values)
     {
         $definition = $this->controller->getDefinition();
-        $fields = $definition['fields'];
-        foreach ($fields as $ident => $options) {
-            $field = $this->controller->getField($ident);
+        foreach ($definition->getFields() as $field) {
             if ($field->isPattern()) {
                 continue;
             }
@@ -482,11 +480,11 @@ class QueryHandler
             $tabs = $field->getAttribute('tabs');
             if ($tabs) {
                 foreach ($tabs as $tab) {
-                    $this->_checkField($values, $ident, $field);
+                    $this->_checkField($values, $field->getFieldName(), $field);
                 }
             } else {
-                if (isset($values[$ident])) {
-                    $this->_checkField($values, $ident, $field);
+                if (isset($values[$field->getFieldName()])) {
+                    $this->_checkField($values, $field->getFieldName(), $field);
                 }
             }
         }

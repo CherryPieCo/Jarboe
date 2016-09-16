@@ -61,14 +61,6 @@ class Jarboe
         return $result;
     } // end table
     
-    /*
-     * @deprecated
-     */
-    public function create($options)
-    {
-        return $this->table($options);
-    } // end create
-
     public function fetchNavigation()
     {
         $menu = new NavigationMenu(config('jarboe.admin.menu', []));
@@ -120,7 +112,7 @@ class Jarboe
         $controller = new TreeCatalogController($model, $options);
         
         // HACK: if query_type, so its requested table bilder functionality
-        if (Input::has('query_type')) {
+        if (request()->has('query_type')) {
             return $controller->process();
         }
         return $controller->handle();

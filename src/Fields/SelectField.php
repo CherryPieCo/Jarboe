@@ -16,7 +16,7 @@ class SelectField extends AbstractField
 
     public function onSearchFilter(&$db, $value)
     {
-        $table = $this->definition['db']['table'];
+        $table = $this->definition->getDbOption('table');
         $db->where($table .'.'. $this->getFieldName(), '=', $value);
     } // end onSearchFilter
 
@@ -26,11 +26,11 @@ class SelectField extends AbstractField
             return '';
         }
 
-        $definitionName = $this->getOption('def_name');
+        $definitionName = $this->definition->getOption('def_name');
         $sessionPath = 'table_builder.'.$definitionName.'.filters.'.$this->getFieldName();
-        $filter = Session::get($sessionPath, '');
+        $filter = session()->get($sessionPath, '');
 
-        $table = View::make('admin::tb.filter.select');
+        $table = view('admin::tb.filter.select');
         $table->filter = $filter;
         $table->name  = $this->getFieldName();
         $table->options = $this->getAttribute('options');
@@ -47,7 +47,7 @@ class SelectField extends AbstractField
             }
         }
 
-        $table = View::make('admin::tb.input.select');
+        $table = view('admin::tb.input.select');
         $table->selected = $this->getValue($row);
         $table->name  = $this->getFieldName();
         $table->options = $this->getAttribute('options');

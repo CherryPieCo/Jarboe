@@ -5,7 +5,7 @@ namespace Yaro\Jarboe;
 use Yaro\Jarboe\Commands\PrepareArtisanCommand;
 use Yaro\Jarboe\Commands\CreateSuperUserArtisanCommand;
 use Yaro\Jarboe\Commands\CreateDefinitionArtisanCommand;
-use Yaro\Jarboe\Commands\ComponentCommand;
+use Yaro\Jarboe\Commands\CreateStructureTableCommand;
 
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider 
@@ -40,6 +40,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
+        include __DIR__.'/helpers.php';
         include __DIR__.'/Http/routes.php';
         include __DIR__.'/view_composers.php';
         
@@ -97,7 +98,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        
         $this->mergeConfigurations();
         
         $this->registerServiceProviders();
@@ -127,13 +127,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function doCommandsRegister()
     {
-        /*
-        $this->app['command.jarboe.prepare'] = $this->app->share(
-            function ($app) {
-                return new PrepareArtisanCommand();
-            }
-        );
-        */
         $this->app['command.jarboe.create_superuser'] = $this->app->share(
             function ($app) {
                 return new CreateSuperUserArtisanCommand();
@@ -144,17 +137,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 return new CreateDefinitionArtisanCommand();
             }
         );
-        $this->app['command.jarboe.component'] = $this->app->share(
+        $this->app['command.jarboe.structure_create'] = $this->app->share(
             function ($app) {
-                return new ComponentCommand();
+                return new CreateStructureTableCommand();
             }
         );
 
         $this->commands(array(
-            'command.jarboe.component',
-            //'command.jarboe.prepare',
             'command.jarboe.create_superuser',
             'command.jarboe.create_definition',
+            'command.jarboe.structure_create',
         ));
     } // end doCommandsRegister
 

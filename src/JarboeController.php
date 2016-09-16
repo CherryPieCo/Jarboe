@@ -38,10 +38,13 @@ class JarboeController
 
     protected $allowedIds;
 
-    public function __construct(string $definitionClass)
+    public function __construct(string $definitionClass, array $options = [])
     {
-        $this->options = new $definitionClass();
+        $this->definition = new $definitionClass();
+        $this->definition->init();
         
+        $this->options = $options;
+        /*
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
         $this->doPrepareDefinition();
 
@@ -50,10 +53,10 @@ class JarboeController
             $this->callbacks = new CustomClosureHandler($this->definition['callbacks'], $this);
         }
         $this->fields  = $this->loadFields();
-
-        $this->actions      = new ActionsHandler($this->definition['actions'], $this);
-        $this->export       = new ExportHandler($this->definition['export'], $this);
-        $this->import       = new ImportHandler($this->definition['import'], $this);
+*/
+        $this->actions      = new ActionsHandler($this->definition->getActions(), $this);
+        //$this->export       = new ExportHandler($this->definition['export'], $this);
+        //$this->import       = new ImportHandler($this->definition['import'], $this);
         $this->query        = new QueryHandler($this);
         $this->view         = new ViewHandler($this);
         $this->request      = new RequestHandler($this);
@@ -134,23 +137,21 @@ class JarboeController
 
     public function getField($ident)
     {
-        if (isset($this->fields[$ident])) {
-            return $this->fields[$ident];
-        // FIXME:
-        } else if (isset($this->patterns[$ident])) {
-            return $this->patterns[$ident];
-        }
-
-        throw new \RuntimeException("Field [{$ident}] does not exist for current scheme.");
+        return $this->definition->getField($ident);
     } // end getField
 
     public function getFields()
     {
-        return $this->fields;
+        return $this->definition->getFields();
     } // end getFields
 
     public function getOption($ident)
     {
+        // FIXME:
+        if ($ident == 'def_name') {
+            return $this->definition->getName();
+        }
+        
         if (isset($this->options[$ident])) {
             return $this->options[$ident];
         }
@@ -247,24 +248,10 @@ class JarboeController
             throw new \RuntimeException("Empty definition?");
         }
 
-        $definition['is_searchable'] = $this->_isSearchable($definition);
+        //$definition['is_searchable'] = $this->_isSearchable($definition);
         $definition['options']['admin_uri'] = config('jarboe.admin.uri');
 
         return $definition;
     } // end getTableDefinition
-
-    private function _isSearchable($definition)
-    {
-        $isSearchable = false;
-
-        foreach ($definition['fields'] as $field) {
-            if (isset($field['filter'])) {
-                $isSearchable = true;
-                break;
-            }
-        }
-
-        return $isSearchable;
-    } // end _isSearchable
 
 }

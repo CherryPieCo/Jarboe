@@ -8,18 +8,18 @@
             data-name="template" 
             data-pk="{{ $item->id }}" 
             data-value="{{ $item->template }}" 
-            data-original-title="Выберите шаблон">
+            data-original-title="Choose template">
                 {{ $item->template }}
         </a>
     </td>
     
     <td style="white-space: nowrap;">{{ $item->slug }}</td>
     <td style="position: relative;">
-        @if (config('jarboe.c.structure.node_active_field.options'))
+        @if ($current->getNodeActiveFieldOptions())
             <div class="node-active-smoke-lol" style="display:none; position: absolute; width: 100%; height: 100%; top: 0; background: #E5E5E5; left: 0px; z-index: 69; opacity: 0.6;"></div>
             <table>
             <tbody>
-                <?php foreach(config('jarboe.c.structure.node_active_field.options') as $setIdent => $caption): ?>
+                <?php foreach($current->getNodeActiveFieldOptions() as $setIdent => $caption): ?>
                     <tr style="white-space: nowrap;">
                     <td>
                         <span class="">
@@ -30,10 +30,10 @@
                         <span class="onoffswitch">
                             <input onchange="Tree.activeSetToggle(this, '{{$item->id}}');" type="checkbox" name="onoffswitch[{{$setIdent}}]" 
                                     class="onoffswitch-checkbox" 
-                                    @if ($item->isActive($setIdent)) checked="checked" @endif 
+                                    {!! $item->isActive($setIdent) ? 'checked="checked"' : '' !!} 
                                     id="myonoffswitch{{$item->id}}-{{$setIdent}}">
                             <label class="onoffswitch-label" for="myonoffswitch{{$item->id}}-{{$setIdent}}"> 
-                                <span class="onoffswitch-inner" data-swchon-text="ДА" data-swchoff-text="НЕТ"></span> 
+                                <span class="onoffswitch-inner" data-swchon-text="YES" data-swchoff-text="NO"></span> 
                                 <span class="onoffswitch-switch"></span> 
                             </label> 
                         </span>
@@ -43,10 +43,10 @@
             </tbody>
             </table>
         @else
-            <span class="onoffswitch">
+            <span class="onoffswitch" style="margin: 0;">
                 <input onchange="Tree.activeToggle('{{$item->id}}', this.checked);" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" @if ($item->is_active) checked="checked" @endif id="myonoffswitch{{$item->id}}">
                 <label class="onoffswitch-label" for="myonoffswitch{{$item->id}}"> 
-                    <span class="onoffswitch-inner" data-swchon-text="ДА" data-swchoff-text="НЕТ"></span> 
+                    <span class="onoffswitch-inner" data-swchon-text="YES" data-swchoff-text="NO"></span> 
                     <span class="onoffswitch-switch"></span> 
                 </label> 
             </span>

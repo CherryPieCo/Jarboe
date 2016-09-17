@@ -37,6 +37,11 @@ abstract class AbstractDefinition
         $this->initActions($this->actions);
     } // end init
     
+    public function addOption($option, $value)
+    {
+        $this->options->put($option, $value);
+    } // end addOption
+    
     protected function initPosition($container)
     {
         

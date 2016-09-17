@@ -90,7 +90,7 @@ class TreeCatalogController
         $node->$activeField = $options ? '' : '0';
         $node->save();
         
-        $node->slug = request()->get('slug') ? : request()->get('title');
+        $node->slug = request()->get('slug') ?: request()->get('title');
         $node->save();
         
         $node->makeChildOf($root);
@@ -98,7 +98,7 @@ class TreeCatalogController
         $model::rebuild();
         $model::flushCache();
         
-        return Response::json(array(
+        return response()->json(array(
             'status' => true, 
         ));
     } // end doCreateNode
@@ -122,8 +122,8 @@ class TreeCatalogController
         
         $model::flushCache();
         
-        return Response::json(array(
-            'axtive' => true
+        return response()->json(array(
+            'active' => true
         ));
     } // end doChangeActiveStatus
     
@@ -163,7 +163,7 @@ class TreeCatalogController
             'item' => $item, 
             'parent_id' => $root->id
         );
-        return Response::json($data);
+        return response()->json($data);
     } // end doChangePosition
     
     // FIXME: fix me, fix
@@ -174,25 +174,25 @@ class TreeCatalogController
         $idNode  = request()->get('__node', request()->get('node', 1));
         $current = $model::find($idNode);
 
-        $templates = config('jarboe.c.structure.templates');
+        $templates = $model::getTemplates();
         $template = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
         }
         
-        $options = array(
-            'url'      => URL::current(),
-            'def_name' => 'tree.'. $template['node_definition'],
-            'additional' => array(
+        $options = [
+            'url' => URL::current(),
+            'additional' => [
                 'node'    => $idNode,
                 'current' => $current,
-            )
-        );
+            ]
+        ];
+        $definition = $template['node_definition'];
         if ($template['type'] == 'table') {
-            $options['def_name'] = 'tree.'. $template['definition'];
+            $definition = $template['definition'];
         }
         
-        return \Jarboe::table($options);
+        return \Jarboe::table($definition, $options);
     } // end process
     
     public function doDeleteNode()
@@ -202,7 +202,7 @@ class TreeCatalogController
         $status = $model::destroy(request()->get('id'));
         $model::flushCache();
         
-        return Response::json(array(
+        return response()->json(array(
             'status' => $status
         ));   
     } // end doDeleteNode
@@ -224,7 +224,7 @@ class TreeCatalogController
             $parentIDs[] = $anc->id;
         }
 
-        $templates = config('jarboe.c.structure.templates');
+        $templates = $model::getTemplates();
         $template = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
@@ -242,14 +242,14 @@ class TreeCatalogController
             // HACK: get table template from view object
             $tableView = \Jarboe::table($options);
             $table = $tableView->table;
-            $content = View::make('admin::tree.content', compact('current', 'table', 'template'));
+            $content = view('admin::tree.content', compact('current', 'table', 'template'));
         } elseif (false && $current->isLeaf()) {
             $content = 'ama leaf';
         } else {
-            $content = View::make('admin::tree.content', compact('current', 'template'));
+            $content = view('admin::tree.content', compact('current', 'template'));
         }
         
-        return View::make('admin::tree', compact('tree', 'content', 'current', 'parentIDs'));
+        return view('admin::tree', compact('tree', 'content', 'current', 'parentIDs'));
     } // end handleShowCatalog
     
     public function getEditModalForm()
@@ -258,7 +258,7 @@ class TreeCatalogController
         
         $idNode = request()->get('id');
         $current = $model::find($idNode);
-        $templates = config('jarboe.c.structure.templates');
+        $templates = $model::getTemplates();
         $template = config('jarboe.c.structure.default');
         if (isset($templates[$current->template])) {
             $template = $templates[$current->template];
@@ -276,7 +276,7 @@ class TreeCatalogController
         
         $html = $controller->view->showEditForm($idNode, true);
         
-        return Response::json(array(
+        return response()->json(array(
             'status' => true,
             'html' => $html
         ));
@@ -309,7 +309,7 @@ class TreeCatalogController
         $model::flushCache();
         
         $item = $model::find($idNode);
-        $result['html'] = View::make('admin::tree.content_row', compact('item'))->render();
+        $result['html'] = view('admin::tree.content_row', compact('item'))->render();
 
         return response()->json($result);   
     } // end doEditNode

@@ -57,7 +57,7 @@
     <script>
     // FIXME: move to js file
         $(document).ready(function(){
-            Tree.permissions = {!! json_encode(config('jarboe.c.structure.permissions')) !!};
+            Tree.permissions = {!! json_encode(['create' => true]) !!};
             
             $('.tpl-editable').editable({
                 url: window.location.href,

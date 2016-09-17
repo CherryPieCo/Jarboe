@@ -30,6 +30,11 @@ class Structure extends \Baum\Node
         $this->breadcrumbs[] = $node;
     } // end addBreadcrumb
     
+    public function getBreadcrumbs()
+    {
+        return collect($this->breadcrumbs)->reverse();
+    } // end getBreadcrumbs
+    
     public function setSlugAttribute($value)
     {
         // FIXME:
@@ -175,7 +180,7 @@ class Structure extends \Baum\Node
             $clone = array_combine(array_column($clone, 'id'), $clone);
         
             foreach ($tree as $node) {
-                $nodeUrl = $model::recurseTree($node, $clone, $node);
+                $nodeUrl = $model::recurseTree($node, $clone, $node, $tree);
                 $node->setUrl($nodeUrl);
                 
                 self::registerSingleRoute($nodeUrl, $node);
@@ -189,7 +194,7 @@ class Structure extends \Baum\Node
         unset($tree);
     } // end registerRoutes
     
-    protected static function recurseTree(&$current, $tree, $node, &$slugs = array())
+    protected static function recurseTree(&$current, $tree, $node, $objectTree, &$slugs = [])
     {
         if (!$node['parent_id']) {
             return $node['slug'];
@@ -198,9 +203,9 @@ class Structure extends \Baum\Node
         $slugs[] = $node['slug'];
         $idParent = $node['parent_id'];
         if ($idParent) {
-            $parent = $tree[$idParent];
+            $parent = $objectTree->where('id', $idParent)->first();//$tree[$idParent];
             $current->addBreadcrumb($parent);
-            self::recurseTree($current, $tree, $parent, $slugs);
+            self::recurseTree($current, $tree, $parent, $objectTree, $slugs);
         }
     
         return implode('/', array_reverse($slugs));
@@ -213,7 +218,7 @@ class Structure extends \Baum\Node
                 'type' => 'node', // table | node
                 'action' => 'Yaro\Jarboe\Http\Controllers\TreeController@showThemeMain',
                 'definition' => '',
-                'node_definition' => 'node',
+                'node_definition' => \Yaro\Jarboe\Definition\Node::class,
                 'check' => function() {
                     return true;
                 },

@@ -24,7 +24,7 @@ class JarboeController
     protected $handler;
     protected $callbacks;
     protected $fields;
-    protected $patterns = array();
+    protected $patterns = [];
 
     public $view;
     public $request;
@@ -43,7 +43,9 @@ class JarboeController
         $this->definition = new $definitionClass();
         $this->definition->init();
         
-        $this->options = $options;
+        foreach ($options as $option => $value) {
+            $this->definition->addOption($option, $value);
+        }
         /*
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
         $this->doPrepareDefinition();

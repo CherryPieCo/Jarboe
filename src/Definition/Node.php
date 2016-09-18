@@ -16,7 +16,7 @@ class Node extends AbstractDefinition
     
     protected function initOptions($container)
     {
-        $container->put('caption', 'Пользователи');
+        $container->put('caption', 'Node');
     } // end initOptions
     
     protected function initFields()
@@ -31,12 +31,19 @@ class Node extends AbstractDefinition
         ]);
         
         $this->createField('title', [
-            'caption' => 'Заголовок',
+            'caption' => 'Title',
             'type' => 'text',
         ]);
         
+        $templates = array_keys(\Yaro\Jarboe\Models\Structure::getTemplates());
+        $this->createField('template', [
+            'caption' => 'Template',
+            'type' => 'select',
+            'options' => array_combine($templates, $templates),
+        ]);
+        
         $this->createField('slug', [
-            'caption' => 'slug',
+            'caption' => 'Slug',
             'type' => 'text'
         ]);
     } // end initFields
@@ -71,7 +78,7 @@ class Node extends AbstractDefinition
     protected function initPosition($container)
     {
         $container->put('tabs', [
-            'General' => [['first_name', 'last_name']],
+            'General' => ['title', ['template', 'slug']],
         ]);
     } // end initPosition
     

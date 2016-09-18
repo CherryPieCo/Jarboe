@@ -266,13 +266,12 @@ class TreeCatalogController
         
         $options = array(
             'url'      => URL::current(),
-            'def_name' => 'tree.'. $template['node_definition'],
             'additional' => array(
                 'node'    => $idNode,
                 'current' => $current,
             )
         );
-        $controller = new JarboeController($options);
+        $controller = new JarboeController($template['node_definition'], $options);
         
         $html = $controller->view->showEditForm($idNode, true);
         

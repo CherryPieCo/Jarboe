@@ -100,6 +100,11 @@ class TreeCatalogController
         
         return response()->json(array(
             'status' => true, 
+            'id' => $node->id,
+            // FIXME: will not work with table definition
+            'table_html' => view('admin::tree.content')
+                                ->with('current', $node->parent()->first())
+                                ->render(),
         ));
     } // end doCreateNode
     

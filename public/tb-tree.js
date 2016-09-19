@@ -235,8 +235,13 @@ var Tree =
             data: data,
             success: function(response) {
                 if (response.status) {
+                    console.log(response);
                     // FIXME:
-                    window.location.reload();
+                    //window.location.reload();
+                    $('#tree-create-modal').modal('hide'); 
+                    $('.tb-tree-content-inner').html(response.table_html);
+                    
+                    Tree.showEditForm(response.id);
                 } else {
                     TableBuilder.showErrorNotification('Что-то пошло не так');
                 }

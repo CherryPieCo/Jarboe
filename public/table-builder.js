@@ -61,7 +61,7 @@ var TableBuilder = {
         var defaultOptions = {
             lang: {},
             ident: null,
-            table_ident: 'jarboe_table_ident',
+            table_ident: 'def_options_table_ident',
             form_ident: 'jarboe_form_ident',
             action_url: window.location.pathname,
             is_page_form: false,
@@ -222,39 +222,7 @@ var TableBuilder = {
             }
         }
     }, // end getUrlParameter
-/*
-    showEditForm: function(idRow)
-    {
-        // FIXME: not used?
-        TableBuilder.showProgressBar();
 
-        var data = [
-            {name: "query_type", value: "show_edit_form"},
-            {name: "id", value: idRow},
-            {name: "__node", value: TableBuilder.getUrlParameter('node')}
-        ];console.table(data);
-        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
-
-        $posting.done(function(response) {
-            if (jQuery.isFunction(TableBuilder.options.onShowEditFormResponse)) {
-                TableBuilder.options.onShowEditFormResponse(response);
-            }
-            jQuery('#'+TableBuilder.options.form_ident).html(response);
-
-            jQuery('#'+TableBuilder.options.table_ident)
-                .hide("slide", { direction: "left" }, 500)
-                .promise()
-                .done(function() {
-                    jQuery('#'+TableBuilder.options.form_ident)
-                        .show("slide", { direction: "right" }, 500)
-                        .promise()
-                        .done(function() {
-                            TableBuilder.hideProgressBar();
-                        });
-                });
-        });
-    }, // end showEditForm
-*/
     getCreateForm: function()
     {
         // FIXME:
@@ -412,88 +380,6 @@ var TableBuilder = {
             location.reload();
         });
     }, //saveEditForm
-
-    // @deprecated ?
-    insert: function()
-    {
-        TableBuilder.showProgressBar();
-
-        var data = [
-            {name: "query_type", value: "show_add_form"}
-        ];
-        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
-
-        $posting.done(function(response) {
-            if (jQuery.isFunction(TableBuilder.options.onShowEditFormResponse)) {
-                TableBuilder.options.onShowEditFormResponse(response);
-            }
-            jQuery('#'+TableBuilder.options.form_ident).html(response);
-
-            jQuery('#'+TableBuilder.options.table_ident)
-                .hide("slide", { direction: "left" }, 500)
-                .promise()
-                .done(function() {
-                    jQuery('#'+TableBuilder.options.form_ident)
-                        .show("slide", { direction: "right" }, 500)
-                        .promise()
-                        .done(function() {
-                            TableBuilder.hideProgressBar();
-                        });
-                });
-        });
-    }, // end insert
-
-    // @deprecated ?
-    saveInsertForm: function()
-    {
-        TableBuilder.showProgressBar();
-
-        var $form = jQuery('#'+ TableBuilder.options.form_ident);
-
-        var data = $form.serializeArray();
-        data.push({ name: "query_type", value: "save_add_form" });
-
-        /* Because serializeArray() ignores unset checkboxes and radio buttons: */
-        data = data.concat(
-            $form.find('input[type=checkbox]:not(:checked)')
-                .map(function() {
-                    return {"name": this.name, "value": 0};
-                }).get()
-        );
-
-        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
-
-        $posting.done(function(response) {
-            location.reload();
-        });
-    }, //saveInsertForm
-
-    // @deprecated ?
-    delete: function(id)
-    {
-        TableBuilder.showProgressBar();
-
-        if (!confirm("Are you sure?")) {
-            TableBuilder.hideProgressBar();
-            return;
-        }
-
-        var data = [
-            {name: "query_type", value: "delete_row"},
-            {name: "id", value: id}
-        ];
-        var $posting = jQuery.post(TableBuilder.getActionUrl(), data);
-
-        $posting.done(function(response) {
-            jQuery('#'+TableBuilder.options.table_ident)
-                .find('tr[id-row="'+response.id+'"]')
-                .remove()
-                .promise()
-                .done(function() {
-                    TableBuilder.hideProgressBar();
-                });
-        });
-    }, // end delete
 
     doDelete: function(id, context)
     {
@@ -857,16 +743,7 @@ var TableBuilder = {
         // remove deleted image from storage
         //TableBuilder.storage[ident][num].remove = true;
     }, // end deleteImage
-    /*
-    deleteSingleImage: function(ident, context)
-    {
-        var $imageWrapper = jQuery(context).parent().parent();
-        $imageWrapper.hide();
 
-        // remove deleted image from storage
-        TableBuilder.storage[ident].remove = true;
-    }, // end deleteSingleImage
-    */
     uploadImageFromWysiwygSummertime: function(files, editor, $editable)
     {
         if (files.length < 1) {

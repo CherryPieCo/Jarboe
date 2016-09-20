@@ -291,29 +291,29 @@ class TreeCatalogController
         $model = $this->model;
         
         $idNode    = request()->get('id');
-        $current   = $model::find($idNode);
+        $item      = $model::find($idNode);
         $templates = $model::getTemplates();
         $template  = config('jarboe.c.structure.default');
-        if (isset($templates[$current->template])) {
-            $template = $templates[$current->template];
+        if (isset($templates[$item->template])) {
+            $template = $templates[$item->template];
         }
 
-        $options = array(
-            'url'        => URL::current(),
-            'def_name'   => 'tree.'. $template['node_definition'],
-            'additional' => array(
+        $options = [
+            'url' => URL::current(),
+            'additional' => [
                 'node'    => $idNode,
-                'current' => $current,
-            )
-        );
-        $controller = new JarboeController($options);
+                'current' => $item,
+            ],
+        ];
+        $controller = new JarboeController($template['node_definition'], $options);
         
         
         $result = $controller->query->updateRow(request()->all());
         $model::flushCache();
         
-        $item = $model::find($idNode);
-        $result['html'] = view('admin::tree.content_row', compact('item'))->render();
+        $current = $item->parent()->first();
+        $data = compact('item', 'current');
+        $result['html'] = view('admin::tree.content_row', $data)->render();
 
         return response()->json($result);   
     } // end doEditNode

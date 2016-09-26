@@ -7,7 +7,7 @@
         <title>{{{ config('jarboe.admin.caption') }}}</title>
         <meta name="description" content="">
         <meta name="author" content="">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}1">
 
         <!-- Use the correct meta names below for your web application
              Ref: http://davidbcalhoun.com/2010/viewport-metatag 
@@ -66,7 +66,7 @@
         @yield('styles')
         
     </head>
-    <body class="{{ \Cookie::get('tb-misc-body_class', '') }}">
+    <body class="{{ request()->cookie('tb-misc-body_class', '') }}">
     
         <style>
         .bigBox {

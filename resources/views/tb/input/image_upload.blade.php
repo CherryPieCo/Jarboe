@@ -7,9 +7,10 @@
 </div>
 
 <div class="input input-file">
+    <input type="hidden" name="{{$name}}">
     <span class="button">
         <input type="file" onchange="TableBuilder.uploadMultipleImages(this, '{{$name}}'); this.value = null;">
-        Выбрать
+        Choose
     </span>
     <input type="text" 
            placeholder="Выберите изображение для загрузки" 
@@ -42,9 +43,10 @@
 </div>
 
 <div class="input input-file">
+    <input type="hidden" name="{{$name}}">
     <span class="button">
         <input type="file" onchange="TableBuilder.uploadImage(this, '{{$name}}'); this.value = null;">
-        Выбрать
+        Choose
     </span>
     <input type="text" 
            placeholder="Выберите изображение для загрузки" 

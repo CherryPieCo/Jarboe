@@ -35,11 +35,14 @@ class Node extends AbstractDefinition
             'type' => 'text',
         ]);
         
-        $templates = array_keys(\Yaro\Jarboe\Models\Structure::getTemplates());
+        $templates = \Yaro\Jarboe\Models\Structure::getTemplates();
         $this->createField('template', [
             'caption' => 'Template',
             'type' => 'select',
-            'options' => array_combine($templates, $templates),
+            'options' => array_combine(
+                array_keys($templates), 
+                array_column($templates, 'caption')
+            ),
         ]);
         
         $this->createField('slug', [

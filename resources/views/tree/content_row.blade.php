@@ -9,7 +9,7 @@
             data-pk="{{ $item->id }}" 
             data-value="{{ $item->template }}" 
             data-original-title="Choose template">
-                {{ $item->template }}
+                {{ /* FIXME: */ $current->getTemplates()[$item->template]['caption'] }}
         </a>
     </td>
     

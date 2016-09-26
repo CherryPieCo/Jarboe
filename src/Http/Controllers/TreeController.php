@@ -8,15 +8,15 @@ class TreeController extends \App\Http\Controllers\Controller
 
     protected $node;
 
-    public function init($node, $method)
+    public function init($node)
     {
         // FIXME: move paramter to config
-        if (!$node->isActive(app()->getLocale()) && !request()->has('show')) {
+        if (!$node->isActive(app()->getLocale()) && !request()->has('show') && !$node->hasTableDefinition()) {
             abort(404);
         }
         $this->node = $node;
-
-        return $this->$method();
+        
+        return $this;
     } // end init
 
     public function showThemeMain()

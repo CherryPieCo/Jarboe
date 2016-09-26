@@ -64,7 +64,7 @@
                 source: [
                 <?php /* FIXME: */ $tpls = $current->getTemplates(); ?>
                 @foreach ($tpls as $capt => $tpl)
-                    { value: '{{$capt}}', text: '{{$capt}}' }, 
+                    { value: '{{$capt}}', text: '{{$tpl['caption']}}' }, 
                 @endforeach
                 ],
                 display: function(value, response) {

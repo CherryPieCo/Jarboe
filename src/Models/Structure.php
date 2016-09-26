@@ -135,10 +135,27 @@ class Structure extends \Baum\Node
     protected static function registerSingleRoute($urlPath, $node)
     {
         $model = static::class;
+        $templates = $model::getTemplates();
         
-        Route::get($urlPath, function() use($node, $model)
+        if (isset($templates[$node->template]) && $templates[$node->template]['type'] == 'table') {
+            $routeParams = isset($templates[$node->template]['route']) ? $templates[$node->template]['route'] : [];
+            
+            $route = Route::get($urlPath .'/'. $routeParams['slug'], function() use($node, $model, $templates, $routeParams) {
+                list($controller, $method) = explode('@', $routeParams['action']);
+                $controller = '\\'. ltrim($controller, '\\');
+                return app()->make($controller)->callAction(
+                    'init', 
+                    [$node]
+                )->callAction($method, Route::current()->parameters());
+            });
+            
+            foreach ($routeParams['patterns'] as $name => $pattern) {
+                $route->where($name, $pattern);
+            }
+        }
+        
+        Route::get($urlPath, function() use($node, $model, $templates)
         {
-            $templates = $model::getTemplates();
             if (!isset($templates[$node->template])) {
                 // just to be gentle with web crawlers
                 abort(404);
@@ -147,8 +164,8 @@ class Structure extends \Baum\Node
             $controller = '\\'. ltrim($controller, '\\');
             return app()->make($controller)->callAction(
                 'init', 
-                [$node, $method]
-            );
+                [$node]
+            )->callAction($method, Route::current()->parameters());
         });
     } // end registerSingleRoute
     
@@ -215,6 +232,7 @@ class Structure extends \Baum\Node
     {
         return [
             'default mainpage template' => array(
+                'caption' => 'Default template',
                 'type' => 'node', // table | node
                 'action' => 'Yaro\Jarboe\Http\Controllers\TreeController@showThemeMain',
                 'definition' => '',
@@ -223,16 +241,25 @@ class Structure extends \Baum\Node
                     return true;
                 },
             ),
-            'page template sample' => array(
+            'table sample' => array(
+                'caption' => 'Test table',
                 'type' => 'table', 
                 'action' => 'HomeController@showPage',
-                'definition' => 'node',
-                'node_definition' => 'node',
+                'definition' => \App\Definitions\Test::class,
+                'node_definition' => \Yaro\Jarboe\Definition\Node::class,
                 'check' => function() {
                     return true;
                 },
+                'route' => [
+                    'action' => 'App\Http\Controllers\SomeController@showTableRow',
+                    'slug' => 'well-{id}',
+                    'patterns' => [
+                        'id' => '[0-9]+'
+                    ],
+                ]
             ),
             'breadcrumbs' => array(
+                'caption' => 'Breadcrumbs',
                 'type' => 'node', 
                 'action' => 'App\Http\Controllers\SomeController@breadcrumbs',
                 'definition' => 'node', 
@@ -243,5 +270,5 @@ class Structure extends \Baum\Node
             ),
         ];
     } // end getTemplates
-
+    
 }

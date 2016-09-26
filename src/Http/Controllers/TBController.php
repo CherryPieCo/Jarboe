@@ -52,13 +52,13 @@ class TBController extends Controller
             
         } catch (\Cartalyst\Sentinel\Users\UserNotFoundException $e) {
             if ($request->has('is_from_locked_screen')) {
-                return \Response::json(array(
+                return response()->json(array(
                     'status' => false,
                     'error'  => trans('jarboe::login.not_found')
                 ));
             }
             
-            \Session::put('tb_login_not_found', trans('jarboe::login.not_found'));
+            session()->put('tb_login_not_found', trans('jarboe::login.not_found'));
             return redirect(config('jarboe.admin.uri'));
         }
     } // end 
@@ -72,21 +72,21 @@ class TBController extends Controller
     } // end doLogout
     
     
-    public function fetchByUrl()
+    public function fetchByUrl(Request $request)
     {
-        $url = \Input::get('url');
+        $url = $request->get('url');
 
         $embera = new \Embera\Embera();
         $info = $embera->getUrlInfo($url);
         
         $info['status'] = true;
         
-        return \Response::json($info);
+        return response()->json($info);
     } // end fetchByUrl
     
-    public function doEmbedToText()
+    public function doEmbedToText(Request $request)
     {
-        $text = \Input::get('text');
+        $text = $request->get('text');
 
         $config = array(
             'params' => array(
@@ -101,19 +101,19 @@ class TBController extends Controller
             'status' => true,
             'html' => $res
         );
-        return \Response::json($info);
+        return response()->json($info);
     } // end doEmbedToText
     
-    public function getInformNotification()
+    public function getInformNotification(Request $request)
     {
-        $index = \Input::get('index');
+        $index = $request->get('index');
         $informer = new Informer();
         
         $data = array(
             'status' => true,
             'html'   => $informer->getContentByIndex($index)
         );
-        return \Response::json($data);
+        return response()->json($data);
     } // end getInformNotification
     
     public function getInformNotificationCounts()
@@ -126,30 +126,34 @@ class TBController extends Controller
             'total'  => $total,
             'counts' => $counts,
         );
-        return \Response::json($data);
+        return response()->json($data);
     } // end getInformNotificationCounts
     
-    public function doSaveMenuPreference()
+    public function doSaveMenuPreference(Request $request)
     {
-        $option = \Input::get('option');
+        
+        $option = $request->get('option');
         $cookie = \Cookie::forever('tb-misc-body_class', $option);
         
         $data = array(
             'status' => true
         );
-        $response = \Response::json($data);
+        $response = response()->json($data);
         $response->headers->setCookie($cookie);
         
         return $response;
     } // end doSaveMenuPreference
     
-    public function doSaveStructureHeight()
+    public function doSaveStructureHeight(Request $request)
     {
-        $option = \Input::get('height');
-        $cookie = \Cookie::forever('tb-structure-height', $option);
+        $option = $request->get('height');
+        $cookie = cookie()->forever('tb-structure-height', $option);
         
-        $response = \Response::json(['status' => true]);
+        $response = response()->cookie($cookie)->json(['status' => true]);
         $response->headers->setCookie($cookie);
+        
+        
+        $response->withCookie($cookie);
         
         return $response;
     } // end doSaveStructureHeight

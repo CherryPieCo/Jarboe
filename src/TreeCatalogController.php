@@ -102,6 +102,7 @@ class TreeCatalogController
             'status' => true, 
             'id' => $node->id,
             // FIXME: will not work with table definition
+            // FIXME: render tree template too
             'table_html' => view('admin::tree.content')
                                 ->with('current', $node->parent()->first())
                                 ->render(),
@@ -163,12 +164,11 @@ class TreeCatalogController
 
         $item = $model::find($item->id);
         
-        $data = array(
+        return response()->json([
             'status' => true, 
             'item' => $item, 
             'parent_id' => $root->id
-        );
-        return response()->json($data);
+        ]);
     } // end doChangePosition
     
     // FIXME: fix me, fix
@@ -207,9 +207,9 @@ class TreeCatalogController
         $status = $model::destroy(request()->get('id'));
         $model::flushCache();
         
-        return response()->json(array(
+        return response()->json([
             'status' => $status
-        ));   
+        ]);   
     } // end doDeleteNode
     
     private function handleShowCatalog()
@@ -236,16 +236,14 @@ class TreeCatalogController
         }
         
         if ($template['type'] == 'table') {
-            $options = array(
-                'url'      => URL::current(),
-                'def_name' => 'tree.'. $template['definition'],
-                'additional' => array(
+            // HACK: get table template from view object
+            $tableView = \Jarboe::table($template['definition'], [
+                'url' => URL::current(),
+                'additional' => [
                     'node'    => $idNode,
                     'current' => $current,
-                )
-            );
-            // HACK: get table template from view object
-            $tableView = \Jarboe::table($options);
+                ],
+            ]);
             $table = $tableView->table;
             $content = view('admin::tree.content', compact('current', 'table', 'template'));
         } elseif (false && $current->isLeaf()) {

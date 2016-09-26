@@ -327,3 +327,8 @@ div.table-page #create_form .nav-tabs li a {
     clear: both;
 }
 
+
+.tb-uploaded-image-container li.ui-sortable-placeholder { 
+    height: auto !important; 
+}
+

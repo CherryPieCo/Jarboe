@@ -1,5 +1,6 @@
 <select name="filter[{{ $name }}]" class="form-control input-small">
     <option></option>
+    
     @foreach ($options as $value => $caption)
         @if ($value === $filter)
             <option value="{{ $value }}" selected>{{ $caption }}</option>

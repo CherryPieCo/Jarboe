@@ -16,7 +16,7 @@ class ColorField extends AbstractField
     
     public function onSearchFilter(&$db, $value)
     {
-        $table = $this->definition['db']['table'];
+        $table = $this->definition->getDatabaseOption('table');
         $db->where($table .'.'. $this->getFieldName(), 'LIKE', '%'.$value.'%');
     } // end onSearchFilter
     
@@ -41,7 +41,7 @@ class ColorField extends AbstractField
             }
         }
 
-        $input = View::make('admin::tb.input.color');
+        $input = view('admin::tb.input.color');
         $input->value = $this->getValue($row);
         $input->name  = $this->getFieldName();
         $input->type  = $this->getAttribute('color_type', 'hex');

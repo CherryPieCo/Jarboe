@@ -169,9 +169,7 @@ class QueryHandler
 
         $this->prepareFilterValues();
 
-        $ids = $this->db->lists('id');
-
-        return $ids;
+        return $this->db->lists('id');
     } // end getTableAllowedIds
 
     protected function onSearchFilterQuery()

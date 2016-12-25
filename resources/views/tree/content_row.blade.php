@@ -4,12 +4,13 @@
     <td><a href="?node={{ $item->id }}">{{ $item->title }}</a></td>
     <td>
         <a class="tpl-editable" href="javascript:void(0);" 
+            @if (!isset($current->getTemplates()[$item->template]['caption'])) style="color:red;" @endif
             data-type="select" 
             data-name="template" 
             data-pk="{{ $item->id }}" 
             data-value="{{ $item->template }}" 
             data-original-title="Choose template">
-                {{ /* FIXME: */ $current->getTemplates()[$item->template]['caption'] }}
+                {{ /* FIXME: */ isset($current->getTemplates()[$item->template]['caption']) ? $current->getTemplates()[$item->template]['caption'] : 'missing template' }}
         </a>
     </td>
     

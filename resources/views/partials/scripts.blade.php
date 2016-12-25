@@ -133,6 +133,10 @@
 
 <![endif]-->
 
+<link href="{{ asset('packages/yaro/jarboe/js/plugin/redactor/redactor.css') }}" rel="stylesheet" type="text/css">
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/redactor/redactor.min.js') }}"></script>
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/redactor/table.js') }}"></script>
+<script src="{{ asset('packages/yaro/jarboe/js/plugin/redactor/imagemanager.js') }}"></script>
 
 @foreach (Jarboe::getAssets('css') as $css) 
     <link href="{{ asset($css) }}" rel="stylesheet" type="text/css">

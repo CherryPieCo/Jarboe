@@ -27,11 +27,15 @@ class Structure extends \Baum\Node
     
     public function addBreadcrumb($node)
     {
-        $this->breadcrumbs[] = $node;
+        array_unshift($this->breadcrumbs, $node);
     } // end addBreadcrumb
     
-    public function getBreadcrumbs()
+    public function getBreadcrumbs($withSelf = false)
     {
+        if ($withSelf) {
+            $this->addBreadcrumb($this);
+        }
+        
         return collect($this->breadcrumbs)->reverse();
     } // end getBreadcrumbs
     
@@ -62,7 +66,7 @@ class Structure extends \Baum\Node
 
     public function hasTableDefinition()
     {
-        $templates = self::getTemplates();
+        $templates = static::getTemplates();
         $template = config('jarboe.c.structure.default');
         if (isset($templates[$this->template])) {
             $template = $templates[$this->template];
@@ -241,6 +245,7 @@ class Structure extends \Baum\Node
                     return true;
                 },
             ),
+            /*
             'table sample' => array(
                 'caption' => 'Test table',
                 'type' => 'table', 
@@ -268,6 +273,7 @@ class Structure extends \Baum\Node
                     return true;
                 },
             ),
+            */
         ];
     } // end getTemplates
     

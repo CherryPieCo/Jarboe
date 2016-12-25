@@ -1,7 +1,6 @@
 
 <div class="tb-tree-content-inner">
     
-
 @if ($current->hasTableDefinition())
 
     {!! $table !!}

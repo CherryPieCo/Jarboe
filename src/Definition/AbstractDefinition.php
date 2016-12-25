@@ -16,24 +16,22 @@ abstract class AbstractDefinition
     private $actions;
     private $isSearchable = null;
     
+    public function __construct()
+    {
+        $this->database = collect();
+        $this->options = collect();
+        $this->position = collect();
+        $this->filters = collect();
+        $this->actions = [];
+    } // end __construct
     
     public function init()
     {
-        $this->database = collect();
         $this->initDatabase($this->database);
-        
-        $this->options = collect();
         $this->initOptions($this->options);
-        
         $this->initFields();
-        
-        $this->position = collect();
         $this->initPosition($this->position);
-        
-        $this->filters = collect();
         $this->initFilters($this->filters);
-        
-        $this->actions = [];
         $this->initActions($this->actions);
     } // end init
     

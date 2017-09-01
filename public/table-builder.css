@@ -335,3 +335,6 @@ div.table-page #create_form .nav-tabs li a {
     height: auto !important; 
 }
 
+.colorpicker.dropdown-menu {
+    z-index: 99999;
+}

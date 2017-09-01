@@ -38,7 +38,7 @@ class JarboeController
 
     protected $allowedIds;
 
-    public function __construct(string $definitionClass, array $options = [])
+    public function __construct($definitionClass, array $options = [])
     {
         $this->definition = new $definitionClass();
         foreach ($options as $option => $value) {

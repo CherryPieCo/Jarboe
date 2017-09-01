@@ -5,6 +5,7 @@ namespace Yaro\Jarboe\Fields;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
+use Jarboe;
 
 
 class ForeignField extends AbstractField 
@@ -14,6 +15,11 @@ class ForeignField extends AbstractField
     {
         return true;
     } // end isEditable
+    
+    protected function onAssets()
+    {
+        Jarboe::addAsset('js', 'packages/yaro/jarboe/js/plugin/select2/select2.min.js');
+    } // end onAssets
 
         
     public function getExportValue($type, $row, $postfix = '')
@@ -79,7 +85,7 @@ class ForeignField extends AbstractField
             }
         }
 
-        $internalSelect = $this->definition['db']['table'] .'.'. $this->getFieldName();
+        $internalSelect = $this->definition->getDatabaseOption('table') .'.'. $this->getFieldName();
 
         $db->addSelect($internalSelect);
 
@@ -120,7 +126,7 @@ class ForeignField extends AbstractField
         }
         $fieldName = $foreignTableName .'_'. $this->getAttribute('foreign_value_field');
 
-        $value = isset($row[$fieldName]) ? $row[$fieldName] : '';
+        $value = isset($row->$fieldName) ? $row->$fieldName : '';
 
         if (!$value && $this->getAttribute('is_null')) {
             // FIXME:
@@ -175,7 +181,7 @@ class ForeignField extends AbstractField
         $foreignKey = $this->getAttribute('foreign_key_field');
         $foreignValue = $this->getAttribute('foreign_value_field');
         foreach ($res as $val) {
-            $options[$val[$foreignKey]] = $val[$foreignValue];
+            $options[$val->$foreignKey] = $val->$foreignValue;
         }
         
         

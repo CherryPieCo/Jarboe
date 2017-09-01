@@ -20,14 +20,13 @@ class Jarboe
     protected $controller;
     protected $default;
 
-    protected function onInit($options)
+    protected function onInit($class, $options)
     {
         Config::set('app.debug', true);
-        $this->controller = new JarboeController($options);
+        $this->controller = new JarboeController($class, $options);
 
         $this->default = array(
             'pagination' => config('view.pagination'),
-            'fetch' => config('database.fetch')
         );
         Config::set('view.pagination', 'admin::tb.pagination');
     } // end onInit
@@ -35,12 +34,11 @@ class Jarboe
     protected function onFinish()
     {
         Config::set('view.pagination', $this->default['pagination']);
-        Config::set('database.fetch', $this->default['fetch']);
     } // end onFinish
 
-    public function table($options)
+    public function table($class,  array $options = [])
     {
-        $this->onInit($options);
+        $this->onInit($class, $options);
         DB::beginTransaction();
 
         try {
@@ -52,7 +50,7 @@ class Jarboe
                 'status' => false,
                 'errors' => explode('|', $e->getMessage())
             );
-            return Response::json($data);
+            return response()->json($data);
         }
 
         DB::commit();

@@ -85,13 +85,16 @@ div.tb-uploaded-image-container ul li {
 div.tb-uploaded-image-container ul li img {
     height: 80px;
     margin-right: 5px;
-    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 div.tb-uploaded-image-container div.tb-btn-delete-wrap {
     position: absolute;
     right: 4px;
     top: 2px;
+}
+div.tb-uploaded-image-container ul li div.tb-btn-delete-wrap {
+    right: 7px;
 }
 div.tb-uploaded-image-container button.tb-btn-image-delete {
     position: static;

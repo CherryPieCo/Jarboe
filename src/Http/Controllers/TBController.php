@@ -50,7 +50,7 @@ class TBController extends Controller
             }
             return redirect()->intended(config('jarboe.admin.uri'));
             
-        } catch (\Cartalyst\Sentinel\Users\UserNotFoundException $e) {
+        } catch (\Exception $e) {
             if ($request->has('is_from_locked_screen')) {
                 return response()->json(array(
                     'status' => false,

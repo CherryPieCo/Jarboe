@@ -49,6 +49,11 @@ class Node extends AbstractDefinition
             'caption' => 'Slug',
             'type' => 'text'
         ]);
+        
+        $this->createField('content', [
+            'caption' => 'Content',
+            'type' => 'wysiwyg'
+        ]);
     } // end initFields
     
     protected function initActions(&$container)
@@ -82,6 +87,7 @@ class Node extends AbstractDefinition
     {
         $container->put('tabs', [
             'General' => ['title', ['template', 'slug']],
+            'Content' => ['content'],
         ]);
     } // end initPosition
     

@@ -64,14 +64,22 @@ class ImageField extends AbstractField
         $isCropp = $this->getAttribute('cropp', true);
         $imgHeight = $this->getAttribute('height', '50px');
         $imgWidth = $this->getAttribute('width', '50px');
+        $hideAfter = $this->getAttribute('visible_count', 3);
         
+        $i = 1;
         $html = '<ul>';
         foreach ($images as $source) {
             $src = $source['sizes']['original'];
             $src = $isCropp ? cropp($src)->fit(50, 50)->src() : asset($src);
             
-            $html .= '<li style="display: inline; margin: 2px;">';
+            $display = $i > $hideAfter ? 'none' : 'inline';
+            $html .= '<li style="display: '. $display .'; margin: 2px;">';
             $html .= '<img height="'. $imgHeight .'" width="'. $imgWidth .'" src="'. $src .'" /></li>';
+            
+            $i++;
+        }
+        if ($i > $hideAfter) {
+            $html .= '<a onclick="" class="btn btn-default btn-sm" href="javascript:void(0);">...</i></a>';
         }
         $html .= '</ul>';
 

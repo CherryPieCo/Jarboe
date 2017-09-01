@@ -292,7 +292,7 @@ class RequestHandler
         $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
         
         $definitionName = $this->controller->getOption('def_name');
-        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $prefixPath = 'storage/'. preg_replace('~\\\~', '_', $definitionName) .'/';
         $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
         $destinationPath = $prefixPath . $postfixPath;
         
@@ -321,7 +321,7 @@ class RequestHandler
         $fileName = md5_file($file->getRealPath()) .'_'. time() .'.'. $extension;
         
         $definitionName = $this->controller->getOption('def_name');
-        $prefixPath = 'storage/tb-'.$definitionName.'/';
+        $prefixPath = 'storage/'. preg_replace('~\\\~', '_', $definitionName) .'/';
         $postfixPath = date('Y') .'/'. date('m') .'/'. date('d') .'/';
         $destinationPath = $prefixPath . $postfixPath;
         
@@ -406,7 +406,7 @@ class RequestHandler
     protected function checkEditPermission()
     {
         if (!$this->controller->isAllowedID($this->getRowID())) {
-            throw new \RuntimeException("Permission denied to perform edit for #{$id}.");
+            throw new \RuntimeException(sprintf("Permission denied to perform edit for #%s.", $this->getRowID()));
         }
     } // end checkEditPermission
 

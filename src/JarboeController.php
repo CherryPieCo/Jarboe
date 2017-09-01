@@ -41,11 +41,12 @@ class JarboeController
     public function __construct(string $definitionClass, array $options = [])
     {
         $this->definition = new $definitionClass();
-        $this->definition->init();
-        
         foreach ($options as $option => $value) {
             $this->definition->addOption($option, $value);
         }
+        $this->definition->init();
+        
+        
         /*
         $this->definition = $this->getTableDefinition($this->getOption('def_name'));
         $this->doPrepareDefinition();
